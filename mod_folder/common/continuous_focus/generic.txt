@@ -1,0 +1,531 @@
+#####################################
+#       Focuses done by Simon       #
+#    UI Elements done by Phelix     #
+# Icons and Glow done by Fru1tJello #
+#####################################
+continuous_focus_palette = {
+	id = generic_focus
+	country = {
+		factor = 1
+	}
+	default = yes
+	reset_on_civilwar = no
+	position = { x = 50 y = 25 }
+  # Equipment Production
+	focus = {
+		id = OWB_continuous_gun_production
+		icon = GFX_goal_continuous_focus_equipment_production
+		available = {
+			AND = {
+				NOT = { has_country_flag = is_raider_nation }
+				NOT = { has_country_flag = is_tribal_nation }
+			}
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		idea = continuous_OWB_gun_production
+		modifier = {
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_PA_production
+		icon = GFX_goal_continuous_focus_spec_ops_pa_production
+		available = {
+			OR = {
+				has_tech = stripped_pa_tech
+				has_tech = spec_ops_equipment_tech_1
+				has_tech = heavy_infantry_tech_1
+			}
+			AND = {
+				NOT = { has_country_flag = enclave_nation }
+				NOT = { has_country_flag = is_brotherhood_nation }
+			}
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		idea = continuous_OWB_PA_production
+		modifier = {
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_vehicle_production
+		icon = GFX_goal_continuous_focus_vehicle_production
+		available = {
+			has_tech = bike_tech_1
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		idea = continuous_OWB_vehicle_production
+		modifier = {
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_air_production
+		icon = GFX_goal_continuous_focus_air_production
+		available = {
+			has_tech = glider_tech
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		idea = continuous_OWB_air_production
+		modifier = {
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_naval_production
+		icon = GFX_goal_continuous_focus_naval_production
+		available = {
+				has_tech = nautics_tech_1
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		#idea = continuous_naval_production
+		modifier = {
+			industrial_capacity_dockyard = 0.2
+			refit_speed = 0.5
+			production_speed_dockyard_factor = 0.3
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_naval
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_Enclave_production
+		icon = GFX_goal_continuous_focus_enclave_production
+		available = {
+			OR = {
+				has_country_flag = enclave_nation
+				has_country_flag = is_brotherhood_nation
+			}
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		idea = continuous_OWB_Enclave_production
+		modifier = {
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_Raider_production
+		icon = GFX_goal_continuous_focus_raider_production
+		available = {
+			OR = {
+				has_country_flag = is_raider_nation
+				has_country_flag = is_tribal_nation
+			}
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		idea = continuous_OWB_Raider_production
+		modifier = {
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_robot
+		icon = GFX_goal_continuous_focus_robot_production
+		available = {
+			has_country_flag = is_robotic_nation
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		idea = continuous_OWB_robot_production
+		modifier = {
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_mutant
+		icon = GFX_goal_continuous_focus_mutant_production
+		available = {
+			OR = {
+				has_country_flag = is_ghoul_nation
+				has_country_flag = is_super_mutant_nation
+				has_tech = spec_ops_horses_tech
+			}
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		idea = continuous_OWB_mutant_production
+		modifier = {
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	# Rising Tide (MLT). OWB's two creature-equipment discounts are both closed to the Mirelurk Tribe:
+	# OWB_continuous_mutant needs is_ghoul_nation / is_super_mutant_nation / spec_ops_horses_tech, and
+	# OWB_continuous_gun_production excludes is_tribal_nation, which MLT sets. This is its equivalent, at
+	# the same -15 % the tribal/raider infantry focus gives, on the three archetypes MLT actually fields.
+	# It reuses OWB's creature-production icon because all 20 palette icons are spoken for; the two only
+	# ever appear together if MLT researches spec_ops_horses_tech, which is cosmetic.
+	focus = {
+		id = mltd_continuous_spawning_pools
+		icon = GFX_goal_continuous_focus_mutant_production
+		available = {
+			original_tag = MLT
+		}
+		idea = continuous_mltd_spawning_pools
+		modifier = {
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+  # Construction and Repair
+	focus = {
+		id = OWB_continuous_non_factory_construct
+		icon = GFX_goal_continuous_focus_construction_engineering
+		available = {
+			OR = {
+				has_country_flag = is_raider_nation
+				has_country_flag = is_tribal_nation
+				has_country_flag = is_vault_tec_nation
+				has_country_flag = is_brotherhood_nation
+				has_country_flag = enclave_nation
+				has_country_flag = is_ghoul_nation
+				has_country_flag = is_super_mutant_nation
+				has_country_flag = is_robotic_nation
+			}
+
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		modifier = {
+			production_speed_infrastructure_factor = 0.1
+			production_speed_rail_way_factor = 0.1
+			production_speed_metal_generator_factor = 0.1
+			production_speed_water_generator_factor = 0.1
+			production_speed_electricity_generator_factor = 0.1
+			production_speed_circuitry_generator_factor = 0.1
+			production_speed_supply_node_factor = 0.1
+			production_speed_air_base_factor = 0.1
+			production_speed_naval_base_factor = 0.1
+			production_speed_bunker_factor = 0.2
+			production_speed_bunker2_factor = 0.2
+			production_speed_coastal_bunker_factor = 0.2
+			production_speed_anti_air_building_factor = 0.2
+			production_speed_radar_station_factor = 0.2
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_defense
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_repair
+		icon = GFX_goal_continuous_focus_repair
+		available = {
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		#idea = continuous_repair
+		modifier = {
+			industry_repair_factor = 0.5
+			industry_free_repair_factor = 1.0
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_damaged_buildings = no
+			}
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_Settler
+		icon = GFX_goal_continuous_focus_settler
+		available = {
+			AND = {
+				NOT = { has_country_flag = is_raider_nation }
+				NOT = { has_country_flag = is_tribal_nation }
+				NOT = { has_country_flag = is_vault_tec_nation }
+				NOT = { has_country_flag = is_brotherhood_nation }
+				NOT = { has_country_flag = enclave_nation }
+				NOT = { has_country_flag = is_ghoul_nation }
+				NOT = { has_country_flag = is_super_mutant_nation }
+				NOT = { has_country_flag = is_robotic_nation }
+			}
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		modifier = {
+			industrial_capacity_factory = 0.1
+			production_speed_buildings_factor = 0.1
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+  # Misc
+	focus = {
+		id = OWB_continuous_research
+		icon = GFX_goal_continuous_focus_research
+		available = {
+			NOT = { has_country_flag = is_vault_tec_nation }
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		modifier = {
+			research_speed_factor = 0.1
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_Vault
+		icon = GFX_goal_continuous_focus_vault
+		available = {
+			has_country_flag = is_vault_tec_nation
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		modifier = {
+			research_speed_factor = 0.15
+			production_speed_bunker_factor = 0.5
+			production_speed_bunker2_factor = 0.5
+			production_speed_coastal_bunker_factor = 0.5
+			production_speed_anti_air_building_factor = 0.5
+			production_speed_radar_station_factor = 0.5
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_population
+		icon = GFX_goal_continuous_focus_population
+		available = {
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		modifier = {
+			monthly_population = 0.2
+			production_speed_water_generator_factor = 0.2
+			exodus_assimilation_proportion = 0.05
+			exodus_national_appeal = 0.1
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+
+	focus = {
+		id = OWB_continuous_trading
+		icon = GFX_goal_continuous_focus_trading
+		available = {
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		modifier = {
+			local_resources_factor = 0.2
+			trade_opinion_factor = 0.4
+			diplomacy_distance = 150
+			exodus_national_appeal = 0.2
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_reduce_training_time
+		icon = GFX_goal_continuous_focus_training_time
+		available = {
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		#idea = continuous_reduce_training_time
+		modifier = {
+			experience_gain_army_factor = 0.5
+			training_time_army_factor = -0.25
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		supports_ai_strategy = ai_focus_defense
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+  # Non-Core Suppression & Puppet Autonomy Gain/Loss
+	focus = {
+		id = OWB_continuous_suppression
+		icon = GFX_goal_continuous_focus_suppression
+		available = {
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		enable = {
+			any_owned_state = {
+				has_resistance = yes
+			}
+		}
+		modifier = {
+			compliance_growth = 0.1
+			resistance_target = -0.05
+			required_garrison_factor = -0.1
+
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				num_occupied_states < 1
+			}
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_restrict_freedom
+		icon = GFX_goal_continuous_focus_restrict_freedom
+		available = {
+			num_subjects > 0
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		enable = {
+			num_subjects > 0
+		}
+		#idea = continuous_restrict_freedom
+		modifier = {
+			custom_modifier_tooltip = subject_autonomy_mod_tt
+			hidden_modifier = { subjects_autonomy_gain = -0.5 }
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+	focus = {
+		id = OWB_continuous_boost_freedom
+		icon = GFX_goal_continuous_focus_boost_freedom
+		available = {
+			is_subject = yes
+			if = {
+				limit = { tag = ITZ }
+				NOT = { has_idea = itz_idea_political_instability }
+			}
+		}
+		#idea = continuous_boost_freedom
+		modifier = {
+			autonomy_gain = 0.5
+			autonomy_gain_trade = 0.5
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		supports_ai_strategy = ai_focus_military_advancements
+		daily_cost = 1
+		available_if_capitulated = yes
+	}
+}

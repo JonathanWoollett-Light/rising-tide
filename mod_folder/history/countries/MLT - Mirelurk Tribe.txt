@@ -1,0 +1,139 @@
+﻿capital = 358
+oob = "MLT_2275"
+set_naval_oob = "MLT_2275_naval"
+
+set_technology = {
+	basic_supply_transport_tech = 1
+	infantry_tech_level_tribal = 1
+	#infantry_tech_level_settler = 1
+	#infantry_tech_level_scientific = 1
+	support_tech_level_tribal = 1
+	#support_tech_level_settler = 1
+	#support_tech_level_scientific = 1
+	special_forces_tech_level_tribal = 1
+	#special_forces_tech_level_settler = 1
+	#special_forces_tech_level_scientific = 1
+	#power_armour_tech_level_settler = 1
+	#power_armour_tech_level_scientific = 1
+	#vehicles_tech_level_tribal = 1
+	#vehicles_tech_level_settler = 1
+	#vehicles_tech_level_scientific = 1
+	#robotics_tech_level_tribal = 1
+	#robotics_tech_level_settler = 1
+	#robotics_tech_level_scientific = 1
+	creatures_tech_level_tribal = 1
+	creatures_tech_level_settler = 1
+	#creatures_tech_level_scientific = 1
+	air_tech_level_tribal = 1
+	#air_tech_level_settler = 1
+	#air_tech_level_scientific = 1
+	naval_tech_level_tribal = 1
+	#naval_tech_level_settler = 1
+	#naval_tech_level_scientific = 1
+	tools_tech_level_tribal = 1
+	#tools_tech_level_settler = 1
+	#tools_tech_level_scientific = 1
+	habitation_tech_level_tribal = 1
+	#habitation_tech_level_settler = 1
+	#habitation_tech_level_scientific = 1
+	exploitation_tech_level_tribal = 1
+	#exploitation_tech_level_settler = 1
+	#exploitation_tech_level_scientific = 1
+	electronics_tech_level_tribal = 1
+	#electronics_tech_level_settler = 1
+	#electronics_tech_level_scientific = 1
+	#
+	tribal_tech_visibility_tech = 1
+	tribal_tech_access_tech = 1
+	tool_engineering = 1
+	standard_weaponry_tech = 1
+	melee_weaponry_tech_1 = 1
+	pre_construction_industry_tech = 1
+	pre_agriculture_industry_tech = 1
+	pre_recycling_industry_tech = 1
+	basic_industry_tech = 1
+	support_weaponry = 1
+	amphibious_beast_unlock_tech = 1
+	amphibious_tech_access_tech = 1
+	nautics_tech_1 = 1
+	light_navy_hull_tech_1 = 1
+	naval_invasion_tech_1 = 1
+}
+
+create_equipment_variant = {
+	name = "River Boat"
+	type = ship_hull_light_1
+	name_group = UMB_LIGHT
+	parent_version = 0
+	modules = {
+		fixed_ship_command_slot = ship_command_module_1
+		fixed_ship_engine_slot = light_ship_oars_module
+		fixed_ship_battery_slot = ship_light_mounted_gun_module
+		# fixed_ship_battery_slot_1 = ship_light_mounted_gun_module
+		fixed_ship_detection_slot = empty
+		# fixed_ship_detection_slot_1 = empty
+		fixed_ship_point_defense_slot = empty
+		mid_1_custom_slot = light_ship_oars_module
+		rear_1_custom_slot = empty
+		rear_2_custom_slot = ship_light_mounted_gun_module
+	}
+}
+
+set_stability = 0.3
+set_war_support = 0.35
+set_convoys = 50
+set_research_slots = 3
+
+set_country_flag = is_followers_black_listed_nation
+set_country_flag = is_tribal_nation
+set_country_flag = is_oregon_nation
+set_country_flag = super_mutant_doctrine_ai
+
+
+
+set_politics = {
+	ruling_party = elites
+	elections_allowed = no
+}
+
+set_popularities = {
+	people = 0
+	elites = 100
+	intellectuals = 0
+	ruler = 0
+}
+
+set_country_flag = no_generic_chief
+set_country_flag = no_generic_high_command
+set_country_flag = dont_give_tribal_generic_chiefs
+set_country_flag = dont_give_tribal_generic_high_command
+set_country_flag = dont_give_tribal_generic_theorists
+
+add_ideas = {
+	mire_the_coral_court
+	mlt_egg_counter
+}
+
+recruit_character = MLT_MLULU
+recruit_character = MLT_CORAL_PROPHET_ANASTASIA
+recruit_character = MLT_ETERNAL_BINGO
+recruit_character = MLT_TINYSHELL
+recruit_character = MLT_KILLCLAW
+recruit_character = MLT_HUNTER
+recruit_character = MLT_KING
+recruit_character = MLT_SOFTSHELL
+recruit_character = MLT_CLOUD
+recruit_character = MLT_TERROR
+recruit_character = MLT_TIDE_HUNTER
+recruit_character = MLT_OCEAN
+recruit_character = MLT_KNOWS
+recruit_character = MLT_MUTANTS
+recruit_character = MLT_DROWNED_HERALD # Rising Tide: role-less until event mltd.1 grants the corps-commander role
+
+set_variable = { mlt_eggs = 500 }
+set_variable = { dont_return_stolen_territory@TRL = 1 }
+
+add_opinion_modifier = { target = DIS modifier = heretics }
+
+#Helps with insatible hunger + building a bigger army from the start point
+add_manpower = 1250

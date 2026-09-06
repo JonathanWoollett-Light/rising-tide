@@ -1,0 +1,257 @@
+spriteTypes = {
+	################
+	# Rising Tide - event pictures (500x200, uncompressed A8R8G8B8)
+	################
+	spriteType = {
+		name = "GFX_mltd_event_kingdom"
+		texturefile = "gfx/event_pictures/mltd_event_kingdom.dds"
+	}
+
+	spriteType = {
+		name = "GFX_mltd_event_grand_ritual"
+		texturefile = "gfx/event_pictures/mltd_event_grand_ritual.dds"
+	}
+
+	spriteType = {
+		name = "GFX_mltd_event_final_ritual"
+		texturefile = "gfx/event_pictures/mltd_event_final_ritual.dds"
+	}
+
+	spriteType = {
+		name = "GFX_mltd_event_call"
+		texturefile = "gfx/event_pictures/mltd_event_call.dds"
+	}
+
+	################
+	# Rising Tide - reward-tab technology icons
+	# warbike_unlock_tech = The Deep Ones (id reuses OWB's orphan reward-tab gridbox)
+	################
+	spriteType = {
+		name = "GFX_warbike_unlock_tech_medium"
+		texturefile = "gfx/interface/technologies/mirelurk_king_sonic_tech_icon.dds"
+		alwaystransparent = yes
+	}
+
+	spriteType = {
+		name = "GFX_mltd_star_spawn_tech_medium"
+		texturefile = "gfx/interface/goals/unique/EUR/EUR_cthulu.dds"
+		alwaystransparent = yes
+	}
+
+	################
+	# Rising Tide - equipment icons, keyed GFX_<equipment_id>_medium exactly like OWB's
+	# reward-tab unlock equipment (z_fallout_technologies.gfx: GFX_sentinel_command_slave_equipment_1_medium,
+	# GFX_faerie_equipment_1_medium, GFX_leshy_equipment_1_medium). OWB declares no archetype-level sprite.
+	################
+	spriteType = {
+		name = "GFX_mltd_deep_ones_equipment_1_medium"
+		texturefile = "gfx/interface/equipment/generic/mirelurk_king_equipment.dds"
+		alwaystransparent = yes
+	}
+
+	spriteType = {
+		name = "GFX_mltd_star_spawn_equipment_1_medium"
+		texturefile = "gfx/interface/equipment/generic/mirelurk_bloodrage_equipment.dds"
+		alwaystransparent = yes
+	}
+
+	################
+	# Rising Tide - unit icons (keyed by sub_unit name); textures drawn by build_unit_icons.py
+	# (same sheet classes as OWB: 152x42 / 60x12 / 60x12, 2 frames, uncompressed A8R8G8B8)
+	################
+
+	# Deep Ones
+	spriteType = {
+		name = "GFX_unit_mltd_deep_ones_icon_medium"
+		textureFile = "gfx/interface/counters/divisions_large/unit_mltd_deep_ones_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_mltd_deep_ones_icon_medium_white"
+		textureFile = "gfx/interface/counters/divisions_small/onmap_unit_mltd_deep_ones_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_mltd_deep_ones_icon_small"
+		texturefile = "gfx/texticons/unit_mltd_deep_ones_icon_small.dds"
+		legacy_lazy_load = no
+		noOfFrames = 2
+	}
+
+	# Star Spawn
+	spriteType = {
+		name = "GFX_unit_mltd_star_spawn_icon_medium"
+		textureFile = "gfx/interface/counters/divisions_large/unit_mltd_star_spawn_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_mltd_star_spawn_icon_medium_white"
+		textureFile = "gfx/interface/counters/divisions_small/onmap_unit_mltd_star_spawn_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_mltd_star_spawn_icon_small"
+		texturefile = "gfx/texticons/unit_mltd_star_spawn_icon_small.dds"
+		legacy_lazy_load = no
+		noOfFrames = 2
+	}
+
+	################
+	# Rising Tide - focus icons (drawn by build_focus_icons.py)
+	# GFX_goal_mltd_book: OWB's cho_scriptorium.dds recoloured to a dark purple tome (92x90, uncompressed A8R8G8B8).
+	# The _shine block copies OWB's z_fallout_national_focuses_unique_shine.gfx template (GFX_goal_mlt_mlyeh_shine).
+	################
+	spriteType = {
+		name = "GFX_goal_mltd_book"
+		texturefile = "gfx/interface/goals/mltd_book.dds"
+	}
+
+	spriteType = {
+		name = "GFX_goal_mltd_book_shine"
+		texturefile = "gfx/interface/goals/mltd_book.dds"
+		effectFile = "gfx/FX/buttonstate.lua"
+		animation = {
+			animationmaskfile = "gfx/interface/goals/mltd_book.dds"
+			animationtexturefile = "gfx/interface/goals/shine_overlay.dds" 	# <- the animated file
+			animationrotation = -90.0		# -90 clockwise 90 counterclockwise(by default)
+			animationlooping = no			# yes or no ;)
+			animationtime = 0.75				# in seconds
+			animationdelay = 0			# in seconds
+			animationblendmode = "add"       #add, multiply, overlay
+			animationtype = "scrolling"      #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+			animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+		animation = {
+			animationmaskfile = "gfx/interface/goals/mltd_book.dds"
+			animationtexturefile = "gfx/interface/goals/shine_overlay.dds" 	# <- the animated file
+			animationrotation = 90.0		# -90 clockwise 90 counterclockwise(by default)
+			animationlooping = no			# yes or no ;)
+			animationtime = 0.75				# in seconds
+			animationdelay = 0			# in seconds
+			animationblendmode = "add"       #add, multiply, overlay
+			animationtype = "scrolling"      #scrolling, rotating, pulsing
+			animationrotationoffset = { x = 0.0 y = 0.0 }
+				animationtexturescale = { x = 1.0 y = 1.0 }
+		}
+		legacy_lazy_load = no
+	}
+
+	################
+	# Rising Tide - division-template counters. A template's `template_counter = N` resolves in code to
+	# GFX_div_templ_<N>_large / _small; there is no key that names a sprite, so declaring these IS the
+	# mechanism. Vanilla holds 0-43, the anniversary DLC 44-64 and OWB 65-255
+	# (interface/z_fallout_division_template_icons.gfx), so 256/257 are the first free indices.
+	# The textures are frame 1 of the battalion counter sheets, sliced by build_unit_icons.py.
+	################
+	spriteType = { name = "GFX_div_templ_256_large" textureFile = "gfx/interface/counters/division_templates_large/custom_template_256.dds" }
+	spriteType = { name = "GFX_div_templ_256_small" textureFile = "gfx/interface/counters/division_templates_small/custom_template_256.dds" }
+	spriteType = { name = "GFX_div_templ_257_large" textureFile = "gfx/interface/counters/division_templates_large/custom_template_257.dds" }
+	spriteType = { name = "GFX_div_templ_257_small" textureFile = "gfx/interface/counters/division_templates_small/custom_template_257.dds" }
+
+	################
+	# Rising Tide - leader portraits (same spriteType shape as OWB's z_fallout_leaders.gfx GFX_Portrait_MLT_mlulu)
+	# GFX_Portrait_mltd_anastasia: built by build_anastasia_portrait.py (156x210, uncompressed A8R8G8B8).
+	################
+	spriteType = {
+		name = "GFX_Portrait_mltd_anastasia"
+		textureFile = "gfx/leaders/MLT/mltd_anastasia.dds"
+	}
+	spriteType = {
+		name = "GFX_Portrait_mltd_drowned_herald"
+		textureFile = "gfx/leaders/MLT/mltd_drowned_herald.dds"
+	}
+
+	################
+	# Rising Tide - M'lulu, animated. Frame strip (156 px per frame x 210), the only mechanism any
+	# animated portrait in OWB (63 sprites, interface/z_fallout_leaders_animated.gfx) or tnkd uses.
+	# Built by build_animated_portrait.py from the graded gfx/leaders/MLT/mlulu.dds.
+	################
+	frameAnimatedSpriteType = {
+		name = "GFX_Portrait_mltd_drowned_herald_animated"
+		texturefile = "gfx/leaders/MLT/mltd_drowned_herald_animated.dds"
+		noOfFrames = 24
+		animation_rate_fps = 8
+		looping = yes
+		play_on_show = yes
+	}
+	frameAnimatedSpriteType = {
+		name = "GFX_Portrait_mltd_mlulu_animated"
+		texturefile = "gfx/leaders/MLT/mltd_mlulu_animated.dds"
+		noOfFrames = 40
+		animation_rate_fps = 12
+		looping = yes
+		play_on_show = yes
+	}
+	################
+	# Rising Tide - main menu header logo (drawn by build_main_menu.py).
+	# The static texture at gfx/interface/logo_game_static.dds overrides OWB's by
+	# path, tnkd-style, and is what shows if another submod's copy of
+	# frontendmainview.gui wins the load order.  Ours points at this strip instead,
+	# so the neon breathes.  OWB's own GFX_frontend_game_logo_animated is 30 frames
+	# of 418x314; we keep the static logo's 443x303 so the gui position still fits.
+	# noOfFrames and animation_rate_fps must equal LOGO_FRAMES and LOGO_FPS in
+	# build_main_menu.py.  The strip is uncompressed on purpose: DXT5 speckles
+	# the neon edges, because a 4x4 block straddling a tube and the transparent
+	# black outside it gets colour endpoints spanning cyan to black.
+	################
+	frameAnimatedSpriteType = {
+		name = "GFX_frontend_game_logo_mltd_animated"
+		texturefile = "gfx/interface/mltd_logo_animated.dds"
+		noOfFrames = 16
+		animation_rate_fps = 8
+		looping = yes
+		play_on_show = yes
+	}
+
+	SpriteType = {
+		name = "GFX_frontend_bg_mltd_rain"
+		texturefile = "gfx/interface/mltd_rain_base.dds"
+		effectFile = "gfx/FX/buttonstate_onlydisable.lua"
+		# Frontend rain, laid over GFX_frontend_bg by interface/frontendmainview.gui.
+		# Cloned from OWB's GFX_frontend_bg_snow_anim (z_fallout_core.gfx, by Yard1),
+		# which is the only animated-frontend construction in the game.  It has to be
+		# a second sprite rather than an animation on the background itself, because
+		# animation blocks only ever attach to spriteType -- across vanilla and all 25
+		# installed mods there are ~56,000 of them and not one is on the
+		# corneredTileSpriteType that GFX_frontend_bg is.
+		# The sprite is drawn UNSCALED at the size of its BASE texture -- not of the
+		# animation textures, which are sampled inside that rect -- anchored to the
+		# top-left of a container that is scaled to COVER and therefore overflows
+		# above the top of the screen.  A 2560x1440 base (OWB's) is 240 px short of
+		# the bottom on a 2560x1440 display, so the base and mask are ours and
+		# 2560x1792: alpha 0 throughout so only the animations draw, and a flat 191
+		# so they draw evenly.  See README > Main menu before changing any of this.
+		# animationtexturescale must match RAIN_SCALE in build_main_menu.py, which
+		# sizes the streaks for it.  Near layer is layer 2: brighter, and faster.
+		animation = {
+			animationmaskfile = "gfx/interface/mltd_rain_mask.dds"
+			animationtexturefile = "gfx/interface/mltd_rain_anim1.dds"
+			animationrotation = 205
+			animationlooping = yes
+			animationtime = 3.4
+			animationdelay = 0.0
+			animationblendmode = "add"
+			animationtype = "scrolling"
+			animationrotationoffset = { x = 0 y = 0 }
+			animationtexturescale = { x = 0.75 y = 0.75 }
+		}
+		animation = {
+			animationmaskfile = "gfx/interface/mltd_rain_mask.dds"
+			animationtexturefile = "gfx/interface/mltd_rain_anim2.dds"
+			animationrotation = 212
+			animationlooping = yes
+			animationtime = 2.3
+			animationdelay = 0.0
+			animationblendmode = "add"
+			animationtype = "scrolling"
+			animationrotationoffset = { x = 0 y = 0 }
+			animationtexturescale = { x = 0.75 y = 0.75 }
+		}
+		legacy_lazy_load = no
+	}
+}

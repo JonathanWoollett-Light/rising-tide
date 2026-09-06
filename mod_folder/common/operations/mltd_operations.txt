@@ -1,0 +1,93 @@
+# MLTD OPERATIONS #
+# Rising Tide - Mirelurk Tribe (MLT). The Coral Court sends its oracles abroad to gather the faithful for M'lulu. #
+# Reuses existing OWB phases only (each has empty requirements and equipment); no new phase, token or gfx files are required. #
+
+mltd_op_indoctrinate_the_faithful = {
+	icon = GFX_operations_make_resistance_contacts
+	map_icon = GFX_operations_make_resistance_contacts_map
+	name = mltd_op_indoctrinate_the_faithful
+	desc = mltd_op_indoctrinate_the_faithful_desc
+
+	priority = 10
+	days = 60
+	network_strength = 30
+	operatives = 1
+
+	allowed = {
+		original_tag = MLT
+	}
+
+	visible = {
+		ROOT = {
+			original_tag = MLT
+		}
+		network_national_coverage = {
+			target = FROM
+			value > 0
+		}
+	}
+
+	available = {
+		FROM = {
+			has_manpower > 1500
+		}
+	}
+
+	equipment = {
+		support_equipment = 25
+	}
+
+	experience = 2.5
+
+	risk_chance = 0.1
+	outcome_extra_chance = 0.25
+	risk_modifiers = { operation_infiltrate_risk operation_risk }
+	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
+	cost_modifiers = { operation_infiltrate_cost operation_cost }
+
+	outcome_execute = {
+		FROM = {
+			add_manpower = -1500
+		}
+		ROOT = {
+			add_manpower = 1500
+			add_stability = 0.02
+		}
+	}
+	outcome_extra_execute = { # SCOPE_OPERATION - the extra outcome overwrites outcome_execute when it fires, so the full base reward is repeated here plus the bonus
+		FROM = {
+			add_manpower = -1500
+			add_stability = -0.02 # bonus: the disappearances unsettle the target
+		}
+		ROOT = {
+			add_manpower = 2000 # base 1500 + 500 bonus, the converts bring their kin
+			add_stability = 0.02
+			add_war_support = 0.02 # bonus
+		}
+	}
+	outcome_potential = {
+		FROM = {
+			add_manpower = -1500
+		}
+		ROOT = {
+			add_manpower = 1500
+			add_stability = 0.02
+		}
+		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
+	}
+
+	ai_will_do = {
+		base = 5
+	}
+
+	phases = { #make contact with the disaffected
+		infiltrate_military_ideological_supporter = { base = 100 }
+	}
+	phases = { #gather the faithful
+		recruit_mercs = { base = 100 }
+	}
+	phases = { #return to the water
+		river_escape = { base = 60 }
+		exfiltration_go_to_ground = { base = 40 }
+	}
+}

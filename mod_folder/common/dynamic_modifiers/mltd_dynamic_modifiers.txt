@@ -1,0 +1,16 @@
+# Rising Tide - Gifts from the Deep
+# Added by focus mltd_gifts_from_the_deep. Each variable is set by the mltd_gift_<key>_on / _off
+# scripted effects (mltd_scripted_effects.txt); they call force_update_dynamic_modifier so the
+# change applies at once instead of on the next daily tick.
+# mltd_gift_manpower_var is the exception: initialised to 0 by the focus, set to 50 by
+# mltd_the_grand_ritual and doubled by mltd_the_final_ritual (focus file); the gift _on/_off
+# effects and mltd_all_gifts_permanent never touch it, so it persists.
+mltd_gifts_from_the_deep = {
+	icon = GFX_idea_lurker_land_of_coral
+	army_attack_factor = mltd_gift_tide_var
+	army_defence_factor = mltd_gift_shell_var
+	army_org_factor = mltd_gift_current_var
+	conscription_factor = mltd_gift_brood_var
+	stability_factor = mltd_gift_abyss_var
+	weekly_manpower = mltd_gift_manpower_var
+}

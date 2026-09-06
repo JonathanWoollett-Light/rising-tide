@@ -1,0 +1,351 @@
+# Rising Tide - MLT scripted effects
+#
+# Gifts from the Deep: mltd_gift_<key>_on / _off drive the variables read by the
+# mltd_gifts_from_the_deep dynamic modifier (mltd_dynamic_modifiers.txt).
+# mltd_gift_value_temp is set before the _on tooltip so the decision preview shows the
+# bonus that WILL be applied (the tnkd *_var_change idiom); the _off tooltip reads the
+# live variable, which is the value being removed.
+mltd_gift_tide_on = {
+	set_temp_variable = { mltd_gift_value_temp = 0.20 }
+	custom_effect_tooltip = mltd_gift_tide_on_tt
+	set_variable = { mltd_gift_tide_var = 0.20 }
+	add_to_variable = { mltd_gifts_active = 1 }
+	hidden_effect = {
+		force_update_dynamic_modifier = yes
+	}
+}
+mltd_gift_tide_off = {
+	custom_effect_tooltip = mltd_gift_tide_off_tt
+	set_variable = { mltd_gift_tide_var = 0 }
+	subtract_from_variable = { mltd_gifts_active = 1 }
+	clamp_variable = { var = mltd_gifts_active min = 0 }
+	hidden_effect = {
+		force_update_dynamic_modifier = yes
+	}
+}
+mltd_gift_shell_on = {
+	set_temp_variable = { mltd_gift_value_temp = 0.20 }
+	custom_effect_tooltip = mltd_gift_shell_on_tt
+	set_variable = { mltd_gift_shell_var = 0.20 }
+	add_to_variable = { mltd_gifts_active = 1 }
+	hidden_effect = {
+		force_update_dynamic_modifier = yes
+	}
+}
+mltd_gift_shell_off = {
+	custom_effect_tooltip = mltd_gift_shell_off_tt
+	set_variable = { mltd_gift_shell_var = 0 }
+	subtract_from_variable = { mltd_gifts_active = 1 }
+	clamp_variable = { var = mltd_gifts_active min = 0 }
+	hidden_effect = {
+		force_update_dynamic_modifier = yes
+	}
+}
+mltd_gift_current_on = {
+	set_temp_variable = { mltd_gift_value_temp = 0.20 }
+	custom_effect_tooltip = mltd_gift_current_on_tt
+	set_variable = { mltd_gift_current_var = 0.20 }
+	add_to_variable = { mltd_gifts_active = 1 }
+	hidden_effect = {
+		force_update_dynamic_modifier = yes
+	}
+}
+mltd_gift_current_off = {
+	custom_effect_tooltip = mltd_gift_current_off_tt
+	set_variable = { mltd_gift_current_var = 0 }
+	subtract_from_variable = { mltd_gifts_active = 1 }
+	clamp_variable = { var = mltd_gifts_active min = 0 }
+	hidden_effect = {
+		force_update_dynamic_modifier = yes
+	}
+}
+mltd_gift_brood_on = {
+	set_temp_variable = { mltd_gift_value_temp = 0.30 }
+	custom_effect_tooltip = mltd_gift_brood_on_tt
+	set_variable = { mltd_gift_brood_var = 0.30 }
+	add_to_variable = { mltd_gifts_active = 1 }
+	hidden_effect = {
+		force_update_dynamic_modifier = yes
+	}
+}
+mltd_gift_brood_off = {
+	custom_effect_tooltip = mltd_gift_brood_off_tt
+	set_variable = { mltd_gift_brood_var = 0 }
+	subtract_from_variable = { mltd_gifts_active = 1 }
+	clamp_variable = { var = mltd_gifts_active min = 0 }
+	hidden_effect = {
+		force_update_dynamic_modifier = yes
+	}
+}
+mltd_gift_abyss_on = {
+	set_temp_variable = { mltd_gift_value_temp = 0.20 }
+	custom_effect_tooltip = mltd_gift_abyss_on_tt
+	set_variable = { mltd_gift_abyss_var = 0.20 }
+	add_to_variable = { mltd_gifts_active = 1 }
+	hidden_effect = {
+		force_update_dynamic_modifier = yes
+	}
+}
+mltd_gift_abyss_off = {
+	custom_effect_tooltip = mltd_gift_abyss_off_tt
+	set_variable = { mltd_gift_abyss_var = 0 }
+	subtract_from_variable = { mltd_gifts_active = 1 }
+	clamp_variable = { var = mltd_gifts_active min = 0 }
+	hidden_effect = {
+		force_update_dynamic_modifier = yes
+	}
+}
+
+# The Final Ritual: every gift becomes permanent. remove_mission skips timeout_effect, so the
+# running gifts are not switched off before the variables are pinned to their full values.
+# mltd_gift_manpower_var (the modifier's weekly_manpower, set by the ritual focuses) is deliberately
+# NOT reset here - it must survive the Final Ritual.
+mltd_all_gifts_permanent = {
+	custom_effect_tooltip = mltd_all_gifts_permanent_tt
+	hidden_effect = {
+		if = {
+			limit = { has_active_mission = mltd_gift_of_the_tide_mission }
+			remove_mission = mltd_gift_of_the_tide_mission
+		}
+		if = {
+			limit = { has_active_mission = mltd_gift_of_the_shell_mission }
+			remove_mission = mltd_gift_of_the_shell_mission
+		}
+		if = {
+			limit = { has_active_mission = mltd_gift_of_the_current_mission }
+			remove_mission = mltd_gift_of_the_current_mission
+		}
+		if = {
+			limit = { has_active_mission = mltd_gift_of_the_brood_mission }
+			remove_mission = mltd_gift_of_the_brood_mission
+		}
+		if = {
+			limit = { has_active_mission = mltd_gift_of_the_abyss_mission }
+			remove_mission = mltd_gift_of_the_abyss_mission
+		}
+		if = {
+			limit = { NOT = { has_dynamic_modifier = { modifier = mltd_gifts_from_the_deep } } }
+			add_dynamic_modifier = { modifier = mltd_gifts_from_the_deep }
+		}
+		set_variable = { mltd_gift_tide_var = 0.20 }
+		set_variable = { mltd_gift_shell_var = 0.20 }
+		set_variable = { mltd_gift_current_var = 0.20 }
+		set_variable = { mltd_gift_brood_var = 0.30 }
+		set_variable = { mltd_gift_abyss_var = 0.20 }
+		set_variable = { mltd_gifts_active = 0 }
+		set_country_flag = mltd_gifts_permanent
+		force_update_dynamic_modifier = yes
+	}
+}
+
+# Children of the Deep. Both templates are 20 combat width (8 x 2.5 Deep Ones, 8 x 2.5 Star Spawn),
+# created once, locked (event mltd.8 (fired by mltd_the_deep_ones_walk) / mltd_the_final_ritual unlock them via set_division_template_lock) and string-matched
+# by name there - rename "Deep Ones" / "Star Spawn" in both places together.
+# Before the template is created the hidden equipment tech (mltd_technologies.txt) is granted:
+# create_unit ... start_equipment_factor only issues equipment the country has UNLOCKED, and the
+# reward tech that also unlocks it only comes at event mltd.8 (fired by mltd_the_deep_ones_walk) / mltd_the_final_ritual - without this the summoned divisions
+# spawn empty and the stockpile below is unusable. set_technology on a known tech is a no-op, the
+# has_tech guard just keeps it idempotent (OWB 00_scripted_effects.txt:259-268 idiom); popup = no
+# as in create_country_scripted_effects.txt:49.
+mltd_ensure_deep_ones_template = {
+	hidden_effect = {
+		if = {
+			limit = { NOT = { has_tech = mltd_deep_ones_equipment_tech } }
+			set_technology = { popup = no mltd_deep_ones_equipment_tech = 1 }
+		}
+	}
+	if = {
+		limit = { NOT = { has_template_containing_unit = mltd_deep_ones } }
+		division_template = {
+			name = "Deep Ones"
+			is_locked = yes
+			priority = 2
+			template_counter = 256
+			regiments = {
+				mltd_deep_ones = { x = 0 y = 0 }
+				mltd_deep_ones = { x = 0 y = 1 }
+				mltd_deep_ones = { x = 0 y = 2 }
+				mltd_deep_ones = { x = 2 y = 0 }
+				mltd_deep_ones = { x = 1 y = 0 }
+				mltd_deep_ones = { x = 1 y = 1 }
+				mltd_deep_ones = { x = 1 y = 2 }
+				mltd_deep_ones = { x = 2 y = 1 }
+			}
+		}
+	}
+}
+mltd_ensure_star_spawn_template = {
+	hidden_effect = {
+		if = {
+			limit = { NOT = { has_tech = mltd_star_spawn_equipment_tech } }
+			set_technology = { popup = no mltd_star_spawn_equipment_tech = 1 }
+		}
+	}
+	if = {
+		limit = { NOT = { has_template_containing_unit = mltd_star_spawn } }
+		division_template = {
+			name = "Star Spawn"
+			is_locked = yes
+			priority = 2
+			template_counter = 257
+			regiments = {
+				mltd_star_spawn = { x = 0 y = 0 }
+				mltd_star_spawn = { x = 0 y = 1 }
+				mltd_star_spawn = { x = 0 y = 2 }
+				mltd_star_spawn = { x = 1 y = 0 }
+				mltd_star_spawn = { x = 1 y = 1 }
+				mltd_star_spawn = { x = 1 y = 2 }
+				mltd_star_spawn = { x = 2 y = 0 }
+				mltd_star_spawn = { x = 2 y = 1 }
+			}
+		}
+	}
+}
+
+# STATE scope; ROOT is the summoning country. The division rises in whatever state these are
+# called from: the capital for the focus grants, the state that gave up its people for the
+# summon decisions. The stockpile top-up (one division's worth: 8 x 20 / 8 x 10) is
+# belt-and-braces: the variant is unlocked by the hidden tech the ensure effect grants just before
+# this, so start_equipment_factor = 1.0 already fills the division and the stockpile is a free
+# reinforcement pool; the variant can also be produced normally from that moment on
+# (OWB Pursuant Lodge (PER).txt:461 stockpiles deathclaw_equipment_1 the same way;
+# producer = ROOT as in on_core_scripted_effects.txt:358-362).
+mltd_raise_deep_ones_here = {
+	ROOT = {
+		add_equipment_to_stockpile = {
+			type = mltd_deep_ones_equipment_1
+			amount = 160
+			producer = ROOT
+		}
+	}
+	create_unit = {
+		division = "division_template = \"Deep Ones\" start_experience_factor = 0.75 start_equipment_factor = 1.0"
+		owner = ROOT
+	}
+}
+mltd_raise_star_spawn_here = {
+	ROOT = {
+		add_equipment_to_stockpile = {
+			type = mltd_star_spawn_equipment_1
+			amount = 80
+			producer = ROOT
+		}
+	}
+	create_unit = {
+		division = "division_template = \"Star Spawn\" start_experience_factor = 1.0 start_equipment_factor = 1.0"
+		owner = ROOT
+	}
+}
+
+# Country scope, called by the focuses: template + one division at the capital.
+mltd_spawn_deep_ones_division = {
+	mltd_ensure_deep_ones_template = yes
+	custom_effect_tooltip = mltd_spawn_deep_ones_tt
+	hidden_effect = {
+		capital_scope = {
+			mltd_raise_deep_ones_here = yes
+		}
+	}
+}
+mltd_spawn_star_spawn_division = {
+	mltd_ensure_star_spawn_template = yes
+	custom_effect_tooltip = mltd_spawn_star_spawn_tt
+	hidden_effect = {
+		capital_scope = {
+			mltd_raise_star_spawn_here = yes
+		}
+	}
+}
+
+# National population (country scope), recomputed every day by on_daily_MLT: the sum of
+# state_population over every owned state. The ritual focuses gate on it with check_variable
+# and print it with [?mltd_national_population|0]. PREV inside the state loop is the country
+# (OWB exodus_effects.txt:385 sums state_population_k into PREV.core_population_k the same way).
+mltd_update_national_population = {
+	set_variable = { mltd_national_population = 0 }
+	set_variable = { mltd_controlled_population = 0 }
+	every_owned_state = {
+		add_to_variable = { PREV.mltd_national_population = state_population }
+		# The summons gate on this one, because it is exactly the pool mltd_take_population_everywhere
+		# spends from - same is_controlled_by / > 500 filter. Gating on the owned total instead would
+		# let an occupied MLT clear the gate and then spread the whole toll over the few states it
+		# still holds, or, with nothing controlled, pay nothing at all and get the division free.
+		if = {
+			limit = {
+				is_controlled_by = ROOT
+				state_population > 500
+			}
+			add_to_variable = { PREV.mltd_controlled_population = state_population }
+		}
+	}
+}
+
+# The summon toll. Country scope; set mltd_toll_target_k first, in THOUSANDS of people. Takes that
+# many IN TOTAL, split across every owned+controlled state over 500 population in proportion to what
+# each holds, so the big states carry most of it and none is emptied - a state with a tenth of the
+# nation pays a tenth. Two passes: sum the pool, then charge each state population * target / pool.
+# Both variables are country variables read from state scope through PREV, the same way the pool is
+# accumulated (as in mltd_update_national_population), so nothing depends on a temp variable
+# surviving a scope change. add_manpower in state scope is population, and it is used directly
+# rather than through OWB's add_state_population so the state tooltips collapse into the one custom
+# line the decision shows.
+#
+# ORDER AND UNITS MATTER. Script variables are 32-bit fixed point with 3 decimals, so they overflow
+# above 2,147,483.647 and WRAP NEGATIVE (OWB names the number at TON_farming_scripted_effects.txt:11
+# and detects the wrap at coring_button_scripted_triggers.txt:141). Multiplying population by the
+# target first would reach 28,000 x 16,000 = 448,000,000, two hundred times over the ceiling, on
+# every single state. Dividing first keeps the intermediate at population/pool_k, which can never
+# exceed 1,000, and the pool is summed with state_population_k (vanilla's own overflow-avoiding
+# variant, dynamic_variables_documentation.md:1168) so the divisor is in thousands. Peak intermediate
+# for MLT's kingdom is 372, about 360x under the ceiling, and the charges still sum to the target
+# within one person.
+mltd_take_population_everywhere = {
+	set_variable = { mltd_toll_pool_k = 0 }
+	every_owned_state = {
+		limit = {
+			is_controlled_by = ROOT
+			state_population > 500
+		}
+		add_to_variable = { PREV.mltd_toll_pool_k = state_population_k }
+	}
+	if = {
+		limit = { check_variable = { mltd_toll_pool_k > 0 } }
+		every_owned_state = {
+			limit = {
+				is_controlled_by = ROOT
+				state_population > 500
+			}
+			set_temp_variable = { mltd_toll_temp = state_population }
+			divide_temp_variable = { mltd_toll_temp = PREV.mltd_toll_pool_k }
+			multiply_temp_variable = { mltd_toll_temp = PREV.mltd_toll_target_k }
+			multiply_temp_variable = { mltd_toll_temp = -1 }
+			round_temp_variable = mltd_toll_temp
+			# The gate is a variable refreshed once a day, so between refreshes the pool can shrink
+			# (states lost, occupied, or drained by the ritual toll). Floor every charge at whatever
+			# leaves the state 500 people, so no single state can ever be emptied by a summoning.
+			set_temp_variable = { mltd_toll_floor_temp = state_population }
+			add_to_temp_variable = { mltd_toll_floor_temp = -500 }
+			multiply_temp_variable = { mltd_toll_floor_temp = -1 }
+			clamp_temp_variable = { var = mltd_toll_temp min = mltd_toll_floor_temp }
+			add_manpower = mltd_toll_temp
+		}
+	}
+}
+
+# The ritual toll (on_daily_MLT while mltd_the_grand_ritual / mltd_the_final_ritual is held).
+# Country scope. The factor is copied to a temp variable before the state loop (temp variables
+# survive scope changes - OWB exodus_effects.txt sets pop_add then reads it in capital_scope).
+# Per state: population * factor, negated, at least 5 (max = -5), rounded, then state-scope
+# add_manpower, which is population (tlaloc_on_actions.txt does the same with state_pop).
+mltd_ritual_daily_toll = {
+	set_temp_variable = { mltd_toll_factor_temp = mltd_ritual_toll_factor }
+	every_owned_state = {
+		limit = { state_population > 500 }
+		set_temp_variable = { mltd_toll_temp = state_population }
+		multiply_temp_variable = { mltd_toll_temp = mltd_toll_factor_temp }
+		multiply_temp_variable = { mltd_toll_temp = -1 }
+		clamp_temp_variable = { var = mltd_toll_temp max = -1 }
+		round_temp_variable = mltd_toll_temp
+		add_manpower = mltd_toll_temp
+	}
+}

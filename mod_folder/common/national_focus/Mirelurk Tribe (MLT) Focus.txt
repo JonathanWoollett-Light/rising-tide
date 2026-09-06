@@ -1,0 +1,1528 @@
+####################################################
+#         Mirelurk Tribe Focus Tree
+#              Written by Zusk
+#
+####################################################
+
+focus_tree = {
+	id = mlt_nf
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = MLT
+		}
+	}
+	default = no
+
+	shared_focus = lurk_aquatic_construction
+	shared_focus = lurk_consult_the_oracles
+
+	focus = {
+		id = mlt_sanity_lost
+		icon = GFX_goal_surreal_1
+		cost = 7
+		x = 15
+		y = 0
+		completion_reward = {
+			MLT = { country_event = nf_mlt.1 }
+		}
+	}
+
+	focus = {
+		id = mlt_sanity_found
+		icon = GFX_goal_surreal_2
+		cost = 7
+		prerequisite = {
+			focus = mlt_sanity_lost
+		}
+		x = 0
+		y = 1
+		relative_position_id = mlt_sanity_lost
+		completion_reward = {
+			MLT = { country_event = nf_mlt.2 }
+		}
+	}
+
+	focus = {
+		id = mlt_the_coral_court
+		icon = GFX_goal_surreal_3
+		cost = 7
+		prerequisite = {
+			focus = mlt_sanity_found
+		}
+		x = 0
+		y = 1
+		relative_position_id = mlt_sanity_found
+		completion_reward = {
+			MLT = { country_event = nf_mlt.3 }
+			hidden_effect = { set_country_flag = generic_unlock_focus }
+		}
+	}
+
+	focus = {
+		id = mlt_seeing_to_the_queens_needs
+		icon = GFX_focus_hun_elect_a_king
+		cost = 30
+		available = {
+			shared_focus_tree_unlocked = yes
+		}
+		x = 0
+		y = 1
+		relative_position_id = mlt_the_coral_court
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	focus = {
+		id = mlt_plant_for_the_next_harvest
+		icon = GFX_KHA_focus_natural_opioids
+		cost = 30
+		prerequisite = {
+			focus = mlt_seeing_to_the_queens_needs
+		}
+		x = 2
+		y = 1
+		relative_position_id = mlt_seeing_to_the_queens_needs
+		completion_reward = {
+			capital_scope = {
+				set_temp_variable = {
+					pop_add = 5000
+				}
+				add_state_population = yes
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_defend_the_river
+		icon = GFX_goal_generic_occupy_states_coastal
+		cost = 30
+		prerequisite = {
+			focus = mlt_seeing_to_the_queens_needs
+		}
+		x = -2
+		y = 1
+		relative_position_id = mlt_seeing_to_the_queens_needs
+		completion_reward = {
+			#No longer a river, just make it give army xp for now
+			army_experience = 15
+		}
+	}
+
+	focus = {
+		id = mlt_meeting_of_the_coral_prophets
+		icon = GFX_goal_HEA_focus_the_prophet_prevails
+		cost = 30
+		prerequisite = {
+			focus = mlt_seeing_to_the_queens_needs
+		}
+		x = 0
+		y = 1
+		relative_position_id = mlt_seeing_to_the_queens_needs
+		completion_reward = {
+			add_stability = 0.15
+		}
+	}
+
+	focus = {
+		id = mlt_new_spawning_pools_needed
+		icon = GFX_goal_ITZ_promote_large_families
+		cost = 30
+		prerequisite = {
+			focus = mlt_meeting_of_the_coral_prophets
+		}
+		prerequisite = {
+			focus = mlt_defend_the_river
+		}
+		prerequisite = {
+			focus = mlt_plant_for_the_next_harvest
+		}
+		x = 0
+		y = 2
+		relative_position_id = mlt_seeing_to_the_queens_needs
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	focus = {
+		id = mlt_offer_muttfruit_for_the_cannibal_territories
+		icon = GFX_goal_lurker_offer_muttfruit
+		cost = 30
+		prerequisite = {
+			focus = mlt_new_spawning_pools_needed
+		}
+		available = {
+			NOT = { has_completed_focus = mlt_dig_barrows_for_spawning_pools }
+		}
+		bypass = {
+			owns_state = 186
+		}
+		x = -3
+		y = 1
+		relative_position_id = mlt_new_spawning_pools_needed
+		completion_reward = {
+			186 = {
+				owner = {
+					country_event = nf_mlt.4
+					custom_effect_tooltip = mlt_if_they_accept
+					effect_tooltip = {
+						if = {
+							limit = {
+								owns_state = 186
+							}
+							MLT = {
+								capital_scope = {
+									add_resource = {
+										type = water
+										amount = -8
+									}
+								}
+							}
+							capital_scope = {
+								add_resource = {
+									type = water
+									amount = 8
+								}
+							}
+							MLT = {
+								transfer_state = 186
+								186 = {
+									if = {
+										limit = {
+											is_core_of = RBT
+										}
+										remove_core_of = RBT
+									}
+								}
+							}
+						}
+						if = {
+							limit = {
+								owns_state = 450
+							}
+							MLT = {
+								capital_scope = {
+									add_resource = {
+										type = water
+										amount = -8
+									}
+								}
+							}
+							capital_scope = {
+								add_resource = {
+									type = water
+									amount = 8
+								}
+							}
+							MLT = {
+								transfer_state = 450
+								450 = {
+									if = {
+										limit = {
+											is_core_of = RBT
+										}
+										remove_core_of = RBT
+									}
+								}
+							}
+						}
+						if = {
+							limit = {
+								owns_state = 493
+							}
+							MLT = {
+								capital_scope = {
+									add_resource = {
+										type = water
+										amount = -8
+									}
+								}
+							}
+							capital_scope = {
+								add_resource = {
+									type = water
+									amount = 8
+								}
+							}
+							MLT = {
+								transfer_state = 493
+								493 = {
+									if = {
+										limit = {
+											is_core_of = RBT
+										}
+										remove_core_of = RBT
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_clearing_out_the_cannibals
+		icon = GFX_goal_VEG_The_Human_Banquet
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_offer_muttfruit_for_the_cannibal_territories
+		}
+		available = {
+			owns_state = 186
+		}
+		x = 0
+		y = 1
+		relative_position_id = mlt_offer_muttfruit_for_the_cannibal_territories
+		completion_reward = {
+			add_state_core = 186
+			set_province_name = {
+				id = 8574
+				name = VICTORY_POINTS_7101_MLT
+			}
+			hidden_effect = {
+				186 = { set_state_name = STATE_186_MLT }
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_spread_the_crowsland
+		icon = GFX_goal_generic_cities_focus
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_offer_muttfruit_for_the_cannibal_territories
+		}
+		available = {
+			owns_state = 186
+		}
+		x = 2
+		y = 1
+		relative_position_id = mlt_offer_muttfruit_for_the_cannibal_territories
+		completion_reward = {
+			186 = {
+				if = {
+					limit = {
+						is_valid_state_for_civilian_factory = yes
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+				add_resource = {
+					type = metal
+					amount = 4
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_weapon_stashes_on_the_beach
+		icon = GFX_goal_generic_supplies_focus
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_offer_muttfruit_for_the_cannibal_territories
+		}
+		available = {
+			owns_state = 186
+		}
+		x = -2
+		y = 1
+		relative_position_id = mlt_offer_muttfruit_for_the_cannibal_territories
+		completion_reward = {
+			186 = {
+				if = {
+					limit = {
+						is_valid_state_for_2_arms_factories = yes
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_offer_muttfruit_for_ribbreaker_coast
+		icon = GFX_goal_lurker_offer_muttfruit
+		cost = 30
+		prerequisite = {
+			focus = mlt_weapon_stashes_on_the_beach
+		}
+		prerequisite = {
+			focus = mlt_clearing_out_the_cannibals
+		}
+		prerequisite = {
+			focus = mlt_spread_the_crowsland
+		}
+		bypass = {
+			owns_state = 493
+			owns_state = 450
+		}
+		x = 0
+		y = 2
+		relative_position_id = mlt_offer_muttfruit_for_the_cannibal_territories
+		completion_reward = {
+			random_country = {
+				limit = {
+					owns_state = 493
+					owns_state = 450
+				}
+				country_event = nf_mlt.4
+				custom_effect_tooltip = mlt_if_they_accept
+				effect_tooltip = {
+					if = {
+						limit = {
+							owns_state = 186
+						}
+						MLT = {
+							capital_scope = {
+								add_resource = {
+									type = water
+									amount = -8
+								}
+							}
+						}
+						capital_scope = {
+							add_resource = {
+								type = water
+								amount = 8
+							}
+						}
+						MLT = {
+							transfer_state = 186
+							186 = {
+								hidden_effect = {
+									if = {
+										limit = {
+											is_core_of = RBT
+										}
+										remove_core_of = RBT
+									}
+								}
+							}
+						}
+					}
+					if = {
+						limit = {
+							owns_state = 450
+						}
+						MLT = {
+							capital_scope = {
+								add_resource = {
+									type = water
+									amount = -8
+								}
+							}
+						}
+						capital_scope = {
+							add_resource = {
+								type = water
+								amount = 8
+							}
+						}
+						MLT = {
+							transfer_state = 450
+							450 = {
+								hidden_effect = {
+									if = {
+										limit = {
+											is_core_of = RBT
+										}
+										remove_core_of = RBT
+									}
+								}
+							}
+						}
+					}
+					if = {
+						limit = {
+							owns_state = 493
+						}
+						MLT = {
+							capital_scope = {
+								add_resource = {
+									type = water
+									amount = -8
+								}
+							}
+						}
+						capital_scope = {
+							add_resource = {
+								type = water
+								amount = 8
+							}
+						}
+						MLT = {
+							transfer_state = 493
+							493 = {
+								hidden_effect = {
+									if = {
+										limit = {
+											is_core_of = RBT
+										}
+										remove_core_of = RBT
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_leaving_the_swamp
+		icon = GFX_focus_generic_industry_1
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_offer_muttfruit_for_ribbreaker_coast
+		}
+		available = {
+			owns_state = 493
+			owns_state = 450
+		}
+		x = 2
+		y = 1
+		relative_position_id = mlt_offer_muttfruit_for_ribbreaker_coast
+		completion_reward = {
+			450 = {
+				if = {
+					limit = {
+						is_valid_state_for_civilian_factory = yes
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+				add_resource = {
+					type = metal
+					amount = 2
+				}
+			}
+			493 = {
+				if = {
+					limit = {
+						is_valid_state_for_2_civilian_factories = yes
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+				add_resource = {
+					type = metal
+					amount = 5
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_defending_the_new_coastline
+		icon = GFX_focus_generic_coastal_fort
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_offer_muttfruit_for_ribbreaker_coast
+		}
+		available = {
+			owns_state = 493
+			owns_state = 450
+		}
+		x = -2
+		y = 1
+		relative_position_id = mlt_offer_muttfruit_for_ribbreaker_coast
+		completion_reward = {
+			450 = {
+				if = {
+					limit = {
+						is_valid_state_for_arms_factory = yes
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			493 = {
+				if = {
+					limit = {
+						is_valid_state_for_2_arms_factories = yes
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_connecting_the_spawning_pools
+		icon = GFX_goal_CES_via_militaris
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_offer_muttfruit_for_ribbreaker_coast
+		}
+		available = {
+			owns_state = 493
+			owns_state = 450
+		}
+		x = 0
+		y = 1
+		relative_position_id = mlt_offer_muttfruit_for_ribbreaker_coast
+		completion_reward = {
+			450 = {
+				add_core_of = ROOT
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			493 = {
+				add_core_of = ROOT
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			186 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_roads_from_the_swamp
+		icon = GFX_goal_NCR_Exodus
+		cost = 30
+		prerequisite = {
+			focus = mlt_connecting_the_spawning_pools
+		}
+		prerequisite = {
+			focus = mlt_defending_the_new_coastline
+		}
+		prerequisite = {
+			focus = mlt_leaving_the_swamp
+		}
+		x = 0
+		y = 2
+		relative_position_id = mlt_offer_muttfruit_for_ribbreaker_coast
+		completion_reward = {
+			set_temp_variable = { caps_to_add = 200 }
+			add_caps = yes
+		}
+	}
+
+	focus = {
+		id = mlt_dig_barrows_for_spawning_pools
+		icon = GFX_goal_generic_construction2
+		cost = 30
+		prerequisite = {
+			focus = mlt_new_spawning_pools_needed
+		}
+		available = {
+			OR = {
+				NOT = { has_completed_focus = mlt_offer_muttfruit_for_the_cannibal_territories }
+				custom_trigger_tooltip = {
+					tooltip = "One of our muttfruit offers was denied"
+					has_country_flag = denied_muttfruit
+				}
+			}
+		}
+		x = 3
+		y = 1
+		relative_position_id = mlt_new_spawning_pools_needed
+		completion_reward = {
+			capital_scope = {
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_striking_iron
+		icon = GFX_goal_generic_metal_focus
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_dig_barrows_for_spawning_pools
+		}
+		x = 0
+		y = 1
+		relative_position_id = mlt_dig_barrows_for_spawning_pools
+		completion_reward = {
+			capital_scope = {
+				add_resource = {
+					type = metal
+					amount = 8
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_arena_in_the_tunnels
+		icon = GFX_goal_CES_blacksmith
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_dig_barrows_for_spawning_pools
+		}
+		x = 2
+		y = 1
+		relative_position_id = mlt_dig_barrows_for_spawning_pools
+		completion_reward = {
+			add_offsite_building = {
+				type = arms_factory
+				level = 2
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_blind_eyed_workers
+		icon = GFX_goal_CES_slaves
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_dig_barrows_for_spawning_pools
+		}
+		x = -2
+		y = 1
+		relative_position_id = mlt_dig_barrows_for_spawning_pools
+		completion_reward = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 2
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_deeper_into_the_earth
+		icon = GFX_goal_generic_construction2
+		cost = 30
+		prerequisite = {
+			focus = mlt_striking_iron
+		}
+		prerequisite = {
+			focus = mlt_blind_eyed_workers
+		}
+		prerequisite = {
+			focus = mlt_arena_in_the_tunnels
+		}
+		x = 0
+		y = 2
+		relative_position_id = mlt_dig_barrows_for_spawning_pools
+		completion_reward = {
+			capital_scope = {
+				add_extra_state_shared_building_slots = 3
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_striking_gold
+		icon = GFX_goal_ancient_wealth
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_deeper_into_the_earth
+		}
+		x = 0
+		y = 1
+		relative_position_id = mlt_deeper_into_the_earth
+		completion_reward = {
+			set_temp_variable = { caps_to_add = 200 }
+			add_caps = yes
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_defend_the_spawnlings
+		icon = GFX_goal_generic_advanced_firearms_focus
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_deeper_into_the_earth
+		}
+		x = 2
+		y = 1
+		relative_position_id = mlt_deeper_into_the_earth
+		completion_reward = {
+			add_offsite_building = {
+				type = arms_factory
+				level = 3
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+
+	focus = {
+		id = mlt_deep_earth_breathing_equipment
+		icon = GFX_goal_BOS_outsider_recruitment
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		prerequisite = {
+			focus = mlt_deeper_into_the_earth
+		}
+		x = -2
+		y = 1
+		relative_position_id = mlt_deeper_into_the_earth
+		completion_reward = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 3
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = ritual_of_black_hollows_night }
+				}
+				custom_effect_tooltip = mlt_mlulu_eggs_tt
+				add_to_variable = {
+					var = mlt_eggs
+					value = 1250
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_the_great_tunnels_of_mlulu
+		icon = GFX_goal_generic_military_industry_focus
+		cost = 30
+		prerequisite = {
+			focus = mlt_deep_earth_breathing_equipment
+		}
+		prerequisite = {
+			focus = mlt_striking_gold
+		}
+		prerequisite = {
+			focus = mlt_defend_the_spawnlings
+		}
+		x = 0
+		y = 2
+		relative_position_id = mlt_deeper_into_the_earth
+		completion_reward = {
+			capital_scope = {
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	#End of Egg branch
+
+	focus = {
+		id = ritual_of_black_hollows_night
+		icon = GFX_goal_mlt_ritual_of_black_hollows_night
+		search_filters = {
+			FOCUS_FILTER_MLT_EGGS
+		}
+		cost = 30
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mlt_8000_eggs_tt
+				check_variable = {
+					var = mlt_eggs
+					value = 8000
+					compare = greater_than_or_equals
+				}
+			}
+		}
+		x = 0
+		y = 6
+		relative_position_id = mlt_new_spawning_pools_needed
+		completion_reward = {
+			country_event = nf_mlt.7
+		}
+	}
+
+	focus = {
+		id = mlt_protect_the_southern_crossing
+		icon = GFX_goal_BRK_solidify_authority
+		cost = 30
+		prerequisite = {
+			focus = ritual_of_black_hollows_night
+		}
+		available = {
+			DIS = {
+				all_core_land_owned_by_prev_sphere = yes
+			}
+		}
+		x = 1
+		y = 1
+		relative_position_id = ritual_of_black_hollows_night
+		completion_reward = {
+			DIS = {
+				ROOT = {
+					core_owned_states_of_prev = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_expanding_mlulus_domain
+		icon = GFX_goal_BRK_night_of_horros
+		cost = 30
+		prerequisite = {
+			focus = ritual_of_black_hollows_night
+		}
+		available = {
+			ai_has_no_other_wars_or_wargoals = yes
+			is_subject = no
+		}
+		x = -1
+		y = 1
+		relative_position_id = ritual_of_black_hollows_night
+		will_lead_to_war_with = TRL
+		will_lead_to_war_with = CCW
+		will_lead_to_war_with = RBT
+		will_lead_to_war_with = DIS
+		bypass = {
+			TRL = {
+				all_core_land_owned_by_prev_sphere = yes
+			}
+			CCW = {
+				all_core_land_owned_by_prev_sphere = yes
+			}
+			RBT = {
+				all_core_land_owned_by_prev_sphere = yes
+			}
+			DIS = {
+				all_core_land_owned_by_prev_sphere = yes
+			}
+		}
+		bypass_effect = {
+			TRL = { ROOT = { claim_owned_core_states_of_prev = yes } }
+			CCW = { ROOT = { claim_owned_core_states_of_prev = yes } }
+			RBT = { ROOT = { claim_owned_core_states_of_prev = yes } }
+			DIS = { ROOT = { claim_owned_core_states_of_prev = yes } }
+		}
+		completion_reward = {
+			TRL = {
+				ROOT = {
+					grant_wargoals_on_core_states_of_prev = yes
+				}
+			}
+			CCW = {
+				ROOT = {
+					grant_wargoals_on_core_states_of_prev = yes
+				}
+			}
+			RBT = {
+				ROOT = {
+					grant_wargoals_on_core_states_of_prev = yes
+				}
+			}
+			DIS = {
+				ROOT = {
+					grant_wargoals_on_core_states_of_prev = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_kingdom_of_mlyeh
+		icon = GFX_goal_mlt_mlyeh
+		cost = 30
+		prerequisite = {
+			focus = mlt_protect_the_southern_crossing
+			focus = mlt_expanding_mlulus_domain
+		}
+		available = {
+			TRL = {
+				all_core_land_owned_by_prev_sphere = yes
+			}
+			RBT = {
+				all_core_land_owned_by_prev_sphere = yes
+			}
+			CCW = {
+				all_core_land_owned_by_prev_sphere = yes
+			}
+			DIS = {
+				all_core_land_owned_by_prev_sphere = yes
+			}
+		}
+		x = 0
+		y = 2
+		relative_position_id = ritual_of_black_hollows_night
+		will_lead_to_war_with = TRL
+		will_lead_to_war_with = CCW
+		will_lead_to_war_with = RBT
+		completion_reward = {
+			set_cosmetic_tag = MLT_cosmetic_tag
+			set_technology = {
+				settled_civilization = 1
+				creatures_tech_level_scientific = 1
+				support_tech_level_settler = 1
+				vehicles_tech_level_tribal = 1
+				vehicles_tech_level_settler = 1
+				naval_tech_level_settler = 1
+				habitation_tech_level_settler = 1
+				exploitation_tech_level_settler = 1
+				tools_tech_level_settler = 1
+				infantry_tech_level_settler = 1
+			}
+			custom_effect_tooltip = mlt_pacific_ocean_cores_tt
+			set_country_flag = core_pacific_ocean_states_for_free
+			hidden_effect = {
+				358 = {
+					set_state_name = STATE_358_MLT
+					set_province_name = { id = 1983 name = VICTORY_POINTS_1983_MLT }
+				}
+			}
+			add_victory_points = { province = 1983 value = 15 }
+			add_victory_points = { province = 7064 value = 5 }
+			custom_effect_tooltip = mltd_newline_tt
+			country_event = { id = mltd.1 days = 1 }
+			hidden_effect = {
+				every_other_country = {
+					news_event = { id = mltd.2 days = 2 }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_cascadian_current
+		icon = GFX_goal_mlt_cascadian_current
+		cost = 30
+		prerequisite = {
+			focus = mlt_kingdom_of_mlyeh
+		}
+		available = {
+			ai_has_no_other_wars_or_wargoals = yes
+			is_subject = no
+		}
+		x = -2
+		y = 1
+		relative_position_id = mlt_kingdom_of_mlyeh
+		completion_reward = {
+			custom_effect_tooltip = mlt_cascadian_current_tt
+			hidden_effect = {
+				every_state = {
+					limit = {
+						is_cascadia_coastal = yes
+					}
+					add_claim_by = MLT
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_sea_of_cortez
+		icon = GFX_goal_mlt_sea_of_cortez
+		cost = 30
+		prerequisite = {
+			focus = mlt_kingdom_of_mlyeh
+		}
+		available = {
+			ai_has_no_other_wars_or_wargoals = yes
+			num_of_controlled_states > 30
+		}
+		x = 0
+		y = 1
+		relative_position_id = mlt_kingdom_of_mlyeh
+		completion_reward = {
+			custom_effect_tooltip = mlt_sea_of_cortez_tt
+			hidden_effect = {
+				every_state = {
+					limit = {
+						is_california_coastal = yes
+					}
+					add_claim_by = MLT
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mlt_tropic_of_cancer
+		icon = GFX_goal_mlt_tropic_of_cancer
+		cost = 30
+		prerequisite = {
+			focus = mlt_kingdom_of_mlyeh
+		}
+		available = {
+			ai_has_no_other_wars_or_wargoals = yes
+			num_of_controlled_states > 60
+		}
+		x = 2
+		y = 1
+		relative_position_id = mlt_kingdom_of_mlyeh
+		completion_reward = {
+			custom_effect_tooltip = mlt_tropic_of_cancer_tt
+			hidden_effect = {
+				every_state = {
+					limit = {
+						is_mexico_pacific_coastal = yes
+					}
+					add_claim_by = MLT
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mltd_gifts_from_the_deep
+		icon = GFX_goal_lurker_coral
+		cost = 30
+		available = {
+			has_completed_focus = mlt_kingdom_of_mlyeh
+		}
+		x = 0
+		y = 2
+		relative_position_id = mlt_kingdom_of_mlyeh
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			custom_effect_tooltip = mltd_gifts_unlocked_tt
+			set_variable = { mltd_gifts_max = 1 }
+			set_variable = { mltd_gifts_active = 0 }
+			hidden_effect = {
+				# weekly_manpower input of the modifier: 0 until the Grand Ritual sets 50, the Final Ritual doubles it
+				set_variable = { mltd_gift_manpower_var = 0 }
+				if = {
+					limit = { NOT = { has_dynamic_modifier = { modifier = mltd_gifts_from_the_deep } } }
+					add_dynamic_modifier = { modifier = mltd_gifts_from_the_deep }
+				}
+			}
+			custom_effect_tooltip = {
+				localization_key = mltd_adds_dynamic_modifier_tt
+				MODIFIER = mltd_gifts_from_the_deep
+			}
+		}
+	}
+
+	focus = {
+		id = mltd_first_book
+		icon = GFX_goal_mltd_book
+		cost = 30
+		prerequisite = { focus = mltd_gifts_from_the_deep }
+		available = {
+			controls_state = 150
+		}
+		x = -2
+		y = 1
+		relative_position_id = mltd_gifts_from_the_deep
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			custom_effect_tooltip = mltd_tide_gift_unlocked_tt
+			set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_army_attack_factor_tt }
+			hidden_effect = { add_to_variable = { mltd_books_read = 1 } }
+			custom_effect_tooltip = mltd_book_read_tt
+		}
+	}
+	focus = {
+		id = mltd_second_book
+		icon = GFX_goal_mltd_book
+		cost = 30
+		prerequisite = { focus = mltd_gifts_from_the_deep }
+		available = {
+			controls_state = 235
+		}
+		x = -1
+		y = 2
+		relative_position_id = mltd_gifts_from_the_deep
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			custom_effect_tooltip = mltd_shell_gift_unlocked_tt
+			set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_army_defence_factor_tt }
+			hidden_effect = { add_to_variable = { mltd_books_read = 1 } }
+			custom_effect_tooltip = mltd_book_read_tt
+		}
+	}
+	focus = {
+		id = mltd_third_book
+		icon = GFX_goal_mltd_book
+		cost = 30
+		prerequisite = { focus = mltd_gifts_from_the_deep }
+		available = {
+			controls_state = 231
+		}
+		x = 0
+		y = 1
+		relative_position_id = mltd_gifts_from_the_deep
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			custom_effect_tooltip = mltd_current_gift_unlocked_tt
+			set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_army_org_factor_tt }
+			hidden_effect = { add_to_variable = { mltd_books_read = 1 } }
+			custom_effect_tooltip = mltd_book_read_tt
+		}
+	}
+	focus = {
+		id = mltd_fourth_book
+		icon = GFX_goal_mltd_book
+		cost = 30
+		prerequisite = { focus = mltd_gifts_from_the_deep }
+		available = {
+			controls_state = 337
+		}
+		x = 1
+		y = 2
+		relative_position_id = mltd_gifts_from_the_deep
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			custom_effect_tooltip = mltd_brood_gift_unlocked_tt
+			set_temp_variable = { mltd_tt = 0.30 tooltip = mltd_conscription_factor_tt }
+			hidden_effect = { add_to_variable = { mltd_books_read = 1 } }
+			custom_effect_tooltip = mltd_book_read_tt
+		}
+	}
+	focus = {
+		id = mltd_fifth_book
+		icon = GFX_goal_mltd_book
+		cost = 30
+		prerequisite = { focus = mltd_gifts_from_the_deep }
+		available = {
+			controls_state = 274
+		}
+		x = 2
+		y = 1
+		relative_position_id = mltd_gifts_from_the_deep
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			custom_effect_tooltip = mltd_abyss_gift_unlocked_tt
+			set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_stability_factor_tt }
+			hidden_effect = { add_to_variable = { mltd_books_read = 1 } }
+			custom_effect_tooltip = mltd_book_read_tt
+		}
+	}
+
+	focus = {
+		id = mltd_call_of_the_deep_ones
+		icon = GFX_goal_CHC_gift
+		cost = 60
+		prerequisite = {
+			focus = mltd_gifts_from_the_deep
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_books_read_1_tt
+				check_variable = { mltd_books_read > 0 }
+			}
+		}
+		x = 0
+		y = 3
+		relative_position_id = mltd_gifts_from_the_deep
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			country_event = mltd.7
+		}
+	}
+
+	focus = {
+		id = mltd_the_grand_ritual
+		icon = GFX_goal_CHC_red_stone
+		cost = 120
+		cancelable = no
+		available_if_capitulated = yes
+		prerequisite = {
+			focus = mltd_call_of_the_deep_ones
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_books_read_3_tt
+				check_variable = { mltd_books_read > 2 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_grand_ritual_population_tt
+				check_variable = { mltd_national_population > 99999 }
+			}
+		}
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		select_effect = {
+			hidden_effect = {
+				set_variable = { mltd_ritual_toll_factor = 0.001 }
+				add_ideas = mltd_the_grand_ritual
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = mltd_call_of_the_deep_ones
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			hidden_effect = { remove_ideas = mltd_the_grand_ritual }
+			# the ritual idea lives in select_effect (not shown in focus tooltips); list its modifiers here - values must match mltd_ideas.txt
+			custom_effect_tooltip = mltd_ritual_duration_tt
+			set_temp_variable = { mltd_tt = -0.10 tooltip = mltd_stability_factor_tt }
+			set_temp_variable = { mltd_tt = -0.10 tooltip = mltd_political_power_factor_tt }
+			set_temp_variable = { mltd_tt = -0.05 tooltip = mltd_industrial_capacity_factory_tt }
+			set_temp_variable = { mltd_tt = -0.10 tooltip = mltd_army_org_factor_tt }
+			custom_effect_tooltip = mltd_grand_ritual_toll_modifier_tt
+			custom_effect_tooltip = mltd_newline_tt
+			set_variable = { mltd_gifts_max = 2 }
+			custom_effect_tooltip = mltd_gifts_max_2_tt
+			set_variable = { mltd_gift_manpower_var = 50 }
+			custom_effect_tooltip = mltd_gift_manpower_grand_tt
+			hidden_effect = { force_update_dynamic_modifier = yes }
+			country_event = { id = mltd.3 days = 1 }
+			hidden_effect = {
+				every_other_country = {
+					news_event = { id = mltd.4 days = 2 }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = mltd_the_deep_ones_walk
+		icon = GFX_goal_CHC_mother
+		cost = 60
+		prerequisite = {
+			focus = mltd_the_grand_ritual
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_books_read_5_tt
+				check_variable = { mltd_books_read > 4 }
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = mltd_the_grand_ritual
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			country_event = mltd.8
+		}
+	}
+
+	focus = {
+		id = mltd_the_final_ritual
+		icon = GFX_goal_CHC_cultists
+		cost = 180
+		cancelable = no
+		available_if_capitulated = yes
+		prerequisite = {
+			focus = mltd_the_deep_ones_walk
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_final_ritual_population_tt
+				check_variable = { mltd_national_population > 199999 }
+			}
+		}
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		select_effect = {
+			hidden_effect = {
+				set_variable = { mltd_ritual_toll_factor = 0.0025 }
+				add_ideas = mltd_the_final_ritual
+			}
+		}
+		x = 0
+		y = 2
+		relative_position_id = mltd_the_deep_ones_walk
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			hidden_effect = { remove_ideas = mltd_the_final_ritual }
+			# the ritual idea lives in select_effect (not shown in focus tooltips); list its modifiers here - values must match mltd_ideas.txt
+			custom_effect_tooltip = mltd_ritual_duration_tt
+			set_temp_variable = { mltd_tt = -0.20 tooltip = mltd_stability_factor_tt }
+			set_temp_variable = { mltd_tt = -0.15 tooltip = mltd_political_power_factor_tt }
+			set_temp_variable = { mltd_tt = -0.10 tooltip = mltd_industrial_capacity_factory_tt }
+			set_temp_variable = { mltd_tt = -0.10 tooltip = mltd_war_support_factor_tt }
+			set_temp_variable = { mltd_tt = -0.20 tooltip = mltd_army_org_factor_tt }
+			custom_effect_tooltip = mltd_final_ritual_toll_modifier_tt
+			custom_effect_tooltip = mltd_newline_tt
+			set_technology = { mltd_star_spawn_tech = 1 }
+			if = {
+				limit = { has_template_containing_unit = mltd_star_spawn }
+				set_division_template_lock = {
+					division_template = "Star Spawn"
+					is_locked = no
+				}
+			}
+			custom_effect_tooltip = mltd_star_spawn_template_unlocked_tt
+			multiply_variable = { mltd_gift_manpower_var = 2 }
+			custom_effect_tooltip = mltd_gift_manpower_final_tt
+			hidden_effect = { force_update_dynamic_modifier = yes }
+			mltd_all_gifts_permanent = yes
+			country_event = { id = mltd.5 days = 1 }
+			hidden_effect = {
+				every_other_country = {
+					news_event = { id = mltd.6 days = 2 }
+				}
+			}
+		}
+	}
+
+}

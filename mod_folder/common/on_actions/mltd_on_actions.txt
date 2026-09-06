@@ -1,0 +1,19 @@
+on_actions = {
+	# Every day: recompute mltd_national_population (the ritual focuses gate on it), then, while
+	# either ritual idea is held, take the toll from every owned state
+	# (both effects in common/scripted_effects/mltd_scripted_effects.txt).
+	on_daily_MLT = {
+		effect = {
+			mltd_update_national_population = yes
+			if = {
+				limit = {
+					OR = {
+						has_idea = mltd_the_grand_ritual
+						has_idea = mltd_the_final_ritual
+					}
+				}
+				mltd_ritual_daily_toll = yes
+			}
+		}
+	}
+}

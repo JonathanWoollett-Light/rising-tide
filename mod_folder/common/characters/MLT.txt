@@ -1,0 +1,409 @@
+characters = {
+	MLT_MLULU = {
+		name = MLT_MLULU_NAME
+		portraits = {
+			civilian = {
+				large = GFX_Portrait_mltd_mlulu_animated
+				small = GFX_idea_MLT_mlulu
+			}
+			army = {
+				large = GFX_Portrait_mltd_mlulu_animated
+				small = GFX_idea_MLT_mlulu
+			}
+		}
+		country_leader = {
+			desc = MLT_MLULU_DESC
+			ideology = militarist_oligarchy
+			traits = {
+				mlt_insatiable_hunger
+				mlt_monster_from_the_depths
+			}
+			expire = "3000.01.01.01"
+			id = -1
+		}
+		field_marshal = {
+			traits = {
+				strong_trait
+				enduring_trait
+				bruiser_trait
+				swamp_fox
+				swamp_fox_II
+				animal_friend_trait
+				naval_invader
+			}
+			skill = 5
+			attack_skill = 5
+			defense_skill = 3
+			planning_skill = 2
+			logistics_skill = 2
+		}
+	}
+	MLT_ETERNAL_BINGO = {
+		name = MLT_ETERNAL_BINGO_NAME
+		portraits = {
+			civilian = {
+				large = GFX_Portrait_Tribal_Generic_10
+			}
+			army = {
+				large = GFX_Portrait_Tribal_Generic_10
+			}
+		}
+		country_leader = {
+			desc = MLT_ETERNAL_BINGO_DESC
+			ideology = unlimited_democracy
+			traits = {
+				paranoid
+				well_liked_leader
+			}
+			expire = "2295.1.1.12"
+			id = -1
+		}
+		country_leader = {
+			desc = MLT_ETERNAL_BINGO_DESC
+			ideology = meritocracy
+			traits = {
+				paranoid
+				well_liked_leader
+			}
+			expire = "2295.1.1.12"
+			id = -1
+		}
+		country_leader = {
+			desc = MLT_ETERNAL_BINGO_DESC
+			ideology = theocracy
+			traits = {
+				paranoid
+				well_liked_leader
+			}
+			expire = "2295.1.1.12"
+			id = -1
+		}
+	}
+	MLT_CORAL_PROPHET_ANASTASIA = {
+		name = MLT_CORAL_PROPHET_ANASTASIA_NAME
+		portraits = {
+			army = {
+				large = GFX_Portrait_mltd_anastasia
+			}
+			civilian = {
+				large = GFX_Portrait_mltd_anastasia
+			}
+		}
+		corps_commander = {
+			traits = {
+				strong_trait charismatic_trait strong_back_trait
+				animal_friend_trait
+			}
+			skill = 4
+			attack_skill = 2
+			defense_skill = 5
+			planning_skill = 2
+			logistics_skill = 3
+			legacy_id = -1
+		}
+	}
+	MLT_KILLCLAW = {
+		name = MLT_KILLCLAW_NAME
+		portraits = {
+			army = {
+				small = GFX_idea_killclaw_command
+			}
+			civilian = {
+				small = GFX_idea_killclaw_command
+			}
+		}
+		advisor = {
+			slot = high_command
+			idea_token = MLT_killclaw_high_command
+			ledger = army
+			allowed = {
+				original_tag = MLT
+			}
+			traits = {
+				killclaw_aspect
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
+	MLT_HUNTER = {
+		name = MLT_HUNTER_NAME
+		portraits = {
+			army = {
+				small = GFX_idea_hunter_command
+			}
+			civilian = {
+				small = GFX_idea_hunter_command
+			}
+		}
+		advisor = {
+			slot = high_command
+			idea_token = MLT_hunter_high_command
+			ledger = army
+			allowed = {
+				original_tag = MLT
+			}
+			traits = {
+				hunter_aspect
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
+	MLT_KING = {
+		name = MLT_KING_NAME
+		portraits = {
+			army = {
+				small = GFX_idea_king_command
+			}
+			civilian = {
+				small = GFX_idea_king_command
+			}
+		}
+		advisor = {
+			slot = high_command
+			idea_token = MLT_king_high_command
+			ledger = army
+			allowed = {
+				original_tag = MLT
+			}
+			traits = {
+				king_aspect
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
+	MLT_SOFTSHELL = {
+		name = MLT_SOFTSHELL_NAME
+		portraits = {
+			army = {
+				small = GFX_idea_softshell_command
+			}
+			civilian = {
+				small = GFX_idea_softshell_command
+			}
+		}
+		advisor = {
+			slot = high_command
+			idea_token = MLT_softshell_high_command
+			ledger = army
+			allowed = {
+				original_tag = MLT
+			}
+			traits = {
+				softshell_aspect
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
+	MLT_TERROR = {
+		name = MLT_TERROR_NAME
+		portraits = {
+			army = {
+				small = GFX_idea_generic_advisor2
+			}
+			civilian = {
+				small = GFX_idea_generic_advisor2
+			}
+		}
+		advisor = {
+			slot = army_chief
+			idea_token = MLT_terror_army_chief
+			ledger = army
+			allowed = {
+				original_tag = MLT
+			}
+			traits = {
+				tidal_terror
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
+	MLT_TIDE_HUNTER = {
+		name = MLT_TIDE_HUNTER_NAME
+		portraits = {
+			army = {
+				small = GFX_idea_generic_advisor30
+			}
+			civilian = {
+				small = GFX_idea_generic_advisor30
+			}
+		}
+		advisor = {
+			slot = army_chief
+			idea_token = MLT_tide_hunter_army_chief
+			ledger = army
+			allowed = {
+				original_tag = MLT
+			}
+			traits = {
+				tide_hunter
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
+	MLT_OCEAN = {
+		name = MLT_OCEAN_NAME
+		portraits = {
+			army = {
+				small = GFX_idea_generic_advisor33
+			}
+			civilian = {
+				small = GFX_idea_generic_advisor33
+			}
+		}
+		navy_leader = {
+			traits = {
+				spotter
+			}
+			skill = 2
+			attack_skill = 2
+			defense_skill = 1
+			maneuvering_skill = 1
+			coordination_skill = 2
+			legacy_id = -1
+		}
+		advisor = {
+			slot = navy_chief
+			idea_token = MLT_ocean_man_navy_chief
+			ledger = navy
+			allowed = {
+				original_tag = MLT
+			}
+			traits = {
+				settler_navy_buff
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
+	MLT_CLOUD = {
+		name = MLT_CLOUD_NAME
+		portraits = {
+			army = {
+				small = GFX_idea_generic_advisor44
+			}
+			civilian = {
+				small = GFX_idea_generic_advisor44
+			}
+		}
+		advisor = {
+			slot = air_chief
+			idea_token = MLT_cloud_air_chief
+			ledger = air
+			allowed = {
+				original_tag = MLT
+			}
+			traits = {
+				tribal_air_buff
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
+	MLT_KNOWS = {
+		name = MLT_KNOWS_NAME
+		portraits = {
+			army = {
+				small = GFX_idea_generic_advisor1
+			}
+			civilian = {
+				small = GFX_idea_generic_advisor1
+			}
+		}
+		advisor = {
+			slot = theorist
+			idea_token = MLT_knows_theorist
+			ledger = army
+			allowed = {
+				original_tag = MLT
+			}
+			traits = {
+				military_theorist
+			}
+			research_bonus = {
+				cat_land_doctrine = 0.1
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
+	MLT_MUTANTS = {
+		name = MLT_MUTANTS_NAME
+		portraits = {
+			army = {
+				small = GFX_idea_mutants_theorist
+			}
+			civilian = {
+				small = GFX_idea_mutants_theorist
+			}
+		}
+		advisor = {
+			slot = theorist
+			idea_token = MLT_mutants_theorist
+			ledger = army
+			allowed = {
+				original_tag = MLT
+			}
+			research_bonus = {
+				cat_outsider_warfare = 0.10
+			}
+			traits = {
+				military_theorist
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
+	MLT_TINYSHELL = {
+		name = MLT_TINYSHELL_NAME
+		portraits = {
+			army = {
+				large = GFX_Portrait_MLT_tinyshell
+				#small = gfx_sprite_type_name_or_file_path
+			}
+			civilian = {
+				large = GFX_Portrait_MLT_tinyshell
+				#small = gfx_sprite_type_name_or_file_path
+			}
+		}
+	}
+	# Rising Tide: defined role-less (OWB pattern) and recruited at start by our history override;
+	# event mltd.1 (The Kingdom of M'lyeh) grants the corps-commander role: 4/4-2-2-1, strong, enduring,
+	# swamp_fox, animal_friend - a notch below M'lulu (5/5/3/2/2, + bruiser, swamp_fox_II, naval_invader).
+	MLT_DROWNED_HERALD = {
+		name = MLT_DROWNED_HERALD_NAME
+		portraits = {
+			army = {
+				large = GFX_Portrait_mltd_drowned_herald_animated
+			}
+			civilian = {
+				large = GFX_Portrait_mltd_drowned_herald_animated
+			}
+		}
+	}
+}

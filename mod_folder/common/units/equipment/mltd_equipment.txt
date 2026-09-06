@@ -1,0 +1,109 @@
+# Rising Tide (MLT) - Deep Ones and Star Spawn equipment.
+# Modelled on OWB common/units/equipment/cre_amphibious_eq.txt (amphibious_beast_equipment).
+# Both archetypes are is_buildable = no like every OWB creature archetype (the flag is not inherited by
+# variants). The _1 variant is enabled by the hidden mltd_*_equipment_tech that mltd_ensure_*_template
+# grants the first time a division is raised (events mltd.7 / mltd.8 or the
+# summon decisions), so it is a normal production line from the first summon - the intended
+# reinforcement pool (26 / 150 IC per piece). The reward techs at event mltd.8 (fired by mltd_the_deep_ones_walk) / mltd_the_final_ritual gate only the sub-unit.
+# Scaling baseline is amphibious_beast_equipment_king (defense 20, breakthrough 16, hardness 0.25,
+# armor 20, speed 5.5, soft 22, hard 10, ap 8, ic 20, water 5). Deep Ones are x1.3 of it throughout;
+# Star Spawn are x2.2 on the six combat stats only (defense, breakthrough, armor, soft, hard, ap) -
+# hardness is 0.40 (x1.6), speed is 10 (double the mirelurk king's 5.5, rounded - they stride), and
+# build_cost_ic is 150 because of the low need, not the scale.
+# Star Spawn are deliberately few and huge: their sub-unit needs 10 pieces per battalion (Deep Ones 20,
+# every OWB creature 15-100), so one piece is a tenth of a battalion and costs 150 IC.
+# Variants are unlocked by enable_equipments in common/technologies/mltd_technologies.txt.
+
+equipments = {
+
+	mltd_deep_ones_equipment = {
+		is_archetype = yes
+		is_buildable = no
+		type = infantry
+		group_by = archetype
+		interface_category = interface_category_land
+
+		reliability = 0.95
+
+		#Space taken in convoy
+		lend_lease_cost = 1
+
+		resources = {
+			water = 3
+		}
+	}
+
+	# Deep Ones Equipment
+	mltd_deep_ones_equipment_1 = {
+		archetype = mltd_deep_ones_equipment
+		priority = 25
+		visual_level = 0
+
+		reliability = 0.95
+
+		build_cost_ic = 26
+
+		# Defensive Abilities
+		defense = 26
+		breakthrough = 21
+		hardness = 0.30
+		armor_value = 26
+		maximum_speed = 5.5
+
+		# Offensive Abilities
+		soft_attack = 29
+		hard_attack = 13
+		ap_attack = 10
+
+		resources = {
+			water = 5
+		}
+	}
+
+	mltd_star_spawn_equipment = {
+		is_archetype = yes
+		is_buildable = no
+		type = infantry
+		group_by = archetype
+		interface_category = interface_category_land
+
+		reliability = 1
+
+		#Space taken in convoy
+		lend_lease_cost = 1
+
+		resources = {
+			water = 5
+		}
+	}
+
+	# Star Spawn Equipment
+	mltd_star_spawn_equipment_1 = {
+		archetype = mltd_star_spawn_equipment
+		priority = 30
+		visual_level = 0
+
+		reliability = 1
+
+		build_cost_ic = 150
+
+		# Defensive Abilities
+		defense = 44
+		breakthrough = 35
+		hardness = 0.40
+		armor_value = 44
+		maximum_speed = 10
+
+		# Offensive Abilities
+		soft_attack = 48
+		hard_attack = 22
+		ap_attack = 18
+		# They pluck aircraft out of the sky. Well under dedicated AA (OWB inf_aa_eq.txt is 45-60),
+		# a little below a demolition team (inf_demolitions_eq.txt:207 is 12).
+		air_attack = 10
+
+		resources = {
+			water = 8
+		}
+	}
+}

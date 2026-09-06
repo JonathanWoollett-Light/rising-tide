@@ -1,0 +1,100 @@
+ideas = {
+	# Applied while the continuous focus mltd_continuous_spawning_pools is selected; the focus's own
+	# `idea =` key adds and removes it, so nothing in script touches it. Hidden, like every OWB
+	# continuous-focus idea (zzz_continous_focus_ideas.txt). equipment_bonus keys are archetypes, which
+	# covers every variant; a category is unusable because all creature archetypes are type = infantry
+	# and `infantry` would discount rifles too, and a dynamic modifier cannot carry build_cost_ic at all
+	# (OWB tried: kha_dynamic_modifier.txt:10 is commented out).
+	hidden_ideas = {
+		continuous_mltd_spawning_pools = {
+			allowed = {
+				always = no
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			equipment_bonus = {
+				amphibious_beast_equipment = {
+					instant = yes
+					build_cost_ic = -0.15
+				}
+				mltd_deep_ones_equipment = {
+					instant = yes
+					build_cost_ic = -0.15
+				}
+				mltd_star_spawn_equipment = {
+					instant = yes
+					build_cost_ic = -0.15
+				}
+			}
+		}
+	}
+	country = {
+		mltd_the_grand_ritual = {
+			picture = black_sea_of_nothingness
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				stability_factor = -0.10
+				political_power_factor = -0.10
+				industrial_capacity_factory = -0.05
+				army_org_factor = -0.10
+				custom_modifier_tooltip = mltd_grand_ritual_toll_modifier_tt
+			}
+		}
+		mltd_the_final_ritual = {
+			picture = str_watchers_of_the_stars
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				stability_factor = -0.20
+				political_power_factor = -0.15
+				industrial_capacity_factory = -0.10
+				war_support_factor = -0.10
+				army_org_factor = -0.20
+				custom_modifier_tooltip = mltd_final_ritual_toll_modifier_tt
+			}
+		}
+		# Permanent (granted by event mltd.8, fired by mltd_the_deep_ones_walk). Additive to OWB SPECIAL_FORCES_CAP_MIN = 20, so the
+		# floor becomes 100 special-forces battalions (~12 divisions of Deep Ones or Star Spawn, both 8 battalions); OWB uses 80-120 elsewhere.
+		mltd_children_of_the_deep = {
+			picture = generic_mirelurk_king
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				special_forces_min = 80
+			}
+		}
+	}
+}

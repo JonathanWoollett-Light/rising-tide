@@ -1,0 +1,444 @@
+# Rising Tide - Gifts from the Deep (timed buffs) and Children of the Deep (summons)
+mltd_gifts_from_the_deep_cat = {
+	mltd_gift_of_the_tide = {
+		icon = GFX_decision_generic_naval
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_completed_focus = mltd_first_book
+			NOT = { has_country_flag = mltd_gifts_permanent }
+		}
+		available = {
+			has_manpower > 500
+			custom_trigger_tooltip = {
+				tooltip = mltd_gift_slots_tt
+				check_variable = { mltd_gifts_active < mltd_gifts_max }
+			}
+			NOT = { has_active_mission = mltd_gift_of_the_tide_mission }
+		}
+		cost = 25
+		fire_only_once = no
+		ai_will_do = {
+			factor = 1
+		}
+		complete_effect = {
+			add_manpower = -500
+			mltd_gift_tide_on = yes
+			hidden_effect = {
+				activate_mission = mltd_gift_of_the_tide_mission
+			}
+			custom_effect_tooltip = mltd_gift_lasts_30_days_tt
+		}
+	}
+	mltd_gift_of_the_tide_mission = {
+		icon = GFX_decision_generic_naval
+		allowed = {
+			original_tag = MLT
+		}
+		activation = {
+			always = no
+		}
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		selectable_mission = no
+		is_good = yes
+		days_mission_timeout = 30
+		timeout_effect = {
+			mltd_gift_tide_off = yes
+		}
+	}
+	mltd_gift_of_the_shell = {
+		icon = GFX_decision_generic_protection
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_completed_focus = mltd_second_book
+			NOT = { has_country_flag = mltd_gifts_permanent }
+		}
+		available = {
+			has_manpower > 500
+			custom_trigger_tooltip = {
+				tooltip = mltd_gift_slots_tt
+				check_variable = { mltd_gifts_active < mltd_gifts_max }
+			}
+			NOT = { has_active_mission = mltd_gift_of_the_shell_mission }
+		}
+		cost = 25
+		fire_only_once = no
+		ai_will_do = {
+			factor = 1
+		}
+		complete_effect = {
+			add_manpower = -500
+			mltd_gift_shell_on = yes
+			hidden_effect = {
+				activate_mission = mltd_gift_of_the_shell_mission
+			}
+			custom_effect_tooltip = mltd_gift_lasts_30_days_tt
+		}
+	}
+	mltd_gift_of_the_shell_mission = {
+		icon = GFX_decision_generic_protection
+		allowed = {
+			original_tag = MLT
+		}
+		activation = {
+			always = no
+		}
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		selectable_mission = no
+		is_good = yes
+		days_mission_timeout = 30
+		timeout_effect = {
+			mltd_gift_shell_off = yes
+		}
+	}
+	mltd_gift_of_the_current = {
+		icon = GFX_decision_generic_army_support
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_completed_focus = mltd_third_book
+			NOT = { has_country_flag = mltd_gifts_permanent }
+		}
+		available = {
+			has_manpower > 500
+			custom_trigger_tooltip = {
+				tooltip = mltd_gift_slots_tt
+				check_variable = { mltd_gifts_active < mltd_gifts_max }
+			}
+			NOT = { has_active_mission = mltd_gift_of_the_current_mission }
+		}
+		cost = 25
+		fire_only_once = no
+		ai_will_do = {
+			factor = 1
+		}
+		complete_effect = {
+			add_manpower = -500
+			mltd_gift_current_on = yes
+			hidden_effect = {
+				activate_mission = mltd_gift_of_the_current_mission
+			}
+			custom_effect_tooltip = mltd_gift_lasts_30_days_tt
+		}
+	}
+	mltd_gift_of_the_current_mission = {
+		icon = GFX_decision_generic_army_support
+		allowed = {
+			original_tag = MLT
+		}
+		activation = {
+			always = no
+		}
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		selectable_mission = no
+		is_good = yes
+		days_mission_timeout = 30
+		timeout_effect = {
+			mltd_gift_current_off = yes
+		}
+	}
+	mltd_gift_of_the_brood = {
+		icon = GFX_decision_conscription_slaves
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_completed_focus = mltd_fourth_book
+			NOT = { has_country_flag = mltd_gifts_permanent }
+		}
+		available = {
+			has_manpower > 500
+			custom_trigger_tooltip = {
+				tooltip = mltd_gift_slots_tt
+				check_variable = { mltd_gifts_active < mltd_gifts_max }
+			}
+			NOT = { has_active_mission = mltd_gift_of_the_brood_mission }
+		}
+		cost = 25
+		fire_only_once = no
+		ai_will_do = {
+			factor = 1
+		}
+		complete_effect = {
+			add_manpower = -500
+			mltd_gift_brood_on = yes
+			hidden_effect = {
+				activate_mission = mltd_gift_of_the_brood_mission
+			}
+			custom_effect_tooltip = mltd_gift_lasts_30_days_tt
+		}
+	}
+	mltd_gift_of_the_brood_mission = {
+		icon = GFX_decision_conscription_slaves
+		allowed = {
+			original_tag = MLT
+		}
+		activation = {
+			always = no
+		}
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		selectable_mission = no
+		is_good = yes
+		days_mission_timeout = 30
+		timeout_effect = {
+			mltd_gift_brood_off = yes
+		}
+	}
+	mltd_gift_of_the_abyss = {
+		icon = GFX_decision_nor_horror_eye
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_completed_focus = mltd_fifth_book
+			NOT = { has_country_flag = mltd_gifts_permanent }
+		}
+		available = {
+			has_manpower > 500
+			custom_trigger_tooltip = {
+				tooltip = mltd_gift_slots_tt
+				check_variable = { mltd_gifts_active < mltd_gifts_max }
+			}
+			NOT = { has_active_mission = mltd_gift_of_the_abyss_mission }
+		}
+		cost = 25
+		fire_only_once = no
+		ai_will_do = {
+			factor = 1
+		}
+		complete_effect = {
+			add_manpower = -500
+			mltd_gift_abyss_on = yes
+			hidden_effect = {
+				activate_mission = mltd_gift_of_the_abyss_mission
+			}
+			custom_effect_tooltip = mltd_gift_lasts_30_days_tt
+		}
+	}
+	mltd_gift_of_the_abyss_mission = {
+		icon = GFX_decision_nor_horror_eye
+		allowed = {
+			original_tag = MLT
+		}
+		activation = {
+			always = no
+		}
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		selectable_mission = no
+		is_good = yes
+		days_mission_timeout = 30
+		timeout_effect = {
+			mltd_gift_abyss_off = yes
+		}
+	}
+}
+mltd_children_of_the_deep_cat = {
+	mltd_summon_the_deep_ones = {
+		icon = GFX_decision_nor_horror_eye
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_country_flag = mltd_deep_ones_summon_unlocked
+			NOT = { has_country_flag = mltd_star_spawn_summon_unlocked }
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_summon_state_pop_deep_ones_tt
+				check_variable = { mltd_controlled_population > 15999 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_deep_ones_summon_cooldown_tt
+				NOT = { has_country_flag = mltd_deep_ones_summon_cooldown }
+			}
+		}
+		cost = 50
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = { mltd_controlled_population < 24000 }
+			}
+			modifier = {
+				factor = 0
+				NOT = { has_completed_focus = mltd_the_grand_ritual }
+				check_variable = { mltd_national_population < 60000 }
+			}
+		}
+		complete_effect = {
+			# Every land pays, in proportion to what it holds; the division rises at the capital.
+			custom_effect_tooltip = mltd_deep_ones_toll_tt
+			hidden_effect = {
+				set_variable = { mltd_toll_target_k = 8 }
+				mltd_take_population_everywhere = yes
+			}
+			mltd_spawn_deep_ones_division = yes
+			custom_effect_tooltip = mltd_deep_ones_summon_cooldown_after_tt
+			hidden_effect = {
+				set_country_flag = { flag = mltd_deep_ones_summon_cooldown value = 1 days = 90 }
+			}
+		}
+	}
+	mltd_summon_the_star_spawn = {
+		icon = GFX_decision_nor_horror_eye
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_country_flag = mltd_star_spawn_summon_unlocked
+			NOT = { has_completed_focus = mltd_the_final_ritual }
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_summon_state_pop_star_spawn_tt
+				check_variable = { mltd_controlled_population > 31999 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_star_spawn_summon_cooldown_tt
+				NOT = { has_country_flag = mltd_star_spawn_summon_cooldown }
+			}
+		}
+		cost = 75
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = { mltd_controlled_population < 48000 }
+			}
+			modifier = {
+				factor = 0
+				NOT = { has_completed_focus = mltd_the_final_ritual }
+				check_variable = { mltd_national_population < 85000 }
+			}
+		}
+		complete_effect = {
+			# Every land pays, in proportion to what it holds; the division rises at the capital.
+			custom_effect_tooltip = mltd_star_spawn_toll_tt
+			hidden_effect = {
+				set_variable = { mltd_toll_target_k = 16 }
+				mltd_take_population_everywhere = yes
+			}
+			mltd_spawn_star_spawn_division = yes
+			custom_effect_tooltip = mltd_star_spawn_summon_cooldown_after_tt
+			hidden_effect = {
+				set_country_flag = { flag = mltd_star_spawn_summon_cooldown value = 1 days = 120 }
+			}
+		}
+	}
+	# Offerings to the Deep: population traded to the sea for what the drowned left behind.
+	# Population is taken with OWB's add_state_population (temp var pop_add, 00_scripted_effects.txt:509)
+	# from any owned+controlled state large enough, exactly like the summons; caps go through OWB's
+	# add_caps (caps_scripted_effects.txt:33, temp var caps_to_add - it writes its own tooltip, plays the
+	# sound, clamps the balance and refreshes the top bar, and pays 1.25x political power instead when the
+	# caps game rule is off). Both are on a visible timed-flag cooldown rather than days_re_enable.
+	mltd_offering_of_the_drowned = {
+		icon = GFX_decision_skull
+		allowed = {
+			original_tag = MLT
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_offering_state_pop_3000_tt
+				any_owned_state = {
+					is_controlled_by = ROOT
+					state_population > 3000
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_offering_drowned_cooldown_tt
+				NOT = { has_country_flag = mltd_offering_drowned_cooldown }
+			}
+		}
+		cost = 25
+		fire_only_once = no
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 0
+				NOT = { any_owned_state = { is_controlled_by = ROOT state_population > 6000 } }
+			}
+		}
+		complete_effect = {
+			random_owned_controlled_state = {
+				limit = { state_population > 3000 }
+				set_temp_variable = { pop_add = -1000 }
+				add_state_population = yes
+			}
+			set_temp_variable = { caps_to_add = 100 }
+			add_caps = yes
+			custom_effect_tooltip = mltd_offering_drowned_cooldown_after_tt
+			hidden_effect = {
+				set_country_flag = { flag = mltd_offering_drowned_cooldown value = 1 days = 60 }
+			}
+		}
+	}
+	mltd_offering_of_the_tides = {
+		icon = GFX_decision_water_pump
+		allowed = {
+			original_tag = MLT
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_offering_state_pop_3000_tt
+				any_owned_state = {
+					is_controlled_by = ROOT
+					state_population > 3000
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_offering_tides_cooldown_tt
+				NOT = { has_country_flag = mltd_offering_tides_cooldown }
+			}
+		}
+		cost = 35
+		fire_only_once = no
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 0
+				NOT = { any_owned_state = { is_controlled_by = ROOT state_population > 6000 } }
+			}
+		}
+		complete_effect = {
+			random_owned_controlled_state = {
+				limit = { state_population > 3000 }
+				set_temp_variable = { pop_add = -1500 }
+				add_state_population = yes
+			}
+			capital_scope = {
+				add_resource = {
+					type = water
+					amount = 4
+				}
+			}
+			custom_effect_tooltip = mltd_offering_tides_cooldown_after_tt
+			hidden_effect = {
+				set_country_flag = { flag = mltd_offering_tides_cooldown value = 1 days = 180 }
+			}
+		}
+	}
+}

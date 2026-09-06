@@ -1,0 +1,132 @@
+# Rising Tide (MLT) - reward-tab technologies for the Deep Ones and Star Spawn.
+#
+# HARD CONSTRAINT: every tech-tree ROOT placed in fallout_focus_tree_folder needs a gridbox
+# named "<root_id>_tree" inside containerWindowType "fallout_focus_tree_folder" in
+# interface/countrytechtreeview.gui. This submod does NOT override that gui. OWB's gui ships an
+# ORPHAN gridbox "warbike_unlock_tech_tree" (countrytechtreeview.gui ~line 3893) with no tech
+# defined behind it anywhere in OWB common/technologies. The Deep Ones tech therefore
+# deliberately takes the id warbike_unlock_tech, and the Star Spawn tech chains from it via
+# path so both render inside that one existing gridbox. Loc for warbike_unlock_tech is
+# overridden by this submod ("The Deep Ones").
+#
+# Shape mirrors OWB sentinel_unit_tech (tech_hidden.txt) minus on_research_complete/load_oob:
+# the locked templates are created by scripted effects, not by an OOB. As in sentinel_unit_tech,
+# enable_subunits is followed by enable_equipments unlocking the sub-unit's own equipment variant
+# (common/units/equipment/mltd_equipment.txt).
+# Positions are literal because @constants are file-local: x = 4 is @Row_unit3 (the row holding
+# faerie_unlock_tech and the other unit + equipment unlocks) and y = 24 / 28 are @Col_11 / @Col_13
+# in tech_hidden.txt, both unused in @Row_unit3 (row 4 holds y = 4, 8, 12, 16, 20 only). That row steps 4 columns (280 px) because an
+# enable_equipments tech renders in the 183 px wide techtree_fallout_focus_tree_folder_item window.
+#
+# The two mltd_*_equipment_tech at the bottom are HIDDEN (no folder, allow = { always = no }):
+# create_unit ... start_equipment_factor only issues equipment the country has UNLOCKED, so the
+# equipment must be unlocked before the reward tech - the first time a division is raised,
+# mltd_ensure_*_template (mltd_scripted_effects.txt) grants the hidden tech via set_technology.
+# From then on the equipment is producible (the reinforcement pool for the summoned divisions -
+# intended); the reward techs below keep gating the SUB-UNIT, so the player can only build the
+# units after event mltd.8 (fired by mltd_the_deep_ones_walk) / mltd_the_final_ritual. Their own enable_equipments is now redundant and harmless (OWB
+# tech_hidden.txt enables leshy_equipment_1 from both leshy_unlock_tech and
+# leshy_baby_support_unlock_tech).
+
+technologies = {
+
+	# The Deep Ones. Id deliberately reuses OWB's orphaned reward-tab gridbox "warbike_unlock_tech_tree"
+	# so the tech renders in the Reward Technologies tab without overriding countrytechtreeview.gui.
+	warbike_unlock_tech = {
+		research_cost = 6.0
+
+		dependencies = {
+			blocked_unit_tech = 1
+		}
+
+		path = {
+			leads_to_tech = mltd_star_spawn_tech
+			research_cost_coeff = 1
+		}
+
+		folder = {
+			name = fallout_focus_tree_folder
+			# x = 4 is @Row_unit3 (Sentinel / Mininuke / Artillery Ammo / Molech / Faeries row), y = 24 is @Col_11: the
+			# first free step-4 slot after faerie_unlock_tech (@Col_9 = 20).
+			position = { x = 4 y = 24 }
+		}
+
+		enable_subunits = {
+			mltd_deep_ones
+		}
+
+		enable_equipments = {
+			mltd_deep_ones_equipment_1
+		}
+
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# The Star Spawn. Child of warbike_unlock_tech so it shares that gridbox.
+	mltd_star_spawn_tech = {
+		research_cost = 7.0
+
+		dependencies = {
+			blocked_unit_tech = 1
+		}
+
+		folder = {
+			name = fallout_focus_tree_folder
+			# x = 4 is @Row_unit3, y = 28 is @Col_13: same row, next step-4 column after its path parent,
+			# as OWB lays out drug_technology_coffee -> drug_technology_coffee_2 (y = 12 -> 16).
+			position = { x = 4 y = 28 }
+		}
+
+		enable_subunits = {
+			mltd_star_spawn
+		}
+
+		enable_equipments = {
+			mltd_star_spawn_equipment_1
+		}
+
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Hidden: unlocks the equipment the moment the first Deep Ones division is raised (granted by
+	# mltd_ensure_deep_ones_template). No folder = renders in no tree; OWB does the same for its
+	# unresearchable unlock techs (tech_hidden.txt leshy_unlock_tech / gloria_robot_unlock_tech:
+	# allow = { always = no } + enable_equipments, no folder). Key layout copied from
+	# tech_access.txt blocked_unit_tech.
+	mltd_deep_ones_equipment_tech = {
+		research_cost = 1.0
+		dependencies = {
+			blocked_tech = 1
+		}
+		allow = {
+			always = no
+		}
+		enable_equipments = {
+			mltd_deep_ones_equipment_1
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Hidden: same for the Star Spawn (granted by mltd_ensure_star_spawn_template).
+	mltd_star_spawn_equipment_tech = {
+		research_cost = 1.0
+		dependencies = {
+			blocked_tech = 1
+		}
+		allow = {
+			always = no
+		}
+		enable_equipments = {
+			mltd_star_spawn_equipment_1
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}

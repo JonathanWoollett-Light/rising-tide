@@ -1,0 +1,318 @@
+﻿add_namespace = nf_mlt
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.1" }
+	id = nf_mlt.1
+	title = nf_mlt.1.t
+	desc = nf_mlt.1.d
+	picture = GFX_event_art_wassily_kandinsky_1
+
+	is_triggered_only = yes
+
+	option = {
+		name = nf_mlt.1.a
+		add_war_support = 0.1
+	}
+	option = {
+		name = nf_mlt.1.b
+		add_stability = 0.1
+	}
+	option = {
+		name = nf_mlt.1.c
+		add_stability = 0.05
+		add_war_support = 0.05
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.2" }
+	id = nf_mlt.2
+	title = nf_mlt.2.t
+	desc = nf_mlt.2.d
+	picture = GFX_event_art_joan_miro_1
+
+	is_triggered_only = yes
+
+	option = {
+		name = nf_mlt.2.a
+		capital_scope = {
+			add_extra_state_shared_building_slots = 1
+		}
+		set_temp_variable = { caps_to_add = 200 }
+		add_caps = yes
+	}
+	option = {
+		name = nf_mlt.2.b
+		capital_scope = {
+			add_extra_state_shared_building_slots = 2
+		}
+		set_temp_variable = { caps_to_add = 100 }
+		add_caps = yes
+	}
+	option = {
+		name = nf_mlt.2.c
+		capital_scope = {
+			add_extra_state_shared_building_slots = 3
+		}
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.3" }
+	id = nf_mlt.3
+	title = nf_mlt.3.t
+	desc = nf_mlt.3.d
+	picture = GFX_event_art_francis_picabia_1
+
+	is_triggered_only = yes
+
+	option = {
+		name = nf_mlt.3.a
+		capital_scope = {
+			if = {
+				limit = {
+					is_valid_state_for_civilian_factory = yes
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	option = {
+		name = nf_mlt.3.b
+		capital_scope = {
+			if = {
+				limit = {
+					is_valid_state_for_arms_factory = yes
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+}
+
+#Mirelurk Trade Offer
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.4" }
+	id = nf_mlt.4
+	title = nf_mlt.4.t
+	desc = nf_mlt.4.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = nf_mlt.4.a
+		ai_chance = {
+			factor = 20 #This is a good deal - unless...
+			modifier = {
+				#Lil' harder to make deals with mutants
+				original_tag = TRL
+				factor = 0.75
+			}
+			modifier = {
+				#Don't do it if we are about to attack MLT, or are fighting a defensive war
+				OR = {
+					has_wargoal_against = MLT
+					has_war_with = MLT
+					has_war_with = WBH
+					has_defensive_war = yes
+				}
+				factor = 0
+			}
+			modifier = {
+				#These states are important for supply reasons
+				owns_state = 37
+				owns_state = 506
+				factor = 0
+			}
+			modifier = {
+				#Should we even be listening to these guys?
+				ic_ratio = {
+					tag = MLT
+					ratio > 4
+				}
+				factor = 0
+			}
+			modifier = {
+				#Do we even want what they are offering?
+				check_variable = {
+					var = THIS.resource@water
+					value = 32
+					compare = greater_than
+				}
+				factor = 0
+			}
+		}
+		if = {
+			limit = {
+				owns_state = 186
+			}
+			MLT = {
+				capital_scope = {
+					add_resource = {
+						type = water
+						amount = -8
+					}
+				}
+			}
+			capital_scope = {
+				add_resource = {
+					type = water
+					amount = 8
+				}
+			}
+			186 = {
+				remove_core_of = ROOT
+				remove_claim_by = ROOT
+			}
+			MLT = {
+				transfer_state = 186
+				186 = {
+					if = {
+						limit = {
+							is_core_of = RBT
+						}
+						remove_core_of = RBT
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				owns_state = 450
+			}
+			MLT = {
+				capital_scope = {
+					add_resource = {
+						type = water
+						amount = -8
+					}
+				}
+			}
+			capital_scope = {
+				add_resource = {
+					type = water
+					amount = 8
+				}
+			}
+			450 = {
+				remove_core_of = ROOT
+				remove_claim_by = ROOT
+			}
+			MLT = {
+				transfer_state = 450
+				450 = {
+					if = {
+						limit = {
+							is_core_of = RBT
+						}
+						remove_core_of = RBT
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				owns_state = 493
+			}
+			MLT = {
+				capital_scope = {
+					add_resource = {
+						type = water
+						amount = -8
+					}
+				}
+			}
+			capital_scope = {
+				add_resource = {
+					type = water
+					amount = 8
+				}
+			}
+			493 = {
+				remove_core_of = ROOT
+				remove_claim_by = ROOT
+			}
+			MLT = {
+				transfer_state = 493
+				493 = {
+					if = {
+						limit = {
+							is_core_of = RBT
+						}
+						remove_core_of = RBT
+					}
+				}
+			}
+		}
+		MLT = { country_event = nf_mlt.6 }
+	}
+	option = {
+		name = nf_mlt.4.b
+		MLT = { country_event = nf_mlt.5 }
+	}
+}
+
+#Mirelurk Trade Offer Declined
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.5" }
+	id = nf_mlt.5
+	title = nf_mlt.5.t
+	desc = nf_mlt.5.d
+
+	is_triggered_only = yes
+	option = {
+		name = nf_mlt.5.a
+		add_stability = -0.05
+		set_country_flag = denied_muttfruit
+	}
+}
+
+#Mirelurk Trade Offer Accepted
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.6" }
+	id = nf_mlt.6
+	title = nf_mlt.6.t
+	desc = nf_mlt.6.d
+
+	is_triggered_only = yes
+	option = {
+		name = nf_mlt.6.a
+		add_stability = 0.05
+	}
+}
+
+#The Hatching
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.7" }
+	id = nf_mlt.7
+	title = nf_mlt.7.t
+	desc = nf_mlt.7.d
+
+	is_triggered_only = yes
+	option = {
+		name = nf_mlt.7.a
+		custom_effect_tooltip = mlt_eggs_hatch
+		hidden_effect = {
+			remove_ideas = mlt_egg_counter
+			add_manpower = mlt_eggs
+			358 = {
+				add_manpower = mlt_eggs
+			}
+			set_variable = { mlt_eggs = 0 }
+		}
+		# Rising Tide: OWB's version forced war_economy, children_and_mothers and closed_economy here
+		# (three law swaps at -5 % stability each, or +15 % stability if the country already held all
+		# three). The hatching now pays political capital instead and leaves the tribe's laws alone.
+		add_political_power = 300
+	}
+}

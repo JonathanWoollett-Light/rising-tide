@@ -1,0 +1,5 @@
+﻿l_english:
+  ### Overrides of OWB keys (localisation/replace/ is loaded last, so these win regardless of file order)
+  # warbike_unlock_tech is the Deep Ones reward tech - the id reuses OWB's orphaned gridbox; see CLAUDE.md
+  warbike_unlock_tech:0 "The Deep Ones"
+  warbike_unlock_tech_desc:0 "Below the tideline, §YM'lyeh§! stirs. Her children walk upon the shore.\n\nThat is not dead which can eternal lie."

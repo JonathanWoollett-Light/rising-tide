@@ -1,0 +1,547 @@
+script_enum_operative_mission_type = {
+	build_intel_network
+	counter_intelligence
+	quiet_network
+	root_out_resistance
+	control_trade
+}
+
+script_enum_advisor_slot_type = {
+	theorist
+	high_command
+	army_chief
+	navy_chief
+	air_chief
+	political_advisor
+	economic_advisor
+	cultural_advisor
+}
+
+script_enum_production_stat = {
+	production_cost_factor
+	production_capacity_factor
+	production_efficiency_cap_factor
+	production_efficiency_gain_factor
+	production_resource_need_factor
+	production_resource_penalty_factor
+	production_conversion_speed_factor
+}
+
+script_enum_equipment_category = {
+	convoy
+	train
+	floating_harbor
+	railway_gun
+	armor
+	motorized
+	mechanized
+	infantry
+	capital_ship
+	submarine
+	screen_ship
+	fighter
+	heavy_fighter
+	interceptor
+	tactical_bomber
+	strategic_bomber
+	cas
+	naval_bomber
+	missile
+	emplacement_gun_ammo
+	suicide
+	scout_plane
+	maritime_patrol_plane
+	air_transport
+	carrier
+	support
+	amphibious
+	anti_air
+	artillery
+	anti_tank
+	rocket
+	flame
+	land_cruiser
+	ballistic_missile
+	nuclear_missile
+	sam_missile
+	missile_launcher
+	support_ship
+}
+
+script_enum_equipment_bonus_type = {
+	## Air
+	fighter_equipment
+	air_chaff_equipment
+
+	fighter
+	cas
+	tactical_bomber
+	scout_plane
+	air_payload_equipment
+	spotter_plane_equipment
+	cas_equipment
+	cas_equipment
+
+	## Land
+	infantry_equipment
+	support_equipment
+	anti_tank_equipment
+	anti_air_equipment
+	artillery
+
+	motorized_equipment
+
+	armor
+
+	## Sea
+	ship_hull_light
+	ship_hull_heavy
+	ship_hull_super_heavy
+	ship_hull_super_heavy_1
+
+	convoy
+	submarine
+	screen_ship
+	carrier
+	capital_ship
+	support_ship
+
+	## OWB equipment
+	security_robot_equipment
+	combat_robot_equipment
+	blimp_equipment
+	fireteam_equipment
+	motorized
+	power_armor_equipment
+	spec_ops_equipment
+	demolitions_equipment
+	dogs_equipment
+	implant_equipment
+	heavy_infantry_equipment
+	tank_equipment
+	power_armor_equipment
+	drug_equipment_coffee
+	horse_equipment
+	strategic_bomber_equipment
+	chariot_equipment
+	infantry
+	mechanized
+	super_heavy_robot_equipment
+	car_fighter_equipment
+	hev_fighter_equipment
+	long_fighter_equipment
+	hev_cas_equipment
+	car_cas_equipment
+	air_blimp_equipment
+	long_cas_equipment
+	hev_strategic_bomber_equipment
+	support_robot_equipment
+	cargo_plane_equipment
+	ship_hull_medium
+	cnc_robot_equipment
+	behemoth_equipment
+	burrowing_beast_equipment
+	amphibious_beast_equipment
+	insect_equipment
+	deathclaw_equipment
+	deathclaw_special_equipment
+	feral_ghoul_equipment
+	beast_creature_equipment
+	gecko_creature_equipment
+	skate_equipment
+	ground_blimp_equipment
+	cheap_blimp_equipment
+	long_strategic_bomber_equipment
+	nav_strategic_bomber_equipment
+	railway_gun_equipment
+
+	train
+	floating_harbor
+	railway_gun
+	armor
+	motorized
+	mechanized
+	infantry
+	capital_ship
+	submarine
+	screen_ship
+	fighter
+	heavy_fighter
+	interceptor
+	tactical_bomber
+	strategic_bomber
+	cas
+	naval_bomber
+	missile
+	suicide
+	scout_plane
+	maritime_patrol_plane
+	air_transport
+	carrier
+	support
+	amphibious
+	anti_air
+	artillery
+	anti_tank
+	rocket
+	flame
+
+	land_cruiser
+	emplacement_gun_ammo
+	ballistic_missile
+	nuclear_missile
+	sam_missile
+	missile_launcher
+
+	blimp_equipment_1
+	air_blimp_equipment_1
+	ground_blimp_equipment_1
+	cheap_blimp_equipment_1
+	blimp_equipment_2
+	air_blimp_equipment_2
+	ground_blimp_equipment_2
+	cheap_blimp_equipment_2
+	blimp_equipment_3
+	air_blimp_equipment_3
+	ground_blimp_equipment_3
+	cheap_blimp_equipment_3
+	blimp_equipment_4
+	air_blimp_equipment_4
+	ground_blimp_equipment_4
+	cheap_blimp_equipment_4
+	cargo_plane_equipment_1
+	cargo_plane_equipment_2
+	cargo_plane_equipment_3
+	vb_transport_plane_equipment
+	cas_equipment_1
+	cas_equipment_2
+	cas_equipment_3
+	cas_equipment_4
+	hev_cas_equipment_2
+	hev_cas_equipment_3
+	hev_cas_equipment_4
+	car_cas_equipment_2
+	car_cas_equipment_3
+	car_cas_equipment_4
+	long_cas_equipment_2
+	long_cas_equipment_3
+	long_cas_equipment_4
+	high_cas_equipment
+	vb_gunship_equipment
+	fighter_equipment_1
+	fighter_equipment_2
+	fighter_equipment_3
+	fighter_equipment_4
+	fighter_equipment_5
+	car_fighter_equipment_3
+	car_fighter_equipment_4
+	car_fighter_equipment_5
+	hev_fighter_equipment_3
+	hev_fighter_equipment_4
+	hev_fighter_equipment_5
+	long_fighter_equipment_3
+	long_fighter_equipment_4
+	long_fighter_equipment_5
+	high_fighter_equipment
+	spotter_plane_equipment_1
+	spotter_plane_equipment_2
+	spotter_plane_equipment_3
+	payload_glider_equipment_1
+	air_chaff_equipment_1
+	strategic_bomber_equipment_1
+	strategic_bomber_equipment_2
+	strategic_bomber_equipment_3
+	strategic_bomber_equipment_4
+	hev_strategic_bomber_equipment_2
+	hev_strategic_bomber_equipment_3
+	hev_strategic_bomber_equipment_4
+	nav_strategic_bomber_equipment_2
+	nav_strategic_bomber_equipment_3
+	nav_strategic_bomber_equipment_4
+	long_strategic_bomber_equipment_2
+	long_strategic_bomber_equipment_3
+	long_strategic_bomber_equipment_4
+	behemoth_equipment_1
+	cnc_robot_equipment_1
+	cnc_robot_equipment_2
+	cnc_robot_equipment_3
+	combat_robot_equipment_1
+	combat_robot_equipment_2
+	combat_robot_equipment_3
+	combat_robot_pacification_equipment
+	security_robot_securitron_equipment_1
+	super_heavy_robot_equipment_1
+	super_heavy_robot_equipment_2
+	support_robot_scrap_equipment
+	support_robot_two_legs_equipment_1
+	support_robot_two_legs_equipment_2
+	support_robot_two_legs_equipment_3
+	support_robot_two_legs_equipment_4
+	support_robot_thruster_equipment_1
+	support_robot_thruster_equipment_2
+	support_robot_thruster_equipment_3
+	support_robot_thruster_equipment_4
+	support_robot_scurry_equipment
+	support_robot_humanoid_equipment
+	tank_equipment_1
+	tank_equipment_2
+	tank_equipment_3
+	tank_equipment_4
+	forward_firebase_equipment
+	forward_firebase_equipment_1
+	radio_equipment
+	radio_equipment_1
+	anti_air_equipment_1
+	anti_air_equipment_2
+	anti_tank_equipment_1
+	anti_tank_equipment_2
+	anti_tank_equipment_3
+	demolitions_equipment_1
+	flamer_demolitions_equipment_2
+	flamer_demolitions_equipment_3
+	flamer_demolitions_equipment_4
+	explosive_demolitions_equipment_2
+	explosive_demolitions_equipment_3
+	explosive_demolitions_equipment_4
+	demolitions_equipment_5
+	dogs_equipment_1
+	dogs_equipment_2
+	dogs_equipment_3
+	fireteam_equipment_1
+	ballistic_fireteam_equipment_2
+	ballistic_fireteam_equipment_3
+	ballistic_fireteam_equipment_4
+	energy_fireteam_equipment_2
+	energy_fireteam_equipment_3
+	energy_fireteam_equipment_4
+	fireteam_equipment_5
+	heavy_infantry_equipment_1
+	heavy_infantry_equipment_2
+	horse_equipment_1
+	horse_equipment_2
+	horse_equipment_3
+	implant_equipment_1
+	implant_equipment_2
+	implant_equipment_3
+	implant_equipment_4
+	melee_equipment_1
+	melee_equipment_2
+	melee_equipment_3
+	melee_equipment_4
+	infantry_equipment_1
+	ballistic_equipment_1
+	ballistic_equipment_2
+	ballistic_equipment_3
+	ballistic_equipment_4
+	energy_equipment_1
+	energy_equipment_2
+	energy_equipment_3
+	energy_equipment_4
+	gauss_equipment_1
+	gauss_equipment_2
+	plasma_equipment_1
+	plasma_equipment_2
+	monster_equipment
+	gehenna_molech_equipment
+	power_armor_equipment_0
+	power_armor_equipment_1
+	power_armor_equipment_2
+	power_armor_equipment_3
+	power_armor_equipment_3_light
+	power_armor_equipment_4
+	#power_armor_equipment_4_light
+	power_armor_equipment_5
+	power_armor_equipment_tbh
+	power_armor_equipment_midwest
+	enclave_power_armour_equipment_1
+	enclave_power_armour_equipment_2
+	skate_equipment_1
+	skate_equipment_2
+	spec_ops_equipment_1
+	spec_ops_equipment_2
+	spec_ops_equipment_3
+	spec_ops_equipment_4
+	spec_ops_equipment_5
+	enclave_spec_ops_equipment_1
+	support_equipment_1
+	chariot_equipment_1
+	bike_equipment_1
+	light_motorized_equipment_1
+	light_motorized_equipment_2
+	light_motorized_equipment_3
+	light_motorized_equipment_4
+	heavy_motorized_equipment_1
+	heavy_motorized_equipment_2
+	heavy_motorized_equipment_3
+	heavy_motorized_equipment_4
+	bubblefish_heavy_motorized_equipment
+	faerie_equipment
+	faerie_equipment_1
+	leshy_equipment
+	leshy_equipment_1
+	dun_robot_equipment
+	dun_robot_equipment_1
+	convoy_1
+	ship_hull_heavy_1
+	ship_hull_heavy_2
+	ship_hull_heavy_3
+	ship_hull_heavy_4
+	ship_hull_heavy_5
+	ship_hull_light_1
+	ship_hull_light_2
+	ship_hull_light_3
+	ship_hull_light_4
+	ship_hull_light_5
+	ship_hull_medium_1
+	ship_hull_medium_2
+	ship_hull_medium_3
+	ship_hull_medium_4
+	ship_hull_medium_5
+	ship_hull_medium_brk_raiding
+	ship_hull_super_heavy_brk_palace
+	mininuke_equipment
+	mininuke_equipment_1
+	artillery_ammo_equipment
+	artillery_ammo_equipment_1
+	sentinel_command_slave_equipment
+	sentinel_command_slave_equipment_1
+	drug_equipment_coffee_1
+	drug_equipment_coffee2
+	drug_equipment_coffee_2
+	supply_equipment
+	supply_equipment_1
+	supply_equipment_2
+	supply_equipment_3
+	amphibious_beast_equipment_1
+	amphibious_beast_equipment_2
+	amphibious_beast_equipment_armor
+	amphibious_beast_equipment_king
+	beast_creature_equipment_1
+	beast_creature_equipment_2
+	beast_creature_equipment_heavy
+	beast_creature_equipment_dusky
+	beast_creature_equipment_stalker
+	beast_creature_equipment_cloaked
+	gecko_creature_equipment_1
+	gecko_creature_equipment_2
+	gecko_creature_equipment_fire
+	gecko_creature_equipment_green
+	burrowing_beast_equipment_1
+	burrowing_beast_equipment_2
+	burrowing_beast_equipment_glowing
+	burrowing_beast_equipment_brood
+	deathclaw_equipment_1
+	deathclaw_equipment_2
+	deathclaw_equipment_3
+	deathclaw_special_equipment_1
+	deathclaw_special_equipment_2
+	feral_ghoul_equipment_1
+	feral_ghoul_equipment_2
+	feral_ghoul_equipment_armored
+	feral_ghoul_equipment_glowing
+	insect_equipment_1
+	insect_equipment_2
+	insect_equipment_3
+	railway_gun_equipment_1
+	railway_gun_equipment_2
+	railway_gun_equipment_3
+	railway_gun_equipment_4
+	ballistic_missile_equipment
+	ballistic_missile_equipment_1
+	ballistic_missile_equipment_2
+	ballistic_missile_equipment_3
+	nuclear_missile_equipment
+	nuclear_missile_equipment_1
+	nuclear_missile_equipment_2
+	explosive_ammo_equipment
+	explosive_ammo_equipment_1
+
+	# Rising Tide (MLT): Deep Ones / Star Spawn equipment (common/units/equipment/mltd_equipment.txt)
+	mltd_deep_ones_equipment
+	mltd_deep_ones_equipment_1
+	mltd_star_spawn_equipment
+	mltd_star_spawn_equipment_1
+}
+
+script_enum_equipment_stat = {
+	#Viktors note for modders and future CDs: If you want to use a stat in the MIOs it has to be in the equipment category itself, not on the battalion level. So stuff like defense works because its contained within the equipment, but stuff like recon will not work because its owned by the battalion. Adding stuff like recon will not throw an error, but it will _not_ work. Moving stats to the equipment level from the bat-level might fix this if you are brave enough, but it is very risk and might break other stuff. Ive commented what is currently on the battalion level below and should not be used with MIOs.
+
+	default_morale 					#Cannot be used with MIOS
+	defense
+	breakthrough
+	hardness
+	soft_attack
+	hard_attack
+	recon 							#Cannot be used with MIOS
+	entrenchment					# ONLY works for tanks with dozer blades, NOT infantry
+	initiative 						#Cannot be used with MIOS
+	casualty_trickleback 			#Cannot be used with MIOS
+	supply_consumption_factor 		#Cannot be used with MIOS
+	supply_consumption 				#Cannot be used with MIOS
+	suppression 					#Cannot be used with MIOS
+	suppression_factor 				#Cannot be used with MIOS
+	experience_loss_factor 			#Cannot be used with MIOS
+	equipment_capture_factor 		#Cannot be used with MIOS
+	recovery
+	additional_collateral_damage
+	fuel_capacity
+	surface_detection
+	sub_detection
+	surface_visibility
+	sub_visibility
+	lg_attack
+	lg_armor_piercing
+	hg_attack
+	hg_armor_piercing
+	torpedo_attack
+	sub_attack
+	anti_air_attack
+	amphibious_defense
+	naval_speed
+	naval_range
+	mines_planting
+	mines_sweeping
+	naval_light_gun_hit_chance_factor
+	naval_heavy_gun_hit_chance_factor
+	naval_torpedo_hit_chance_factor
+	naval_torpedo_damage_reduction_factor
+	naval_torpedo_enemy_critical_chance_factor
+	convoy_raiding_coordination
+	patrol_coordination
+	search_and_destroy_coordination
+	air_range
+	air_defence
+	air_attack
+	air_agility
+	air_bombing
+	air_superiority
+	naval_strike_attack
+	naval_strike_targetting
+	air_ground_attack
+	air_visibility_factor
+	railway_gun_attack 			#Cannot be used with MIOS
+	railway_gun_attack_range_index_in_define # This cannot be used with MIOs or equipment_bonus - only in equipment definition
+	railway_gun_annex_ratio
+	railway_gun_hours_between_redistribution
+	max_organisation			#Cannot be used with MIOS
+	max_strength				##Cannot be used with MIOS
+	maximum_speed
+	armor_value
+	ap_attack
+	reliability
+	reliability_factor
+	weight
+	thrust 						#DLC Only be careful and avoid unless needed
+	fuel_consumption
+	fuel_consumption_factor
+	strategic_attack
+	carrier_size
+	submarine_carrier_size
+	carrier_surface_detection
+	carrier_sub_detection
+	acclimatization_hot_climate_gain_factor			#Cannot be used with MIOS
+	acclimatization_cold_climate_gain_factor		#Cannot be used with MIOS
+	night_penalty				#Cannot be used with MIOS
+	build_cost_ic
+	naval_weather_penalty_factor
+}

@@ -1,0 +1,17 @@
+# Scratch rasters - never shipped, never committed.
+*.jpg
+*.jpeg
+
+# Raster scratch art at the repo root, but keep anything that actually ships.
+*.png
+!mod_folder/**/*.png
+
+# WinMerge backups from the OWB re-diff workflow - also risk shipping duplicate script ids.
+*.bak
+
+# Event picture sources are versioned - they rebuild mod_folder/gfx/event_pictures via build_event_pictures.py.
+!event_images/**
+
+# Python bytecode from importing the build scripts.
+__pycache__/
+*.pyc

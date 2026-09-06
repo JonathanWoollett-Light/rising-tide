@@ -1,0 +1,25 @@
+mltd_gifts_from_the_deep_cat = {
+	icon = GFX_decision_mirelurk_claw_category
+	picture = GFX_decision_cat_spectral_cabal
+	priority = 1001
+	allowed = {
+		original_tag = MLT
+	}
+	visible = {
+		has_completed_focus = mltd_gifts_from_the_deep
+		NOT = { has_country_flag = mltd_gifts_permanent }
+	}
+	visible_when_empty = yes
+}
+mltd_children_of_the_deep_cat = {
+	icon = GFX_decision_mirelurk_claw_category
+	picture = GFX_decision_cat_picture_loid_ekt_storm
+	priority = 1002
+	allowed = {
+		original_tag = MLT
+	}
+	visible = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+	}
+	visible_when_empty = yes
+}

@@ -1,0 +1,10 @@
+# HOI4 files are byte-sensitive. Disable ALL git line-ending conversion:
+#  - localisation .yml must keep its UTF-8 BOM;
+#  - files copied out of OWB should keep OWB's CRLF so WinMerge re-syncs
+#    against the Workshop copy stay clean.
+* -text
+
+*.png binary
+*.dds binary
+*.tga binary
+*.xcf binary

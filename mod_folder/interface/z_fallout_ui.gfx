@@ -1,0 +1,39 @@
+spriteTypes = {
+	corneredTileSpriteType = {
+		name = "GFX_frontend_bg"
+		texturefile = "gfx/loadingscreens/mltd_main.dds"
+		borderSize = { x = 0 y = 0 }
+		size = {  x = 1920 y = 1440 }
+		tilingCenter = no
+		effectFile = "gfx/FX/buttonstate_nodowneffect.lua"
+	}
+
+	spriteType = {
+		name = "GFX_transparent_pixel"
+		textureFile = "gfx/interface/transparent_pixel.dds"
+	}
+	spriteType = {
+		name = "GFX_3d_view_placeholder"
+		textureFile = "gfx/interface/3d_view_placeholder.dds"
+	}
+	spriteType = {
+		name = "GFX_3d_view_placeholder_2"
+		textureFile = "gfx/interface/3d_view_placeholder.dds"
+	}
+	spriteType = {
+		name = "GFX_3d_view_placeholder_3"
+		textureFile = "gfx/interface/3d_view_placeholder.dds"
+	}
+	spriteType = {
+		name = "GFX_generic_text_bg_48_owb"
+		textureFile = "gfx/interface/stateview/generic_text_bg_48_owb.dds"
+	}
+	frameAnimatedSpriteType = {
+		name = "GFX_event_header_animated"
+		texturefile = "gfx/interface/decisionview/event_header_bg_animated.dds"
+		noOfFrames = 10
+		animation_rate_fps = 5
+		looping = yes
+		play_on_show = yes
+	}
+}

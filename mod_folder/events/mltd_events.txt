@@ -1,0 +1,179 @@
+add_namespace = mltd
+
+# The Kingdom of M'lyeh rises (fired by focus mlt_kingdom_of_mlyeh)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.1" }
+	id = mltd.1
+	title = mltd.1.t
+	desc = mltd.1.d
+	picture = GFX_mltd_event_kingdom
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.1.a
+		add_corps_commander_role = {
+			character = MLT_DROWNED_HERALD
+			traits = {
+				strong_trait
+				enduring_trait
+				swamp_fox
+				animal_friend_trait
+			}
+			skill = 4
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 1
+			legacy_id = -1
+		}
+	}
+	option = {
+		name = mltd.1.b
+		add_corps_commander_role = {
+			character = MLT_DROWNED_HERALD
+			traits = {
+				strong_trait
+				enduring_trait
+				swamp_fox
+				animal_friend_trait
+			}
+			skill = 4
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 1
+			legacy_id = -1
+		}
+	}
+}
+
+# A Kingdom Beneath the Waves (world news; delivered by the focus via every_other_country, so MLT never receives it)
+news_event = {
+	id = mltd.2
+	title = mltd.2.t
+	desc = mltd.2.d
+	picture = GFX_mltd_event_kingdom
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.2.a
+	}
+}
+
+# The Grand Ritual is complete; the 100-day toll has just ended (fired by focus mltd_the_grand_ritual completion_reward)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.3" }
+	id = mltd.3
+	title = mltd.3.t
+	desc = mltd.3.d
+	picture = GFX_mltd_event_grand_ritual
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.3.a
+	}
+}
+
+# The Seas Grow Darker (world news; delivered by the focus via every_other_country, so MLT never receives it)
+news_event = {
+	id = mltd.4
+	title = mltd.4.t
+	desc = mltd.4.d
+	picture = GFX_mltd_event_grand_ritual
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.4.a
+	}
+}
+
+# The Final Ritual; the Star Spawn walk (fired by focus mltd_the_final_ritual)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.5" }
+	id = mltd.5
+	title = mltd.5.t
+	desc = mltd.5.d
+	picture = GFX_mltd_event_final_ritual
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.5.a
+	}
+	option = {
+		name = mltd.5.b
+	}
+}
+
+# The Stars Are Right (world news; delivered by the focus via every_other_country, so MLT never receives it)
+news_event = {
+	id = mltd.6
+	title = mltd.6.t
+	desc = mltd.6.d
+	picture = GFX_mltd_event_final_ritual
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.6.a
+	}
+}
+
+# Call of the Deep Ones: the first Deep Ones division rises at the capital and the summon decision opens (fired by focus mltd_call_of_the_deep_ones)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.7" }
+	id = mltd.7
+	title = mltd.7.t
+	desc = mltd.7.d
+	picture = GFX_mltd_event_call
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.7.a
+		custom_effect_tooltip = mltd_deep_ones_decision_unlocked_tt
+		mltd_spawn_deep_ones_division = yes
+		army_experience = 25
+		set_country_flag = mltd_deep_ones_summon_unlocked
+	}
+}
+
+# The Deep Ones Walk: the Deep Ones become trainable, the first Star Spawn division rises and its summon decision opens (fired by focus mltd_the_deep_ones_walk)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.8" }
+	id = mltd.8
+	title = mltd.8.t
+	desc = mltd.8.d
+	picture = GFX_event_mirelurk_red_death_shipwrecker
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.8.a
+		# warbike_unlock_tech = The Deep Ones (id reuses OWB's orphan reward-tab gridbox)
+		set_technology = { warbike_unlock_tech = 1 }
+		add_ideas = mltd_children_of_the_deep
+		mltd_ensure_deep_ones_template = yes
+		if = {
+			limit = { has_template_containing_unit = mltd_deep_ones }
+			set_division_template_lock = {
+				division_template = "Deep Ones"
+				is_locked = no
+			}
+		}
+		custom_effect_tooltip = mltd_deep_ones_template_unlocked_tt
+		mltd_spawn_star_spawn_division = yes
+		custom_effect_tooltip = mltd_star_spawn_decision_unlocked_tt
+		custom_effect_tooltip = mltd_deep_ones_summon_replaced_tt
+		set_country_flag = mltd_star_spawn_summon_unlocked
+	}
+}
