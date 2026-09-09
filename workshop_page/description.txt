@@ -1,19 +1,9 @@
 [h1]OWB - Rising Tide[/h1]
-
 A submod for [b]Old World Blues[/b] that gives the [b]Mirelurk Tribe[/b] somewhere to go once the Kingdom of M'lyeh is founded.
-
-[hr][/hr]
-
 [h2]Small on purpose[/h2]
-
 Adds [b]about a year of focuses[/b]. Every focus matters: no placeholder effects, no focuses that just hand you political power, no half-built branches.
-
-[hr][/hr]
-
 [h2]What it adds[/h2]
-
 Everything unlocks after Old World Blues' final Mirelurk focus, [i]The Kingdom of M'lyeh[/i].
-
 [list]
 [*] new units
 [*] new focuses
@@ -25,15 +15,8 @@ Everything unlocks after Old World Blues' final Mirelurk focus, [i]The Kingdom o
 [*] new portraits
 [*] new main menu
 [/list]
-
-[hr][/hr]
-
-[h2]Compatibility[/h2]
-
-Rising Tide replaces a handful of Old World Blues files, so it will conflict with other submods that touch the same ones.
-
-[hr][/hr]
-
 [h2]Status[/h2]
-
 Early release, and lightly tested. If something is broken or a number feels wrong, say so in the comments.
+
+[url=https://github.com/JonathanWoollett-Light/rising-tide]Github[/url]
+[url=https://github.com/sponsors/JonathanWoollett-Light]Sponsor me[/url]
