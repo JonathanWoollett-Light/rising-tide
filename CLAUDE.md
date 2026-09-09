@@ -34,10 +34,11 @@ Plus, independent of the tree: the **continuous focus** `mltd_continuous_spawnin
 
 | Path | Contents |
 | --- | --- |
+| `mod_folder/` | The mod as HOI4 sees it. **Only this directory ships**; everything else in the repo is docs, tooling and source art. |
 | `mod_folder/descriptor.mod` | Mod metadata. **No `picture=` key** - deliberate, see the gotcha below. `remote_file_id="3798403425"` was written by the launcher on the first publish. No `path=`, no `replace_path`. |
 | `mod_folder/interface/z_fallout_ui.gfx` | **OVERRIDE** of OWB's file: one line, `GFX_frontend_bg`'s `texturefile` repointed to `gfx/loadingscreens/mltd_main.dds`. tnkd does the same - but copy **OWB's current bytes**, not tnkd's, which are stale and lack `GFX_generic_text_bg_48_owb`. |
 | `mod_folder/interface/frontendmainview.gui` | **OVERRIDE** of OWB's file: the overlay `iconType` OWB ships commented out, re-enabled and pointed at `GFX_frontend_bg_mltd_rain`. The only reason the menu rain moves, and the only file here other submods contest (ECR, Enclave Reborn Redux, Rustbelt, Monarchs all ship it). Deleting it costs the rain and nothing else. |
-| `mod_folder/gfx/loadingscreens/mltd_main.dds`, `mod_folder/gfx/interface/logo_game_static.dds`, `mod_folder/gfx/interface/mltd_logo_animated.dds`, `mod_folder/gfx/interface/mltd_rain_{base,mask,anim1,anim2}.dds` | Main-menu background (1910x1440), header logo (443x303 static as a texture-path override of OWB's, plus the 16-frame 7088x303 uncompressed strip the frontend actually uses) and the rain (four 2560x1792 DXT5 textures). Built by `build_main_menu.py`; see README > Main menu. ~32 MB, most of the mod's size. |
+| `mod_folder/gfx/loadingscreens/mltd_main.dds`, `mod_folder/gfx/interface/logo_game_static.dds`, `mod_folder/gfx/interface/mltd_logo_animated.dds`, `mod_folder/gfx/interface/mltd_rain_{base,mask,anim1,anim2}.dds` | Main-menu background (1910x1440), header logo (443x303 static as a texture-path override of OWB's, plus the 16-frame 7088x303 uncompressed strip the frontend actually uses) and the rain (four 2560x1792 DXT5 textures). Built by `build_main_menu.py`; see Main menu below. ~32 MB, most of the mod's size. |
 | `mod_folder/thumbnail.gif` | Animated Workshop preview - rain plus a neon breath, 350x350, 32 frames @ 40 ms, ~740 KB. Built by `build_workshop_thumbnail.py`. The **only** thumbnail that ships; the 512x512 still is built repo-side to `event_images/workshop/thumbnail.png`. |
 | `<HOI4>/mod/rising_tide.mod` (not in this repo) | Launcher pointer: `descriptor.mod` plus one `path=` line. Machine-specific, so unversioned; regenerate it after any descriptor change. |
 | `mod_folder/common/national_focus/Mirelurk Tribe (MLT) Focus.txt` | **OVERRIDE** of OWB's file: +5 lines in `mlt_kingdom_of_mlyeh` (two victory-point grants, a spacer, the event and the news delivery), +10 focuses appended (Gifts, five Books, Call, Grand Ritual, Walk, Final Ritual - see Project). |
@@ -83,10 +84,10 @@ No `replace_path` is declared, so this submod merges additively.
 - The submod must load **after** Old World Blues. `dependencies={ "Old World Blues" }` in both `.mod` files is the supported mechanism (OWB's own `doc/OWB_MODDING_README.txt`: "After adding this your mod will load after OWB and won't be replaced by files we have or our replace_paths"); never remove it. In a hand-ordered playset, place this submod **below** Old World Blues - lower loads later. This is not cosmetic: OWB `replace_path`s `common/ideas`, `common/national_focus`, `common/characters`, `common/decisions`, `events` and `history/countries`, so anything we ship there is deleted outright if we load first.
 - Never add `replace_path` - OWB declares 95 of them and ours would delete OWB's matching folder outright.
 
-**Files we override, and the rule for editing them:** copy OWB's bytes (keep whatever BOM / line-ending state OWB's copy has - all seven are CRLF; `history/countries/MLT - Mirelurk Tribe.txt` and `events/nf_mlt.txt` carry a BOM, the rest do not), make the edit, then diff. Five are insertion-only; the characters file also has Anastasia's four replaced lines and M'lulu's two, the focus file **deletes one** OWB line (`add_timed_idea = { idea = itz_civilizing days = 365 }`), and `events/nf_mlt.txt` **deletes 38** (the law block). Re-diff all seven after **every** OWB update (README > Update process).
+**Files we override, and the rule for editing them:** copy OWB's bytes (keep whatever BOM / line-ending state OWB's copy has - all seven are CRLF; `history/countries/MLT - Mirelurk Tribe.txt` and `events/nf_mlt.txt` carry a BOM, the rest do not), make the edit, then diff. Five are insertion-only; the characters file also has Anastasia's four replaced lines and M'lulu's two, the focus file **deletes one** OWB line (`add_timed_idea = { idea = itz_civilizing days = 365 }`), and `events/nf_mlt.txt` **deletes 38** (the law block). Re-diff all seven after **every** OWB update (Update process below).
 
 - `common/national_focus/Mirelurk Tribe (MLT) Focus.txt` - the only way to add focuses to an existing tree (`mlt_nf`). Our changes: two `add_victory_points` lines, a spacer tooltip and the `country_event`/`news_event` lines at the end of `mlt_kingdom_of_mlyeh`'s `completion_reward`, and ten focus blocks (`mltd_gifts_from_the_deep`, the five Books, `mltd_call_of_the_deep_ones` ... `mltd_the_final_ritual`) before the final brace.
-- `common/technologies/tech_fallout_land_doctrine.txt` - shared by every nation. Our changes: inside each of the 16 Outsider Warfare techs (`outsider_warfare_doctrine` ... `master_race_doctrine`), three per-sub-unit blocks `amphibious_beast_creature`, `mltd_deep_ones`, `mltd_star_spawn` with matching values. `mixed_army_doctrine` keeps OWB's existing `amphibious_beast_creature = { armor_value = 0.15 }` and gains only the two new blocks. Workshop item 3010015443 (NCR vs Legion) also overrides this file - see README > Compatibility.
+- `common/technologies/tech_fallout_land_doctrine.txt` - shared by every nation. Our changes: inside each of the 16 Outsider Warfare techs (`outsider_warfare_doctrine` ... `master_race_doctrine`), three per-sub-unit blocks `amphibious_beast_creature`, `mltd_deep_ones`, `mltd_star_spawn` with matching values. `mixed_army_doctrine` keeps OWB's existing `amphibious_beast_creature = { armor_value = 0.15 }` and gains only the two new blocks. Workshop item 3010015443 (NCR vs Legion) also overrides this file - see Compatibility below.
 - `common/characters/MLT.txt` - our changes: `MLT_MLULU` `field_marshal` traits += `animal_friend_trait`, `naval_invader` (both `type = corps_commander` traits; OWB's own M'lulu already carries `swamp_fox` there and OWB's `RCK_roach_king` field marshal carries `animal_friend_trait`); `MLT_CORAL_PROPHET_ANASTASIA` `corps_commander` traits += `animal_friend_trait`, her `army.large` / `civilian.large` portraits `GFX_Portrait_Tribal_Generic_3` -> `GFX_Portrait_mltd_anastasia`, and her `attack_skill` / `planning_skill` raised 1 -> 2 (four replaced lines in total); M'lulu's two `large = GFX_Portrait_MLT_mlulu` lines swapped for the animated sprite with `small = GFX_idea_MLT_mlulu` added under each (six lines where there were four); plus a new **role-less** character block `MLT_DROWNED_HERALD` (name + portraits only) appended at the end. OWB's pattern for late-appearing generals: define the character without a role, recruit him in history (invisible until he has a role), then `add_corps_commander_role = { character = ... traits = {...} skill = ... }` at runtime - 29 OWB event files do exactly this. `recruit_character` outside a history file logs `effectimplementation.cpp: recruit_character should only happen in game/history files` at load. OWB `replace_path`s `common/characters`, so load-after-OWB is mandatory for this file to exist at all.
 - `history/countries/MLT - Mirelurk Tribe.txt` - one inserted line after OWB's last `recruit_character`: `recruit_character = MLT_DROWNED_HERALD`. (OWB `replace_path`s `history/countries`, so this override only exists when loaded after OWB.)
 - `common/continuous_focus/generic.txt` - OWB's only continuous-focus palette, and there is no way to add to a palette from a separate file: a second palette would have to out-score OWB's for MLT and would then *replace* it, costing MLT all 20 of OWB's continuous focuses. So we override the file and insert one focus after `OWB_continuous_mutant`. Same risk profile as the doctrine override - any other submod that ships this file wins or loses it whole.
@@ -240,3 +241,245 @@ OWB's own casing is inconsistent and must be matched exactly when extending it: 
 After every change, launch the game and read `C:\Users\jonat\Documents\Paradox Interactive\Hearts of Iron IV\logs\error.log` (truncated each launch). Localisation key collisions go to `text.log` - the `warbike_unlock_tech` / `_desc` collision there is the intentional `replace/` override. `system.log` lists `Active Mod:` lines, which is how you confirm the submod loaded at all.
 
 To reach the content: play MLT, complete `mlt_kingdom_of_mlyeh` (requires owning all cores of TRL, RBT, CCW, DIS; `mltd.1`/`mltd.2` fire 1-2 days later), then Gifts, the five Books (each needs control of its state), then the centre column (Call needs 1 Book, the Grand Ritual 3, the Walk 5; Call and the Walk each open a one-option event that applies their effects). Round 9 items to confirm first: **M'lulu's portrait rains** in the politics view and the general list (and her small icon is the graded card, not a slice of the strip); the Kingdom focus tooltip lists the two victory-point gains and the map shows M'lyeh at 25 VP; **Summon the Deep Ones stays listed and greyed with a day count** after a summon instead of disappearing, and reappears on day 90; the two Offerings decisions pay caps (top bar updates immediately) and permanent water in the capital; *Feed the Spawning Pools* appears in the continuous-focus palette for MLT (and only MLT), costs 1 political power a day and shows -15 % on all three creature archetypes while selected, and the discount disappears when a different continuous focus is chosen; a Star Spawn division still spawns fully equipped from a 80-piece stockpile. Then: the startup `error.log` no longer has the four `script_enum_equipment_bonus_type` warnings for `mltd_*_equipment*` or the two `recruit_character should only happen in game/history files` lines for `events/mltd_events.txt` (the last play-test's only lines that were ours); the Drowned Herald is absent from the general list at start and appears there, 4 / 4-2-2-1 with his portrait, right after `mltd.1`; the Deep Ones tech shows in the **Reward Technologies** tab; gifts apply the moment the decision is taken and expire after 30 days; a summoned division spawns **with its equipment** (the hidden `Spawn of the Deep` tech appears in the equipment's tooltip; 160 / 80 spare in Logistics) in the state that paid for it; the ritual focus tooltip shows the red modifier lines with values; the ritual idea appears when the focus is *selected* and disappears on completion, and the toll ticks daily in between; the Deep Ones template becomes trainable after focus 4 and its equipment producible; the operation appears once an agency exists (La Resistance) and MLT has a network in a neighbour with > 1,500 manpower.
+
+## Install
+
+1. Copy `mod_folder/descriptor.mod` to `C:\Users\<you>\Documents\Paradox Interactive\Hearts of Iron IV\mod\rising_tide.mod`.
+2. Append one line to that copy: `path="C:/Users/<you>/Documents/rising-tide/mod_folder"` - absolute, **forward slashes**, no trailing slash, pointing at `mod_folder`. It is machine-specific, which is why it is not in the repo. (Already installed on this machine.)
+3. In the launcher: **Reload Installed Mods**, then add both this mod and Old World Blues to a playset and enable both.
+4. **Load order.** `dependencies={ "Old World Blues" }` in *both* `mod_folder/descriptor.mod` and the installed launcher `.mod` is what makes this mod load **after** OWB, so our files win on any overlap and OWB's 95 `replace_path` entries do not delete ours - see OWB's own guide, `<OWB>/doc/OWB_MODDING_README.txt`: "After adding this your mod will load after OWB and won't be replaced by files we have or our replace_paths". Keep that block in both files. If you also order the playset by hand, put Rising Tide **below** Old World Blues - lower in the list loads later.
+
+## Workshop art
+
+`build_workshop_thumbnail.py` renders `event_images/workshop/thumbnail.png` (512x512, ~400 KB; Steam caps the
+preview at 1 MB) plus 128 px and 77 px previews under `event_images/workshop/`, which are the sizes
+the Workshop grid and list actually show. **Only the GIF ships**; the still is kept repo-side
+because it is what the GIF is graded against and the image to hand anyone who wants a static one.
+
+There is deliberately **no `picture=` key** in either `.mod` file, and no `thumbnail.png` at the mod
+root. That mirrors *The Fire Rises* (Workshop item 3350890356), the one installed mod with a working
+animated Workshop preview, exactly. The first publish here did set `picture="thumbnail.png"` and the
+Workshop item took the still image; pointing the key at the `.gif` instead is untried, and no
+installed mod does it - all 11 that set `picture=` use a `.png`. If a publish still lands a still
+image, set the preview by hand on the Workshop page: that needs no re-upload and definitely accepts
+a GIF.
+
+The layout is measured off ten installed OWB submod thumbnails rather than invented. All of them
+share one formula: a painted background, a band of character busts across the upper third, and a
+**neon marquee** across the lower middle - a chamfered hexagon whose outline is a glowing tube with
+white fluorescent-tube gaps in the centre of its top and bottom edges, carrying the shared
+"Old World Blues" wordmark with the submod's own name beneath it. East Coast Rebirth and Rustbelt
+Rising also hang a weathered road sign below it, which is where our "Welcome to M'lyeh" plate comes
+from.
+
+No mod ships that wordmark as a reusable asset, so `event_images/workshop/owb_wordmark.png` was
+matted out of *OWB - Fountain of Dreams*' thumbnail - the only one with light lettering on a dark
+panel, and so the only one that mattes cleanly (the rust-panel versions do not separate). It arrives
+silver with a violet keyline, which is that submod's own treatment; `retint_wordmark()` maps it to
+the gold that Old World Blues, East Coast Rebirth, Rustbelt Rising and Over The Horizon all use.
+`--silver` keeps the silver, which NCR-vs-Legion also uses.
+
+Tunables live at the top of the script: `SATURATION` (the references sit at mean chroma 0.25-0.47),
+`WORDMARK_GOLD`, and the layout block `SX0/SX1/SY0/SY1/CH` (the hexagon), `WM_*` / `SUB_*` (the two
+type lines) and `PLATE_*` (the road sign).
+
+### The animated preview
+
+`python build_workshop_thumbnail.py --gif` additionally renders
+`mod_folder/thumbnail.gif`: the same image with rain falling and the neon
+breathing, 350x350, 32 frames at 40 ms (a 1.28 s loop), ~740 KB. Steam accepts an
+animated GIF as a Workshop preview image - *The Fire Rises* (Workshop item
+3350890356) is the OWB-adjacent precedent, and it sets the budget: **1 MiB, moving
+or not**, which is the only thing deciding the size, frame count and palette.
+
+Three things keep it inside that budget, and all three are load-bearing:
+
+- **Frames are delta-encoded** against what the viewer is still looking at, not
+  against the previous frame - comparing per-frame would let a pixel creep away
+  one `GIF_TOLERANCE` step at a time and the error would accumulate over the loop.
+  About 9 % of each frame is redrawn; the rest is transparent over a non-disposed
+  canvas.
+- **Dithering is off.** Its noise is random, and random noise is exactly what
+  run-length compression cannot pack.
+- **The palette is chroma-weighted.** Median cut allocates entries by pixel count,
+  and this image is overwhelmingly low-chroma teal, so a plain palette starves the
+  gold wordmark, the violet outer tube and M'lulu's green eyes - the three things
+  carrying the identity - and they snap to grey-blue. Re-feeding the most saturated
+  decile (`CHROMA_WEIGHT`) fixes it.
+
+The rain loop closes because the streaks are drawn into a tile periodic over
+`(W/2, W)` and rolled by a whole number of pixels per frame whose total over the
+loop is an exact multiple of both periods; `rain_tile()` asserts this. The neon
+breath uses `0.5 - 0.5*cos(2*pi*f/frames)`, which is 0 with zero slope at both
+ends, so any frame count closes.
+
+The GIF is the only thumbnail in `mod_folder/`, and there is no `picture=` key -
+see **Workshop art** above for why, and for the fallback if a publish still lands
+a still image. It costs every subscriber ~740 KB of download.
+
+### Page images
+
+The thumbnail is one image; the **Additional Previews** gallery on the item page is another thing
+entirely, and lives in `workshop_page/`:
+
+```
+python build_workshop_page.py "<screenshot>" --name 02_something
+```
+
+1920x1080, scaled preserving aspect and centre-cropped only if the source is not already 16:9 (game
+screenshots at 2560x1440 are, so nothing is cropped). **JPEG, not PNG** - Steam caps a Workshop
+image at 1 MiB and a 1920x1080 PNG of a scene this grainy is ~2.9 MB, so PNG cannot be used at this
+size; quality is searched down from 95 until the file fits 900 KB, at 4:4:4 because these frames are
+mostly UI text and thin neon.
+
+**Read `event_images/SOURCES.md` before uploading.** The title image is built on the same
+unverified third-party art as the event pictures, and it is the one asset that is public before
+anyone installs the mod.
+
+## Main menu
+
+`python build_main_menu.py` replaces the Old World Blues main menu with this mod's:
+
+| Output | What | Size |
+| --- | --- | --- |
+| `gfx/loadingscreens/mltd_main.dds` | The background - `event_images/call_src.jpg`, the flooded street from *Call of the Deep Ones*, graded colder | 1910x1440, 10.5 MB |
+| `gfx/interface/logo_game_static.dds` | The header logo - the *Rising Tide* marquee, transparent | 443x303, 0.5 MB |
+| `gfx/interface/mltd_logo_animated.dds` | The same marquee as a 16-frame strip, neon breathing | 7088x303 uncompressed, 8.2 MB |
+| `gfx/interface/mltd_rain_anim{1,2}.dds` | Two scrolling rain sheets | 2560x1792 DXT5, 4.4 MB each |
+| `gfx/interface/mltd_rain_{base,mask}.dds` | The sprite's rect: transparent base, flat mask | 2560x1792 DXT5, 4.4 MB each |
+
+**1910x1440 and 443x303 are not choices** - they are what OWB's `load_colorado.dds` and
+`logo_game_static.dds` are, and tnkd's `tnk_main.dds` matches the first. The frontend scales the
+background to *cover*, so on a 16:9 screen only the middle ~1074 rows are ever seen; the painting
+is placed exactly there and the bands above and below are mirrored, blurred extension for 4:3.
+
+Three script files do the wiring, and they are deliberately separable:
+
+- `interface/z_fallout_ui.gfx` - **OVERRIDE** of OWB's file, one line changed: `GFX_frontend_bg`
+  now points at `mltd_main.dds`. This is what tnkd does. Only OWB and tnkd ship this file, so the
+  collision risk is low. (Copy OWB's *current* bytes when re-diffing - tnkd's copy is stale and is
+  missing `GFX_generic_text_bg_48_owb`.)
+- `interface/mltd.gfx` - **new sprite** `GFX_frontend_bg_mltd_rain`, cloned from OWB's
+  `GFX_frontend_bg_snow_anim`.
+- `interface/frontendmainview.gui` - **OVERRIDE** of OWB's file, re-enabling the overlay `iconType`
+  that OWB ships commented out and pointing it at our rain sprite. **This file is the only reason
+  the rain moves, and the only high-collision file here** - OWB, East Coast Rebirth, Enclave Reborn
+  Redux, Rustbelt Rising and Monarchs and Margaritas all ship it, and whichever loads last wins the
+  whole main menu. Delete our copy and the background and logo still work; only the rain stops.
+  (ECR, Rustbelt and Monarchs override it for exactly this purpose, each pointing at their own
+  `GFX_frontend_bg_*`, so this is the house idiom and the "one menu wins" outcome is unavoidable.)
+
+The header logo ships twice. The static texture is a **texture-path override** of OWB's
+`gfx/interface/logo_game_static.dds`, the way tnkd does it - no `.gfx` change (NCR-vs-Legion,
+Enclave Reborn Redux and Fountain of Dreams also ship that path, so last loaded wins). Our
+`frontendmainview.gui` then points the logo at `GFX_frontend_game_logo_mltd_animated` instead, a
+16-frame strip at 8 fps whose neon swells and settles on a raised cosine - 0 with zero slope at
+both ends, so the loop closes. The static file is the fallback if another submod's gui wins.
+
+**The strip is uncompressed, like OWB's own `logo_game_animated.dds`.** DXT5 costs a quarter of the
+size but quantises colour per 4x4 block, and a block straddling a bright neon edge and the
+transparent black outside it gets endpoints spanning cyan to black: measured error on visible pixels
+was mean 6 and peak **164**, which shows as a speckled fringe along every tube. Frames are traded
+away instead - the breath is a slow, smooth ramp, so 16 frames step by under 2 luma levels each and
+the joins are invisible. `LOGO_FRAMES` and `LOGO_FPS` must match `noOfFrames` and
+`animation_rate_fps` in `interface/mltd.gfx`.
+
+**The marquee's glow needs a bigger canvas than the thumbnail gives it.** The sign is laid out to
+sit 18 px from the edge of a 512-wide thumbnail it is meant to bleed off, but its outer bloom is a
+Gaussian of sigma 32, so on that canvas the bloom is cut flat - which as a logo showed up as a hard
+vertical edge where alpha jumped 0 to 224 in a single column. `padded_sign_canvas` re-renders the
+same sign on a canvas widened by `LOGO_PAD`, shifting every absolute coordinate the sign builder
+reads (`W`, `HEXW`, `SY0/SY1/SYM`, `GC`, `WM_TOP`, `SUB_TOP`); sizes and differences are
+translation-invariant and are left alone. The crop then crosses the bloom at `LOGO_EDGE`, low enough
+that the step is invisible - the build prints the strongest alpha left on the crop border, which
+should read ~0.02 rather than ~0.9.
+
+### How the rain works
+
+`animation = {}` blocks attach **only to `spriteType`** - across vanilla and all 25 installed mods
+there are ~56,000 of them and not one sits on a `corneredTileSpriteType`, which is what
+`GFX_frontend_bg` is. So the rain cannot be an animation on the background itself; it has to be a
+second, fully transparent sprite laid over it, which is precisely how OWB's (disabled) snow works.
+Ours reuses OWB's `bg_snow_anim_background.dds` (alpha 0 everywhere, so only the animations draw)
+and `bg_snow_anim_mask.dds` (a flat 191, so they draw at 75% over the whole screen) unchanged and
+by path, without copying either.
+
+Colour lives in RGB and shape lives in **alpha**, which is how OWB's snow textures are built.
+Streaks are stamped with modular indexing so they wrap in both axes - a seam would otherwise sweep
+across the screen once per cycle - and tapered along their length so they fade in and out instead
+of ending square. Coverage is 2.4% and 4.9% of alpha, against OWB's snow at 1.7% and 3.2%.
+
+### Why the rain textures are taller than the screen
+
+The overlay sprite is drawn **unscaled, at exactly the size of its BASE texture** - the one named by
+`texturefile`, *not* the scrolling animation textures, which are sampled inside the rect the base
+defines. It is anchored to the top-left of the `frontend_background` container, and that container
+is 1920x1440 scaled to **cover**, so on anything wider than 4:3 it overflows vertically and its
+top-left sits **above** the top of the screen:
+
+```
+scale    = max(W / 1920, H / 1440)
+overflow = (1440 * scale - H) / 2      # 180 px at 1080p, 240 px at 1440p
+```
+
+A sprite only `H` tall therefore runs out `overflow` px short of the bottom, leaving an empty band.
+That is why the base and mask here are **ours and 2560x1792** rather than OWB's
+`bg_snow_anim_background.dds` and `bg_snow_anim_mask.dds`, which are 2560x1440 and 240 px short on a
+1440p screen - and almost certainly why OWB ships its snow overlay commented out, since it has
+exactly the same shortfall.
+
+This was established by experiment, not from documentation: enlarging the animation sheets alone
+changed nothing, which is what identified the base texture as the thing that sets the rect.
+
+For 16:9 the requirement is `height >= 7/6 * H` and `width >= W`. At the fixed 2560 width the worst
+case is 1440p, needing 1680; 1792 leaves margin for an overflow up to 352 px. **4K (needs 3840x2520)
+and 21:9 (needs 3440x2010) still fall short** - raise `RAIN_W` and `RAIN_H` in
+`build_main_menu.py` and nothing else; streak counts are per 2560x1440 and rescale with the canvas,
+so the rain does not get heavier. The cost is four textures, so 3840x2560 would be ~9.8 MB each
+instead of 4.4.
+
+`build_main_menu.py --preview` models this geometry rather than guessing at it: it reads the rect
+off the base texture that actually ships, prints the rows and columns covered, and warns if they do
+not reach every edge. Pass a different `screen=` to `build_preview()` to check another display.
+
+`animationtexturescale` must stay in step with `RAIN_SCALE` in `build_main_menu.py`, which sizes
+the streaks for it: the sprite magnifies by `1 / scale`, so at 0.75 a 60 px streak is 80 px on
+screen. **`animationrotation` is the one parameter here that cannot be checked without launching
+the game** - whether it rotates the texture along with the scroll direction is unknown, so the
+streaks are drawn vertical and kept short, which reads as rain either way. 205 and 212 sit just
+inside the range OWB's snow uses (210 and 220), which is known to fall downward.
+
+## Update process
+
+OWB updates silently invalidate every file we override, so re-diff after each one.
+
+1. Get [WinMerge](https://winmerge.org/).
+2. Compare every file in the submod against its OWB counterpart and update.
+   1. 1st folder: `C:\Program Files (x86)\Steam\steamapps\workshop\content\394360\2265420196\`
+   2. 2nd folder: `C:\Users\jonat\Documents\rising-tide\mod_folder\`
+   3. Untick `View > Show Left Unique Items`.
+   4. The six overrides (`Mirelurk Tribe (MLT) Focus.txt`, `continuous_focus/generic.txt`, `tech_fallout_land_doctrine.txt`, `common/characters/MLT.txt`, `history/countries/MLT - Mirelurk Tribe.txt`, `common/script_enums.txt`) must end up as OWB's new file **plus only our insertions** (plus Anastasia's replaced lines) - keep each file's original line endings and BOM state.
+   5. Delete the `.bak` files afterwards.
+3. Play the game to test, then read `...\Hearts of Iron IV\logs\error.log` (and `text.log` for localisation - the `warbike_unlock_tech` collision there is intentional) and confirm `system.log` lists both `Old World Blues` and `OWB - Rising Tide` as active mods.
+
+## Compatibility
+
+- Any submod that ships its own `common/continuous_focus/generic.txt` conflicts: whichever loads later wins the whole palette, so either its continuous focuses or *Feed the Spawning Pools* will be missing.
+- The [OWB Official NCR versus Caesar's Legion submod](https://steamcommunity.com/sharedfiles/filedetails/?id=3010015443) ships its own `Mirelurk Tribe (MLT) Focus.txt` **and** its own `tech_fallout_land_doctrine.txt`. Rising Tide overrides both; whichever mod loads later wins each whole file, so run one or the other, not both.
+- With *OWB: Ultimate Tech Compatibility Mod* (3462816659), which re-lays the whole Reward Technologies tab, the Deep Ones / Star Spawn techs land on its `robco_unlock_tech` (4,24) and `FNR_bollinger_shipyards_unlock_tech` (4,28) in its "Schematics" row and overlap them. Cosmetic only - both stay grantable. No slot next to Faeries is free under both layouts.
+- With *OWB Tech Expansion* (2821243420) loaded after this mod, its `countrytechtreeview.gui` has no `warbike_unlock_tech_tree` gridbox, so neither reward tech renders in the tab (they still work when granted by focus).
+- The intelligence operation needs the La Resistance DLC; without it the file loads silently and the operation never appears.
+
+## Plan
+
+### High priority
+
+- [ ] Re-test round 9: M'lulu's portrait rains and her small icon is right; the Deep Ones summon stays visible and greyed with a countdown instead of vanishing; the two Offerings decisions pay caps and capital water; *Feed the Spawning Pools* shows up in the continuous-focus palette and discounts creature equipment while selected; the Kingdom focus adds the victory points; a Star Spawn division still spawns fully equipped now that a battalion needs ten pieces instead of forty.
+- [ ] Re-test the startup fixes: `error.log` must no longer list the four `script_enum_equipment_bonus_type` warnings or the two `recruit_character` errors for `events/mltd_events.txt` (the only lines in the last log that were ours), and the Drowned Herald must show up as a general once the *Kingdom of M'lyeh* event fires.
+- [ ] Re-test after round 3: a summoned / focus-spawned division arrives **with** its equipment (160 / 80 spare in Logistics, hidden `Spawn of the Deep` tech in the equipment tooltip); the Grand / Final Ritual focus tooltips show the red modifier lines with values; the five focuses render as a column below the tree with no overlaps and no line from the Kingdom to Gifts; then the rest of the chain - Deep Ones tech in the Reward Technologies tab, gifts apply instantly and expire at 30 days, the toll ticks daily, the Deep Ones template is trainable after *The Deep Ones Walk*, the operation appears with an agency.
+- [ ] Tune the toll and the population gates (`mltd_ritual_toll_factor`, 100,000 / 200,000 - see CLAUDE.md > The rituals) once you have seen them in play.
+
+### Medium priority
+
+- [ ] Bespoke art: focus icons (currently reused OWB sprites), a decision-category banner, cult-flavoured operation phases, and a properly repainted M'lulu (the shipped one is a colour grade).
+- [x] Add the Workshop preview image and the matching `picture=` key in both `descriptor.mod` and the installed launcher `.mod`. Published as Workshop item [3798403425](https://steamcommunity.com/sharedfiles/filedetails/?id=3798403425); the launcher wrote `remote_file_id` into both files on upload. Image licences in `event_images/SOURCES.md` are **still unresolved**.
