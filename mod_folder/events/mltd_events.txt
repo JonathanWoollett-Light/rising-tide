@@ -2,7 +2,11 @@ add_namespace = mltd
 
 # The Kingdom of M'lyeh rises (fired by focus mlt_kingdom_of_mlyeh)
 country_event = {
-	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.1" }
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.1"
+		# keeps the first flavour event (mltd.9-18) from arriving on the heels of the Kingdom
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 90 } }
+	}
 	id = mltd.1
 	title = mltd.1.t
 	desc = mltd.1.d
@@ -175,5 +179,845 @@ country_event = {
 		custom_effect_tooltip = mltd_star_spawn_decision_unlocked_tt
 		custom_effect_tooltip = mltd_deep_ones_summon_replaced_tt
 		set_country_flag = mltd_star_spawn_summon_unlocked
+	}
+}
+
+# ---- Flavour events mltd.9-18: fired at random by on_monthly_MLT (common/on_actions/mltd_on_actions.txt), gated by mltd_flavour_can_fire
+
+# Lovecraftian flavour events mltd.9-18. Drawn each month from the random_events pool in on_monthly_MLT
+# (common/on_actions/mltd_on_actions.txt); each is fire_only_once, gated by mltd_flavour_can_fire
+# (common/scripted_triggers/mltd_scripted_triggers.txt), and sets the shared 120-day cooldown flag
+# mltd_flavour_cooldown the moment it fires. Effects stay at or below OWB's flavour.2 (events/flavour_events.txt:52-73).
+
+# The Investigator (The Sinking City homage): a mainland detective takes a room at Mireport
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.9"
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 } }
+	}
+	id = mltd.9
+	title = mltd.9.t
+	desc = mltd.9.d
+	picture = GFX_event_foggy_flooded_boston_city
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+	}
+
+	option = {
+		name = mltd.9.a
+		ai_chance = {
+			base = 2
+		}
+		add_political_power = 25
+	}
+	option = {
+		name = mltd.9.b
+		ai_chance = {
+			base = 1
+		}
+		add_war_support = 0.02
+		add_manpower = 20
+	}
+	option = {
+		name = mltd.9.c
+		trigger = {
+			set_temp_variable = { caps_diff = -10 }
+			caps_cost_trigger = yes
+		}
+		ai_chance = {
+			base = 1
+		}
+		set_temp_variable = { caps_to_add = -10 }
+		add_caps = yes
+		add_stability = 0.03
+	}
+}
+
+# The Aberrant Catch (Dredge homage): the fog follows a fishing boat home with something in its net
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.10"
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 } }
+	}
+	id = mltd.10
+	title = mltd.10.t
+	desc = mltd.10.d
+	picture = GFX_event_foggy_boathouse_harbor
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+	}
+
+	option = {
+		name = mltd.10.a
+		ai_chance = {
+			base = 2
+		}
+		add_timed_idea = {
+			idea = mltd_flavour_strange_harvest
+			days = 90
+		}
+	}
+	option = {
+		name = mltd.10.b
+		ai_chance = {
+			base = 1
+		}
+		add_stability = 0.02
+	}
+	option = {
+		name = mltd.10.c
+		ai_chance = {
+			base = 1
+		}
+		set_temp_variable = { caps_to_add = 15 }
+		add_caps = yes
+		add_stability = -0.01
+	}
+}
+
+# The M'lyeh Look (allusion to The Shadow over Innsmouth): the shore children change, and the caravans notice
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.11"
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 } }
+	}
+	id = mltd.11
+	title = mltd.11.t
+	desc = mltd.11.d
+	picture = GFX_event_sub_generic_fish_town
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+		has_country_flag = mltd_deep_ones_summon_unlocked
+	}
+
+	option = {
+		name = mltd.11.a
+		ai_chance = {
+			base = 1
+		}
+		add_war_support = 0.03
+		add_stability = -0.02
+	}
+	option = {
+		name = mltd.11.b
+		ai_chance = {
+			base = 1
+		}
+		add_political_power = -15
+		set_temp_variable = { caps_to_add = 10 }
+		add_caps = yes
+	}
+}
+
+# A Colour from the Sky (The Colour Out of Space): a star-stone falls into a spawning pool
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.12"
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 } }
+	}
+	id = mltd.12
+	title = mltd.12.t
+	desc = mltd.12.d
+	picture = GFX_event_flooded_radioactive_vault
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+	}
+
+	option = {
+		name = mltd.12.a
+		ai_chance = {
+			base = 2
+		}
+		add_political_power = -20
+		add_stability = 0.03
+	}
+	option = {
+		name = mltd.12.b
+		ai_chance = {
+			base = 1
+		}
+		add_timed_idea = {
+			idea = mltd_flavour_unnamed_colour
+			days = 120
+		}
+	}
+}
+
+# The Castaway's Monolith (Dagon): the sea bed rises for one night and gives back a raving sailor
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.13"
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 } }
+	}
+	id = mltd.13
+	title = mltd.13.t
+	desc = mltd.13.d
+	picture = GFX_event_sub_generic_wreck
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+	}
+
+	option = {
+		name = mltd.13.a
+		ai_chance = {
+			base = 1
+		}
+		add_stability = 0.02
+	}
+	option = {
+		name = mltd.13.b
+		ai_chance = {
+			base = 2
+		}
+		add_political_power = 25
+	}
+}
+
+# Pages from Point Lookout (Fallout 3's Krivbeknih; OWB lore at ORO/focus_ORO_l_english.yml:1070): the lost Blackhall transcription surfaces
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.14"
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 } }
+	}
+	id = mltd.14
+	title = mltd.14.t
+	desc = mltd.14.d
+	picture = GFX_event_LAC_book
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+		check_variable = { mltd_books_read > 0 }
+	}
+
+	option = {
+		name = mltd.14.a
+		ai_chance = {
+			base = 1
+		}
+		add_political_power = 40
+		add_stability = -0.03
+	}
+	option = {
+		name = mltd.14.b
+		ai_chance = {
+			base = 1
+		}
+		add_stability = 0.03
+	}
+	option = {
+		name = mltd.14.c
+		ai_chance = {
+			base = 2
+		}
+		set_temp_variable = { caps_to_add = 20 }
+		add_caps = yes
+	}
+}
+
+# The Lamp of Kingsport (The Festival; nod to Fallout 4's Kingsport Lighthouse): robed pilgrims join the winter rite
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.15"
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 } }
+	}
+	id = mltd.15
+	title = mltd.15.t
+	desc = mltd.15.d
+	picture = GFX_event_night_tower
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+	}
+
+	option = {
+		name = mltd.15.a
+		ai_chance = {
+			base = 2
+		}
+		add_stability = 0.03
+		add_political_power = -10
+	}
+	option = {
+		name = mltd.15.b
+		ai_chance = {
+			base = 1
+		}
+		army_experience = 10
+		add_manpower = -50
+	}
+}
+
+# The Painter of the Deep (Pickman's Model; nod to Fallout 4's Pickman Gallery): murals painted from life
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.16"
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 } }
+	}
+	id = mltd.16
+	title = mltd.16.t
+	desc = mltd.16.d
+	picture = GFX_event_nor_horror
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+		has_country_flag = mltd_deep_ones_summon_unlocked
+	}
+
+	option = {
+		name = mltd.16.a
+		ai_chance = {
+			base = 1
+		}
+		add_war_support = 0.03
+		add_stability = -0.02
+	}
+	option = {
+		name = mltd.16.b
+		ai_chance = {
+			base = 1
+		}
+		add_stability = 0.02
+		add_political_power = -10
+	}
+}
+
+# Voices in the Static (allusion to The Whisperer in Darkness): a buzzing voice offers the oracles a journey
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.17"
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 } }
+	}
+	id = mltd.17
+	title = mltd.17.t
+	desc = mltd.17.d
+	picture = GFX_event_loi_radio
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+	}
+
+	option = {
+		name = mltd.17.a
+		ai_chance = {
+			base = 2
+		}
+		add_stability = 0.02
+	}
+	option = {
+		name = mltd.17.b
+		ai_chance = {
+			base = 1
+		}
+		add_political_power = 30
+		add_stability = -0.02
+	}
+}
+
+# The Hamlet That Would Not Hunt (Bloodborne's Fishing Hamlet homage): finned shore-folk beg to be taken in
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.18"
+		hidden_effect = { set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 } }
+	}
+	id = mltd.18
+	title = mltd.18.t
+	desc = mltd.18.d
+	picture = GFX_event_sub_generic_coast
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+		capital_scope = {
+			is_fully_controlled_by = ROOT
+		}
+	}
+
+	option = {
+		name = mltd.18.a
+		ai_chance = {
+			base = 2
+		}
+		capital_scope = {
+			set_temp_variable = { pop_add = 500 }
+			add_state_population = yes
+		}
+		add_stability = -0.01
+	}
+	option = {
+		name = mltd.18.b
+		ai_chance = {
+			base = 1
+		}
+		add_war_support = 0.02
+	}
+}
+
+# ---- Books of M'lyeh expeditions: each Book focus fires the chain's first event; the last event reads the Book
+# (set_country_flag = mltd_<n>_book_found, mltd_books_read + 1), which is what unlocks the gift decision.
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.101" }
+	id = mltd.101
+	title = mltd.101.t
+	desc = mltd.101.d
+	picture = GFX_event_graveyard_church_ruins
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.101.a
+		ai_chance = { base = 1 }
+		add_war_support = 0.03
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.102 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.101.b
+		ai_chance = { base = 1 }
+		add_stability = 0.03
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.102 days = 7 random_days = 7 } }
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.102" }
+	id = mltd.102
+	title = mltd.102.t
+	desc = mltd.102.d
+	picture = GFX_event_sub_generic_marsh
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.102.a
+		ai_chance = { base = 1 }
+		army_experience = 15
+		add_stability = -0.02
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.103 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.102.b
+		ai_chance = { base = 1 }
+		add_manpower = 250
+		add_political_power = -15
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.103 days = 7 random_days = 7 } }
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.103" }
+	id = mltd.103
+	title = mltd.103.t
+	desc = mltd.103.d
+	picture = GFX_event_LAC_book
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.103.a
+		ai_chance = { base = 1 }
+		hidden_effect = {
+			set_country_flag = mltd_first_book_found
+			add_to_variable = { mltd_books_read = 1 }
+		}
+		custom_effect_tooltip = mltd_tide_gift_unlocked_tt
+		set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_army_attack_factor_tt }
+		custom_effect_tooltip = mltd_book_found_read_tt
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.201" }
+	id = mltd.201
+	title = mltd.201.t
+	desc = mltd.201.d
+	picture = GFX_event_sub_generic_radioactive_cave
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.201.a
+		ai_chance = { base = 1 }
+		add_war_support = 0.02
+		army_experience = 10
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.202 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.201.b
+		ai_chance = { base = 1 }
+		add_stability = 0.02
+		add_political_power = -15
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.202 days = 7 random_days = 7 } }
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.202" }
+	id = mltd.202
+	title = mltd.202.t
+	desc = mltd.202.d
+	picture = GFX_event_flooded_underground_subway_mirelurk
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.202.a
+		trigger = {
+			has_character = MLT_TERROR
+		}
+		ai_chance = { base = 1 }
+		retire_character = MLT_TERROR
+		army_experience = 10
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.203 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.202.b
+		trigger = {
+			has_character = MLT_TIDE_HUNTER
+		}
+		ai_chance = { base = 1 }
+		retire_character = MLT_TIDE_HUNTER
+		add_war_support = 0.02
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.203 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.202.c
+		trigger = {
+			NOT = { has_character = MLT_TERROR }
+			NOT = { has_character = MLT_TIDE_HUNTER }
+		}
+		ai_chance = { base = 1 }
+		add_manpower = -500
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.203 days = 7 random_days = 7 } }
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.203" }
+	id = mltd.203
+	title = mltd.203.t
+	desc = mltd.203.d
+	picture = GFX_event_sub_generic_hunting_mirelurk
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.203.a
+		ai_chance = { base = 1 }
+		hidden_effect = {
+			set_country_flag = mltd_second_book_found
+			add_to_variable = { mltd_books_read = 1 }
+		}
+		custom_effect_tooltip = mltd_shell_gift_unlocked_tt
+		set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_army_defence_factor_tt }
+		custom_effect_tooltip = mltd_book_found_read_tt
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.301" }
+	id = mltd.301
+	title = mltd.301.t
+	desc = mltd.301.d
+	picture = GFX_event_night_tower
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.301.a
+		ai_chance = { base = 1 }
+		add_political_power = 30
+		add_stability = -0.02
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.302 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.301.b
+		ai_chance = { base = 1 }
+		add_manpower = -250
+		add_stability = 0.03
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.302 days = 7 random_days = 7 } }
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.302" }
+	id = mltd.302
+	title = mltd.302.t
+	desc = mltd.302.d
+	picture = GFX_event_nor_horror
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.302.a
+		trigger = {
+			has_character = MLT_KNOWS
+		}
+		ai_chance = { base = 1 }
+		retire_character = MLT_KNOWS
+		add_political_power = 25
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.303 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.302.b
+		trigger = {
+			has_character = MLT_MUTANTS
+		}
+		ai_chance = { base = 1 }
+		retire_character = MLT_MUTANTS
+		army_experience = 10
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.303 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.302.c
+		trigger = {
+			NOT = { has_character = MLT_KNOWS }
+			NOT = { has_character = MLT_MUTANTS }
+		}
+		ai_chance = { base = 1 }
+		add_stability = -0.03
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.303 days = 7 random_days = 7 } }
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.303" }
+	id = mltd.303
+	title = mltd.303.t
+	desc = mltd.303.d
+	picture = GFX_event_LAC_book
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.303.a
+		ai_chance = { base = 1 }
+		hidden_effect = {
+			set_country_flag = mltd_third_book_found
+			add_to_variable = { mltd_books_read = 1 }
+		}
+		custom_effect_tooltip = mltd_current_gift_unlocked_tt
+		set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_army_org_factor_tt }
+		custom_effect_tooltip = mltd_book_found_read_tt
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.401" }
+	id = mltd.401
+	title = mltd.401.t
+	desc = mltd.401.d
+	picture = GFX_event_sub_generic_sea_shanty
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.401.a
+		ai_chance = { base = 2 }
+		add_war_support = 0.03
+		add_stability = -0.01
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.402 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.401.b
+		trigger = {
+			set_temp_variable = { caps_diff = -50 }
+			caps_cost_trigger = yes
+		}
+		ai_chance = { base = 1 }
+		set_temp_variable = { caps_to_add = -50 }
+		add_caps = yes
+		add_stability = 0.03
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.402 days = 7 random_days = 7 } }
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.402" }
+	id = mltd.402
+	title = mltd.402.t
+	desc = mltd.402.d
+	picture = GFX_event_sub_generic_fish_town
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.402.a
+		ai_chance = { base = 1 }
+		capital_scope = {
+			set_temp_variable = { pop_add = 500 }
+			add_state_population = yes
+		}
+		add_stability = -0.02
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.403 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.402.b
+		ai_chance = { base = 1 }
+		add_stability = 0.02
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.403 days = 7 random_days = 7 } }
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.403" }
+	id = mltd.403
+	title = mltd.403.t
+	desc = mltd.403.d
+	picture = GFX_event_LAC_book
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.403.a
+		ai_chance = { base = 1 }
+		hidden_effect = {
+			set_country_flag = mltd_fourth_book_found
+			add_to_variable = { mltd_books_read = 1 }
+		}
+		custom_effect_tooltip = mltd_brood_gift_unlocked_tt
+		set_temp_variable = { mltd_tt = 0.30 tooltip = mltd_conscription_factor_tt }
+		custom_effect_tooltip = mltd_book_found_read_tt
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.501" }
+	id = mltd.501
+	title = mltd.501.t
+	desc = mltd.501.d
+	picture = GFX_event_foggy_boathouse_harbor
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.501.a
+		ai_chance = { base = 1 }
+		add_war_support = 0.03
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.502 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.501.b
+		ai_chance = { base = 1 }
+		add_stability = 0.03
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.502 days = 7 random_days = 7 } }
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.502" }
+	id = mltd.502
+	title = mltd.502.t
+	desc = mltd.502.d
+	picture = GFX_event_BRK_shipwreck
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.502.a
+		trigger = {
+			has_character = MLT_KILLCLAW
+		}
+		ai_chance = { base = 1 }
+		retire_character = MLT_KILLCLAW
+		add_war_support = 0.02
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.503 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.502.b
+		trigger = {
+			has_character = MLT_KING
+		}
+		ai_chance = { base = 1 }
+		retire_character = MLT_KING
+		add_political_power = 25
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.503 days = 7 random_days = 7 } }
+	}
+	option = {
+		name = mltd.502.c
+		trigger = {
+			NOT = { has_character = MLT_KILLCLAW }
+			NOT = { has_character = MLT_KING }
+		}
+		ai_chance = { base = 1 }
+		add_stability = -0.03
+		custom_effect_tooltip = mltd_expedition_continues_tt
+		hidden_effect = { country_event = { id = mltd.503 days = 7 random_days = 7 } }
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.503" }
+	id = mltd.503
+	title = mltd.503.t
+	desc = mltd.503.d
+	picture = GFX_mltd_event_final_ritual
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.503.a
+		ai_chance = { base = 1 }
+		hidden_effect = {
+			set_country_flag = mltd_fifth_book_found
+			add_to_variable = { mltd_books_read = 1 }
+		}
+		custom_effect_tooltip = mltd_abyss_gift_unlocked_tt
+		set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_stability_factor_tt }
+		custom_effect_tooltip = mltd_book_found_read_tt
 	}
 }

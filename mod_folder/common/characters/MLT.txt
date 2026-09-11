@@ -406,4 +406,37 @@ characters = {
 			}
 		}
 	}
+
+	# Rising Tide: the Esoteric Order's spymaster. OWB has no political_advisor slot, so he is a
+	# cultural_advisor, like most of OWB's intelligence advisors. Hidden without La Resistance (the slots
+	# would do nothing) and hireable once MLT has an agency.
+	MLT_OLD_CASTRO = {
+		name = MLT_OLD_CASTRO_NAME
+		portraits = {
+			civilian = {
+				small = GFX_idea_generic_advisor26
+			}
+		}
+		advisor = {
+			slot = cultural_advisor
+			idea_token = MLT_old_castro_cultural_advisor
+			desc = MLT_OLD_CASTRO_DESC
+			allowed = {
+				original_tag = MLT
+			}
+			visible = {
+				has_dlc = "La Resistance"
+			}
+			available = {
+				has_intelligence_agency = yes
+			}
+			traits = {
+				mltd_keeper_of_the_order
+			}
+			cost = 150
+			ai_will_do = {
+				factor = 10
+			}
+		}
+	}
 }

@@ -22,17 +22,12 @@ and encoding rules, the OWB update process and known conflicts — is in [`CLAUD
 
 ### Ideas
 
-- Add more references to lovecraft peices of media, possibly just a set of events which can randomly
-  trigger have some small effect but more just adding flavour e.g. an event documenting an annoying
-  detective investigating the cult (The Sinking City)
 - Add some more cult mechanics, possibly integrating with the intelligence agency where you can set
   up cult cells in other nations.
-- Add small specific focus sub-trees regarding large conflicts e.g. Brotherhood, NCR, CES,
-  Tlaloc successors, Texas, etc.
-- Add buffs when not played by player so if mod is installed and player plays another nation then
-  MLT becomes a crisis they have to deal with.
 - Update new focus, focus icons to be unique and not just using the chain choir ones.
 - Update some of the UI so its more bluey mirky greeny purply lovecrafty for flavour, maybe could
   just add some moss/seaweed to it.
-- See if any other mods on the steam workshop add 3d models that could be used (e.g. cultists for
-  inf, dragons for star spawn, etc.).
+- Update the AI to have a systematic approach and play as intelligently as the player, this should
+  mean focus making maximum use of manpower, building militia divisions and only switching to more
+  expensive templates when manpower is low or depleted, is the AI also capable of using the OWB
+  market to buy infantry equipment? What ways can the AI be improved here?

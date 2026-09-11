@@ -129,6 +129,7 @@ recruit_character = MLT_OCEAN
 recruit_character = MLT_KNOWS
 recruit_character = MLT_MUTANTS
 recruit_character = MLT_DROWNED_HERALD # Rising Tide: role-less until event mltd.1 grants the corps-commander role
+recruit_character = MLT_OLD_CASTRO # Rising Tide: the Esoteric Order's spymaster (cultural advisor, +2 operative slots)
 
 set_variable = { mlt_eggs = 500 }
 set_variable = { dont_return_stolen_territory@TRL = 1 }

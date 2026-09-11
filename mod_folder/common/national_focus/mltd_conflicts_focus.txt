@@ -1,0 +1,2465 @@
+# Rising Tide (MLT) - conflict sub-trees.
+# Shared focuses, pulled into mlt_nf by one `shared_focus = <root>` line each in
+# "Mirelurk Tribe (MLT) Focus.txt". Each root opens after mlt_kingdom_of_mlyeh via `available`,
+# has absolute x/y and no prerequisite; every other focus hangs off its own root, so the engine
+# pulls it in through that prerequisite (a shared focus whose only prerequisite is a national
+# focus would not appear). Layout: CLAUDE.md > Conflict sub-trees.
+
+############ the New California Republic ############
+
+# NCR sub-tree: the Esoteric Order spies on, infiltrates and robs the New California Republic
+shared_focus = {
+	id = mltd_ncr_a_mole_in_shady_sands
+	icon = GFX_goal_NCR_Shady_Sands
+	cost = 30
+	available = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		country_exists = NCR
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 13
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			add_intel = {
+				target = NCR
+				civilian_intel = 10
+				army_intel = 5
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_ncr_drowned_delegates
+	icon = GFX_goal_NCR_Council_Hill
+	cost = 35
+	prerequisite = { focus = mltd_ncr_a_mole_in_shady_sands }
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			OR = {
+				has_operation_token = {
+					tag = NCR
+					token = token_civilian
+				}
+				network_national_coverage = {
+					target = NCR
+					value > 0.2
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 1
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		add_political_power = 40
+		if = {
+			limit = { country_exists = NCR }
+			NCR = {
+				add_political_power = -35
+				add_stability = -0.03
+			}
+			if = {
+				limit = {
+					OR = {
+						NCR = { has_country_flag = ncr_crisis }
+						has_global_flag = ncr_emergency
+					}
+				}
+				custom_effect_tooltip = mltd_ncr_delegates_crisis_tt
+				NCR = { add_stability = -0.02 }
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			add_operation_token = {
+				tag = NCR
+				token = token_army
+			}
+			add_intel = {
+				target = NCR
+				civilian_intel = 10
+			}
+		}
+		else = {
+			add_tech_bonus = {
+				name = mltd_ncr_drowned_delegates
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons_tech_category
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_ncr_sleepers_on_the_long_15
+	icon = GFX_goal_NCR_Long15
+	cost = 35
+	prerequisite = { focus = mltd_ncr_a_mole_in_shady_sands }
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			OR = {
+				has_operation_token = {
+					tag = NCR
+					token = token_army
+				}
+				network_national_coverage = {
+					target = NCR
+					value > 0.15
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 1
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		army_experience = 15
+		if = {
+			limit = { country_exists = MOT }
+			MOT = { add_war_support = -0.03 }
+		}
+		else_if = {
+			limit = { country_exists = NCR }
+			NCR = { add_war_support = -0.03 }
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			add_intel = {
+				target = NCR
+				army_intel = 10
+			}
+			if = {
+				limit = { country_exists = MOT }
+				add_intel = {
+					target = MOT
+					army_intel = 10
+				}
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_ncr_salt_on_the_caravan_roads
+	icon = GFX_goal_NCR_Caravan
+	cost = 35
+	prerequisite = { focus = mltd_ncr_a_mole_in_shady_sands }
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			OR = {
+				has_operation_token = {
+					tag = NCR
+					token = token_army
+				}
+				network_national_coverage = {
+					target = NCR
+					value > 0.25
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 1
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				country_exists = NCR
+				NCR = { has_equipment = { infantry_equipment > 399 } }
+			}
+			NCR = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -400
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 400
+				producer = NCR
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = NCR
+				NCR = { has_equipment = { infantry_equipment > 199 } }
+			}
+			NCR = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -200
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 200
+				producer = NCR
+			}
+		}
+		if = {
+			limit = {
+				country_exists = NCR
+				NCR = { has_equipment = { support_equipment > 99 } }
+			}
+			NCR = {
+				add_equipment_to_stockpile = {
+					type = support_equipment
+					amount = -100
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = support_equipment
+				amount = 100
+				producer = NCR
+			}
+		}
+		set_temp_variable = { caps_to_add = 50 }
+		add_caps = yes
+	}
+}
+
+shared_focus = {
+	id = mltd_ncr_the_turbines_sing
+	icon = GFX_goal_generic_dam
+	cost = 42
+	prerequisite = { focus = mltd_ncr_sleepers_on_the_long_15 }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_ncr_hoover_contested_tt
+			OR = {
+				has_global_flag = fbhd_legion_overall_vic
+				has_global_flag = fbhd_boulder_city_miracle_flag
+				has_global_flag = fbhd_mot_hold_dam
+				NOT = { country_exists = CES }
+				AND = {
+					country_exists = CES
+					CES = {
+						OR = {
+							has_completed_focus = ces_hoover_dam_battle
+							has_completed_focus = ces_attack_ncr
+						}
+					}
+				}
+				AND = {
+					country_exists = NCR
+					NCR = { has_war_with = CES }
+				}
+				date > 2279.06.01
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 2
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			steal_random_tech_bonus = {
+				folder = fallout_industry_folder
+				ahead_reduction = 1
+				bonus = 1.0
+				base_bonus = 0.5
+				name = mltd_ncr_the_turbines_sing
+				target = NCR
+				uses = 1
+			}
+		}
+		else = {
+			add_tech_bonus = {
+				name = mltd_ncr_the_turbines_sing
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+		if = {
+			limit = { has_global_flag = fbhd_legion_overall_vic }
+			custom_effect_tooltip = mltd_ncr_turbines_rout_tt
+			if = {
+				limit = {
+					country_exists = NCR
+					NCR = { has_equipment = { infantry_equipment > 299 } }
+				}
+				NCR = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = -300
+					}
+				}
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 300
+					producer = NCR
+				}
+			}
+			else = {
+				army_experience = 15
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_global_flag = fbhd_boulder_city_miracle_flag
+					has_global_flag = fbhd_mot_hold_dam
+				}
+			}
+			custom_effect_tooltip = mltd_ncr_turbines_wall_tt
+			army_experience = 15
+		}
+		if = {
+			limit = {
+				country_exists = NCR
+				NCR = { has_war_with = CES }
+			}
+			custom_effect_tooltip = mltd_ncr_turbines_second_battle_tt
+			NCR = { add_war_support = -0.03 }
+		}
+	}
+}
+
+############ Texas ############
+
+# Texas: the Order's clerks in the Texas Economic Union, its wreckers on the rivers, and the black water under Texas
+shared_focus = {
+	id = mltd_tex_all_waters_are_one
+	icon = GFX_goal_CHC_Texas
+	cost = 30
+	x = 8
+	y = 13
+	available = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		OR = {
+			country_exists = TBH
+			country_exists = LNS
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = TBH }
+				add_intel = {
+					target = TBH
+					civilian_intel = 10
+					army_intel = 10
+				}
+			}
+			if = {
+				limit = { country_exists = LNS }
+				add_intel = {
+					target = LNS
+					civilian_intel = 10
+					army_intel = 10
+				}
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_tex_the_silent_partner
+	icon = GFX_goal_LNS_texan_dollar
+	cost = 35
+	prerequisite = { focus = mltd_tex_all_waters_are_one }
+	x = -1
+	y = 1
+	relative_position_id = mltd_tex_all_waters_are_one
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				OR = {
+					country_exists = TBH
+					country_exists = LNS
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_tex_civilian_network_tt
+				OR = {
+					has_operation_token = { tag = TBH token = token_civilian }
+					has_operation_token = { tag = LNS token = token_civilian }
+					network_national_coverage = { target = TBH value > 0.2 }
+					network_national_coverage = { target = LNS value > 0.2 }
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = TBH }
+				add_operation_token = { tag = TBH token = token_army }
+				add_intel = {
+					target = TBH
+					civilian_intel = 15
+				}
+			}
+			if = {
+				limit = { country_exists = LNS }
+				add_operation_token = { tag = LNS token = token_army }
+				add_intel = {
+					target = LNS
+					civilian_intel = 15
+				}
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		set_temp_variable = { caps_to_add = 40 }
+		add_caps = yes
+		if = {
+			limit = { country_exists = TBH }
+			TBH = {
+				add_stability = -0.02
+				add_political_power = -25
+			}
+		}
+		if = {
+			limit = { country_exists = LNS }
+			LNS = {
+				add_stability = -0.02
+				add_political_power = -25
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_tex_wreckers_on_the_trinity
+	icon = GFX_goal_WHD_supply_trucks
+	cost = 35
+	prerequisite = { focus = mltd_tex_all_waters_are_one }
+	x = 1
+	y = 1
+	relative_position_id = mltd_tex_all_waters_are_one
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				OR = {
+					country_exists = TBH
+					country_exists = LNS
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_tex_army_network_tt
+				OR = {
+					has_operation_token = { tag = TBH token = token_army }
+					has_operation_token = { tag = LNS token = token_army }
+					network_national_coverage = { target = TBH value > 0.25 }
+					network_national_coverage = { target = LNS value > 0.25 }
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				country_exists = TBH
+				TBH = { has_equipment = { infantry_equipment > 399 } }
+			}
+			TBH = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -400
+				}
+				add_war_support = -0.02
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 400
+				producer = TBH
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = LNS
+				LNS = { has_equipment = { infantry_equipment > 399 } }
+			}
+			LNS = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -400
+				}
+				add_war_support = -0.02
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 400
+				producer = LNS
+			}
+		}
+		else = {
+			custom_effect_tooltip = mltd_tex_empty_armouries_tt
+			add_political_power = 30
+		}
+		army_experience = 15
+	}
+}
+
+shared_focus = {
+	id = mltd_tex_black_water_rising
+	icon = GFX_goal_ACH_texico_rig
+	cost = 45
+	prerequisite = { focus = mltd_tex_the_silent_partner }
+	prerequisite = { focus = mltd_tex_wreckers_on_the_trinity }
+	x = 0
+	y = 2
+	relative_position_id = mltd_tex_all_waters_are_one
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_tex_one_master_tt
+			OR = {
+				has_global_flag = texas_formed
+				NOT = { country_exists = TBH }
+				NOT = { country_exists = LNS }
+				date > 2280.1.1
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		capital_scope = {
+			add_resource = {
+				type = energy
+				amount = 3
+			}
+		}
+		add_timed_idea = {
+			idea = mltd_tex_black_water
+			days = 180
+		}
+		if = {
+			limit = { country_exists = TBH }
+			TBH = {
+				add_stability = -0.03
+				add_war_support = -0.03
+			}
+		}
+		if = {
+			limit = { country_exists = LNS }
+			LNS = {
+				add_stability = -0.03
+				add_war_support = -0.03
+			}
+		}
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = TBH }
+				add_intel = {
+					target = TBH
+					civilian_intel = 20
+					army_intel = 20
+				}
+			}
+			if = {
+				limit = { country_exists = LNS }
+				add_intel = {
+					target = LNS
+					civilian_intel = 20
+					army_intel = 20
+				}
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+############ the Washington Brotherhood ############
+
+# Washington Brotherhood sub-tree: watch, infiltrate and rob the Seattle crusade before it turns on The Warren
+shared_focus = {
+	id = mltd_wbh_eyes_in_the_sound
+	icon = GFX_goal_generic_esp_cam
+	cost = 35
+	available = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		country_exists = WBH
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 22
+	y = 13
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = WBH
+			}
+			add_intel = {
+				target = WBH
+				civilian_intel = 10
+				army_intel = 15
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_wbh_salt_in_the_citadel
+	icon = GFX_goal_generic_esp_infiltrator
+	cost = 35
+	prerequisite = { focus = mltd_wbh_eyes_in_the_sound }
+	available = {
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			OR = {
+				has_operation_token = { tag = WBH token = token_civilian }
+				network_national_coverage = { target = WBH value > 0.2 }
+				NOT = { country_exists = WBH }
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -1
+	y = 1
+	relative_position_id = mltd_wbh_eyes_in_the_sound
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { country_exists = WBH }
+			WBH = {
+				add_political_power = -40
+				add_stability = -0.03
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = WBH
+			}
+			add_intel = {
+				target = WBH
+				civilian_intel = 15
+			}
+			add_operation_token = {
+				tag = WBH
+				token = token_army
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_wbh_the_drowned_knights
+	icon = GFX_goal_WBH_black_paladins_2
+	cost = 42
+	prerequisite = { focus = mltd_wbh_eyes_in_the_sound }
+	available = {
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			OR = {
+				has_operation_token = { tag = WBH token = token_army }
+				network_national_coverage = { target = WBH value > 0.25 }
+				NOT = { country_exists = WBH }
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 1
+	y = 1
+	relative_position_id = mltd_wbh_eyes_in_the_sound
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				country_exists = WBH
+				WBH = { has_equipment = { infantry_equipment > 600 } }
+			}
+			WBH = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -300
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 300
+				producer = WBH
+			}
+		}
+		if = {
+			limit = {
+				country_exists = WBH
+				WBH = { has_equipment = { power_armor_equipment > 60 } }
+			}
+			WBH = {
+				add_equipment_to_stockpile = {
+					type = power_armor_equipment
+					amount = -30
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = power_armor_equipment
+				amount = 30
+				producer = WBH
+			}
+		}
+		army_experience = 15
+	}
+}
+
+shared_focus = {
+	id = mltd_wbh_the_tide_wall
+	icon = GFX_goal_generic_walls_focus
+	cost = 45
+	prerequisite = { focus = mltd_wbh_salt_in_the_citadel }
+	prerequisite = { focus = mltd_wbh_the_drowned_knights }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_wbh_crusade_turns_tt
+			OR = {
+				NOT = { country_exists = WBH }
+				WBH = { has_completed_focus = WBH_eradicate_the_mutants }
+				WBH = { has_war_with = ROOT }
+				date > 2280.1.1
+			}
+		}
+		235 = { is_owned_and_controlled_by = ROOT }
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 2
+	relative_position_id = mltd_wbh_eyes_in_the_sound
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { 235 = { is_owned_and_controlled_by = ROOT } }
+			235 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 2158
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 2159
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 2160
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 2161
+				}
+			}
+		}
+		if = {
+			limit = { country_exists = WBH }
+			235 = {
+				if = {
+					limit = { is_claimed_by = WBH }
+					remove_claim_by = WBH
+				}
+			}
+			WBH = { add_war_support = -0.03 }
+			add_timed_idea = {
+				idea = mltd_wbh_tide_wall
+				days = 180
+			}
+		}
+		else = {
+			army_experience = 15
+		}
+	}
+}
+
+############ Caesar's Legion ############
+
+# Caesar's Legion (CES): the cult spies on Flagstaff, turns a frumentarius, robs the armouries, buys the Legion's slaves and whispers at Caesar's sickbed
+shared_focus = {
+	id = mltd_ces_what_the_river_carries
+	icon = GFX_goal_EXE_something_fishy
+	cost = 35
+	available = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		country_exists = CES
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 28
+	y = 13
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = CES }
+				add_intel = {
+					target = CES
+					civilian_intel = 10
+					army_intel = 10
+				}
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_ces_the_drowned_frumentarius
+	icon = GFX_goal_CES_Speculatores
+	cost = 42
+	prerequisite = { focus = mltd_ces_what_the_river_carries }
+	available = {
+		# no gate without the DLC, and none once the Legion is gone, so the sub-tree cannot strand
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = CES
+			}
+			OR = {
+				has_operation_token = { tag = CES token = token_civilian }
+				network_national_coverage = { target = CES value > 0.1 }
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 1
+	relative_position_id = mltd_ces_what_the_river_carries
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			create_operative_leader = {
+				name = mltd_ces_drowned_frumentarius_operative
+				gfx = GFX_Portrait_CES_Operator_3
+				skill = 2
+				traits = { operative_frumentarius }
+				bypass_recruitment = no
+				available_to_spy_master = yes
+				nationalities = { MLT CES }
+			}
+			if = {
+				limit = { country_exists = CES }
+				add_operation_token = { tag = CES token = token_army }
+				add_intel = {
+					target = CES
+					civilian_intel = 15
+				}
+			}
+		}
+		else = {
+			add_political_power = 50
+		}
+		if = {
+			limit = { country_exists = CES }
+			CES = { add_stability = -0.03 }
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_ces_the_chained_are_given_to_the_tide
+	icon = GFX_goal_SOK_slave_collar
+	cost = 35
+	prerequisite = { focus = mltd_ces_what_the_river_carries }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 1
+	relative_position_id = mltd_ces_what_the_river_carries
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		# state-scope add_manpower is population (mltd_scripted_effects.txt:349); the numbers are repeated as literals in the three _tt keys
+		custom_effect_tooltip = mltd_ces_chained_faithful_tt
+		hidden_effect = {
+			capital_scope = { add_manpower = 1000 }
+		}
+		add_stability = 0.03
+		if = {
+			limit = {
+				country_exists = CES
+				CES = {
+					OR = {
+						has_idea = ces_slaves
+						has_completed_focus = ces_reservation_slaves
+					}
+				}
+			}
+			custom_effect_tooltip = mltd_ces_chained_pens_full_tt
+			hidden_effect = {
+				capital_scope = { add_manpower = 500 }
+			}
+		}
+		if = {
+			limit = { has_global_flag = nipton_massacred_flag }
+			custom_effect_tooltip = mltd_ces_chained_nipton_tt
+			hidden_effect = {
+				capital_scope = { add_manpower = 500 }
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_ces_salt_in_the_armouries
+	icon = GFX_goal_og_stealing_the_shipments
+	cost = 35
+	prerequisite = { focus = mltd_ces_the_drowned_frumentarius }
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = CES
+			}
+			OR = {
+				has_operation_token = { tag = CES token = token_army }
+				network_national_coverage = { target = CES value > 0.15 }
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 2
+	relative_position_id = mltd_ces_what_the_river_carries
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				country_exists = CES
+				CES = { has_equipment = { infantry_equipment > 799 } }
+			}
+			CES = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -400
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 400
+				producer = CES
+			}
+		}
+		else = {
+			set_temp_variable = { caps_to_add = 50 }
+			add_caps = yes
+		}
+		if = {
+			limit = {
+				country_exists = CES
+				CES = { has_equipment = { support_equipment > 199 } }
+			}
+			CES = {
+				add_equipment_to_stockpile = {
+					type = support_equipment
+					amount = -100
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = support_equipment
+				amount = 100
+				producer = CES
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_ces_the_sea_against_mars
+	icon = GFX_goal_CES_Mars_God
+	cost = 45
+	prerequisite = { focus = mltd_ces_the_drowned_frumentarius }
+	prerequisite = { focus = mltd_ces_the_chained_are_given_to_the_tide }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 2
+	relative_position_id = mltd_ces_what_the_river_carries
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		add_timed_idea = { idea = mltd_ces_the_drowned_bull days = 180 }
+		# OWB's own Legion scripting: Caesar's illness (CES_stress, nf_legion.26 from CES's first focus), his death (nf_legion.70 retires CES_caesar), the succession war (CES_civil_war)
+		if = {
+			limit = { NOT = { country_exists = CES } }
+			custom_effect_tooltip = mltd_ces_mars_fallen_tt
+			add_political_power = 50
+		}
+		else_if = {
+			limit = {
+				country_exists = CES
+				CES = {
+					OR = {
+						has_country_flag = CES_civil_war
+						NOT = { has_country_leader = { character = CES_caesar } }
+					}
+				}
+			}
+			custom_effect_tooltip = mltd_ces_mars_dead_tt
+			army_experience = 20
+			CES = { add_stability = -0.03 }
+		}
+		else_if = {
+			limit = {
+				country_exists = CES
+				CES = { has_country_flag = CES_stress }
+			}
+			custom_effect_tooltip = mltd_ces_mars_fever_tt
+			set_temp_variable = { caps_to_add = 75 }
+			add_caps = yes
+			CES = { add_war_support = -0.03 }
+		}
+		else = {
+			custom_effect_tooltip = mltd_ces_mars_hale_tt
+			add_political_power = 50
+		}
+		if = {
+			limit = {
+				country_exists = CES
+				CES = {
+					OR = {
+						has_idea = cultofmars
+						has_idea = cultofmars_principes
+						has_idea = cultofmars_triplex
+					}
+				}
+			}
+			custom_effect_tooltip = mltd_ces_mars_cult_tt
+			CES = { add_war_support = -0.02 }
+		}
+	}
+}
+
+############ the Brotherhood of Steel (Lost Hills) ############
+
+# Lost Hills Brotherhood (BOS): the drowned Paladin, his Codex, and the old quarrel between steel and the NCR
+shared_focus = {
+	id = mltd_bos_the_drowned_paladin
+	icon = GFX_goal_BOS_the_mojave_signal
+	cost = 35
+	available = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		country_exists = BOS
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 17
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BOS
+			}
+			add_intel = {
+				target = BOS
+				civilian_intel = 10
+				army_intel = 10
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		army_experience = 10
+	}
+}
+
+shared_focus = {
+	id = mltd_bos_the_paladin_returns
+	icon = GFX_goal_generic_dark_paladins
+	cost = 35
+	prerequisite = { focus = mltd_bos_the_drowned_paladin }
+	# no bare country_exists = BOS: if Lost Hills falls mid-tree the gate lapses and every reward falls back, so the sub-tree never dead-ends
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BOS
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_bos_paladin_gate_tt
+				OR = {
+					has_operation_token = { tag = BOS token = token_civilian }
+					network_national_coverage = { target = BOS value > 0.15 }
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -1
+	y = 1
+	relative_position_id = mltd_bos_the_drowned_paladin
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BOS
+			}
+			add_operation_token = {
+				tag = BOS
+				token = token_army
+			}
+			add_intel = {
+				target = BOS
+				civilian_intel = 15
+			}
+		}
+		else = {
+			add_political_power = 35
+		}
+		if = {
+			limit = { country_exists = BOS }
+			BOS = { add_political_power = -35 }
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_bos_the_tide_takes_the_armoury
+	icon = GFX_goal_CES_BOS_Steal
+	cost = 35
+	prerequisite = { focus = mltd_bos_the_drowned_paladin }
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BOS
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_bos_armoury_gate_tt
+				OR = {
+					has_operation_token = { tag = BOS token = token_army }
+					network_national_coverage = { target = BOS value > 0.2 }
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 1
+	y = 1
+	relative_position_id = mltd_bos_the_drowned_paladin
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		# Paired transfers: Lost Hills loses exactly what we gain, best stock first (tiers as in OWB operations_bos.txt:307-404)
+		if = {
+			limit = {
+				country_exists = BOS
+				BOS = { has_equipment = { energy_equipment_2 > 400 } }
+			}
+			BOS = {
+				add_equipment_to_stockpile = {
+					type = energy_equipment_2
+					amount = -300
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = energy_equipment_2
+				amount = 300
+				producer = BOS
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = BOS
+				BOS = { has_equipment = { energy_equipment_1 > 400 } }
+			}
+			BOS = {
+				add_equipment_to_stockpile = {
+					type = energy_equipment_1
+					amount = -300
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = energy_equipment_1
+				amount = 300
+				producer = BOS
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = BOS
+				BOS = { has_equipment = { infantry_equipment > 400 } }
+			}
+			BOS = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -300
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 300
+				producer = BOS
+			}
+		}
+		else = {
+			custom_effect_tooltip = mltd_bos_armoury_bare_tt
+			set_temp_variable = { caps_to_add = 50 }
+			add_caps = yes
+		}
+		if = {
+			limit = {
+				country_exists = BOS
+				BOS = { has_equipment = { power_armor_equipment > 150 } }
+			}
+			BOS = {
+				add_equipment_to_stockpile = {
+					type = power_armor_equipment
+					amount = -40
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = power_armor_equipment
+				amount = 40
+				producer = BOS
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_bos_the_codex_unsealed
+	icon = GFX_goal_BOS_forbidden_secrets
+	cost = 40
+	prerequisite = { focus = mltd_bos_the_paladin_returns }
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BOS
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_bos_codex_gate_tt
+				OR = {
+					has_operation_token = { tag = BOS token = token_civilian }
+					network_national_coverage = { target = BOS value > 0.25 }
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -1
+	y = 2
+	relative_position_id = mltd_bos_the_drowned_paladin
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BOS
+			}
+			# same folders as OWB's operation_steal_tech_civilian (00_operations.txt:1891-1900)
+			steal_random_tech_bonus = {
+				folder = fallout_engineering_folder
+				folder = fallout_industry_folder
+				bonus = 1.0
+				base_bonus = 0.5
+				dynamic = no
+				name = mltd_bos_the_codex_unsealed
+				target = BOS
+				uses = 1
+			}
+		}
+		else = {
+			add_tech_bonus = {
+				name = mltd_bos_the_codex_unsealed
+				bonus = 0.75
+				uses = 1
+				category = electronics
+			}
+		}
+		if = {
+			limit = { country_exists = BOS }
+			BOS = { add_stability = -0.02 }
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_bos_blood_in_the_water
+	icon = GFX_goal_BOS_ncr_diplomacy
+	cost = 45
+	prerequisite = { focus = mltd_bos_the_paladin_returns }
+	prerequisite = { focus = mltd_bos_the_tide_takes_the_armoury }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 1
+	y = 2
+	relative_position_id = mltd_bos_the_drowned_paladin
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				country_exists = BOS
+				BOS = { has_war_with = NCR }
+			}
+			custom_effect_tooltip = mltd_bos_war_feeds_tt
+			BOS = { add_war_support = -0.03 }
+			if = {
+				limit = { country_exists = NCR }
+				NCR = { add_war_support = -0.03 }
+			}
+			add_timed_idea = {
+				idea = mltd_bos_red_tide
+				days = 180
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = BOS
+				BOS = { has_dynamic_modifier = { modifier = bos_tension_dynamic_modifier } }
+			}
+			# OWB's own tension effect (BOS_scripted_effects.txt:296), applied to BOS and NCR as nf_brotherhood.txt:6838-6847 does;
+			# +10 matches Eureka's outsider push (Eureka (EUR) Focus.txt:3393-3397). OWB's tooltip for it reads BOS.BOS_tension_to_add,
+			# which the preview cannot see, so it is hidden and the literal 10 is repeated in mltd_bos_tension_rises_tt - change both
+			custom_effect_tooltip = mltd_bos_tension_rises_tt
+			hidden_effect = {
+				BOS = {
+					set_temp_variable = { BOS_tension_to_add = 10 }
+					bos_change_tension = yes
+				}
+				if = {
+					limit = { country_exists = NCR }
+					NCR = {
+						set_temp_variable = { BOS_tension_to_add = 10 }
+						bos_change_tension = yes
+					}
+				}
+			}
+			if = {
+				limit = { has_global_flag = bos_ncr_accepted_deal_for_maxson }
+				custom_effect_tooltip = mltd_bos_accords_betrayed_tt
+				BOS = { add_stability = -0.03 }
+			}
+			add_political_power = 25
+		}
+		else = {
+			custom_effect_tooltip = mltd_bos_no_quarrel_tt
+			add_political_power = 50
+			if = {
+				limit = { country_exists = BOS }
+				BOS = { add_stability = -0.03 }
+			}
+		}
+	}
+}
+
+############ Tlaloc and his successors ############
+
+# Tlaloc sub-tree: the cult listens to Mexico's dying machine god and robs him and his heirs
+shared_focus = {
+	id = mltd_tla_the_iron_god_dreams
+	icon = GFX_goal_generic_tlaloc_aztec
+	cost = 30
+	available = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		custom_trigger_tooltip = {
+			tooltip = mltd_tla_chiconet_alive_tt
+			OR = {
+				country_exists = TLA
+				country_exists = MAX
+				country_exists = MOC
+				country_exists = ZAP
+				country_exists = ARM
+				has_global_flag = tlaloc_died
+				controls_state = 769
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 22
+	y = 17
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = { country_exists = TLA }
+			custom_effect_tooltip = mltd_tla_databanks_tt
+		}
+		else = {
+			custom_effect_tooltip = mltd_tla_iron_god_dead_tt
+		}
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = TLA }
+				add_intel = { target = TLA civilian_intel = 10 army_intel = 10 }
+			}
+			if = {
+				limit = { country_exists = MAX }
+				add_intel = { target = MAX civilian_intel = 10 army_intel = 10 }
+			}
+			if = {
+				limit = { country_exists = MOC }
+				add_intel = { target = MOC civilian_intel = 10 army_intel = 10 }
+			}
+			if = {
+				limit = { country_exists = ZAP }
+				add_intel = { target = ZAP civilian_intel = 10 army_intel = 10 }
+			}
+			if = {
+				limit = { country_exists = ARM }
+				add_intel = { target = ARM army_intel = 10 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							country_exists = TLA
+							country_exists = MAX
+							country_exists = MOC
+							country_exists = ZAP
+							country_exists = ARM
+						}
+					}
+				}
+				add_tech_bonus = { name = mltd_tla_the_iron_god_dreams bonus = 0.5 uses = 1 category = electronics }
+			}
+		}
+		else = {
+			add_tech_bonus = { name = mltd_tla_the_iron_god_dreams bonus = 0.5 uses = 1 category = electronics }
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_tla_the_three_voices
+	icon = GFX_goal_uoa_mask
+	cost = 35
+	prerequisite = { focus = mltd_tla_the_iron_god_dreams }
+	available = {
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			custom_trigger_tooltip = {
+				tooltip = mltd_tla_three_voices_network_tt
+				OR = {
+					AND = {
+						country_exists = TLA
+						OR = {
+							has_operation_token = { tag = TLA token = token_civilian }
+							network_national_coverage = { target = TLA value > 0.2 }
+						}
+					}
+					AND = {
+						country_exists = MAX
+						OR = {
+							has_operation_token = { tag = MAX token = token_civilian }
+							network_national_coverage = { target = MAX value > 0.2 }
+						}
+					}
+					AND = {
+						country_exists = MOC
+						OR = {
+							has_operation_token = { tag = MOC token = token_civilian }
+							network_national_coverage = { target = MOC value > 0.2 }
+						}
+					}
+					AND = {
+						country_exists = ZAP
+						OR = {
+							has_operation_token = { tag = ZAP token = token_civilian }
+							network_national_coverage = { target = ZAP value > 0.2 }
+						}
+					}
+					AND = {
+						country_exists = ARM
+						OR = {
+							has_operation_token = { tag = ARM token = token_civilian }
+							network_national_coverage = { target = ARM value > 0.2 }
+						}
+					}
+					NOT = {
+						OR = {
+							country_exists = TLA
+							country_exists = MAX
+							country_exists = MOC
+							country_exists = ZAP
+							country_exists = ARM
+						}
+					}
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -1
+	y = 1
+	relative_position_id = mltd_tla_the_iron_god_dreams
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { country_exists = TLA }
+			TLA = {
+				add_stability = -0.03
+				add_political_power = -25
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					country_exists = MAX
+					country_exists = MOC
+					country_exists = ZAP
+				}
+			}
+			if = {
+				limit = { country_exists = MAX }
+				MAX = {
+					add_stability = -0.03
+					add_political_power = -25
+				}
+			}
+			if = {
+				limit = { country_exists = MOC }
+				MOC = {
+					add_stability = -0.03
+					add_political_power = -25
+				}
+			}
+			if = {
+				limit = { country_exists = ZAP }
+				ZAP = {
+					add_stability = -0.03
+					add_political_power = -25
+				}
+			}
+		}
+		else_if = {
+			limit = { country_exists = ARM }
+			ARM = {
+				add_stability = -0.03
+				add_political_power = -25
+			}
+		}
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = TLA }
+				add_intel = { target = TLA civilian_intel = 15 }
+				add_operation_token = { tag = TLA token = token_army }
+			}
+			else_if = {
+				limit = {
+					OR = {
+						country_exists = MAX
+						country_exists = MOC
+						country_exists = ZAP
+					}
+				}
+				if = {
+					limit = { country_exists = MAX }
+					add_intel = { target = MAX civilian_intel = 15 }
+					add_operation_token = { tag = MAX token = token_army }
+				}
+				if = {
+					limit = { country_exists = MOC }
+					add_intel = { target = MOC civilian_intel = 15 }
+					add_operation_token = { tag = MOC token = token_army }
+				}
+				if = {
+					limit = { country_exists = ZAP }
+					add_intel = { target = ZAP civilian_intel = 15 }
+					add_operation_token = { tag = ZAP token = token_army }
+				}
+			}
+			else_if = {
+				limit = { country_exists = ARM }
+				add_intel = { target = ARM civilian_intel = 15 }
+				add_operation_token = { tag = ARM token = token_army }
+			}
+			else = {
+				add_political_power = 50
+			}
+		}
+		else = {
+			add_political_power = 50
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_tla_picking_the_iron_bones
+	icon = GFX_goal_MIN_loot_chests
+	cost = 35
+	prerequisite = { focus = mltd_tla_the_iron_god_dreams }
+	available = {
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			custom_trigger_tooltip = {
+				tooltip = mltd_tla_iron_bones_network_tt
+				OR = {
+					AND = {
+						country_exists = TLA
+						OR = {
+							has_operation_token = { tag = TLA token = token_army }
+							network_national_coverage = { target = TLA value > 0.3 }
+						}
+					}
+					AND = {
+						country_exists = MAX
+						OR = {
+							has_operation_token = { tag = MAX token = token_army }
+							network_national_coverage = { target = MAX value > 0.3 }
+						}
+					}
+					AND = {
+						country_exists = MOC
+						OR = {
+							has_operation_token = { tag = MOC token = token_army }
+							network_national_coverage = { target = MOC value > 0.3 }
+						}
+					}
+					AND = {
+						country_exists = ZAP
+						OR = {
+							has_operation_token = { tag = ZAP token = token_army }
+							network_national_coverage = { target = ZAP value > 0.3 }
+						}
+					}
+					AND = {
+						country_exists = ARM
+						OR = {
+							has_operation_token = { tag = ARM token = token_army }
+							network_national_coverage = { target = ARM value > 0.3 }
+						}
+					}
+					NOT = {
+						OR = {
+							country_exists = TLA
+							country_exists = MAX
+							country_exists = MOC
+							country_exists = ZAP
+							country_exists = ARM
+						}
+					}
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 1
+	y = 1
+	relative_position_id = mltd_tla_the_iron_god_dreams
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		# the transfers are spelled out once, in the tooltip; listing them as well would print every line twice
+		custom_effect_tooltip = mltd_tla_iron_bones_theft_tt
+		hidden_effect = {
+			if = {
+				limit = { country_exists = TLA }
+				if = {
+					limit = { TLA = { has_equipment = { infantry_equipment > 399 } } }
+					TLA = { add_equipment_to_stockpile = { type = infantry_equipment amount = -400 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 400 producer = TLA }
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						country_exists = MAX
+						MAX = { has_equipment = { infantry_equipment > 149 } }
+					}
+					MAX = { add_equipment_to_stockpile = { type = infantry_equipment amount = -150 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 150 producer = MAX }
+				}
+				if = {
+					limit = {
+						country_exists = MOC
+						MOC = { has_equipment = { infantry_equipment > 149 } }
+					}
+					MOC = { add_equipment_to_stockpile = { type = infantry_equipment amount = -150 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 150 producer = MOC }
+				}
+				if = {
+					limit = {
+						country_exists = ZAP
+						ZAP = { has_equipment = { infantry_equipment > 149 } }
+					}
+					ZAP = { add_equipment_to_stockpile = { type = infantry_equipment amount = -150 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 150 producer = ZAP }
+				}
+			}
+			if = {
+				limit = {
+					country_exists = ARM
+					ARM = { has_equipment = { support_equipment > 99 } }
+				}
+				ARM = { add_equipment_to_stockpile = { type = support_equipment amount = -100 } }
+				add_equipment_to_stockpile = { type = support_equipment amount = 100 producer = ARM }
+			}
+		}
+		army_experience = 10
+		set_temp_variable = { caps_to_add = 50 }
+		add_caps = yes
+	}
+}
+
+shared_focus = {
+	id = mltd_tla_the_drowned_god_sleeps
+	icon = GFX_goal_cip_memory_core
+	cost = 45
+	prerequisite = { focus = mltd_tla_the_three_voices }
+	prerequisite = { focus = mltd_tla_picking_the_iron_bones }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 2
+	relative_position_id = mltd_tla_the_iron_god_dreams
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { country_exists = TLA }
+			# only while OWB's own drain runs (tlaloc_on_actions.txt:276-281); OWB's daily clamp and death check still fire nf_tlaloc.100
+			if = {
+				limit = {
+					TLA = {
+						check_variable = { current_databanks > 100 }
+						NOT = { has_country_flag = stop_tlaloc_losing_memeory }
+						NOT = { has_cosmetic_tag = TLA_RRG }
+						NOT = { has_cosmetic_tag = TLA_RRG_pending }
+						NOT = { has_cosmetic_tag = TLA_RRG_wife }
+					}
+				}
+				custom_effect_tooltip = mltd_tla_drain_databanks_tt
+				hidden_effect = {
+					TLA = { subtract_from_variable = { current_databanks = 64 } }
+				}
+			}
+			else = {
+				TLA = { add_stability = -0.03 }
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					country_exists = MAX
+					country_exists = MOC
+					country_exists = ZAP
+					country_exists = ARM
+				}
+			}
+			custom_effect_tooltip = mltd_tla_heirs_haunted_tt
+			if = {
+				limit = { country_exists = MAX }
+				MAX = { add_stability = -0.02 }
+			}
+			if = {
+				limit = { country_exists = MOC }
+				MOC = { add_stability = -0.02 }
+			}
+			if = {
+				limit = { country_exists = ZAP }
+				ZAP = { add_stability = -0.02 }
+			}
+			if = {
+				limit = { country_exists = ARM }
+				ARM = { add_stability = -0.02 }
+			}
+		}
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = TLA }
+				steal_random_tech_bonus = {
+					folder = fallout_engineering_folder
+					folder = fallout_industry_folder
+					bonus = 1.0
+					base_bonus = 0.5
+					name = mltd_tla_the_drowned_god_sleeps
+					target = TLA
+					uses = 1
+				}
+			}
+			else_if = {
+				limit = { country_exists = MAX }
+				steal_random_tech_bonus = {
+					folder = fallout_engineering_folder
+					folder = fallout_industry_folder
+					bonus = 1.0
+					base_bonus = 0.5
+					name = mltd_tla_the_drowned_god_sleeps
+					target = MAX
+					uses = 1
+				}
+			}
+			else_if = {
+				limit = { country_exists = MOC }
+				steal_random_tech_bonus = {
+					folder = fallout_engineering_folder
+					folder = fallout_industry_folder
+					bonus = 1.0
+					base_bonus = 0.5
+					name = mltd_tla_the_drowned_god_sleeps
+					target = MOC
+					uses = 1
+				}
+			}
+			else_if = {
+				limit = { country_exists = ZAP }
+				steal_random_tech_bonus = {
+					folder = fallout_engineering_folder
+					folder = fallout_industry_folder
+					bonus = 1.0
+					base_bonus = 0.5
+					name = mltd_tla_the_drowned_god_sleeps
+					target = ZAP
+					uses = 1
+				}
+			}
+			else_if = {
+				limit = { country_exists = ARM }
+				steal_random_tech_bonus = {
+					folder = fallout_engineering_folder
+					folder = fallout_industry_folder
+					bonus = 1.0
+					base_bonus = 0.5
+					name = mltd_tla_the_drowned_god_sleeps
+					target = ARM
+					uses = 1
+				}
+			}
+			else = {
+				add_tech_bonus = { name = mltd_tla_the_drowned_god_sleeps bonus = 0.75 uses = 1 category = electronics }
+			}
+		}
+		else = {
+			add_tech_bonus = { name = mltd_tla_the_drowned_god_sleeps bonus = 0.75 uses = 1 category = electronics }
+		}
+		add_timed_idea = { idea = mltd_tla_dreams_of_wire days = 180 }
+	}
+}
+
+############ Heaven's Guard (Idaho) ############
+
+# Heaven's Guard sub-tree: the Order slips into Idaho's church of God and Steam
+shared_focus = {
+	id = mltd_hea_whispers_in_the_steam
+	icon = GFX_goal_HEA_focus_billowing_cathedral
+	cost = 30
+	available = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		country_exists = HEA
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 8
+	y = 17
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = HEA
+			}
+			add_intel = {
+				target = HEA
+				civilian_intel = 10
+				army_intel = 5
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_hea_a_second_schism
+	icon = GFX_goal_HEA_focus_the_great_debate
+	cost = 35
+	prerequisite = { focus = mltd_hea_whispers_in_the_steam }
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = HEA
+			}
+			OR = {
+				has_operation_token = {
+					tag = HEA
+					token = token_civilian
+				}
+				network_national_coverage = {
+					target = HEA
+					value > 0.2
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -1
+	y = 1
+	relative_position_id = mltd_hea_whispers_in_the_steam
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		add_political_power = 40
+		if = {
+			limit = { country_exists = HEA }
+			HEA = {
+				add_political_power = -35
+				add_stability = -0.03
+			}
+			if = {
+				limit = { HEA = { has_completed_focus = hea_war_in_heaven } }
+				custom_effect_tooltip = mltd_hea_schism_war_tt
+				HEA = { add_war_support = -0.02 }
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = HEA
+			}
+			add_operation_token = {
+				tag = HEA
+				token = token_army
+			}
+			add_intel = {
+				target = HEA
+				civilian_intel = 10
+			}
+		}
+		else = {
+			add_tech_bonus = {
+				name = mltd_hea_a_second_schism
+				bonus = 0.5
+				uses = 1
+				category = electronics
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_hea_steam_for_the_deep
+	icon = GFX_goal_HEA_focus_boilers_of_justice
+	cost = 35
+	prerequisite = { focus = mltd_hea_whispers_in_the_steam }
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = HEA
+			}
+			OR = {
+				has_operation_token = {
+					tag = HEA
+					token = token_army
+				}
+				network_national_coverage = {
+					target = HEA
+					value > 0.25
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 1
+	y = 1
+	relative_position_id = mltd_hea_whispers_in_the_steam
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				country_exists = HEA
+				HEA = { has_equipment = { infantry_equipment > 299 } }
+			}
+			HEA = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -300
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 300
+				producer = HEA
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = HEA
+			}
+			steal_random_tech_bonus = {
+				folder = fallout_industry_folder
+				ahead_reduction = 1
+				bonus = 1.0
+				base_bonus = 0.5
+				name = mltd_hea_steam_for_the_deep
+				target = HEA
+				uses = 1
+			}
+		}
+		else = {
+			add_tech_bonus = {
+				name = mltd_hea_steam_for_the_deep
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_hea_the_crusade_turns_south
+	icon = GFX_goal_HEA_focus_declaration_of_crusade
+	cost = 42
+	prerequisite = { focus = mltd_hea_a_second_schism }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_hea_crusade_tt
+			OR = {
+				NOT = { country_exists = HEA }
+				HEA = {
+					OR = {
+						has_completed_focus = hea_war_in_heaven
+						has_completed_focus = hea_attack_utah
+						has_war_with = WHT
+						has_war_with = EHT
+						has_war_with = NCN
+					}
+				}
+				date > 2280.1.1
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 2
+	relative_position_id = mltd_hea_whispers_in_the_steam
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				country_exists = HEA
+				HEA = {
+					OR = {
+						has_war_with = WHT
+						has_war_with = EHT
+						has_war_with = NCN
+					}
+				}
+			}
+			custom_effect_tooltip = mltd_hea_crusade_loot_tt
+			army_experience = 20
+			set_temp_variable = { caps_to_add = 60 }
+			add_caps = yes
+		}
+		else = {
+			add_political_power = 50
+		}
+		add_timed_idea = {
+			idea = mltd_hea_pilgrims_of_the_steam
+			days = 180
+		}
+	}
+}
+
+############ The Utah road war: the White Legs and the Eighties ############
+
+# Utah road-war sub-tree: the White Legs' lake god, the Eighties' engines, and a war the Order can feed
+shared_focus = {
+	id = mltd_wht_the_lake_god_answers
+	icon = GFX_goal_WHT_salt_upon
+	cost = 30
+	available = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		OR = {
+			country_exists = WHT
+			country_exists = EHT
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 28
+	y = 17
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = WHT }
+				add_intel = {
+					target = WHT
+					civilian_intel = 10
+				}
+			}
+			if = {
+				limit = { country_exists = EHT }
+				add_intel = {
+					target = EHT
+					army_intel = 10
+				}
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_wht_the_drowned_shamans
+	icon = GFX_goal_WHT_generic_flag
+	cost = 35
+	prerequisite = { focus = mltd_wht_the_lake_god_answers }
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = WHT
+			}
+			OR = {
+				has_operation_token = {
+					tag = WHT
+					token = token_civilian
+				}
+				network_national_coverage = {
+					target = WHT
+					value > 0.2
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 1
+	relative_position_id = mltd_wht_the_lake_god_answers
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		add_political_power = 40
+		if = {
+			limit = { country_exists = WHT }
+			WHT = { add_stability = -0.03 }
+			if = {
+				limit = {
+					WHT = {
+						OR = {
+							has_completed_focus = wht_god_lake
+							has_completed_focus = wht_god_old
+						}
+					}
+				}
+				custom_effect_tooltip = mltd_wht_shamans_converts_tt
+				add_stability = 0.02
+				add_war_support = 0.02
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = WHT
+			}
+			add_operation_token = {
+				tag = WHT
+				token = token_army
+			}
+			add_intel = {
+				target = WHT
+				civilian_intel = 10
+			}
+		}
+		else = {
+			add_tech_bonus = {
+				name = mltd_wht_the_drowned_shamans
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons_tech_category
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_wht_guns_for_both_sides
+	icon = GFX_goal_EHT_empire_salt
+	cost = 30
+	prerequisite = { focus = mltd_wht_the_lake_god_answers }
+	available = {
+		country_exists = WHT
+		country_exists = EHT
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 1
+	relative_position_id = mltd_wht_the_lake_god_answers
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { has_equipment = { infantry_equipment > 199 } }
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -200
+			}
+			if = {
+				limit = { country_exists = WHT }
+				WHT = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = 100
+						producer = MLT
+					}
+				}
+			}
+			if = {
+				limit = { country_exists = EHT }
+				EHT = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = 100
+						producer = MLT
+					}
+				}
+			}
+			set_temp_variable = { caps_to_add = 100 }
+			add_caps = yes
+		}
+		else = {
+			set_temp_variable = { caps_to_add = 40 }
+			add_caps = yes
+		}
+		if = {
+			limit = {
+				country_exists = WHT
+				WHT = { has_war_with = EHT }
+			}
+			custom_effect_tooltip = mltd_wht_guns_war_tt
+			army_experience = 15
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_wht_sand_in_the_engines
+	icon = GFX_goal_EHT_apc
+	cost = 35
+	prerequisite = { focus = mltd_wht_the_lake_god_answers }
+	available = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = EHT
+			}
+			OR = {
+				has_operation_token = {
+					tag = EHT
+					token = token_civilian
+				}
+				network_national_coverage = {
+					target = EHT
+					value > 0.15
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 1
+	relative_position_id = mltd_wht_the_lake_god_answers
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { country_exists = EHT }
+			EHT = { add_war_support = -0.03 }
+		}
+		if = {
+			limit = {
+				country_exists = EHT
+				EHT = { has_equipment = { infantry_equipment > 299 } }
+			}
+			EHT = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -300
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 300
+				producer = EHT
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = EHT
+			}
+			add_intel = {
+				target = EHT
+				army_intel = 10
+			}
+		}
+		else = {
+			add_political_power = 20
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_wht_rites_on_the_spiral_jetty
+	icon = GFX_goal_worship_poseidon
+	cost = 42
+	prerequisite = { focus = mltd_wht_the_drowned_shamans focus = mltd_wht_sand_in_the_engines }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_wht_road_war_tt
+			OR = {
+				AND = {
+					country_exists = WHT
+					WHT = {
+						OR = {
+							has_war_with = EHT
+							has_completed_focus = wht_betray_eighties
+						}
+					}
+				}
+				AND = {
+					country_exists = EHT
+					EHT = { has_completed_focus = EHT_steal_WHT_legs }
+				}
+				NOT = { country_exists = WHT }
+				NOT = { country_exists = EHT }
+				date > 2280.1.1
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 2
+	relative_position_id = mltd_wht_the_lake_god_answers
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		add_timed_idea = {
+			idea = mltd_wht_rites_on_the_jetty
+			days = 180
+		}
+		if = {
+			limit = {
+				country_exists = WHT
+				WHT = {
+					OR = {
+						has_completed_focus = wht_god_lake
+						has_completed_focus = wht_god_old
+					}
+				}
+			}
+			custom_effect_tooltip = mltd_wht_jetty_old_ones_tt
+			add_political_power = 50
+			WHT = { add_stability = -0.02 }
+		}
+		else = {
+			add_political_power = 30
+		}
+	}
+}

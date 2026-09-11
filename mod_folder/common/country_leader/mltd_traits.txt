@@ -1,0 +1,16 @@
+# Rising Tide (MLT) - advisor traits.
+# mltd_keeper_of_the_order is Old Castro's trait (common/characters/MLT.txt). An agency starts with 1
+# operative slot (00_static_modifiers.txt, created_intelligence_agency) and upgrades add at most +1
+# (NOperatives.MAX_OPERATIVE_SLOT_FROM_AGENCY_UPGRADES = 1, which OWB leaves alone; it only lowers
+# AGENCY_UPGRADE_PER_OPERATIVE_SLOT to 4), so a fully upgraded MLT has 2. This makes it 4, enough for
+# OWB's steal-tech operations (3 operatives). OWB's own +2 precedents: CHC_vanishing_act,
+# loi_terror (LOI_leader_traits.txt), ORO_selene_blackheart_trait.
+leader_traits = {
+	mltd_keeper_of_the_order = {
+		random = no
+		operative_slot = 2
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

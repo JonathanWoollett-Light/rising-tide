@@ -6,7 +6,7 @@ mltd_gifts_from_the_deep_cat = {
 			original_tag = MLT
 		}
 		visible = {
-			has_completed_focus = mltd_first_book
+			has_country_flag = mltd_first_book_found
 			NOT = { has_country_flag = mltd_gifts_permanent }
 		}
 		available = {
@@ -57,7 +57,7 @@ mltd_gifts_from_the_deep_cat = {
 			original_tag = MLT
 		}
 		visible = {
-			has_completed_focus = mltd_second_book
+			has_country_flag = mltd_second_book_found
 			NOT = { has_country_flag = mltd_gifts_permanent }
 		}
 		available = {
@@ -108,7 +108,7 @@ mltd_gifts_from_the_deep_cat = {
 			original_tag = MLT
 		}
 		visible = {
-			has_completed_focus = mltd_third_book
+			has_country_flag = mltd_third_book_found
 			NOT = { has_country_flag = mltd_gifts_permanent }
 		}
 		available = {
@@ -159,7 +159,7 @@ mltd_gifts_from_the_deep_cat = {
 			original_tag = MLT
 		}
 		visible = {
-			has_completed_focus = mltd_fourth_book
+			has_country_flag = mltd_fourth_book_found
 			NOT = { has_country_flag = mltd_gifts_permanent }
 		}
 		available = {
@@ -210,7 +210,7 @@ mltd_gifts_from_the_deep_cat = {
 			original_tag = MLT
 		}
 		visible = {
-			has_completed_focus = mltd_fifth_book
+			has_country_flag = mltd_fifth_book_found
 			NOT = { has_country_flag = mltd_gifts_permanent }
 		}
 		available = {

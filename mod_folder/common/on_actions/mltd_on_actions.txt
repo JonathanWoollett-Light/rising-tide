@@ -16,4 +16,24 @@ on_actions = {
 			}
 		}
 	}
+
+	# Every month: roll the Lovecraftian flavour pool (events mltd.9-18). Each event's own trigger
+	# calls mltd_flavour_can_fire (common/scripted_triggers/mltd_scripted_triggers.txt), and each sets
+	# the shared 120-day cooldown flag mltd_flavour_cooldown when it fires. 50 = 0 is the no-event
+	# sink (vanilla 00_on_actions.txt:374; Millennium Dawn 99_SYR_on_actions.txt:4).
+	on_monthly_MLT = {
+		random_events = {
+			50 = 0
+			10 = mltd.9
+			10 = mltd.10
+			10 = mltd.11
+			10 = mltd.12
+			10 = mltd.13
+			10 = mltd.14
+			10 = mltd.15
+			10 = mltd.16
+			10 = mltd.17
+			10 = mltd.18
+		}
+	}
 }

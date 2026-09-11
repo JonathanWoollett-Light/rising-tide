@@ -17,6 +17,15 @@ focus_tree = {
 
 	shared_focus = lurk_aquatic_construction
 	shared_focus = lurk_consult_the_oracles
+	# Rising Tide conflict sub-trees (common/national_focus/mltd_conflicts_focus.txt)
+	shared_focus = mltd_ncr_a_mole_in_shady_sands
+	shared_focus = mltd_tex_all_waters_are_one
+	shared_focus = mltd_wbh_eyes_in_the_sound
+	shared_focus = mltd_ces_what_the_river_carries
+	shared_focus = mltd_bos_the_drowned_paladin
+	shared_focus = mltd_tla_the_iron_god_dreams
+	shared_focus = mltd_hea_whispers_in_the_steam
+	shared_focus = mltd_wht_the_lake_god_answers
 
 	focus = {
 		id = mlt_sanity_lost
@@ -1283,10 +1292,14 @@ focus_tree = {
 		relative_position_id = mltd_gifts_from_the_deep
 		ai_will_do = { factor = 10 }
 		completion_reward = {
+			# Rising Tide: the Book is not read here. This only previews the reward and starts the
+			# expedition (events mltd.101-103); its last event sets mltd_<n>_book_found and adds the book.
+			custom_effect_tooltip = mltd_first_book_expedition_tt
+			custom_effect_tooltip = mltd_when_book_found_tt
 			custom_effect_tooltip = mltd_tide_gift_unlocked_tt
 			set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_army_attack_factor_tt }
-			hidden_effect = { add_to_variable = { mltd_books_read = 1 } }
-			custom_effect_tooltip = mltd_book_read_tt
+			custom_effect_tooltip = mltd_book_found_read_tt
+			hidden_effect = { country_event = { id = mltd.101 days = 2 } }
 		}
 	}
 	focus = {
@@ -1302,10 +1315,12 @@ focus_tree = {
 		relative_position_id = mltd_gifts_from_the_deep
 		ai_will_do = { factor = 10 }
 		completion_reward = {
+			custom_effect_tooltip = mltd_second_book_expedition_tt
+			custom_effect_tooltip = mltd_when_book_found_tt
 			custom_effect_tooltip = mltd_shell_gift_unlocked_tt
 			set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_army_defence_factor_tt }
-			hidden_effect = { add_to_variable = { mltd_books_read = 1 } }
-			custom_effect_tooltip = mltd_book_read_tt
+			custom_effect_tooltip = mltd_book_found_read_tt
+			hidden_effect = { country_event = { id = mltd.201 days = 2 } }
 		}
 	}
 	focus = {
@@ -1321,10 +1336,12 @@ focus_tree = {
 		relative_position_id = mltd_gifts_from_the_deep
 		ai_will_do = { factor = 10 }
 		completion_reward = {
+			custom_effect_tooltip = mltd_third_book_expedition_tt
+			custom_effect_tooltip = mltd_when_book_found_tt
 			custom_effect_tooltip = mltd_current_gift_unlocked_tt
 			set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_army_org_factor_tt }
-			hidden_effect = { add_to_variable = { mltd_books_read = 1 } }
-			custom_effect_tooltip = mltd_book_read_tt
+			custom_effect_tooltip = mltd_book_found_read_tt
+			hidden_effect = { country_event = { id = mltd.301 days = 2 } }
 		}
 	}
 	focus = {
@@ -1340,10 +1357,12 @@ focus_tree = {
 		relative_position_id = mltd_gifts_from_the_deep
 		ai_will_do = { factor = 10 }
 		completion_reward = {
+			custom_effect_tooltip = mltd_fourth_book_expedition_tt
+			custom_effect_tooltip = mltd_when_book_found_tt
 			custom_effect_tooltip = mltd_brood_gift_unlocked_tt
 			set_temp_variable = { mltd_tt = 0.30 tooltip = mltd_conscription_factor_tt }
-			hidden_effect = { add_to_variable = { mltd_books_read = 1 } }
-			custom_effect_tooltip = mltd_book_read_tt
+			custom_effect_tooltip = mltd_book_found_read_tt
+			hidden_effect = { country_event = { id = mltd.401 days = 2 } }
 		}
 	}
 	focus = {
@@ -1359,10 +1378,12 @@ focus_tree = {
 		relative_position_id = mltd_gifts_from_the_deep
 		ai_will_do = { factor = 10 }
 		completion_reward = {
+			custom_effect_tooltip = mltd_fifth_book_expedition_tt
+			custom_effect_tooltip = mltd_when_book_found_tt
 			custom_effect_tooltip = mltd_abyss_gift_unlocked_tt
 			set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_stability_factor_tt }
-			hidden_effect = { add_to_variable = { mltd_books_read = 1 } }
-			custom_effect_tooltip = mltd_book_read_tt
+			custom_effect_tooltip = mltd_book_found_read_tt
+			hidden_effect = { country_event = { id = mltd.501 days = 2 } }
 		}
 	}
 

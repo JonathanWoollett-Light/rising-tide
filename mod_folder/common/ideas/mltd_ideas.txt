@@ -96,5 +96,180 @@ ideas = {
 				special_forces_min = 80
 			}
 		}
+		# ---- Rising Tide round 13: conflict sub-trees and flavour events
+		mltd_tex_black_water = {
+			picture = generic_fuel
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				industrial_capacity_factory = 0.05
+				production_speed_buildings_factor = 0.05
+				stability_factor = -0.02
+			}
+		}
+		# Timed (180 days), from mltd_wbh_the_tide_wall. targeted_modifier sits beside modifier, as in OWB bdt_ideas.txt:41-44.
+		mltd_wbh_tide_wall = {
+			picture = generic_improv_barricade
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				army_core_defence_factor = 0.05
+			}
+
+			targeted_modifier = {
+				tag = WBH
+				attack_bonus_against = 0.05
+				defense_bonus_against = 0.10
+			}
+		}
+		# Timed, 180 days: mltd_ces_the_sea_against_mars (Caesar's Legion sub-tree, mltd_conflicts_focus.txt)
+		mltd_ces_the_drowned_bull = {
+			picture = brk_coastal_terror
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				war_support_factor = 0.05
+				army_morale_factor = 0.05
+			}
+		}
+		# Timed (180 days): the war branch of mltd_bos_blood_in_the_water, taken while Lost Hills and the NCR are at war.
+		mltd_bos_red_tide = {
+			picture = generic_blood
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = 0.05
+				experience_gain_army_factor = 0.10
+			}
+		}
+		mltd_tla_dreams_of_wire = {
+			picture = generic_circuit
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				research_speed_factor = 0.05
+			}
+		}
+		# Timed, 90 days (event mltd.10, option a): the tribe eats what the fog brought home. conscription_factor
+		# (shown as Recruitable Population) is the key the Gift of the Brood uses (mltd_dynamic_modifiers.txt:13).
+		mltd_flavour_strange_harvest = {
+			picture = generic_meat_cleaver
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				conscription_factor = 0.05
+			}
+		}
+		# Timed, 120 days (event mltd.12, option b): the oracles drink from the pool the star-stone fell into.
+		mltd_flavour_unnamed_colour = {
+			picture = horror_mask
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				research_speed_factor = 0.05
+				stability_factor = -0.05
+			}
+		}
+		# Timed (180 days), granted by mltd_hea_the_crusade_turns_south in mltd_conflicts_focus.txt
+		mltd_hea_pilgrims_of_the_steam = {
+			picture = HEA_idea_pilgrims
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = 0.05
+				stability_factor = 0.03
+			}
+		}
+		# Timed (180 days), granted by mltd_wht_rites_on_the_spiral_jetty in mltd_conflicts_focus.txt
+		mltd_wht_rites_on_the_jetty = {
+			picture = generic_salt
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				army_morale_factor = 0.05
+				recruitable_population_factor = 0.03
+			}
+		}
 	}
 }

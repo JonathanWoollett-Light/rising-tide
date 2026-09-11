@@ -1,0 +1,12 @@
+# Rising Tide - MLT scripted triggers
+#
+# mltd_flavour_can_fire: shared gate for the Lovecraftian flavour events mltd.9-18, drawn each month
+# from the random_events pool in on_monthly_MLT (common/on_actions/mltd_on_actions.txt). Open once the
+# Kingdom of M'lyeh is proclaimed; shut while capitulated and while mltd_flavour_cooldown runs (120 days,
+# set in each flavour event's immediate block; event mltd.1 also sets it for 90 days).
+mltd_flavour_can_fire = {
+	original_tag = MLT
+	has_completed_focus = mlt_kingdom_of_mlyeh
+	has_capitulated = no
+	NOT = { has_country_flag = mltd_flavour_cooldown }
+}

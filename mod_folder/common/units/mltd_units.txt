@@ -3,6 +3,13 @@
 # special-forces keys of deathclaw_special_forces. Like amphibious_beast_creature they carry
 # no percentage combat-stat keys: the flat attack/defence numbers live in their own equipment
 # (common/units/equipment/mltd_equipment.txt), one archetype per sub-unit.
+# Categories follow the mirelurk (amphibious_beast_creature): category_standard_creatures and
+# NOT category_special_forces, even though special_forces = yes (that key only drives the
+# special-forces cap). OWB's two perk trees (fallout_perks_doctrine.txt, creature_perk_tech_*
+# and special_forces_perk_tech_*) target those two categories with identical buffs and no XOR,
+# so a unit in both collects every perk twice; no OWB sub-unit sits in both. Doctrines reach
+# these units through category_creatures (Asymmetric Warfare) and category_mutant_creatures
+# (Outsider-Inspired Warfare): never add name-keyed doctrine blocks for them.
 
 sub_units = {
 
@@ -27,7 +34,6 @@ sub_units = {
 			category_mutant_creatures
 			category_amphibious_creatures
 			category_standard_creatures
-			category_special_forces
 		}
 
 		combat_width = 2.5
@@ -104,7 +110,6 @@ sub_units = {
 			category_mutant_creatures
 			category_amphibious_creatures
 			category_standard_creatures
-			category_special_forces
 		}
 
 		combat_width = 2.5

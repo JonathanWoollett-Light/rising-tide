@@ -349,3 +349,41 @@ mltd_ritual_daily_toll = {
 		add_manpower = mltd_toll_temp
 	}
 }
+
+# Every conflict sub-tree (common/national_focus/mltd_conflicts_focus.txt) opens with this. With
+# La Resistance it founds the tribe's agency the first time and adds one random OWB agency upgrade on
+# every later call. OWB charges 15 caps in each upgrade's complete_effect
+# (intelligence_agency_upgrades.txt:16-34), so the upgrade is refunded, as Unbound (UNB) Focus.txt:370-375
+# does. The refund is skipped at OWB's 30-upgrade ceiling, where add_random_agency_upgrade upgrades
+# nothing. Without the DLC it pays political power instead.
+mltd_intel_foothold = {
+	if = {
+		limit = { has_dlc = "La Resistance" }
+		if = {
+			limit = { has_intelligence_agency = no }
+			custom_effect_tooltip = mltd_intel_foothold_create_tt
+			hidden_effect = {
+				create_intelligence_agency = {
+					name = mltd_agency_name
+					icon = "GFX_intelligence_agency_logo_generic_21"
+				}
+			}
+		}
+		else_if = {
+			limit = { NOT = { agency_upgrade_number > 29 } }
+			custom_effect_tooltip = mltd_intel_foothold_upgrade_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { agency_upgrade_number > 29 } }
+					set_temp_variable = { caps_to_add = 15 }
+					add_caps = yes
+					set_temp_variable = { random_agency_upgrade_amount = 1 }
+					add_random_agency_upgrade = yes
+				}
+			}
+		}
+	}
+	else = {
+		add_political_power = 50
+	}
+}
