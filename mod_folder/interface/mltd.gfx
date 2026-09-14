@@ -254,4 +254,31 @@ spriteTypes = {
 		}
 		legacy_lazy_load = no
 	}
+
+	# Decision-category pictures: OWB's own, moved down 2 transparent rows so they stop covering the frame's
+	# orange/red top line (OWB draws the picture at y=3, the line at desc y 3-4). Built by build_category_pictures.py.
+	spriteType = {
+		name = "GFX_mltd_decision_cat_spectral_cabal"
+		texturefile = "gfx/interface/decisions/mltd_decision_cat_spectral_cabal.dds"
+	}
+	spriteType = {
+		name = "GFX_mltd_decision_cat_loid_ekt_storm"
+		texturefile = "gfx/interface/decisions/mltd_decision_cat_loid_ekt_storm.dds"
+	}
+	spriteType = {
+		name = "GFX_mltd_decision_cat_wardens_propaganda"
+		texturefile = "gfx/interface/decisions/mltd_decision_cat_wardens_propaganda.dds"
+	}
+	# Decision icon for mltd_cult_found: a cult hood, drawn procedurally (build_decision_icons.py)
+	spriteType = {
+		name = "GFX_decision_mltd_cult_hood"
+		texturefile = "gfx/interface/decisions/mltd_cult_hood.dds"
+	}
+	# Intelligence agency logo for The Esoteric Order of M'lyeh: a 234x119 strip of two 117x119 frames (frame 2 = the
+	# same emblem with OWB's hover glow), uncompressed like OWB's agency logos. Built by build_agency_logo.py.
+	spriteType = {
+		name = "GFX_intelligence_agency_logo_mltd_esoteric_order"
+		texturefile = "gfx/interface/operatives/agencies/mltd_agency_logo_esoteric_order.dds"
+		noOfFrames = 2
+	}
 }

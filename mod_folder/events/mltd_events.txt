@@ -586,6 +586,99 @@ country_event = {
 	}
 }
 
+# Hail M'lyeh (a Hail Hydra homage): a trusted figure abroad turns out to have been one of the faithful all along.
+# Unlike mltd.9-18 it can recur (no fire_only_once), at most once a year (mltd_hail_cooldown); it needs La Resistance,
+# an agency and a country passing mltd_hail_candidate (a network there, no civilian token yet). The reward sits in
+# hidden_effect behind mltd_hail_token_tt; the scope switch makes PREV the target, as in OWB's Lost Hills focus
+# (Lost Hills (BOS) Focus.txt:1789-1797).
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.19"
+		hidden_effect = {
+			set_country_flag = { flag = mltd_flavour_cooldown value = 1 days = 120 }
+			set_country_flag = { flag = mltd_hail_cooldown value = 1 days = 365 }
+			random_country = {
+				limit = {
+					mltd_hail_candidate = yes
+				}
+				save_event_target_as = mltd_hail_target
+			}
+		}
+	}
+	id = mltd.19
+	title = mltd.19.t
+	desc = mltd.19.d
+	picture = GFX_event_csis_prime_minister
+
+	is_triggered_only = yes
+
+	trigger = {
+		mltd_flavour_can_fire = yes
+		has_dlc = "La Resistance"
+		has_intelligence_agency = yes
+		NOT = { has_country_flag = mltd_hail_cooldown }
+		any_country = {
+			mltd_hail_candidate = yes
+		}
+	}
+
+	option = {
+		name = mltd.19.a
+		custom_effect_tooltip = mltd_hail_token_tt
+		hidden_effect = {
+			event_target:mltd_hail_target = {
+				ROOT = {
+					add_operation_token = {
+						tag = PREV
+						token = token_civilian
+					}
+					add_intel = {
+						target = PREV
+						civilian_intel = 10
+					}
+				}
+			}
+		}
+	}
+}
+
+# The General in the Shallows: the critical success of mltd_op_indoctrinate_the_faithful_* brought one of the target's
+# generals over. The operation flags the defector mltd_defector_new and stores the old country in mltd_defector_origin;
+# this event turns both into event targets for its text (the pattern of mltd.19) and clears them.
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.20"
+		hidden_effect = {
+			random_army_leader = {
+				limit = {
+					has_character_flag = mltd_defector_new
+				}
+				save_event_target_as = mltd_defector
+				clr_character_flag = mltd_defector_new
+			}
+			if = {
+				limit = {
+					has_variable = mltd_defector_origin
+				}
+				var:mltd_defector_origin = {
+					save_event_target_as = mltd_defector_country
+				}
+				clear_variable = mltd_defector_origin
+			}
+		}
+	}
+	id = mltd.20
+	title = mltd.20.t
+	desc = mltd.20.d
+	picture = GFX_event_sub_generic_war_room
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.20.a
+	}
+}
+
 # ---- Books of M'lyeh expeditions: each Book focus fires the chain's first event; the last event reads the Book
 # (set_country_flag = mltd_<n>_book_found, mltd_books_read + 1), which is what unlocks the gift decision.
 country_event = {

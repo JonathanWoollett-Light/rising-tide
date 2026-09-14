@@ -14,14 +14,31 @@ on_actions = {
 				}
 				mltd_ritual_daily_toll = yes
 			}
+			# the Cult Infiltration category's list of cults (an annexed country drops out the next day)
+			if = {
+				limit = { has_completed_focus = mltd_the_spreading_cult }
+				mltd_cult_rebuild_list = yes
+			}
 		}
 	}
 
-	# Every month: roll the Lovecraftian flavour pool (events mltd.9-18). Each event's own trigger
+	# Every month: roll the Lovecraftian flavour pool (events mltd.9-19). Each event's own trigger
 	# calls mltd_flavour_can_fire (common/scripted_triggers/mltd_scripted_triggers.txt), and each sets
 	# the shared 120-day cooldown flag mltd_flavour_cooldown when it fires. 50 = 0 is the no-event
 	# sink (vanilla 00_on_actions.txt:374; Millennium Dawn 99_SYR_on_actions.txt:4).
 	on_monthly_MLT = {
+		# The Wet Market restocks while the Mirelurk Tribe exists (the stock is global: every buyer draws on it), topping
+		# up only below 2,500 so lots sold into it past that are kept.
+		effect = {
+			if = {
+				limit = {
+					has_global_flag = mltd_wet_market_open
+					check_variable = { global.mltd_wet_market_stock < 2500 }
+				}
+				add_to_variable = { global.mltd_wet_market_stock = 250 }
+				clamp_variable = { var = global.mltd_wet_market_stock min = 0 max = 2500 }
+			}
+		}
 		random_events = {
 			50 = 0
 			10 = mltd.9
@@ -34,6 +51,41 @@ on_actions = {
 			10 = mltd.16
 			10 = mltd.17
 			10 = mltd.18
+			10 = mltd.19
+		}
+	}
+
+	# Every week: every cult of M'lyeh abroad loses its decay (faster the stronger it is, three times as
+	# fast while at war with us), counts its cooldowns down and dissolves below 1 % (mltd_cult_weekly); then the
+	# category's list of cults is rebuilt (mltd_cult_rebuild_list).
+	on_weekly_MLT = {
+		effect = {
+			every_country = {
+				limit = { has_variable = mltd_cult_strength }
+				mltd_cult_weekly = yes
+			}
+			mltd_cult_rebuild_list = yes
+		}
+	}
+
+	# A war between MLT and a country with a cult switches the cult's penalties on at once instead of at
+	# the next weekly tick. ROOT is the attacker, FROM the defender (vanilla 00_on_actions.txt:4911-4913).
+	on_war_relation_added = {
+		effect = {
+			if = {
+				limit = {
+					tag = MLT
+					FROM = { has_variable = mltd_cult_strength }
+				}
+				FROM = { mltd_cult_refresh = yes }
+			}
+			if = {
+				limit = {
+					has_variable = mltd_cult_strength
+					FROM = { tag = MLT }
+				}
+				mltd_cult_refresh = yes
+			}
 		}
 	}
 }

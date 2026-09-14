@@ -442,3 +442,343 @@ mltd_children_of_the_deep_cat = {
 		}
 	}
 }
+
+# Rising Tide - Cult Infiltration (targeted decisions: FROM is the target country).
+# A cult's strength lives on the country that holds it, as mltd_cult_strength (0-100, shown as a %).
+# The category and all five decisions open with the focus mltd_the_spreading_cult.
+# Founding needs a neighbouring major (mltd_cult_can_be_founded, common/scripted_triggers); the other
+# four need a living cult there, and three of them need La Resistance intelligence on the target.
+# Costs are paid in hidden_effect, as OWB's custom_cost decisions do (area51_decisions.txt): each literal
+# appears in custom_cost_trigger (PP and manpower as N-1, caps as caps_diff = -N), in complete_effect and in
+# the mltd_cult_cost_<id> loc text and its _blocked twin. With the caps rule off, add_caps charges caps as
+# 1.25 x political power (caps_scripted_effects.txt:89-92) and caps_cost_trigger always passes for a cost,
+# so the trigger's else gates on PP + 1.25 x caps (as N-1) instead.
+# Cooldowns are countdown variables on the target, in weeks, lowered by mltd_cult_weekly (on_weekly_MLT);
+# each literal appears in the set_variable and in mltd_cult_<id>_again_tt. Gains appear twice (the tooltip's
+# temp variable and the one inside FROM). Mechanics: common/scripted_effects/mltd_scripted_effects.txt.
+mltd_cult_infiltration_cat = {
+
+	mltd_cult_found = {
+		icon = GFX_decision_mltd_cult_hood
+		allowed = {
+			original_tag = MLT
+		}
+		target_array = neighbors
+		target_root_trigger = {
+			has_completed_focus = mltd_the_spreading_cult
+		}
+		target_trigger = {
+			FROM = {
+				mltd_cult_can_be_founded = yes
+			}
+		}
+		custom_cost_trigger = {
+			has_manpower > 999
+			if = {
+				limit = { has_global_flag = caps_enabled_global_flag }
+				has_political_power > 49
+				set_temp_variable = { caps_diff = -50 }
+				caps_cost_trigger = yes
+			}
+			else = {
+				has_political_power > 111.5	# 50 PP + 50 caps, which add_caps takes as 62.5 PP
+			}
+		}
+		custom_cost_text = mltd_cult_cost_found
+		fire_only_once = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_political_power < 150
+			}
+		}
+		complete_effect = {
+			set_temp_variable = { mltd_cult_gain = 10 }
+			custom_effect_tooltip = mltd_cult_found_tt
+			hidden_effect = {
+				add_political_power = -50
+				add_manpower = -1000
+				set_temp_variable = { caps_to_add = -50 }
+				add_caps = yes
+				FROM = {
+					set_temp_variable = { mltd_cult_gain = 10 }
+					mltd_cult_add_strength = yes
+				}
+				mltd_cult_rebuild_list = yes
+			}
+		}
+	}
+
+	mltd_cult_spread_the_word = {
+		icon = GFX_decision_enc_propaganda
+		allowed = {
+			original_tag = MLT
+		}
+		target_root_trigger = {
+			has_completed_focus = mltd_the_spreading_cult
+		}
+		target_trigger = {
+			FROM = {
+				has_variable = mltd_cult_strength
+			}
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_spread_ready_tt
+				FROM = { check_variable = { mltd_cult_cd_spread < 1 } }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_not_full_tt
+				FROM = { check_variable = { mltd_cult_strength < 100 } }
+			}
+		}
+		custom_cost_trigger = {
+			has_manpower > 499
+			if = {
+				limit = { has_global_flag = caps_enabled_global_flag }
+				has_political_power > 19
+				set_temp_variable = { caps_diff = -20 }
+				caps_cost_trigger = yes
+			}
+			else = {
+				has_political_power > 44	# 20 PP + 20 caps, which add_caps takes as 25 PP
+			}
+		}
+		custom_cost_text = mltd_cult_cost_spread_the_word
+		fire_only_once = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_political_power < 100
+			}
+		}
+		complete_effect = {
+			set_temp_variable = { mltd_cult_gain = 6 }
+			custom_effect_tooltip = mltd_cult_grows_tt
+			custom_effect_tooltip = mltd_cult_spread_again_tt
+			hidden_effect = {
+				add_political_power = -20
+				add_manpower = -500
+				set_temp_variable = { caps_to_add = -20 }
+				add_caps = yes
+				FROM = {
+					set_temp_variable = { mltd_cult_gain = 6 }
+					mltd_cult_add_strength = yes
+					set_variable = { mltd_cult_cd_spread = 4 }
+				}
+				mltd_cult_rebuild_list = yes
+			}
+		}
+	}
+
+	mltd_cult_whispers_in_the_halls = {
+		icon = GFX_decision_eyeball
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_dlc = "La Resistance"
+		}
+		target_root_trigger = {
+			has_completed_focus = mltd_the_spreading_cult
+		}
+		target_trigger = {
+			FROM = {
+				has_variable = mltd_cult_strength
+			}
+		}
+		available = {
+			has_operation_token = { tag = FROM token = token_civilian }
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_halls_ready_tt
+				FROM = { check_variable = { mltd_cult_cd_halls < 1 } }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_not_full_tt
+				FROM = { check_variable = { mltd_cult_strength < 100 } }
+			}
+		}
+		custom_cost_trigger = {
+			has_manpower > 499
+			if = {
+				limit = { has_global_flag = caps_enabled_global_flag }
+				has_political_power > 29
+				set_temp_variable = { caps_diff = -35 }
+				caps_cost_trigger = yes
+			}
+			else = {
+				has_political_power > 72.75	# 30 PP + 35 caps, which add_caps takes as 43.75 PP
+			}
+		}
+		custom_cost_text = mltd_cult_cost_whispers_in_the_halls
+		fire_only_once = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_political_power < 100
+			}
+		}
+		complete_effect = {
+			set_temp_variable = { mltd_cult_gain = 12 }
+			custom_effect_tooltip = mltd_cult_grows_tt
+			custom_effect_tooltip = mltd_cult_halls_again_tt
+			hidden_effect = {
+				add_political_power = -30
+				add_manpower = -500
+				set_temp_variable = { caps_to_add = -35 }
+				add_caps = yes
+				FROM = {
+					set_temp_variable = { mltd_cult_gain = 12 }
+					mltd_cult_add_strength = yes
+					set_variable = { mltd_cult_cd_halls = 6 }
+				}
+				mltd_cult_rebuild_list = yes
+			}
+		}
+	}
+
+	mltd_cult_seed_the_barracks = {
+		icon = GFX_decision_gas_mask
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_dlc = "La Resistance"
+		}
+		target_root_trigger = {
+			has_completed_focus = mltd_the_spreading_cult
+		}
+		target_trigger = {
+			FROM = {
+				has_variable = mltd_cult_strength
+			}
+		}
+		available = {
+			has_operation_token = { tag = FROM token = token_army }
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_barracks_ready_tt
+				FROM = { check_variable = { mltd_cult_cd_barracks < 1 } }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_not_full_tt
+				FROM = { check_variable = { mltd_cult_strength < 100 } }
+			}
+		}
+		custom_cost_trigger = {
+			has_manpower > 749
+			if = {
+				limit = { has_global_flag = caps_enabled_global_flag }
+				has_political_power > 29
+				set_temp_variable = { caps_diff = -35 }
+				caps_cost_trigger = yes
+			}
+			else = {
+				has_political_power > 72.75	# 30 PP + 35 caps, which add_caps takes as 43.75 PP
+			}
+		}
+		custom_cost_text = mltd_cult_cost_seed_the_barracks
+		fire_only_once = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_political_power < 100
+			}
+		}
+		complete_effect = {
+			set_temp_variable = { mltd_cult_gain = 12 }
+			custom_effect_tooltip = mltd_cult_grows_tt
+			custom_effect_tooltip = mltd_cult_barracks_again_tt
+			hidden_effect = {
+				add_political_power = -30
+				add_manpower = -750
+				set_temp_variable = { caps_to_add = -35 }
+				add_caps = yes
+				FROM = {
+					set_temp_variable = { mltd_cult_gain = 12 }
+					mltd_cult_add_strength = yes
+					set_variable = { mltd_cult_cd_barracks = 6 }
+				}
+				mltd_cult_rebuild_list = yes
+			}
+		}
+	}
+
+	mltd_cult_drown_the_doubters = {
+		icon = GFX_decision_nor_horror_eye
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_dlc = "La Resistance"
+		}
+		target_root_trigger = {
+			has_completed_focus = mltd_the_spreading_cult
+		}
+		target_trigger = {
+			FROM = {
+				has_variable = mltd_cult_strength
+			}
+		}
+		available = {
+			# the native line prints 0.3 as "More than 0%"; mltd_cult_coverage_30_tt copies it with the right figure
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_coverage_30_tt
+				network_national_coverage = { target = FROM value > 0.3 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_strength_30_tt
+				FROM = { check_variable = { mltd_cult_strength > 29 } }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_drown_ready_tt
+				FROM = { check_variable = { mltd_cult_cd_drown < 1 } }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_not_full_tt
+				FROM = { check_variable = { mltd_cult_strength < 100 } }
+			}
+		}
+		custom_cost_trigger = {
+			has_manpower > 1499
+			if = {
+				limit = { has_global_flag = caps_enabled_global_flag }
+				has_political_power > 49
+				set_temp_variable = { caps_diff = -75 }
+				caps_cost_trigger = yes
+			}
+			else = {
+				has_political_power > 142.75	# 50 PP + 75 caps, which add_caps takes as 93.75 PP
+			}
+		}
+		custom_cost_text = mltd_cult_cost_drown_the_doubters
+		fire_only_once = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_political_power < 100
+			}
+		}
+		complete_effect = {
+			set_temp_variable = { mltd_cult_gain = 20 }
+			custom_effect_tooltip = mltd_cult_grows_tt
+			custom_effect_tooltip = mltd_cult_drown_again_tt
+			hidden_effect = {
+				add_political_power = -50
+				add_manpower = -1500
+				set_temp_variable = { caps_to_add = -75 }
+				add_caps = yes
+				FROM = {
+					set_temp_variable = { mltd_cult_gain = 20 }
+					mltd_cult_add_strength = yes
+					set_variable = { mltd_cult_cd_drown = 12 }
+				}
+				mltd_cult_rebuild_list = yes
+			}
+		}
+	}
+}

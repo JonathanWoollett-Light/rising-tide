@@ -1,0 +1,340 @@
+guiTypes = {
+	# The Wet Market's seller button, a child of OWB's trade_ledger_window (scripted GUI mltd_wet_market_tab). It takes the
+	# fourth slot of the seller bar's second row (OWB trade_ledger.gui: top_menu_bar at 5,40 with a 14 px top margin,
+	# gridbox at 7,0, 148x36 slots, 4 a row), which stays free until OWB has eight sellers - it has five.
+	containerWindowType = {
+		name = "mltd_wet_market_tab_window"
+		position = { x = 456 y = 90 }
+		size = { width = 148 height = 36 }
+		clipping = no
+
+		buttonType = {
+			name = "mltd_wet_market_tab"
+			position = { x = 0 y = 0 }
+			spriteType = "GFX_button_148x34"
+			buttonText = "mltd_wet_market_seller_name"
+			font = "hoi_18mbs"
+			format = center
+			multiline = no
+			pdx_tooltip = "mltd_wet_market_tab_tt"
+		}
+	}
+
+	# The Wet Market's wares, drawn over OWB's item list (trade_ledger.gui "list": 0,160, 615x365) while our tab is
+	# selected (scripted GUI mltd_wet_market_panel). Each row copies OWB's trade_ledger_entry (trade_ledger.gui:100-192)
+	# element for element, at OWB's gridbox spacing (x 13; 75 px slots below the list's 14 px top margin): the entry
+	# background, the dark 150x45 inset at 5,25 holding the icon (130x60 at 0.7, centred), the name, "In Stock", the
+	# requirement line where OWB's rows show "Minimum Opinion" (moved left to 270 so its 174 px clear the buttons), and the
+	# Buy For / Sell For buttons at 450,3 and 450,38.
+	containerWindowType = {
+		name = "mltd_wet_market_panel_window"
+		position = { x = 0 y = 160 }
+		size = { width = 615 height = 365 }
+		clipping = no
+		background = {
+			name = "background"
+			spriteType = "GFX_tiled_window_1b_border"
+		}
+
+		containerWindowType = {
+			name = "mltd_wm_row_1"
+			position = { x = 13 y = 14 }
+			size = { width = 578 height = 69 }
+			clipping = no
+			iconType = {
+				name = "mltd_wm_row_bg_1"
+				position = { x = 0 y = 0 }
+				spriteType = "GFX_trade_ledger_entry_bg"
+				alwaystransparent = yes
+			}
+			buttonType = {
+				name = "mltd_wm_item_bg_1"
+				position = { x = 5 y = 25 }
+				size = { x = 150 y = 45 }
+				spriteType = "GFX_tiled_generic_bg_1"
+				alwaystransparent = yes
+			}
+			iconType = {
+				name = "mltd_wm_icon_1"
+				position = { x = 35 y = 26 }
+				spriteType = "GFX_amphibious_beast_unlock_tech_medium"
+				scale = 0.7
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_name_1"
+				position = { x = 5 y = 5 }
+				text = "mltd_wm_item_1"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_stock_1"
+				position = { x = 330 y = 10 }
+				text = "mltd_wm_stock_text"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_requires_1"
+				position = { x = 270 y = 43 }
+				text = "mltd_wm_requirement_text"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			buttonType = {
+				name = "mltd_wm_buy_1"
+				position = { x = 450 y = 3 }
+				size = { x = 125 y = 30 }
+				spriteType = "GFX_tiling_sort_button"
+				buttonText = "mltd_wm_buy_1_text"
+				font = "hoi_18mbs"
+				format = center
+				multiline = no
+				pdx_tooltip = "mltd_wm_buy_1_tt"
+			}
+			buttonType = {
+				name = "mltd_wm_sell_1"
+				position = { x = 450 y = 38 }
+				size = { x = 125 y = 30 }
+				spriteType = "GFX_tiling_sort_button"
+				buttonText = "mltd_wm_sell_1_text"
+				font = "hoi_18mbs"
+				format = center
+				multiline = no
+				pdx_tooltip = "mltd_wm_sell_1_tt"
+			}
+		}
+		containerWindowType = {
+			name = "mltd_wm_row_2"
+			position = { x = 13 y = 89 }
+			size = { width = 578 height = 69 }
+			clipping = no
+			iconType = {
+				name = "mltd_wm_row_bg_2"
+				position = { x = 0 y = 0 }
+				spriteType = "GFX_trade_ledger_entry_bg"
+				alwaystransparent = yes
+			}
+			buttonType = {
+				name = "mltd_wm_item_bg_2"
+				position = { x = 5 y = 25 }
+				size = { x = 150 y = 45 }
+				spriteType = "GFX_tiled_generic_bg_1"
+				alwaystransparent = yes
+			}
+			iconType = {
+				name = "mltd_wm_icon_2"
+				position = { x = 35 y = 26 }
+				spriteType = "GFX_amphibious_beast_intermediate_form_medium"
+				scale = 0.7
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_name_2"
+				position = { x = 5 y = 5 }
+				text = "mltd_wm_item_2"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_stock_2"
+				position = { x = 330 y = 10 }
+				text = "mltd_wm_stock_text"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_requires_2"
+				position = { x = 270 y = 43 }
+				text = "mltd_wm_requirement_text"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			buttonType = {
+				name = "mltd_wm_buy_2"
+				position = { x = 450 y = 3 }
+				size = { x = 125 y = 30 }
+				spriteType = "GFX_tiling_sort_button"
+				buttonText = "mltd_wm_buy_2_text"
+				font = "hoi_18mbs"
+				format = center
+				multiline = no
+				pdx_tooltip = "mltd_wm_buy_2_tt"
+			}
+			buttonType = {
+				name = "mltd_wm_sell_2"
+				position = { x = 450 y = 38 }
+				size = { x = 125 y = 30 }
+				spriteType = "GFX_tiling_sort_button"
+				buttonText = "mltd_wm_sell_2_text"
+				font = "hoi_18mbs"
+				format = center
+				multiline = no
+				pdx_tooltip = "mltd_wm_sell_2_tt"
+			}
+		}
+		containerWindowType = {
+			name = "mltd_wm_row_3"
+			position = { x = 13 y = 164 }
+			size = { width = 578 height = 69 }
+			clipping = no
+			iconType = {
+				name = "mltd_wm_row_bg_3"
+				position = { x = 0 y = 0 }
+				spriteType = "GFX_trade_ledger_entry_bg"
+				alwaystransparent = yes
+			}
+			buttonType = {
+				name = "mltd_wm_item_bg_3"
+				position = { x = 5 y = 25 }
+				size = { x = 150 y = 45 }
+				spriteType = "GFX_tiled_generic_bg_1"
+				alwaystransparent = yes
+			}
+			iconType = {
+				name = "mltd_wm_icon_3"
+				position = { x = 35 y = 26 }
+				spriteType = "GFX_amphibious_beast_armor_form_medium"
+				scale = 0.7
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_name_3"
+				position = { x = 5 y = 5 }
+				text = "mltd_wm_item_3"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_stock_3"
+				position = { x = 330 y = 10 }
+				text = "mltd_wm_stock_text"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_requires_3"
+				position = { x = 270 y = 43 }
+				text = "mltd_wm_requirement_text"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			buttonType = {
+				name = "mltd_wm_buy_3"
+				position = { x = 450 y = 3 }
+				size = { x = 125 y = 30 }
+				spriteType = "GFX_tiling_sort_button"
+				buttonText = "mltd_wm_buy_3_text"
+				font = "hoi_18mbs"
+				format = center
+				multiline = no
+				pdx_tooltip = "mltd_wm_buy_3_tt"
+			}
+			buttonType = {
+				name = "mltd_wm_sell_3"
+				position = { x = 450 y = 38 }
+				size = { x = 125 y = 30 }
+				spriteType = "GFX_tiling_sort_button"
+				buttonText = "mltd_wm_sell_3_text"
+				font = "hoi_18mbs"
+				format = center
+				multiline = no
+				pdx_tooltip = "mltd_wm_sell_3_tt"
+			}
+		}
+		containerWindowType = {
+			name = "mltd_wm_row_4"
+			position = { x = 13 y = 239 }
+			size = { width = 578 height = 69 }
+			clipping = no
+			iconType = {
+				name = "mltd_wm_row_bg_4"
+				position = { x = 0 y = 0 }
+				spriteType = "GFX_trade_ledger_entry_bg"
+				alwaystransparent = yes
+			}
+			buttonType = {
+				name = "mltd_wm_item_bg_4"
+				position = { x = 5 y = 25 }
+				size = { x = 150 y = 45 }
+				spriteType = "GFX_tiled_generic_bg_1"
+				alwaystransparent = yes
+			}
+			iconType = {
+				name = "mltd_wm_icon_4"
+				position = { x = 35 y = 26 }
+				spriteType = "GFX_amphibious_beast_king_form_medium"
+				scale = 0.7
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_name_4"
+				position = { x = 5 y = 5 }
+				text = "mltd_wm_item_4"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_stock_4"
+				position = { x = 330 y = 10 }
+				text = "mltd_wm_stock_text"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			instantTextBoxType = {
+				name = "mltd_wm_requires_4"
+				position = { x = 270 y = 43 }
+				text = "mltd_wm_requirement_text"
+				font = "hoi_18mbs"
+				format = left
+				multiline = no
+				alwaystransparent = yes
+			}
+			buttonType = {
+				name = "mltd_wm_buy_4"
+				position = { x = 450 y = 3 }
+				size = { x = 125 y = 30 }
+				spriteType = "GFX_tiling_sort_button"
+				buttonText = "mltd_wm_buy_4_text"
+				font = "hoi_18mbs"
+				format = center
+				multiline = no
+				pdx_tooltip = "mltd_wm_buy_4_tt"
+			}
+			buttonType = {
+				name = "mltd_wm_sell_4"
+				position = { x = 450 y = 38 }
+				size = { x = 125 y = 30 }
+				spriteType = "GFX_tiling_sort_button"
+				buttonText = "mltd_wm_sell_4_text"
+				font = "hoi_18mbs"
+				format = center
+				multiline = no
+				pdx_tooltip = "mltd_wm_sell_4_tt"
+			}
+		}
+	}
+}

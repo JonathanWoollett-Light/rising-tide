@@ -351,39 +351,338 @@ mltd_ritual_daily_toll = {
 }
 
 # Every conflict sub-tree (common/national_focus/mltd_conflicts_focus.txt) opens with this. With
-# La Resistance it founds the tribe's agency the first time and adds one random OWB agency upgrade on
-# every later call. OWB charges 15 caps in each upgrade's complete_effect
-# (intelligence_agency_upgrades.txt:16-34), so the upgrade is refunded, as Unbound (UNB) Focus.txt:370-375
-# does. The refund is skipped at OWB's 30-upgrade ceiling, where add_random_agency_upgrade upgrades
-# nothing. Without the DLC it pays political power instead.
+# La Resistance and an agency it adds one random OWB agency upgrade. OWB charges 15 caps in each
+# upgrade's complete_effect (intelligence_agency_upgrades.txt:16-34), so the upgrade is refunded, as
+# Unbound (UNB) Focus.txt:370-375 does - paid first, so add_caps's bankruptcy check never sees the dip.
+# Skipped at OWB's 30-upgrade ceiling, where add_random_agency_upgrade upgrades nothing. It no longer
+# founds the agency - the focus mltd_the_spreading_cult does - so without an agency, without the DLC, or at the ceiling
+# it pays political power instead.
 mltd_intel_foothold = {
 	if = {
-		limit = { has_dlc = "La Resistance" }
-		if = {
-			limit = { has_intelligence_agency = no }
-			custom_effect_tooltip = mltd_intel_foothold_create_tt
-			hidden_effect = {
-				create_intelligence_agency = {
-					name = mltd_agency_name
-					icon = "GFX_intelligence_agency_logo_generic_21"
-				}
-			}
+		limit = {
+			has_dlc = "La Resistance"
+			has_intelligence_agency = yes
+			NOT = { agency_upgrade_number > 29 }
 		}
-		else_if = {
-			limit = { NOT = { agency_upgrade_number > 29 } }
-			custom_effect_tooltip = mltd_intel_foothold_upgrade_tt
-			hidden_effect = {
-				if = {
-					limit = { NOT = { agency_upgrade_number > 29 } }
-					set_temp_variable = { caps_to_add = 15 }
-					add_caps = yes
-					set_temp_variable = { random_agency_upgrade_amount = 1 }
-					add_random_agency_upgrade = yes
-				}
-			}
+		custom_effect_tooltip = mltd_intel_foothold_upgrade_tt
+		hidden_effect = {
+			set_temp_variable = { caps_to_add = 15 }
+			add_caps = yes
+			set_temp_variable = { random_agency_upgrade_amount = 1 }
+			add_random_agency_upgrade = yes
 		}
 	}
 	else = {
 		add_political_power = 50
+	}
+}
+
+# ---------------------------------------------------------------- Cult Infiltration
+# All four run in the scope of the country that holds (or is about to hold) the cult. MLT is named by
+# tag, never ROOT: mltd_cult_refresh also runs from on_war_relation_added, where ROOT can be either side.
+# Each is defined before anything that calls it - a console reload logged the forward references
+# (mltd_cult_add_strength -> mltd_cult_refresh, mltd_cult_weekly -> mltd_cult_dissolve) as unknown.
+# Variables on that country:
+#   mltd_cult_strength          0-100, shown as a percentage
+#   mltd_cult_decay             points it loses at the next weekly tick
+#   mltd_cult_threat_big/_small/_air  the war penalties in percentage points, for loc (0.25 / 0.15 / 0.5 per point)
+#   mltd_cult_*_var             the five mltd_cult_infiltration inputs, 0 unless at war with MLT
+#   mltd_cult_cd_spread/_halls/_barracks/_drown   decision cooldowns, in weeks
+
+# The last of the faithful are gone: the country is clean, and a new cult can be founded there.
+mltd_cult_dissolve = {
+	remove_dynamic_modifier = { modifier = mltd_cult_infiltration }
+	clear_variable = mltd_cult_strength
+	clear_variable = mltd_cult_decay
+	clear_variable = mltd_cult_threat_big
+	clear_variable = mltd_cult_threat_small
+	clear_variable = mltd_cult_threat_air
+	clear_variable = mltd_cult_stability_var
+	clear_variable = mltd_cult_war_support_var
+	clear_variable = mltd_cult_org_var
+	clear_variable = mltd_cult_factory_var
+	clear_variable = mltd_cult_air_var
+	clear_variable = mltd_cult_cd_spread
+	clear_variable = mltd_cult_cd_halls
+	clear_variable = mltd_cult_cd_barracks
+	clear_variable = mltd_cult_cd_drown
+}
+
+# Recomputes the weekly decay and the war penalties from the current strength s.
+# decay = 0.5 + s * s / 2500 points a week: 1.5 at 50 %, 3.74 at 90 %, 4.5 at 100 %, so holding 90 costs
+# ~2.5x what holding 50 does. Tripled while at war with MLT: the faithful rise, and rising exposes them.
+# s * s peaks at 10,000, far under the 2,147,483 variable ceiling.
+mltd_cult_refresh = {
+	set_variable = { mltd_cult_decay = mltd_cult_strength }
+	multiply_variable = { mltd_cult_decay = mltd_cult_strength }
+	divide_variable = { mltd_cult_decay = 2500 }
+	add_to_variable = { mltd_cult_decay = 0.5 }
+	if = {
+		limit = { has_war_with = MLT }
+		multiply_variable = { mltd_cult_decay = 3 }
+	}
+	set_variable = { mltd_cult_threat_big = mltd_cult_strength }
+	multiply_variable = { mltd_cult_threat_big = 0.25 }
+	set_variable = { mltd_cult_threat_small = mltd_cult_strength }
+	multiply_variable = { mltd_cult_threat_small = 0.15 }
+	set_variable = { mltd_cult_threat_air = mltd_cult_strength }
+	multiply_variable = { mltd_cult_threat_air = 0.5 }
+	if = {
+		limit = { has_war_with = MLT }
+		set_variable = { mltd_cult_stability_var = mltd_cult_threat_big }
+		multiply_variable = { mltd_cult_stability_var = -0.01 }
+		set_variable = { mltd_cult_war_support_var = mltd_cult_stability_var }
+		set_variable = { mltd_cult_org_var = mltd_cult_threat_small }
+		multiply_variable = { mltd_cult_org_var = -0.01 }
+		set_variable = { mltd_cult_factory_var = mltd_cult_org_var }
+		set_variable = { mltd_cult_air_var = mltd_cult_threat_air }
+		multiply_variable = { mltd_cult_air_var = 0.01 }
+	}
+	else = {
+		set_variable = { mltd_cult_stability_var = 0 }
+		set_variable = { mltd_cult_war_support_var = 0 }
+		set_variable = { mltd_cult_org_var = 0 }
+		set_variable = { mltd_cult_factory_var = 0 }
+		set_variable = { mltd_cult_air_var = 0 }
+	}
+	force_update_dynamic_modifier = yes
+}
+
+# Adds the temp variable mltd_cult_gain to the cult, founding it (and the modifier) first if needed.
+mltd_cult_add_strength = {
+	if = {
+		limit = { NOT = { has_variable = mltd_cult_strength } }
+		set_variable = { mltd_cult_strength = 0 }
+		set_variable = { mltd_cult_cd_spread = 0 }
+		set_variable = { mltd_cult_cd_halls = 0 }
+		set_variable = { mltd_cult_cd_barracks = 0 }
+		set_variable = { mltd_cult_cd_drown = 0 }
+	}
+	add_to_variable = { mltd_cult_strength = mltd_cult_gain }
+	clamp_variable = { var = mltd_cult_strength min = 0 max = 100 }
+	if = {
+		limit = { NOT = { has_dynamic_modifier = { modifier = mltd_cult_infiltration } } }
+		add_dynamic_modifier = { modifier = mltd_cult_infiltration }
+	}
+	mltd_cult_refresh = yes
+}
+
+# Weekly (on_weekly_MLT): lose this week's decay, count the cooldowns down, dissolve below 1 %.
+mltd_cult_weekly = {
+	mltd_cult_refresh = yes
+	subtract_from_variable = { mltd_cult_strength = mltd_cult_decay }
+	clamp_variable = { var = mltd_cult_strength min = 0 max = 100 }
+	if = { limit = { check_variable = { mltd_cult_cd_spread > 0 } } subtract_from_variable = { mltd_cult_cd_spread = 1 } }
+	if = { limit = { check_variable = { mltd_cult_cd_halls > 0 } } subtract_from_variable = { mltd_cult_cd_halls = 1 } }
+	if = { limit = { check_variable = { mltd_cult_cd_barracks > 0 } } subtract_from_variable = { mltd_cult_cd_barracks = 1 } }
+	if = { limit = { check_variable = { mltd_cult_cd_drown > 0 } } subtract_from_variable = { mltd_cult_cd_drown = 1 } }
+	if = {
+		limit = { check_variable = { mltd_cult_strength < 1 } }
+		mltd_cult_dissolve = yes
+	}
+	else = {
+		mltd_cult_refresh = yes
+	}
+}
+
+# mltd_cult_rebuild_list: the cults abroad, strongest first, for the Cult Infiltration category's description
+# (GetMltdCultList, common/scripted_localisation). MLT scope. Rebuilt rather than kept up piecemeal: every_country skips
+# countries that no longer exist, so annexed ones drop out. Called daily by on_daily_MLT once The Spreading Cult is done,
+# weekly after the decay loop, by every cult decision and by the focus mltd_the_spreading_cult.
+# The loc reads fixed slots on MLT - mltd_cult_row_<k> (the country) and mltd_cult_row_<k>_str (its strength), k = 1-8,
+# plus mltd_cult_count and mltd_cult_more - never an array element: stepping into var:array^i from a decision category's
+# description found nothing in game. Slots past mltd_cult_count keep stale values that the loc never shows. Selection sort
+# with find_highest_in_array and remove_from_array by index (OWB caps_scripted_ai.txt:161-218).
+mltd_cult_rebuild_list = {
+	clear_array = mltd_cult_list
+	clear_array = mltd_cult_sort_country
+	clear_array = mltd_cult_sort_strength
+	set_variable = { mltd_cult_count = 0 }
+	every_country = {
+		limit = { has_variable = mltd_cult_strength }
+		add_to_array = { ROOT.mltd_cult_sort_country = THIS }
+		add_to_array = { ROOT.mltd_cult_sort_strength = mltd_cult_strength }
+	}
+	while_loop_effect = {
+		limit = { check_variable = { mltd_cult_sort_country^num > 0 } }
+		find_highest_in_array = { array = mltd_cult_sort_strength index = mltd_cult_hi }
+		add_to_variable = { mltd_cult_count = 1 }
+		var:mltd_cult_sort_country^mltd_cult_hi = {
+			if = {
+				limit = { check_variable = { ROOT.mltd_cult_count = 1 } }
+				set_variable = { ROOT.mltd_cult_row_1 = THIS }
+				set_variable = { ROOT.mltd_cult_row_1_str = mltd_cult_strength }
+			}
+			else_if = {
+				limit = { check_variable = { ROOT.mltd_cult_count = 2 } }
+				set_variable = { ROOT.mltd_cult_row_2 = THIS }
+				set_variable = { ROOT.mltd_cult_row_2_str = mltd_cult_strength }
+			}
+			else_if = {
+				limit = { check_variable = { ROOT.mltd_cult_count = 3 } }
+				set_variable = { ROOT.mltd_cult_row_3 = THIS }
+				set_variable = { ROOT.mltd_cult_row_3_str = mltd_cult_strength }
+			}
+			else_if = {
+				limit = { check_variable = { ROOT.mltd_cult_count = 4 } }
+				set_variable = { ROOT.mltd_cult_row_4 = THIS }
+				set_variable = { ROOT.mltd_cult_row_4_str = mltd_cult_strength }
+			}
+			else_if = {
+				limit = { check_variable = { ROOT.mltd_cult_count = 5 } }
+				set_variable = { ROOT.mltd_cult_row_5 = THIS }
+				set_variable = { ROOT.mltd_cult_row_5_str = mltd_cult_strength }
+			}
+			else_if = {
+				limit = { check_variable = { ROOT.mltd_cult_count = 6 } }
+				set_variable = { ROOT.mltd_cult_row_6 = THIS }
+				set_variable = { ROOT.mltd_cult_row_6_str = mltd_cult_strength }
+			}
+			else_if = {
+				limit = { check_variable = { ROOT.mltd_cult_count = 7 } }
+				set_variable = { ROOT.mltd_cult_row_7 = THIS }
+				set_variable = { ROOT.mltd_cult_row_7_str = mltd_cult_strength }
+			}
+			else_if = {
+				limit = { check_variable = { ROOT.mltd_cult_count = 8 } }
+				set_variable = { ROOT.mltd_cult_row_8 = THIS }
+				set_variable = { ROOT.mltd_cult_row_8_str = mltd_cult_strength }
+			}
+		}
+		remove_from_array = { array = mltd_cult_sort_country index = mltd_cult_hi }
+		remove_from_array = { array = mltd_cult_sort_strength index = mltd_cult_hi }
+	}
+	set_variable = { mltd_cult_more = mltd_cult_count }
+	subtract_from_variable = { mltd_cult_more = 8 }
+}
+
+# mltd_wet_market_pay: pays for one Wet Market lot (price in the temp variable mltd_wm_price) through OWB's
+# transaction_caps (= add_caps with its tooltip, caps_scripted_effects.txt:96-103), takes 250 from the global stock and
+# starts the 40-day cooldown, as OWB's own sellers do (__trade_ledger_gui.txt:150-217). The button adds the equipment.
+mltd_wet_market_pay = {
+	set_temp_variable = { caps_to_add = mltd_wm_price }
+	multiply_temp_variable = { caps_to_add = -1 }
+	transaction_caps = yes
+	hidden_effect = {
+		add_to_variable = { global.mltd_wet_market_stock = -250 }
+		set_country_flag = { flag = mltd_wet_market_recent_trade value = 1 days = 40 }
+	}
+}
+
+# mltd_wet_market_receive: pays out for one lot sold to The Wet Market (price in the temp variable mltd_wm_price) through
+# OWB's transaction_caps, puts the 250 into the global stock - which sales may push past the 2,500 the monthly restock
+# stops at - and starts the 40-day cooldown. The button removes the equipment.
+mltd_wet_market_receive = {
+	set_temp_variable = { caps_to_add = mltd_wm_price }
+	transaction_caps = yes
+	hidden_effect = {
+		add_to_variable = { global.mltd_wet_market_stock = 250 }
+		set_country_flag = { flag = mltd_wet_market_recent_trade value = 1 days = 40 }
+	}
+}
+
+# mltd_indoctrinate_transfer: the manpower of Indoctrinate the Faithful (mltd_op_indoctrinate_the_faithful_<amount>), ROOT
+# (MLT) scope, FROM the target. Moves the variant's amount (temp mltd_op_cap) - or less, if the target's manpower has
+# since fallen into a lower band - from FROM to ROOT, so it never takes more than the target holds. Bands (common/operations/
+# mltd_operations.txt): > 50,000 5,000, > 25,000 2,500, > 10,000 1,000, > 5,000 250, > 1,000 100; at 1,000 or less, nothing.
+mltd_indoctrinate_transfer = {
+	if = {
+		limit = {
+			check_variable = { mltd_op_cap > 4999 }
+			FROM = { has_manpower > 50000 }
+		}
+		FROM = { add_manpower = -5000 }
+		add_manpower = 5000
+	}
+	else_if = {
+		limit = {
+			check_variable = { mltd_op_cap > 2499 }
+			FROM = { has_manpower > 25000 }
+		}
+		FROM = { add_manpower = -2500 }
+		add_manpower = 2500
+	}
+	else_if = {
+		limit = {
+			check_variable = { mltd_op_cap > 999 }
+			FROM = { has_manpower > 10000 }
+		}
+		FROM = { add_manpower = -1000 }
+		add_manpower = 1000
+	}
+	else_if = {
+		limit = {
+			check_variable = { mltd_op_cap > 249 }
+			FROM = { has_manpower > 5000 }
+		}
+		FROM = { add_manpower = -250 }
+		add_manpower = 250
+	}
+	else_if = {
+		limit = {
+			FROM = { has_manpower > 1000 }
+		}
+		FROM = { add_manpower = -100 }
+		add_manpower = 100
+	}
+}
+
+# mltd_indoctrinate_defector: the critical success of Indoctrinate the Faithful, ROOT (MLT) scope, FROM the target. One of
+# FROM's generals - a mltd_defector_candidate (never a field marshal, a leader or would-be leader, an advisor, an exile or
+# a story character), an unassigned one when there is one - is flagged and handed to ROOT with set_nationality (every role,
+# skill and trait goes along); event mltd.20 names them. If the one who came is invisible in MLT (a role's visible trigger
+# can test the old country), they are sent back. With no valid general, nothing more happens.
+mltd_indoctrinate_defector = {
+	FROM = {
+		hidden_effect = {
+			if = {
+				limit = {
+					any_army_leader = {
+						mltd_defector_candidate = yes
+						is_assigned = no
+					}
+				}
+				random_army_leader = {
+					limit = {
+						mltd_defector_candidate = yes
+						is_assigned = no
+					}
+					set_character_flag = mltd_defector_new
+					set_nationality = ROOT
+				}
+			}
+			else = {
+				random_army_leader = {
+					limit = {
+						mltd_defector_candidate = yes
+					}
+					set_character_flag = mltd_defector_new
+					set_nationality = ROOT
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			any_army_leader = {
+				has_character_flag = mltd_defector_new
+			}
+		}
+		hidden_effect = {
+			set_variable = { mltd_defector_origin = FROM }
+			country_event = { id = mltd.20 }
+		}
+	}
+	else = {
+		hidden_effect = {
+			random_army_leader = {
+				include_invisible = yes
+				limit = {
+					has_character_flag = mltd_defector_new
+				}
+				clr_character_flag = mltd_defector_new
+				set_nationality = FROM
+			}
+		}
 	}
 }

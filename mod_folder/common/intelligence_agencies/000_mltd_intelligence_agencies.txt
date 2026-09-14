@@ -1,0 +1,12 @@
+# Rising Tide - the Mirelurk Tribe's intelligence agency, The Esoteric Order of M'lyeh.
+# The focus mltd_the_spreading_cult founds it by script with this name and logo; this entry makes them MLT's default
+# when the agency is founded from the intelligence screen instead, and keeps the logo in the change-insignia list.
+# 000_ sorts before OWB's 00_intelligence_agencies.txt (OWB replace_paths this folder, so vanilla's file is gone),
+# whose generic entries also match MLT (default = { always = yes }): the tie-break is undocumented, and the first
+# valid entry is the likely rule. Loads only after OWB (dependencies in descriptor.mod).
+intelligence_agency = {
+	picture = GFX_intelligence_agency_logo_mltd_esoteric_order
+	names = { mltd_agency_name }
+	default = { original_tag = MLT }
+	available = { original_tag = MLT }
+}

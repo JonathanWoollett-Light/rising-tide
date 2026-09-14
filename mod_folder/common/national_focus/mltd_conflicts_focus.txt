@@ -75,7 +75,7 @@ shared_focus = {
 			limit = { country_exists = NCR }
 			NCR = {
 				add_political_power = -35
-				add_stability = -0.03
+				add_stability = -0.06
 			}
 			if = {
 				limit = {
@@ -85,7 +85,7 @@ shared_focus = {
 					}
 				}
 				custom_effect_tooltip = mltd_ncr_delegates_crisis_tt
-				NCR = { add_stability = -0.02 }
+				NCR = { add_stability = -0.04 }
 			}
 		}
 		if = {
@@ -143,7 +143,7 @@ shared_focus = {
 	relative_position_id = mltd_ncr_a_mole_in_shady_sands
 	ai_will_do = { factor = 3 }
 	completion_reward = {
-		army_experience = 15
+		army_experience = 30
 		if = {
 			limit = { country_exists = MOT }
 			MOT = { add_war_support = -0.03 }
@@ -208,6 +208,23 @@ shared_focus = {
 		if = {
 			limit = {
 				country_exists = NCR
+				NCR = { has_equipment = { infantry_equipment > 799 } }
+			}
+			NCR = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -800
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 800
+				producer = NCR
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = NCR
 				NCR = { has_equipment = { infantry_equipment > 399 } }
 			}
 			NCR = {
@@ -222,41 +239,24 @@ shared_focus = {
 				producer = NCR
 			}
 		}
-		else_if = {
-			limit = {
-				country_exists = NCR
-				NCR = { has_equipment = { infantry_equipment > 199 } }
-			}
-			NCR = {
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-					amount = -200
-				}
-			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = 200
-				producer = NCR
-			}
-		}
 		if = {
 			limit = {
 				country_exists = NCR
-				NCR = { has_equipment = { support_equipment > 99 } }
+				NCR = { has_equipment = { support_equipment > 199 } }
 			}
 			NCR = {
 				add_equipment_to_stockpile = {
 					type = support_equipment
-					amount = -100
+					amount = -200
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = support_equipment
-				amount = 100
+				amount = 200
 				producer = NCR
 			}
 		}
-		set_temp_variable = { caps_to_add = 50 }
+		set_temp_variable = { caps_to_add = 100 }
 		add_caps = yes
 	}
 }
@@ -327,22 +327,22 @@ shared_focus = {
 			if = {
 				limit = {
 					country_exists = NCR
-					NCR = { has_equipment = { infantry_equipment > 299 } }
+					NCR = { has_equipment = { infantry_equipment > 599 } }
 				}
 				NCR = {
 					add_equipment_to_stockpile = {
 						type = infantry_equipment
-						amount = -300
+						amount = -600
 					}
 				}
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = 300
+					amount = 600
 					producer = NCR
 				}
 			}
 			else = {
-				army_experience = 15
+				army_experience = 30
 			}
 		}
 		else_if = {
@@ -353,7 +353,7 @@ shared_focus = {
 				}
 			}
 			custom_effect_tooltip = mltd_ncr_turbines_wall_tt
-			army_experience = 15
+			army_experience = 30
 		}
 		if = {
 			limit = {
@@ -466,19 +466,19 @@ shared_focus = {
 		else = {
 			add_political_power = 25
 		}
-		set_temp_variable = { caps_to_add = 40 }
+		set_temp_variable = { caps_to_add = 80 }
 		add_caps = yes
 		if = {
 			limit = { country_exists = TBH }
 			TBH = {
-				add_stability = -0.02
+				add_stability = -0.04
 				add_political_power = -25
 			}
 		}
 		if = {
 			limit = { country_exists = LNS }
 			LNS = {
-				add_stability = -0.02
+				add_stability = -0.04
 				add_political_power = -25
 			}
 		}
@@ -520,36 +520,36 @@ shared_focus = {
 		if = {
 			limit = {
 				country_exists = TBH
-				TBH = { has_equipment = { infantry_equipment > 399 } }
+				TBH = { has_equipment = { infantry_equipment > 799 } }
 			}
 			TBH = {
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = -400
+					amount = -800
 				}
 				add_war_support = -0.02
 			}
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
-				amount = 400
+				amount = 800
 				producer = TBH
 			}
 		}
 		else_if = {
 			limit = {
 				country_exists = LNS
-				LNS = { has_equipment = { infantry_equipment > 399 } }
+				LNS = { has_equipment = { infantry_equipment > 799 } }
 			}
 			LNS = {
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = -400
+					amount = -800
 				}
 				add_war_support = -0.02
 			}
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
-				amount = 400
+				amount = 800
 				producer = LNS
 			}
 		}
@@ -557,7 +557,7 @@ shared_focus = {
 			custom_effect_tooltip = mltd_tex_empty_armouries_tt
 			add_political_power = 30
 		}
-		army_experience = 15
+		army_experience = 30
 	}
 }
 
@@ -598,14 +598,14 @@ shared_focus = {
 		if = {
 			limit = { country_exists = TBH }
 			TBH = {
-				add_stability = -0.03
+				add_stability = -0.06
 				add_war_support = -0.03
 			}
 		}
 		if = {
 			limit = { country_exists = LNS }
 			LNS = {
-				add_stability = -0.03
+				add_stability = -0.06
 				add_war_support = -0.03
 			}
 		}
@@ -695,7 +695,7 @@ shared_focus = {
 			limit = { country_exists = WBH }
 			WBH = {
 				add_political_power = -40
-				add_stability = -0.03
+				add_stability = -0.06
 			}
 		}
 		if = {
@@ -743,38 +743,38 @@ shared_focus = {
 		if = {
 			limit = {
 				country_exists = WBH
-				WBH = { has_equipment = { infantry_equipment > 600 } }
+				WBH = { has_equipment = { infantry_equipment > 1200 } }
 			}
 			WBH = {
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = -300
+					amount = -600
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
-				amount = 300
+				amount = 600
 				producer = WBH
 			}
 		}
 		if = {
 			limit = {
 				country_exists = WBH
-				WBH = { has_equipment = { power_armor_equipment > 60 } }
+				WBH = { has_equipment = { power_armor_equipment > 120 } }
 			}
 			WBH = {
 				add_equipment_to_stockpile = {
 					type = power_armor_equipment
-					amount = -30
+					amount = -60
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = power_armor_equipment
-				amount = 30
+				amount = 60
 				producer = WBH
 			}
 		}
-		army_experience = 15
+		army_experience = 30
 	}
 }
 
@@ -847,7 +847,7 @@ shared_focus = {
 			}
 		}
 		else = {
-			army_experience = 15
+			army_experience = 30
 		}
 	}
 }
@@ -914,14 +914,20 @@ shared_focus = {
 	completion_reward = {
 		if = {
 			limit = { has_dlc = "La Resistance" }
-			create_operative_leader = {
-				name = mltd_ces_drowned_frumentarius_operative
-				gfx = GFX_Portrait_CES_Operator_3
-				skill = 2
-				traits = { operative_frumentarius }
-				bypass_recruitment = no
-				available_to_spy_master = yes
-				nationalities = { MLT CES }
+			if = {
+				limit = { has_intelligence_agency = yes }  # roots no longer found the agency
+				create_operative_leader = {
+					name = mltd_ces_drowned_frumentarius_operative
+					gfx = GFX_Portrait_CES_Operator_3
+					skill = 2
+					traits = { operative_frumentarius }
+					bypass_recruitment = no
+					available_to_spy_master = yes
+					nationalities = { MLT CES }
+				}
+			}
+			else = {
+				add_political_power = 50
 			}
 			if = {
 				limit = { country_exists = CES }
@@ -937,7 +943,7 @@ shared_focus = {
 		}
 		if = {
 			limit = { country_exists = CES }
-			CES = { add_stability = -0.03 }
+			CES = { add_stability = -0.06 }
 		}
 	}
 }
@@ -959,7 +965,7 @@ shared_focus = {
 		hidden_effect = {
 			capital_scope = { add_manpower = 1000 }
 		}
-		add_stability = 0.03
+		add_stability = 0.06
 		if = {
 			limit = {
 				country_exists = CES
@@ -1012,38 +1018,38 @@ shared_focus = {
 		if = {
 			limit = {
 				country_exists = CES
-				CES = { has_equipment = { infantry_equipment > 799 } }
+				CES = { has_equipment = { infantry_equipment > 1599 } }
 			}
 			CES = {
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = -400
+					amount = -800
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
-				amount = 400
+				amount = 800
 				producer = CES
 			}
 		}
 		else = {
-			set_temp_variable = { caps_to_add = 50 }
+			set_temp_variable = { caps_to_add = 100 }
 			add_caps = yes
 		}
 		if = {
 			limit = {
 				country_exists = CES
-				CES = { has_equipment = { support_equipment > 199 } }
+				CES = { has_equipment = { support_equipment > 399 } }
 			}
 			CES = {
 				add_equipment_to_stockpile = {
 					type = support_equipment
-					amount = -100
+					amount = -200
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = support_equipment
-				amount = 100
+				amount = 200
 				producer = CES
 			}
 		}
@@ -1081,8 +1087,8 @@ shared_focus = {
 				}
 			}
 			custom_effect_tooltip = mltd_ces_mars_dead_tt
-			army_experience = 20
-			CES = { add_stability = -0.03 }
+			army_experience = 40
+			CES = { add_stability = -0.06 }
 		}
 		else_if = {
 			limit = {
@@ -1090,7 +1096,7 @@ shared_focus = {
 				CES = { has_country_flag = CES_stress }
 			}
 			custom_effect_tooltip = mltd_ces_mars_fever_tt
-			set_temp_variable = { caps_to_add = 75 }
+			set_temp_variable = { caps_to_add = 150 }
 			add_caps = yes
 			CES = { add_war_support = -0.03 }
 		}
@@ -1147,7 +1153,7 @@ shared_focus = {
 		else = {
 			add_political_power = 25
 		}
-		army_experience = 10
+		army_experience = 20
 	}
 }
 
@@ -1234,73 +1240,73 @@ shared_focus = {
 		if = {
 			limit = {
 				country_exists = BOS
-				BOS = { has_equipment = { energy_equipment_2 > 400 } }
+				BOS = { has_equipment = { energy_equipment_2 > 800 } }
 			}
 			BOS = {
 				add_equipment_to_stockpile = {
 					type = energy_equipment_2
-					amount = -300
+					amount = -600
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = energy_equipment_2
-				amount = 300
+				amount = 600
 				producer = BOS
 			}
 		}
 		else_if = {
 			limit = {
 				country_exists = BOS
-				BOS = { has_equipment = { energy_equipment_1 > 400 } }
+				BOS = { has_equipment = { energy_equipment_1 > 800 } }
 			}
 			BOS = {
 				add_equipment_to_stockpile = {
 					type = energy_equipment_1
-					amount = -300
+					amount = -600
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = energy_equipment_1
-				amount = 300
+				amount = 600
 				producer = BOS
 			}
 		}
 		else_if = {
 			limit = {
 				country_exists = BOS
-				BOS = { has_equipment = { infantry_equipment > 400 } }
+				BOS = { has_equipment = { infantry_equipment > 800 } }
 			}
 			BOS = {
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = -300
+					amount = -600
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
-				amount = 300
+				amount = 600
 				producer = BOS
 			}
 		}
 		else = {
 			custom_effect_tooltip = mltd_bos_armoury_bare_tt
-			set_temp_variable = { caps_to_add = 50 }
+			set_temp_variable = { caps_to_add = 100 }
 			add_caps = yes
 		}
 		if = {
 			limit = {
 				country_exists = BOS
-				BOS = { has_equipment = { power_armor_equipment > 150 } }
+				BOS = { has_equipment = { power_armor_equipment > 300 } }
 			}
 			BOS = {
 				add_equipment_to_stockpile = {
 					type = power_armor_equipment
-					amount = -40
+					amount = -80
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = power_armor_equipment
-				amount = 40
+				amount = 80
 				producer = BOS
 			}
 		}
@@ -1361,7 +1367,7 @@ shared_focus = {
 		}
 		if = {
 			limit = { country_exists = BOS }
-			BOS = { add_stability = -0.02 }
+			BOS = { add_stability = -0.04 }
 		}
 	}
 }
@@ -1420,7 +1426,7 @@ shared_focus = {
 			if = {
 				limit = { has_global_flag = bos_ncr_accepted_deal_for_maxson }
 				custom_effect_tooltip = mltd_bos_accords_betrayed_tt
-				BOS = { add_stability = -0.03 }
+				BOS = { add_stability = -0.06 }
 			}
 			add_political_power = 25
 		}
@@ -1429,7 +1435,7 @@ shared_focus = {
 			add_political_power = 50
 			if = {
 				limit = { country_exists = BOS }
-				BOS = { add_stability = -0.03 }
+				BOS = { add_stability = -0.06 }
 			}
 		}
 	}
@@ -1583,7 +1589,7 @@ shared_focus = {
 		if = {
 			limit = { country_exists = TLA }
 			TLA = {
-				add_stability = -0.03
+				add_stability = -0.06
 				add_political_power = -25
 			}
 		}
@@ -1598,21 +1604,21 @@ shared_focus = {
 			if = {
 				limit = { country_exists = MAX }
 				MAX = {
-					add_stability = -0.03
+					add_stability = -0.06
 					add_political_power = -25
 				}
 			}
 			if = {
 				limit = { country_exists = MOC }
 				MOC = {
-					add_stability = -0.03
+					add_stability = -0.06
 					add_political_power = -25
 				}
 			}
 			if = {
 				limit = { country_exists = ZAP }
 				ZAP = {
-					add_stability = -0.03
+					add_stability = -0.06
 					add_political_power = -25
 				}
 			}
@@ -1620,7 +1626,7 @@ shared_focus = {
 		else_if = {
 			limit = { country_exists = ARM }
 			ARM = {
-				add_stability = -0.03
+				add_stability = -0.06
 				add_political_power = -25
 			}
 		}
@@ -1742,48 +1748,48 @@ shared_focus = {
 			if = {
 				limit = { country_exists = TLA }
 				if = {
-					limit = { TLA = { has_equipment = { infantry_equipment > 399 } } }
-					TLA = { add_equipment_to_stockpile = { type = infantry_equipment amount = -400 } }
-					add_equipment_to_stockpile = { type = infantry_equipment amount = 400 producer = TLA }
+					limit = { TLA = { has_equipment = { infantry_equipment > 799 } } }
+					TLA = { add_equipment_to_stockpile = { type = infantry_equipment amount = -800 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 800 producer = TLA }
 				}
 			}
 			else = {
 				if = {
 					limit = {
 						country_exists = MAX
-						MAX = { has_equipment = { infantry_equipment > 149 } }
+						MAX = { has_equipment = { infantry_equipment > 299 } }
 					}
-					MAX = { add_equipment_to_stockpile = { type = infantry_equipment amount = -150 } }
-					add_equipment_to_stockpile = { type = infantry_equipment amount = 150 producer = MAX }
+					MAX = { add_equipment_to_stockpile = { type = infantry_equipment amount = -300 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 300 producer = MAX }
 				}
 				if = {
 					limit = {
 						country_exists = MOC
-						MOC = { has_equipment = { infantry_equipment > 149 } }
+						MOC = { has_equipment = { infantry_equipment > 299 } }
 					}
-					MOC = { add_equipment_to_stockpile = { type = infantry_equipment amount = -150 } }
-					add_equipment_to_stockpile = { type = infantry_equipment amount = 150 producer = MOC }
+					MOC = { add_equipment_to_stockpile = { type = infantry_equipment amount = -300 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 300 producer = MOC }
 				}
 				if = {
 					limit = {
 						country_exists = ZAP
-						ZAP = { has_equipment = { infantry_equipment > 149 } }
+						ZAP = { has_equipment = { infantry_equipment > 299 } }
 					}
-					ZAP = { add_equipment_to_stockpile = { type = infantry_equipment amount = -150 } }
-					add_equipment_to_stockpile = { type = infantry_equipment amount = 150 producer = ZAP }
+					ZAP = { add_equipment_to_stockpile = { type = infantry_equipment amount = -300 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 300 producer = ZAP }
 				}
 			}
 			if = {
 				limit = {
 					country_exists = ARM
-					ARM = { has_equipment = { support_equipment > 99 } }
+					ARM = { has_equipment = { support_equipment > 199 } }
 				}
-				ARM = { add_equipment_to_stockpile = { type = support_equipment amount = -100 } }
-				add_equipment_to_stockpile = { type = support_equipment amount = 100 producer = ARM }
+				ARM = { add_equipment_to_stockpile = { type = support_equipment amount = -200 } }
+				add_equipment_to_stockpile = { type = support_equipment amount = 200 producer = ARM }
 			}
 		}
-		army_experience = 10
-		set_temp_variable = { caps_to_add = 50 }
+		army_experience = 20
+		set_temp_variable = { caps_to_add = 100 }
 		add_caps = yes
 	}
 }
@@ -1820,7 +1826,7 @@ shared_focus = {
 				}
 			}
 			else = {
-				TLA = { add_stability = -0.03 }
+				TLA = { add_stability = -0.06 }
 			}
 		}
 		else_if = {
@@ -1835,19 +1841,19 @@ shared_focus = {
 			custom_effect_tooltip = mltd_tla_heirs_haunted_tt
 			if = {
 				limit = { country_exists = MAX }
-				MAX = { add_stability = -0.02 }
+				MAX = { add_stability = -0.04 }
 			}
 			if = {
 				limit = { country_exists = MOC }
-				MOC = { add_stability = -0.02 }
+				MOC = { add_stability = -0.04 }
 			}
 			if = {
 				limit = { country_exists = ZAP }
-				ZAP = { add_stability = -0.02 }
+				ZAP = { add_stability = -0.04 }
 			}
 			if = {
 				limit = { country_exists = ARM }
-				ARM = { add_stability = -0.02 }
+				ARM = { add_stability = -0.04 }
 			}
 		}
 		if = {
@@ -1993,7 +1999,7 @@ shared_focus = {
 			limit = { country_exists = HEA }
 			HEA = {
 				add_political_power = -35
-				add_stability = -0.03
+				add_stability = -0.06
 			}
 			if = {
 				limit = { HEA = { has_completed_focus = hea_war_in_heaven } }
@@ -2059,17 +2065,17 @@ shared_focus = {
 		if = {
 			limit = {
 				country_exists = HEA
-				HEA = { has_equipment = { infantry_equipment > 299 } }
+				HEA = { has_equipment = { infantry_equipment > 599 } }
 			}
 			HEA = {
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = -300
+					amount = -600
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
-				amount = 300
+				amount = 600
 				producer = HEA
 			}
 		}
@@ -2144,8 +2150,8 @@ shared_focus = {
 				}
 			}
 			custom_effect_tooltip = mltd_hea_crusade_loot_tt
-			army_experience = 20
-			set_temp_variable = { caps_to_add = 60 }
+			army_experience = 40
+			set_temp_variable = { caps_to_add = 120 }
 			add_caps = yes
 		}
 		else = {
@@ -2235,7 +2241,7 @@ shared_focus = {
 		add_political_power = 40
 		if = {
 			limit = { country_exists = WHT }
-			WHT = { add_stability = -0.03 }
+			WHT = { add_stability = -0.06 }
 			if = {
 				limit = {
 					WHT = {
@@ -2246,7 +2252,7 @@ shared_focus = {
 					}
 				}
 				custom_effect_tooltip = mltd_wht_shamans_converts_tt
-				add_stability = 0.02
+				add_stability = 0.04
 				add_war_support = 0.02
 			}
 		}
@@ -2292,17 +2298,17 @@ shared_focus = {
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		if = {
-			limit = { has_equipment = { infantry_equipment > 199 } }
+			limit = { has_equipment = { infantry_equipment > 399 } }
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
-				amount = -200
+				amount = -400
 			}
 			if = {
 				limit = { country_exists = WHT }
 				WHT = {
 					add_equipment_to_stockpile = {
 						type = infantry_equipment
-						amount = 100
+						amount = 200
 						producer = MLT
 					}
 				}
@@ -2312,16 +2318,16 @@ shared_focus = {
 				EHT = {
 					add_equipment_to_stockpile = {
 						type = infantry_equipment
-						amount = 100
+						amount = 200
 						producer = MLT
 					}
 				}
 			}
-			set_temp_variable = { caps_to_add = 100 }
+			set_temp_variable = { caps_to_add = 200 }
 			add_caps = yes
 		}
 		else = {
-			set_temp_variable = { caps_to_add = 40 }
+			set_temp_variable = { caps_to_add = 80 }
 			add_caps = yes
 		}
 		if = {
@@ -2330,7 +2336,7 @@ shared_focus = {
 				WHT = { has_war_with = EHT }
 			}
 			custom_effect_tooltip = mltd_wht_guns_war_tt
-			army_experience = 15
+			army_experience = 30
 		}
 	}
 }
@@ -2372,17 +2378,17 @@ shared_focus = {
 		if = {
 			limit = {
 				country_exists = EHT
-				EHT = { has_equipment = { infantry_equipment > 299 } }
+				EHT = { has_equipment = { infantry_equipment > 599 } }
 			}
 			EHT = {
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = -300
+					amount = -600
 				}
 			}
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
-				amount = 300
+				amount = 600
 				producer = EHT
 			}
 		}
@@ -2456,7 +2462,7 @@ shared_focus = {
 			}
 			custom_effect_tooltip = mltd_wht_jetty_old_ones_tt
 			add_political_power = 50
-			WHT = { add_stability = -0.02 }
+			WHT = { add_stability = -0.04 }
 		}
 		else = {
 			add_political_power = 30

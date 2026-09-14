@@ -1,8 +1,20 @@
 # MLTD OPERATIONS #
 # Rising Tide - Mirelurk Tribe (MLT). The Coral Court sends its oracles abroad to gather the faithful for M'lulu. #
 # Reuses existing OWB phases only (each has empty requirements and equipment); no new phase, token or gfx files are required. #
+#
+# Indoctrinate the Faithful comes as five variants, one per band of the target's manpower: an operation's equipment is a
+# fixed base cost (vanilla common/operations/_documentation.md:151-158), so a cost that follows the target needs one
+# definition per band. Each variant is visible only while the target's manpower is in its band, so the intelligence
+# screen shows exactly one; they share their name, description, icon and phases. The lowest also shows, greyed, at
+# 1,000 manpower or less. Manpower moved and support equipment:
+#   > 50,000: 5,000 / 500    > 25,000: 2,500 / 250    > 10,000: 1,000 / 100    > 5,000: 250 / 25    > 1,000: 100 / 10
+# At completion mltd_indoctrinate_transfer moves the variant's amount, or less if the target has since fallen into a lower
+# band, so MLT never gains manpower the target does not lose. cost_multiplier = 0 turns off the engine's default +15 % cost
+# per repeat against the same target (DEFAULT_OPERATION_COST_MULTIPLIER, vanilla 00_defines.lua:3733-3737), so the
+# equipment is exactly the figure above every time. The critical success (outcome_extra_execute replaces the base
+# outcome, so it repeats the transfer) also turns one of the target's generals: mltd_indoctrinate_defector.
 
-mltd_op_indoctrinate_the_faithful = {
+mltd_op_indoctrinate_the_faithful_5000 = {
 	icon = GFX_operations_make_resistance_contacts
 	map_icon = GFX_operations_make_resistance_contacts_map
 	name = mltd_op_indoctrinate_the_faithful
@@ -11,7 +23,7 @@ mltd_op_indoctrinate_the_faithful = {
 	priority = 10
 	days = 60
 	network_strength = 30
-	operatives = 1
+	operatives = 2
 
 	allowed = {
 		original_tag = MLT
@@ -25,17 +37,21 @@ mltd_op_indoctrinate_the_faithful = {
 			target = FROM
 			value > 0
 		}
+		FROM = {
+			has_manpower > 50000
+		}
 	}
 
 	available = {
 		FROM = {
-			has_manpower > 1500
+			has_manpower > 50000
 		}
 	}
 
 	equipment = {
-		support_equipment = 25
+		support_equipment = 500
 	}
+	cost_multiplier = 0
 
 	experience = 2.5
 
@@ -46,32 +62,371 @@ mltd_op_indoctrinate_the_faithful = {
 	cost_modifiers = { operation_infiltrate_cost operation_cost }
 
 	outcome_execute = {
-		FROM = {
-			add_manpower = -1500
-		}
 		ROOT = {
-			add_manpower = 1500
-			add_stability = 0.02
+			set_temp_variable = { mltd_op_cap = 5000 }
+			mltd_indoctrinate_transfer = yes
 		}
 	}
-	outcome_extra_execute = { # SCOPE_OPERATION - the extra outcome overwrites outcome_execute when it fires, so the full base reward is repeated here plus the bonus
-		FROM = {
-			add_manpower = -1500
-			add_stability = -0.02 # bonus: the disappearances unsettle the target
-		}
+	outcome_extra_execute = {
 		ROOT = {
-			add_manpower = 2000 # base 1500 + 500 bonus, the converts bring their kin
-			add_stability = 0.02
-			add_war_support = 0.02 # bonus
+			set_temp_variable = { mltd_op_cap = 5000 }
+			mltd_indoctrinate_transfer = yes
+			mltd_indoctrinate_defector = yes
 		}
 	}
 	outcome_potential = {
 		FROM = {
-			add_manpower = -1500
+			add_manpower = -5000
 		}
 		ROOT = {
-			add_manpower = 1500
-			add_stability = 0.02
+			add_manpower = 5000
+		}
+		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
+	}
+
+	ai_will_do = {
+		base = 5
+	}
+
+	phases = { #make contact with the disaffected
+		infiltrate_military_ideological_supporter = { base = 100 }
+	}
+	phases = { #gather the faithful
+		recruit_mercs = { base = 100 }
+	}
+	phases = { #return to the water
+		river_escape = { base = 60 }
+		exfiltration_go_to_ground = { base = 40 }
+	}
+}
+
+mltd_op_indoctrinate_the_faithful_2500 = {
+	icon = GFX_operations_make_resistance_contacts
+	map_icon = GFX_operations_make_resistance_contacts_map
+	name = mltd_op_indoctrinate_the_faithful
+	desc = mltd_op_indoctrinate_the_faithful_desc
+
+	priority = 10
+	days = 60
+	network_strength = 30
+	operatives = 2
+
+	allowed = {
+		original_tag = MLT
+	}
+
+	visible = {
+		ROOT = {
+			original_tag = MLT
+		}
+		network_national_coverage = {
+			target = FROM
+			value > 0
+		}
+		FROM = {
+			has_manpower > 25000
+			NOT = { has_manpower > 50000 }
+		}
+	}
+
+	available = {
+		FROM = {
+			has_manpower > 25000
+		}
+	}
+
+	equipment = {
+		support_equipment = 250
+	}
+	cost_multiplier = 0
+
+	experience = 2.5
+
+	risk_chance = 0.1
+	outcome_extra_chance = 0.25
+	risk_modifiers = { operation_infiltrate_risk operation_risk }
+	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
+	cost_modifiers = { operation_infiltrate_cost operation_cost }
+
+	outcome_execute = {
+		ROOT = {
+			set_temp_variable = { mltd_op_cap = 2500 }
+			mltd_indoctrinate_transfer = yes
+		}
+	}
+	outcome_extra_execute = {
+		ROOT = {
+			set_temp_variable = { mltd_op_cap = 2500 }
+			mltd_indoctrinate_transfer = yes
+			mltd_indoctrinate_defector = yes
+		}
+	}
+	outcome_potential = {
+		FROM = {
+			add_manpower = -2500
+		}
+		ROOT = {
+			add_manpower = 2500
+		}
+		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
+	}
+
+	ai_will_do = {
+		base = 5
+	}
+
+	phases = { #make contact with the disaffected
+		infiltrate_military_ideological_supporter = { base = 100 }
+	}
+	phases = { #gather the faithful
+		recruit_mercs = { base = 100 }
+	}
+	phases = { #return to the water
+		river_escape = { base = 60 }
+		exfiltration_go_to_ground = { base = 40 }
+	}
+}
+
+mltd_op_indoctrinate_the_faithful_1000 = {
+	icon = GFX_operations_make_resistance_contacts
+	map_icon = GFX_operations_make_resistance_contacts_map
+	name = mltd_op_indoctrinate_the_faithful
+	desc = mltd_op_indoctrinate_the_faithful_desc
+
+	priority = 10
+	days = 60
+	network_strength = 30
+	operatives = 2
+
+	allowed = {
+		original_tag = MLT
+	}
+
+	visible = {
+		ROOT = {
+			original_tag = MLT
+		}
+		network_national_coverage = {
+			target = FROM
+			value > 0
+		}
+		FROM = {
+			has_manpower > 10000
+			NOT = { has_manpower > 25000 }
+		}
+	}
+
+	available = {
+		FROM = {
+			has_manpower > 10000
+		}
+	}
+
+	equipment = {
+		support_equipment = 100
+	}
+	cost_multiplier = 0
+
+	experience = 2.5
+
+	risk_chance = 0.1
+	outcome_extra_chance = 0.25
+	risk_modifiers = { operation_infiltrate_risk operation_risk }
+	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
+	cost_modifiers = { operation_infiltrate_cost operation_cost }
+
+	outcome_execute = {
+		ROOT = {
+			set_temp_variable = { mltd_op_cap = 1000 }
+			mltd_indoctrinate_transfer = yes
+		}
+	}
+	outcome_extra_execute = {
+		ROOT = {
+			set_temp_variable = { mltd_op_cap = 1000 }
+			mltd_indoctrinate_transfer = yes
+			mltd_indoctrinate_defector = yes
+		}
+	}
+	outcome_potential = {
+		FROM = {
+			add_manpower = -1000
+		}
+		ROOT = {
+			add_manpower = 1000
+		}
+		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
+	}
+
+	ai_will_do = {
+		base = 5
+	}
+
+	phases = { #make contact with the disaffected
+		infiltrate_military_ideological_supporter = { base = 100 }
+	}
+	phases = { #gather the faithful
+		recruit_mercs = { base = 100 }
+	}
+	phases = { #return to the water
+		river_escape = { base = 60 }
+		exfiltration_go_to_ground = { base = 40 }
+	}
+}
+
+mltd_op_indoctrinate_the_faithful_250 = {
+	icon = GFX_operations_make_resistance_contacts
+	map_icon = GFX_operations_make_resistance_contacts_map
+	name = mltd_op_indoctrinate_the_faithful
+	desc = mltd_op_indoctrinate_the_faithful_desc
+
+	priority = 10
+	days = 60
+	network_strength = 30
+	operatives = 2
+
+	allowed = {
+		original_tag = MLT
+	}
+
+	visible = {
+		ROOT = {
+			original_tag = MLT
+		}
+		network_national_coverage = {
+			target = FROM
+			value > 0
+		}
+		FROM = {
+			has_manpower > 5000
+			NOT = { has_manpower > 10000 }
+		}
+	}
+
+	available = {
+		FROM = {
+			has_manpower > 5000
+		}
+	}
+
+	equipment = {
+		support_equipment = 25
+	}
+	cost_multiplier = 0
+
+	experience = 2.5
+
+	risk_chance = 0.1
+	outcome_extra_chance = 0.25
+	risk_modifiers = { operation_infiltrate_risk operation_risk }
+	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
+	cost_modifiers = { operation_infiltrate_cost operation_cost }
+
+	outcome_execute = {
+		ROOT = {
+			set_temp_variable = { mltd_op_cap = 250 }
+			mltd_indoctrinate_transfer = yes
+		}
+	}
+	outcome_extra_execute = {
+		ROOT = {
+			set_temp_variable = { mltd_op_cap = 250 }
+			mltd_indoctrinate_transfer = yes
+			mltd_indoctrinate_defector = yes
+		}
+	}
+	outcome_potential = {
+		FROM = {
+			add_manpower = -250
+		}
+		ROOT = {
+			add_manpower = 250
+		}
+		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
+	}
+
+	ai_will_do = {
+		base = 5
+	}
+
+	phases = { #make contact with the disaffected
+		infiltrate_military_ideological_supporter = { base = 100 }
+	}
+	phases = { #gather the faithful
+		recruit_mercs = { base = 100 }
+	}
+	phases = { #return to the water
+		river_escape = { base = 60 }
+		exfiltration_go_to_ground = { base = 40 }
+	}
+}
+
+mltd_op_indoctrinate_the_faithful_100 = {
+	icon = GFX_operations_make_resistance_contacts
+	map_icon = GFX_operations_make_resistance_contacts_map
+	name = mltd_op_indoctrinate_the_faithful
+	desc = mltd_op_indoctrinate_the_faithful_desc
+
+	priority = 10
+	days = 60
+	network_strength = 30
+	operatives = 2
+
+	allowed = {
+		original_tag = MLT
+	}
+
+	visible = {
+		ROOT = {
+			original_tag = MLT
+		}
+		network_national_coverage = {
+			target = FROM
+			value > 0
+		}
+		FROM = {
+			NOT = { has_manpower > 5000 }
+		}
+	}
+
+	available = {
+		FROM = {
+			has_manpower > 1000
+		}
+	}
+
+	equipment = {
+		support_equipment = 10
+	}
+	cost_multiplier = 0
+
+	experience = 2.5
+
+	risk_chance = 0.1
+	outcome_extra_chance = 0.25
+	risk_modifiers = { operation_infiltrate_risk operation_risk }
+	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
+	cost_modifiers = { operation_infiltrate_cost operation_cost }
+
+	outcome_execute = {
+		ROOT = {
+			set_temp_variable = { mltd_op_cap = 100 }
+			mltd_indoctrinate_transfer = yes
+		}
+	}
+	outcome_extra_execute = {
+		ROOT = {
+			set_temp_variable = { mltd_op_cap = 100 }
+			mltd_indoctrinate_transfer = yes
+			mltd_indoctrinate_defector = yes
+		}
+	}
+	outcome_potential = {
+		FROM = {
+			add_manpower = -100
+		}
+		ROOT = {
+			add_manpower = 100
 		}
 		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
 	}

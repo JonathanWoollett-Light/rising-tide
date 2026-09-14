@@ -271,5 +271,23 @@ ideas = {
 				recruitable_population_factor = 0.03
 			}
 		}
+
+		# Permanent, from the focus mltd_the_wet_market. caps_income_modifier multiplies every caps income entry
+		# (OWB caps_scripted_triggers.txt:220-225); consumer_goods_factor scales the economy law's consumer-goods
+		# base (civilian_economy 0.30, gov_economic.txt:129). +20 % / +4 % since round 16 (round 14 had +15 % / +5 %).
+		mltd_the_wet_market = {
+			picture = CHI_illicit_trade_1
+			allowed = {
+				original_tag = MLT
+			}
+			allowed_civil_war = {
+				always = yes
+			}
+			removal_cost = -1
+			modifier = {
+				caps_income_modifier = 0.20
+				consumer_goods_factor = 0.04
+			}
+		}
 	}
 }

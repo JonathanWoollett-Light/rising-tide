@@ -1,0 +1,173 @@
+# Rising Tide - The Wet Market, M'lyeh's black market: a seller in OWB's Organization Marketplace (the window
+# trade_ledger_window, OWB common/scripted_guis/__trade_ledger_gui.txt), built beside OWB's five organisations rather
+# than as a sixth one, which would mean overriding OWB's _organization_scripted_localization.txt whole-file.
+# Layout: interface/mltd_wet_market.gui. Conditions and payment: mltd_wet_market_can_buy / _can_sell and
+# mltd_wet_market_pay / _receive (common/scripted_triggers, common/scripted_effects).
+# OWB names this relies on: trade_ledger_window, selected_market_organization, temp_selected_org_inventory,
+# caps_market_prevented (re-check after OWB updates). We never write a value of our own into selected_market_organization:
+# OWB's organisation events (caps_organization_flavor.txt .11-.13) read it back as an index when their option is chosen.
+scripted_gui = {
+	# The tab. Selecting it sets our own mltd_wm_selected and clears OWB's selection and item list; clicking it again
+	# (with no OWB seller selected) closes the panel. Everyone sees it once the market is open; the Mirelurk Tribe also
+	# before, with every item locked.
+	mltd_wet_market_tab = {
+		context_type = player_context
+		window_name = "mltd_wet_market_tab_window"
+		parent_window_name = "trade_ledger_window"
+		visible = {
+			is_ai = no
+			has_global_flag = caps_enabled_global_flag
+			NOT = { has_country_flag = caps_market_prevented }
+			OR = {
+				has_global_flag = mltd_wet_market_open
+				original_tag = MLT
+			}
+		}
+		effects = {
+			mltd_wet_market_tab_click = {
+				if = {
+					limit = {
+						has_variable = mltd_wm_selected
+						NOT = { has_variable = selected_market_organization }
+					}
+					clear_variable = mltd_wm_selected
+				}
+				else = {
+					set_variable = { mltd_wm_selected = 1 }
+					clear_variable = selected_market_organization
+					clear_array = temp_selected_org_inventory
+				}
+			}
+		}
+	}
+	# The wares, drawn over OWB's (empty) item list while our tab is selected and no OWB seller is, so selecting an OWB
+	# seller hides it. Closing the window keeps mltd_wm_selected, so the panel is back when the window reopens.
+	# Each buy price is a literal twice here (the button's trigger and effect) and once in mltd_wm_buy_<n>_text; each
+	# sell price (30 % of the buy price, OWB's base rate, __trade_ledger_gui.txt:244) once here and in mltd_wm_sell_<n>_text.
+	mltd_wet_market_panel = {
+		context_type = player_context
+		window_name = "mltd_wet_market_panel_window"
+		parent_window_name = "trade_ledger_window"
+		visible = {
+			is_ai = no
+			has_variable = mltd_wm_selected
+			NOT = { has_variable = selected_market_organization }
+		}
+		triggers = {
+			mltd_wm_buy_1_click_enabled = {
+				set_temp_variable = { mltd_wm_price = 150 }
+				mltd_wet_market_can_buy = yes
+			}
+			mltd_wm_buy_2_click_enabled = {
+				set_temp_variable = { mltd_wm_price = 180 }
+				mltd_wet_market_can_buy = yes
+			}
+			mltd_wm_buy_3_click_enabled = {
+				set_temp_variable = { mltd_wm_price = 200 }
+				mltd_wet_market_can_buy = yes
+			}
+			mltd_wm_buy_4_click_enabled = {
+				set_temp_variable = { mltd_wm_price = 200 }
+				mltd_wet_market_can_buy = yes
+			}
+			mltd_wm_sell_1_click_enabled = {
+				mltd_wet_market_can_sell = yes
+				custom_trigger_tooltip = {
+					tooltip = mltd_wm_have_1_tt
+					has_equipment = { amphibious_beast_equipment_1 > 249 }
+				}
+			}
+			mltd_wm_sell_2_click_enabled = {
+				mltd_wet_market_can_sell = yes
+				custom_trigger_tooltip = {
+					tooltip = mltd_wm_have_2_tt
+					has_equipment = { amphibious_beast_equipment_2 > 249 }
+				}
+			}
+			mltd_wm_sell_3_click_enabled = {
+				mltd_wet_market_can_sell = yes
+				custom_trigger_tooltip = {
+					tooltip = mltd_wm_have_3_tt
+					has_equipment = { amphibious_beast_equipment_armor > 249 }
+				}
+			}
+			mltd_wm_sell_4_click_enabled = {
+				mltd_wet_market_can_sell = yes
+				custom_trigger_tooltip = {
+					tooltip = mltd_wm_have_4_tt
+					has_equipment = { amphibious_beast_equipment_king > 249 }
+				}
+			}
+		}
+		effects = {
+			mltd_wm_buy_1_click = {
+				set_temp_variable = { mltd_wm_price = 150 }
+				mltd_wet_market_pay = yes
+				add_equipment_to_stockpile = {
+					type = amphibious_beast_equipment_1
+					amount = 250
+					producer = MLT
+				}
+			}
+			mltd_wm_buy_2_click = {
+				set_temp_variable = { mltd_wm_price = 180 }
+				mltd_wet_market_pay = yes
+				add_equipment_to_stockpile = {
+					type = amphibious_beast_equipment_2
+					amount = 250
+					producer = MLT
+				}
+			}
+			mltd_wm_buy_3_click = {
+				set_temp_variable = { mltd_wm_price = 200 }
+				mltd_wet_market_pay = yes
+				add_equipment_to_stockpile = {
+					type = amphibious_beast_equipment_armor
+					amount = 250
+					producer = MLT
+				}
+			}
+			mltd_wm_buy_4_click = {
+				set_temp_variable = { mltd_wm_price = 200 }
+				mltd_wet_market_pay = yes
+				add_equipment_to_stockpile = {
+					type = amphibious_beast_equipment_king
+					amount = 250
+					producer = MLT
+				}
+			}
+			mltd_wm_sell_1_click = {
+				add_equipment_to_stockpile = {
+					type = amphibious_beast_equipment_1
+					amount = -250
+				}
+				set_temp_variable = { mltd_wm_price = 45 }
+				mltd_wet_market_receive = yes
+			}
+			mltd_wm_sell_2_click = {
+				add_equipment_to_stockpile = {
+					type = amphibious_beast_equipment_2
+					amount = -250
+				}
+				set_temp_variable = { mltd_wm_price = 54 }
+				mltd_wet_market_receive = yes
+			}
+			mltd_wm_sell_3_click = {
+				add_equipment_to_stockpile = {
+					type = amphibious_beast_equipment_armor
+					amount = -250
+				}
+				set_temp_variable = { mltd_wm_price = 60 }
+				mltd_wet_market_receive = yes
+			}
+			mltd_wm_sell_4_click = {
+				add_equipment_to_stockpile = {
+					type = amphibious_beast_equipment_king
+					amount = -250
+				}
+				set_temp_variable = { mltd_wm_price = 60 }
+				mltd_wet_market_receive = yes
+			}
+		}
+	}
+}

@@ -1,0 +1,199 @@
+# Rising Tide - scripted localisation
+#
+# GetMltdCultList: the cults abroad in the Cult Infiltration category's description, strongest first - one row per slot
+# that mltd_cult_rebuild_list (common/scripted_effects) filled on MLT (mltd_cult_row_<k> / _<k>_str, k = 1-8), then
+# "...and N more". Everything is read through ROOT and nothing steps into an array element: in a category description
+# the current scope is not MLT, and var:array^i there found nothing in game (the first version, OWB's recursive CAF idiom).
+defined_text = {
+	name = GetMltdCultList
+	text = {
+		trigger = {
+			check_variable = { ROOT.mltd_cult_count > 0 }
+		}
+		localization_key = mltd_cult_list_rows
+	}
+	text = {
+		localization_key = mltd_cult_list_empty
+	}
+}
+defined_text = {
+	name = GetMltdCultRow1
+	text = {
+		trigger = {
+			check_variable = { ROOT.mltd_cult_count > 0 }
+		}
+		localization_key = mltd_cult_list_row_1
+	}
+	text = {
+		localization_key = ""
+	}
+}
+defined_text = {
+	name = GetMltdCultRow2
+	text = {
+		trigger = {
+			check_variable = { ROOT.mltd_cult_count > 1 }
+		}
+		localization_key = mltd_cult_list_row_2
+	}
+	text = {
+		localization_key = ""
+	}
+}
+defined_text = {
+	name = GetMltdCultRow3
+	text = {
+		trigger = {
+			check_variable = { ROOT.mltd_cult_count > 2 }
+		}
+		localization_key = mltd_cult_list_row_3
+	}
+	text = {
+		localization_key = ""
+	}
+}
+defined_text = {
+	name = GetMltdCultRow4
+	text = {
+		trigger = {
+			check_variable = { ROOT.mltd_cult_count > 3 }
+		}
+		localization_key = mltd_cult_list_row_4
+	}
+	text = {
+		localization_key = ""
+	}
+}
+defined_text = {
+	name = GetMltdCultRow5
+	text = {
+		trigger = {
+			check_variable = { ROOT.mltd_cult_count > 4 }
+		}
+		localization_key = mltd_cult_list_row_5
+	}
+	text = {
+		localization_key = ""
+	}
+}
+defined_text = {
+	name = GetMltdCultRow6
+	text = {
+		trigger = {
+			check_variable = { ROOT.mltd_cult_count > 5 }
+		}
+		localization_key = mltd_cult_list_row_6
+	}
+	text = {
+		localization_key = ""
+	}
+}
+defined_text = {
+	name = GetMltdCultRow7
+	text = {
+		trigger = {
+			check_variable = { ROOT.mltd_cult_count > 6 }
+		}
+		localization_key = mltd_cult_list_row_7
+	}
+	text = {
+		localization_key = ""
+	}
+}
+defined_text = {
+	name = GetMltdCultRow8
+	text = {
+		trigger = {
+			check_variable = { ROOT.mltd_cult_count > 7 }
+		}
+		localization_key = mltd_cult_list_row_8
+	}
+	text = {
+		localization_key = ""
+	}
+}
+defined_text = {
+	name = GetMltdCultMore
+	text = {
+		trigger = {
+			check_variable = { ROOT.mltd_cult_count > 8 }
+		}
+		localization_key = mltd_cult_list_more
+	}
+	text = {
+		localization_key = ""
+	}
+}
+
+# GetMltdWmRequirement: the requirement line of The Wet Market's rows, where OWB's rows show "Minimum Opinion": green once
+# the Mirelurk Tribe has completed the focus The Wet Market, red before.
+defined_text = {
+	name = GetMltdWmRequirement
+	text = {
+		trigger = {
+			has_global_flag = mltd_wet_market_open
+		}
+		localization_key = mltd_wm_requirement_open
+	}
+	text = {
+		localization_key = mltd_wm_requirement_closed
+	}
+}
+
+# GetMltdWmMarketOpen / GetMltdWmAvailability: The Wet Market tab's tooltip, in the shape of OWB's seller tabs
+# (organization_ledger_opinion_tt). "Market Open" says whether the Mirelurk Tribe has completed the focus The Wet Market
+# (the global flag it sets), "Available for transaction" whether our 40-day trade cooldown has run out. The yes branches
+# reuse OWB's own org_available ("§GYes§!").
+defined_text = {
+	name = GetMltdWmMarketOpen
+	text = {
+		trigger = {
+			has_global_flag = mltd_wet_market_open
+		}
+		localization_key = org_available
+	}
+	text = {
+		localization_key = mltd_wm_market_closed
+	}
+}
+defined_text = {
+	name = GetMltdWmAvailability
+	text = {
+		trigger = {
+			NOT = { has_country_flag = mltd_wet_market_recent_trade }
+		}
+		localization_key = org_available
+	}
+	text = {
+		localization_key = mltd_wm_unavailable
+	}
+}
+
+# GetMltd<creature>Name: OWB's names for the four mirelurk equipment variants (Mirelurks, Killclaws, Bloodrage Mirelurks,
+# Mirelurk Kings). OWB defines them in localisation/replace/ (fallout_equipment_l_english.yml), and a $key$ from a
+# replace/ file does not resolve inside a sentence of ours (in game it printed raw); scripted loc fetches the key when the
+# text is drawn, the way OWB's own [GetMarketInventory] names its items.
+defined_text = {
+	name = GetMltdMirelurksName
+	text = {
+		localization_key = amphibious_beast_equipment_1_short
+	}
+}
+defined_text = {
+	name = GetMltdKillclawsName
+	text = {
+		localization_key = amphibious_beast_equipment_2_short
+	}
+}
+defined_text = {
+	name = GetMltdBloodrageName
+	text = {
+		localization_key = amphibious_beast_equipment_armor_short
+	}
+}
+defined_text = {
+	name = GetMltdMirelurkKingsName
+	text = {
+		localization_key = amphibious_beast_equipment_king_short
+	}
+}
