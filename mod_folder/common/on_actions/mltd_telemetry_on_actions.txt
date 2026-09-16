@@ -1,0 +1,25 @@
+# Rising Tide - MLT AI telemetry: the three pulses
+#
+# Calls the telemetry (common/scripted_effects/mltd_telemetry_effects.txt, behind the kill switch in
+# common/scripted_triggers/mltd_telemetry_triggers.txt) from MLT's own pulses. These blocks add to the ones in
+# mltd_on_actions.txt rather than replacing them: every file's block for an on_action runs (OWB defines on_startup in
+# more than 60 files, and the block in exodus_setup_on_actions.txt:4-38 is the one that writes its line to game.log).
+# setup.log names each on_action once, from the first file that defines it, so this file adds no line there. Deleting
+# the three mltd_telemetry_* files removes the telemetry and touches nothing else.
+on_actions = {
+	on_daily_MLT = {
+		effect = {
+			mltd_tm_daily = yes
+		}
+	}
+	on_weekly_MLT = {
+		effect = {
+			mltd_tm_weekly = yes
+		}
+	}
+	on_monthly_MLT = {
+		effect = {
+			mltd_tm_monthly = yes
+		}
+	}
+}

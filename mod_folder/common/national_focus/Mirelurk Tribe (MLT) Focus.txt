@@ -1156,6 +1156,24 @@ focus_tree = {
 					set_province_name = { id = 1983 name = VICTORY_POINTS_1983_MLT }
 				}
 			}
+			# Rising Tide: M'lyeh becomes a trade node, the tribe's main node - OWB's create_map_node (nodes_scripted_effects.txt:
+			# 520-580), as Robot City's focus does it. It prints its own tooltip (create_new_node_effect_tt). No-op without the caps rule.
+			if = {
+				limit = { has_global_flag = caps_enabled_global_flag }
+				358 = {
+					if = {
+						limit = { NOT = { is_in_array = { global.nodes_states = THIS.id } } }
+						hidden_effect = {
+							set_temp_variable = { new_node_target = THIS.id }
+							set_temp_variable = { new_node_economic_development = 0.5 }
+							add_to_temp_array = { new_node_trade_array = 337 }	# Arroyo
+							add_to_temp_array = { new_node_trade_array = 23 }	# West Portland (OWB's node list calls it "The Maw")
+							set_temp_variable = { set_main_node_flag = 1 }
+						}
+						create_map_node = yes
+					}
+				}
+			}
 			add_victory_points = { province = 1983 value = 15 }
 			add_victory_points = { province = 7064 value = 5 }
 			custom_effect_tooltip = mltd_newline_tt

@@ -269,7 +269,7 @@ spriteTypes = {
 		name = "GFX_mltd_decision_cat_wardens_propaganda"
 		texturefile = "gfx/interface/decisions/mltd_decision_cat_wardens_propaganda.dds"
 	}
-	# Decision icon for mltd_cult_found: a cult hood, drawn procedurally (build_decision_icons.py)
+	# Decision icon for mltd_cult_call_for_people (drawn for round 14's Found a Cult): a cult hood, drawn procedurally (build_decision_icons.py)
 	spriteType = {
 		name = "GFX_decision_mltd_cult_hood"
 		texturefile = "gfx/interface/decisions/mltd_cult_hood.dds"

@@ -1,0 +1,426 @@
+MLTD 0 START ai=yes lar=yes caps_rule=yes schism=yes v=1 date= 1:00, 2 January, 2275
+MLTD 0 LAW id=born_warriors
+MLTD 7 FOCUS id=mlt_sanity_lost
+MLTD 7 TECH id=amphibious_beast_unlock_tech
+MLTD 14 FOCUS id=mlt_sanity_found
+MLTD 21 FOCUS id=mlt_the_coral_court
+MLTD 31 SNAP owned=2 controlled=2 pop_k=11 mp_k=1 divs=7 mil=2 civ=4 dock=1 caps=72 pp=37 stab=68 ws=35 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=0 eq_sup=0 date= 1:00, 1 February, 2275
+MLTD 56 FOCUS id=lurk_aquatic_construction
+MLTD 59 SNAP owned=2 controlled=2 pop_k=11 mp_k=0 divs=7 mil=3 civ=5 dock=1 caps=72 pp=70 stab=68 ws=35 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=0 eq_sup=0 date= 1:00, 1 March, 2275
+MLTD 77 TECH id=electronic_engineering
+MLTD 84 FOCUS id=lurk_more_conch_knives
+MLTD 84 GONE tag=OLY capital=424 owner=WBH
+MLTD 90 SNAP owned=2 controlled=2 pop_k=11 mp_k=1 divs=7 mil=5 civ=5 dock=1 caps=72 pp=106 stab=68 ws=35 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=0 eq_sup=0 date= 1:00, 1 April, 2275
+MLTD 112 FOCUS id=lurk_import_thunder_sticks
+MLTD 120 SNAP owned=2 controlled=2 pop_k=11 mp_k=0 divs=7 mil=5 civ=5 dock=1 caps=73 pp=141 stab=68 ws=35 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=265 eq_sup=0 date= 1:00, 1 May, 2275
+MLTD 133 TECH id=scavtool_engineering_1
+MLTD 133 LAW id=veteran_pathfinders
+MLTD 140 FOCUS id=lurk_oregon_weapon_trade
+MLTD 151 SNAP owned=2 controlled=2 pop_k=11 mp_k=0 divs=7 mil=8 civ=5 dock=1 caps=123 pp=29 stab=68 ws=35 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=265 eq_sup=0 date= 1:00, 1 June, 2275
+MLTD 168 GONE tag=CCW capital=166 owner=TRL
+MLTD 175 FOCUS id=mlt_seeing_to_the_queens_needs
+MLTD 181 SNAP owned=2 controlled=2 pop_k=11 mp_k=0 divs=7 mil=8 civ=4 dock=1 caps=123 pp=65 stab=68 ws=35 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=265 eq_sup=0 date= 1:00, 1 July, 2275
+MLTD 203 FOCUS id=mlt_meeting_of_the_coral_prophets
+MLTD 212 SNAP owned=2 controlled=2 pop_k=11 mp_k=1 divs=7 mil=8 civ=4 dock=1 caps=123 pp=102 stab=83 ws=35 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=265 eq_sup=0 date= 1:00, 1 August, 2275
+MLTD 217 TECH id=specialized_industry_tech_1
+MLTD 217 TECH id=outsider_warfare_doctrine
+MLTD 231 FOCUS id=mlt_defend_the_river
+MLTD 238 GONE tag=NAT capital=548 owner=NCR
+MLTD 243 SNAP owned=2 controlled=2 pop_k=11 mp_k=0 divs=8 mil=8 civ=4 dock=1 caps=123 pp=141 stab=83 ws=35 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=240 eq_sup=0 date= 1:00, 1 September, 2275
+MLTD 266 FOCUS id=mlt_plant_for_the_next_harvest
+MLTD 273 TECH id=construction_industry_tech_1
+MLTD 273 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=8 mil=8 civ=4 dock=1 caps=123 pp=29 stab=83 ws=35 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=122 eq_sup=0 date= 1:00, 1 October, 2275
+MLTD 294 FOCUS id=mlt_new_spawning_pools_needed
+MLTD 294 TECH id=unit_training_tech_1
+MLTD 304 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=9 mil=8 civ=4 dock=1 caps=123 pp=17 stab=83 ws=35 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=141 eq_sup=0 date= 1:00, 1 November, 2275
+MLTD 322 FOCUS id=mlt_dig_barrows_for_spawning_pools
+MLTD 334 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=9 mil=8 civ=5 dock=1 caps=123 pp=54 stab=83 ws=36 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=37 eq_sup=0 date= 1:00, 1 December, 2275
+MLTD 350 FOCUS id=mlt_arena_in_the_tunnels
+MLTD 365 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=9 mil=10 civ=4 dock=1 caps=123 pp=93 stab=83 ws=36 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=61 eq_sup=0 date= 1:00, 1 January, 2276
+MLTD 378 GONE tag=RBT capital=493 owner=TRL
+MLTD 385 FOCUS id=mlt_blind_eyed_workers
+MLTD 396 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=10 mil=10 civ=6 dock=1 caps=117 pp=37 stab=83 ws=36 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=6 eq_sup=0 date= 1:00, 1 February, 2276
+MLTD 413 FOCUS id=mlt_striking_iron
+MLTD 424 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=10 mil=11 civ=6 dock=1 caps=117 pp=77 stab=83 ws=36 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=10 eq_sup=0 date= 1:00, 1 March, 2276
+MLTD 441 FOCUS id=mlt_deeper_into_the_earth
+MLTD 455 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=11 mil=11 civ=6 dock=1 caps=117 pp=24 stab=83 ws=36 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=9 eq_sup=0 date= 1:00, 1 April, 2276
+MLTD 476 FOCUS id=mlt_defend_the_spawnlings
+MLTD 476 TECH id=we_are_different_doctrine
+MLTD 485 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=11 mil=14 civ=5 dock=1 caps=126 pp=71 stab=83 ws=37 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=10 eq_sup=0 date= 1:00, 1 May, 2276
+MLTD 504 FOCUS id=mlt_deep_earth_breathing_equipment
+MLTD 516 SNAP owned=2 controlled=2 pop_k=16 mp_k=0 divs=12 mil=14 civ=8 dock=1 caps=126 pp=20 stab=93 ws=32 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=8 eq_sup=0 date= 1:00, 1 June, 2276
+MLTD 532 FOCUS id=mlt_striking_gold
+MLTD 532 GONE tag=DIS capital=600 owner=MLT
+MLTD 546 SNAP owned=5 controlled=5 pop_k=30 mp_k=1 divs=26 mil=14 civ=8 dock=1 caps=181 pp=68 stab=92 ws=27 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=41 eq_inf=973 eq_sup=100 date= 1:00, 1 July, 2276
+MLTD 560 FOCUS id=ritual_of_black_hollows_night
+MLTD 577 SNAP owned=5 controlled=5 pop_k=30 mp_k=8 divs=28 mil=14 civ=8 dock=1 caps=184 pp=17 stab=87 ws=42 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=568 eq_sup=80 date= 1:00, 1 August, 2276
+MLTD 595 FOCUS id=mlt_protect_the_southern_crossing
+MLTD 595 GONE tag=TAA capital=796 owner=RRG
+MLTD 608 SNAP owned=5 controlled=5 pop_k=30 mp_k=8 divs=29 mil=16 civ=10 dock=3 caps=136 pp=66 stab=87 ws=42 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=998 eq_sup=90 date= 1:00, 1 September, 2276
+MLTD 623 FOCUS id=mlt_expanding_mlulus_domain
+MLTD 623 TECH id=amphibious_beast_upgrade_tech_1
+MLTD 623 WARGOAL tag=TRL
+MLTD 630 WAR_START tag=TRL
+MLTD 638 SNAP owned=5 controlled=7 pop_k=30 mp_k=7 divs=32 mil=17 civ=13 dock=3 caps=136 pp=112 stab=51 ws=22 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=1 eq_mirelurk=0 eq_inf=530 eq_sup=80 date= 1:00, 1 October, 2276
+MLTD 644 GONE tag=TAR capital=391 owner=WHT
+MLTD 651 FOCUS id=lurk_consult_the_oracles
+MLTD 651 LAW id=able_bodied_tribesmen
+MLTD 658 WAR_END tag=TRL exists=no
+MLTD 658 JUSTIFY tag=MDT
+MLTD 658 GONE tag=TRL capital=437 owner=MLT
+MLTD 669 SNAP owned=10 controlled=10 pop_k=76 mp_k=6 divs=32 mil=16 civ=10 dock=3 caps=145 pp=43 stab=76 ws=43 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2927 eq_sup=80 date= 1:00, 1 November, 2276
+MLTD 679 TECH id=we_are_special_doctrine
+MLTD 686 FOCUS id=lurk_visions_of_strategies
+MLTD 699 SNAP owned=10 controlled=10 pop_k=76 mp_k=6 divs=31 mil=16 civ=10 dock=3 caps=145 pp=90 stab=77 ws=49 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2600 eq_sup=80 date= 1:00, 1 December, 2276
+MLTD 707 GONE tag=MXS capital=467 owner=ARR
+MLTD 714 FOCUS id=lurk_craft_more_tools
+MLTD 730 SNAP owned=10 controlled=10 pop_k=76 mp_k=6 divs=33 mil=16 civ=12 dock=3 caps=145 pp=41 stab=84 ws=49 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2551 eq_sup=80 date= 1:00, 1 January, 2277
+MLTD 742 FOCUS id=lurk_coral_houses
+MLTD 761 SNAP owned=10 controlled=10 pop_k=76 mp_k=6 divs=35 mil=16 civ=13 dock=3 caps=157 pp=93 stab=85 ws=49 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2452 eq_sup=80 date= 1:00, 1 February, 2277
+MLTD 770 FOCUS id=lurk_freighter_fortress
+MLTD 777 GONE tag=YAK capital=509 owner=WBH
+MLTD 789 SNAP owned=10 controlled=10 pop_k=76 mp_k=6 divs=35 mil=16 civ=16 dock=3 caps=109 pp=40 stab=85 ws=49 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2587 eq_sup=80 date= 1:00, 1 March, 2277
+MLTD 805 FOCUS id=lurk_defend_the_tribe
+MLTD 820 SNAP owned=10 controlled=10 pop_k=77 mp_k=7 divs=36 mil=16 civ=16 dock=3 caps=-40 pp=92 stab=85 ws=49 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2488 eq_sup=80 date= 1:00, 1 April, 2277
+MLTD 833 FOCUS id=lurk_scrap_excavation
+MLTD 847 GONE tag=KLA capital=454 owner=MOD
+MLTD 847 GONE tag=TDN capital=59 owner=MOD
+MLTD 850 SNAP owned=10 controlled=10 pop_k=77 mp_k=7 divs=36 mil=16 civ=16 dock=3 caps=-25 pp=43 stab=85 ws=49 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2499 eq_sup=80 date= 1:00, 1 May, 2277
+MLTD 861 FOCUS id=lurk_whale_hunting
+MLTD 881 SNAP owned=10 controlled=10 pop_k=77 mp_k=7 divs=36 mil=16 civ=16 dock=3 caps=174 pp=95 stab=84 ws=49 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2361 eq_sup=80 date= 1:00, 1 June, 2277
+MLTD 896 FOCUS id=lurk_rock_tossers
+MLTD 911 SNAP owned=10 controlled=10 pop_k=77 mp_k=7 divs=39 mil=16 civ=17 dock=3 caps=126 pp=45 stab=82 ws=50 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2448 eq_sup=80 date= 1:00, 1 July, 2277
+MLTD 917 TECH id=construction_industry_tech_2
+MLTD 924 FOCUS id=lurk_feeding_the_tribesman
+MLTD 942 SNAP owned=10 controlled=10 pop_k=77 mp_k=8 divs=40 mil=16 civ=17 dock=3 caps=140 pp=97 stab=81 ws=51 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2322 eq_sup=80 date= 1:00, 1 August, 2277
+MLTD 945 GONE tag=HAN capital=610 owner=WDN
+MLTD 952 FOCUS id=lurk_visions_of_tactics
+MLTD 973 SNAP owned=10 controlled=10 pop_k=77 mp_k=8 divs=40 mil=16 civ=17 dock=3 caps=140 pp=49 stab=81 ws=56 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=2215 eq_sup=80 date= 1:00, 1 September, 2277
+MLTD 980 FOCUS id=lurk_shelled_warriors
+MLTD 980 WARGOAL tag=MDT
+MLTD 987 WAR_START tag=MDT
+MLTD 1003 SNAP owned=10 controlled=11 pop_k=77 mp_k=7 divs=44 mil=16 civ=17 dock=3 caps=-9 pp=46 stab=50 ws=36 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=1 eq_mirelurk=0 eq_inf=1855 eq_sup=70 date= 1:00, 1 October, 2277
+MLTD 1015 FOCUS id=lurk_warrior_trials
+MLTD 1034 SNAP owned=10 controlled=13 pop_k=77 mp_k=7 divs=43 mil=18 civ=19 dock=3 caps=-3 pp=43 stab=52 ws=37 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=1 eq_mirelurk=0 eq_inf=1587 eq_sup=77 date= 1:00, 1 November, 2277
+MLTD 1043 FOCUS id=lurk_aggressive_mindset
+MLTD 1043 GONE tag=TCA capital=37 owner=WBH
+MLTD 1064 SNAP owned=10 controlled=14 pop_k=77 mp_k=5 divs=44 mil=18 civ=20 dock=3 caps=-3 pp=40 stab=57 ws=39 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=1 eq_mirelurk=0 eq_inf=1217 eq_sup=67 date= 1:00, 1 December, 2277
+MLTD 1071 FOCUS id=lurk_the_shell_games
+MLTD 1078 WAR_END tag=MDT exists=no
+MLTD 1078 GONE tag=MDT capital=231 owner=MLT
+MLTD 1095 SNAP owned=15 controlled=15 pop_k=99 mp_k=5 divs=42 mil=20 civ=21 dock=3 caps=38 pp=92 stab=91 ws=60 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=1257 eq_sup=96 date= 1:00, 1 January, 2278
+MLTD 1106 FOCUS id=lurk_in_the_swamps
+MLTD 1106 GONE tag=MXC capital=422 owner=LAC
+MLTD 1126 SNAP owned=15 controlled=15 pop_k=99 mp_k=5 divs=43 mil=20 civ=22 dock=3 caps=53 pp=45 stab=93 ws=60 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=718 eq_sup=96 date= 1:00, 1 February, 2278
+MLTD 1127 GONE tag=FOU capital=369 owner=NCR
+MLTD 1134 FOCUS id=mlt_kingdom_of_mlyeh
+MLTD 1154 SNAP owned=15 controlled=15 pop_k=99 mp_k=5 divs=44 mil=20 civ=23 dock=3 caps=53 pp=93 stab=93 ws=60 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=693 eq_sup=96 date= 1:00, 1 March, 2278
+MLTD 1155 GONE tag=KAM capital=177 owner=SYN
+MLTD 1162 FOCUS id=mltd_gifts_from_the_deep
+MLTD 1162 GONE tag=HGH capital=172 owner=HEA
+MLTD 1185 SNAP owned=15 controlled=15 pop_k=99 mp_k=4 divs=48 mil=20 civ=23 dock=3 caps=53 pp=146 stab=93 ws=60 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=419 eq_sup=96 date= 1:00, 1 April, 2278
+MLTD 1190 FOCUS id=mltd_first_book
+MLTD 1215 SNAP owned=15 controlled=15 pop_k=99 mp_k=4 divs=49 mil=21 civ=23 dock=3 caps=76 pp=198 stab=94 ws=60 books=1 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=304 eq_sup=96 date= 1:00, 1 May, 2278
+MLTD 1225 FOCUS id=mltd_second_book
+MLTD 1232 GONE tag=BLC capital=504 owner=TTM
+MLTD 1246 SNAP owned=15 controlled=15 pop_k=100 mp_k=4 divs=51 mil=25 civ=30 dock=3 caps=176 pp=252 stab=94 ws=64 books=2 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=10 eq_sup=96 date= 1:00, 1 June, 2278
+MLTD 1253 FOCUS id=mltd_third_book
+MLTD 1276 SNAP owned=15 controlled=15 pop_k=100 mp_k=4 divs=52 mil=28 civ=34 dock=3 caps=113 pp=284 stab=94 ws=65 books=3 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=294 eq_sup=96 date= 1:00, 1 July, 2278
+MLTD 1288 FOCUS id=mltd_the_wet_market
+MLTD 1307 SNAP owned=15 controlled=15 pop_k=100 mp_k=3 divs=54 mil=29 civ=34 dock=3 caps=130 pp=337 stab=94 ws=65 books=3 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=35 eq_sup=96 date= 1:00, 1 August, 2278
+MLTD 1338 SNAP owned=15 controlled=15 pop_k=100 mp_k=3 divs=57 mil=30 civ=34 dock=3 caps=130 pp=391 stab=94 ws=66 books=3 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=0 eq_sup=96 date= 1:00, 1 September, 2278
+MLTD 1351 FOCUS id=mltd_call_of_the_deep_ones
+MLTD 1368 SNAP owned=15 controlled=15 pop_k=100 mp_k=3 divs=62 mil=31 civ=34 dock=3 caps=130 pp=401 stab=94 ws=66 books=3 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=0 eq_sup=96 date= 1:00, 1 October, 2278
+MLTD 1386 FOCUS id=mltd_the_spreading_cult
+MLTD 1386 RITUAL id=grand state=start pop_k=89
+MLTD 1386 DECISION id=mltd_summon_the_deep_ones pop_k=89 mp_k=9 caps=71
+MLTD 1386 DECISION id=mltd_offering_of_the_drowned pop_k=89 mp_k=9 caps=71
+MLTD 1386 DECISION id=mltd_offering_of_the_tides pop_k=89 mp_k=9 caps=71
+MLTD 1386 DECISION id=mltd_cult_call_for_people pop_k=89 mp_k=9 caps=71
+MLTD 1386 DECISION id=mltd_cult_call_for_equipment pop_k=89 mp_k=9 caps=71
+MLTD 1399 SNAP owned=15 controlled=15 pop_k=88 mp_k=9 divs=64 mil=32 civ=35 dock=3 caps=71 pp=264 stab=84 ws=66 books=3 cults=3 cult_pts=56 cult_target=NEW subjects=0 wars=0 eq_mirelurk=0 eq_inf=12 eq_sup=156 date= 1:00, 1 November, 2278
+MLTD 1399 CULT tag=NEW str=18
+MLTD 1399 CULT tag=PMR str=18
+MLTD 1399 CULT tag=WBH str=18
+MLTD 1407 TECH id=amphibious_beast_intermediate_form
+MLTD 1429 SNAP owned=15 controlled=15 pop_k=86 mp_k=9 divs=68 mil=33 civ=36 dock=3 caps=71 pp=308 stab=84 ws=67 books=3 cults=3 cult_pts=46 cult_target=NEW subjects=0 wars=0 eq_mirelurk=0 eq_inf=0 eq_sup=136 date= 1:00, 1 December, 2278
+MLTD 1429 CULT tag=NEW str=15
+MLTD 1429 CULT tag=PMR str=15
+MLTD 1429 CULT tag=WBH str=15
+MLTD 1449 DECISION id=mltd_offering_of_the_drowned pop_k=83 mp_k=9 caps=171
+MLTD 1460 SNAP owned=15 controlled=15 pop_k=82 mp_k=9 divs=70 mil=34 civ=37 dock=3 caps=171 pp=288 stab=84 ws=68 books=3 cults=3 cult_pts=39 cult_target=PMR subjects=0 wars=0 eq_mirelurk=0 eq_inf=6 eq_sup=136 date= 1:00, 1 January, 2279
+MLTD 1460 CULT tag=NEW str=13
+MLTD 1460 CULT tag=PMR str=13
+MLTD 1460 CULT tag=WBH str=13
+MLTD 1477 DECISION id=mltd_summon_the_deep_ones pop_k=73 mp_k=9 caps=207
+MLTD 1491 SNAP owned=15 controlled=15 pop_k=72 mp_k=9 divs=73 mil=34 civ=38 dock=3 caps=161 pp=284 stab=84 ws=69 books=3 cults=3 cult_pts=31 cult_target=NEW subjects=0 wars=0 eq_mirelurk=0 eq_inf=17 eq_sup=136 date= 1:00, 1 February, 2279
+MLTD 1491 CULT tag=NEW str=10
+MLTD 1491 CULT tag=PMR str=10
+MLTD 1491 CULT tag=WBH str=10
+MLTD 1505 FOCUS id=mltd_the_grand_ritual
+MLTD 1505 RITUAL id=grand state=end pop_k=71
+MLTD 1512 GONE tag=TLA capital=769 owner=MOC
+MLTD 1519 GONE tag=PMR capital=7 owner=WBH
+MLTD 1519 SNAP owned=15 controlled=15 pop_k=71 mp_k=9 divs=76 mil=35 civ=38 dock=3 caps=161 pp=313 stab=94 ws=69 books=3 cults=2 cult_pts=16 cult_target=NEW subjects=0 wars=0 eq_mirelurk=0 eq_inf=1 eq_sup=136 date= 1:00, 1 March, 2279
+MLTD 1519 CULT tag=NEW str=8
+MLTD 1519 CULT tag=WBH str=8
+MLTD 1533 FOCUS id=mlt_cascadian_current
+MLTD 1533 GONE tag=EHT capital=478 owner=WHT
+MLTD 1533 GONE tag=LNS capital=921 owner=TBH
+MLTD 1540 JUSTIFY tag=ARR
+MLTD 1550 SNAP owned=15 controlled=15 pop_k=71 mp_k=9 divs=77 mil=36 civ=37 dock=3 caps=110 pp=278 stab=94 ws=70 books=3 cults=2 cult_pts=12 cult_target=NEW subjects=0 wars=0 eq_mirelurk=0 eq_inf=11 eq_sup=126 date= 1:00, 1 April, 2279
+MLTD 1550 CULT tag=NEW str=6
+MLTD 1550 CULT tag=WBH str=6
+MLTD 1568 FOCUS id=mltd_wbh_eyes_in_the_sound
+MLTD 1568 DECISION id=mltd_summon_the_deep_ones pop_k=63 mp_k=8 caps=178
+MLTD 1580 SNAP owned=15 controlled=15 pop_k=64 mp_k=8 divs=83 mil=37 civ=37 dock=3 caps=132 pp=280 stab=94 ws=70 books=3 cults=2 cult_pts=8 cult_target=NEW subjects=0 wars=0 eq_mirelurk=0 eq_inf=22 eq_sup=116 date= 1:00, 1 May, 2279
+MLTD 1580 CULT tag=NEW str=4
+MLTD 1580 CULT tag=WBH str=4
+MLTD 1596 FOCUS id=mltd_ncr_a_mole_in_shady_sands
+MLTD 1596 GONE tag=GDH capital=101 owner=CES
+MLTD 1603 WAR_START tag=WBH
+MLTD 1603 GIFT id=mltd_gift_of_the_tide
+MLTD 1603 GIFT id=mltd_gift_of_the_shell
+MLTD 1611 SNAP owned=15 controlled=15 pop_k=64 mp_k=8 divs=89 mil=39 civ=38 dock=3 caps=132 pp=83 stab=72 ws=91 books=3 cults=2 cult_pts=4 cult_target=WBH subjects=0 wars=1 eq_mirelurk=0 eq_inf=-4 eq_sup=105 date= 1:00, 1 June, 2279
+MLTD 1611 CULT tag=NEW str=1
+MLTD 1611 CULT tag=WBH str=2
+MLTD 1624 GONE tag=SHA capital=936 owner=TBH
+MLTD 1624 GONE tag=MTC capital=1319 owner=WPG
+MLTD 1631 FOCUS id=lurk_in_the_depths
+MLTD 1638 GIFT id=mltd_gift_of_the_tide
+MLTD 1641 SNAP owned=15 controlled=17 pop_k=64 mp_k=7 divs=86 mil=41 civ=39 dock=3 caps=132 pp=7 stab=73 ws=91 books=3 cults=0 cult_pts=0 cult_target=WBH subjects=0 wars=1 eq_mirelurk=0 eq_inf=-4 eq_sup=154 date= 1:00, 1 July, 2279
+MLTD 1652 GONE tag=LGS capital=122 owner=RRG
+MLTD 1666 FOCUS id=mltd_wbh_salt_in_the_citadel
+MLTD 1672 SNAP owned=15 controlled=23 pop_k=64 mp_k=7 divs=88 mil=46 civ=43 dock=4 caps=201 pp=48 stab=75 ws=92 books=3 cults=0 cult_pts=0 cult_target=WBH subjects=0 wars=1 eq_mirelurk=0 eq_inf=-4 eq_sup=135 date= 1:00, 1 August, 2279
+MLTD 1680 DECISION id=mltd_summon_the_deep_ones pop_k=56 mp_k=7 caps=201
+MLTD 1694 GIFT id=mltd_gift_of_the_tide
+MLTD 1703 SNAP owned=15 controlled=27 pop_k=56 mp_k=7 divs=92 mil=47 civ=45 dock=5 caps=201 pp=24 stab=75 ws=92 books=3 cults=0 cult_pts=0 cult_target=WBH subjects=0 wars=1 eq_mirelurk=0 eq_inf=-4 eq_sup=139 date= 1:00, 1 September, 2279
+MLTD 1708 FOCUS id=mltd_wbh_the_drowned_knights
+MLTD 1708 GIFT id=mltd_gift_of_the_shell
+MLTD 1729 WAR_START tag=ARR
+MLTD 1729 WAR_START tag=BJS
+MLTD 1729 WAR_START tag=MOT
+MLTD 1729 WAR_START tag=PAL
+MLTD 1729 WAR_START tag=SHI
+MLTD 1729 WAR_START tag=SLN
+MLTD 1729 WAR_START tag=VLT
+MLTD 1729 WAR_START tag=NCR
+MLTD 1729 GIFT id=mltd_gift_of_the_tide
+MLTD 1733 SNAP owned=15 controlled=35 pop_k=56 mp_k=7 divs=92 mil=51 civ=49 dock=6 caps=234 pp=23 stab=70 ws=71 books=3 cults=0 cult_pts=0 cult_target=ARR subjects=0 wars=9 eq_mirelurk=0 eq_inf=-4 eq_sup=139 date= 1:00, 1 October, 2279
+MLTD 1736 FOCUS id=mltd_fifth_book
+MLTD 1750 WAR_END tag=WBH exists=no
+MLTD 1750 GONE tag=WBH capital=65 owner=MLT
+MLTD 1757 FOCUS id=mlt_offer_muttfruit_for_the_cannibal_territories
+MLTD 1757 TECH id=amphibious_beast_upgrade_tech_2
+MLTD 1757 GONE tag=WHT capital=551 owner=NCN
+MLTD 1764 SNAP owned=39 controlled=38 pop_k=261 mp_k=6 divs=92 mil=51 civ=48 dock=6 caps=50 pp=74 stab=70 ws=52 books=4 cults=0 cult_pts=0 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-5 eq_sup=73 date= 1:00, 1 November, 2279
+MLTD 1778 FOCUS id=mltd_wbh_the_tide_wall
+MLTD 1794 SNAP owned=39 controlled=38 pop_k=261 mp_k=6 divs=95 mil=52 civ=48 dock=6 caps=50 pp=122 stab=69 ws=51 books=4 cults=1 cult_pts=6 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=13 date= 1:00, 1 December, 2279
+MLTD 1794 CULT tag=ARR str=6
+MLTD 1806 GONE tag=STA capital=1263 owner=VSH
+MLTD 1813 FOCUS id=lurk_warriors_league
+MLTD 1813 GONE tag=MCA capital=965 owner=MNC
+MLTD 1825 SNAP owned=39 controlled=38 pop_k=262 mp_k=6 divs=95 mil=53 civ=49 dock=6 caps=50 pp=63 stab=66 ws=49 books=4 cults=0 cult_pts=0 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=0 date= 1:00, 1 January, 2280
+MLTD 1841 FOCUS id=lurk_visions_of_designs
+MLTD 1856 SNAP owned=39 controlled=38 pop_k=262 mp_k=7 divs=96 mil=54 civ=49 dock=6 caps=126 pp=65 stab=64 ws=47 books=4 cults=0 cult_pts=0 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-5 eq_sup=0 date= 1:00, 1 February, 2280
+MLTD 1869 FOCUS id=lurk_refurbish_scrap_war_machines
+MLTD 1869 DECISION id=mltd_summon_the_deep_ones pop_k=254 mp_k=7 caps=126
+MLTD 1884 SNAP owned=39 controlled=38 pop_k=254 mp_k=6 divs=99 mil=55 civ=50 dock=6 caps=126 pp=60 stab=62 ws=47 books=4 cults=1 cult_pts=5 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-3 eq_sup=0 date= 1:00, 1 March, 2280
+MLTD 1884 CULT tag=ARR str=5
+MLTD 1897 FOCUS id=mltd_fourth_book
+MLTD 1915 SNAP owned=39 controlled=38 pop_k=255 mp_k=6 divs=99 mil=57 civ=51 dock=6 caps=121 pp=109 stab=64 ws=53 books=4 cults=0 cult_pts=0 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=0 date= 1:00, 1 April, 2280
+MLTD 1932 FOCUS id=mlt_the_great_tunnels_of_mlulu
+MLTD 1945 SNAP owned=39 controlled=38 pop_k=255 mp_k=5 divs=98 mil=57 civ=52 dock=6 caps=42 pp=8 stab=54 ws=52 books=5 cults=0 cult_pts=0 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=0 date= 1:00, 1 May, 2280
+MLTD 1946 LAW id=first_sons_and_daughters
+MLTD 1953 GONE tag=MDM capital=1206 owner=STC
+MLTD 1976 SNAP owned=39 controlled=38 pop_k=255 mp_k=5 divs=93 mil=58 civ=52 dock=6 caps=42 pp=46 stab=57 ws=52 books=5 cults=1 cult_pts=7 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-0 eq_sup=0 date= 1:00, 1 June, 2280
+MLTD 1976 CULT tag=ARR str=7
+MLTD 1981 DECISION id=mltd_summon_the_deep_ones pop_k=247 mp_k=6 caps=37
+MLTD 1988 FOCUS id=mltd_the_deep_ones_walk
+MLTD 1988 TECH id=warbike_unlock_tech
+MLTD 1988 RITUAL id=final state=start pop_k=247
+MLTD 2006 SNAP owned=39 controlled=38 pop_k=236 mp_k=6 divs=95 mil=60 civ=52 dock=7 caps=37 pp=34 stab=35 ws=42 books=5 cults=0 cult_pts=0 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=1 date= 1:00, 1 July, 2280
+MLTD 2030 GONE tag=TIM capital=345 owner=BDT
+MLTD 2037 SNAP owned=39 controlled=39 pop_k=219 mp_k=8 divs=96 mil=63 civ=54 dock=7 caps=101 pp=69 stab=35 ws=41 books=5 cults=0 cult_pts=0 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=0 date= 1:00, 1 August, 2280
+MLTD 2044 DECISION id=mltd_summon_the_star_spawn pop_k=199 mp_k=8 caps=101
+MLTD 2068 SNAP owned=39 controlled=40 pop_k=188 mp_k=9 divs=96 mil=65 civ=56 dock=7 caps=101 pp=3 stab=34 ws=39 books=5 cults=0 cult_pts=0 cult_target=ARR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-3 eq_sup=-1 date= 1:00, 1 September, 2280
+MLTD 2072 GIFT id=mltd_gift_of_the_tide
+MLTD 2093 GIFT id=mltd_gift_of_the_shell
+MLTD 2098 SNAP owned=39 controlled=47 pop_k=174 mp_k=8 divs=93 mil=81 civ=71 dock=9 caps=114 pp=11 stab=34 ws=39 books=5 cults=1 cult_pts=20 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-3 eq_sup=16 date= 1:00, 1 October, 2280
+MLTD 2098 CULT tag=ARR str=20
+MLTD 2114 GIFT id=mltd_gift_of_the_tide
+MLTD 2129 SNAP owned=39 controlled=50 pop_k=162 mp_k=8 divs=97 mil=87 civ=76 dock=9 caps=23 pp=20 stab=34 ws=39 books=5 cults=1 cult_pts=10 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=1 eq_sup=9 date= 1:00, 1 November, 2280
+MLTD 2129 CULT tag=ARR str=10
+MLTD 2135 GONE tag=ITZ capital=36 owner=ATE
+MLTD 2135 GIFT id=mltd_gift_of_the_shell
+MLTD 2149 GONE tag=MAX capital=752 owner=ARM
+MLTD 2159 SNAP owned=39 controlled=55 pop_k=150 mp_k=9 divs=99 mil=93 civ=81 dock=10 caps=13 pp=2 stab=29 ws=38 books=5 cults=1 cult_pts=4 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-1 date= 1:00, 1 December, 2280
+MLTD 2159 CULT tag=ARR str=4
+MLTD 2163 GIFT id=mltd_gift_of_the_tide
+MLTD 2170 FOCUS id=mltd_the_final_ritual
+MLTD 2170 TECH id=mltd_star_spawn_tech
+MLTD 2170 RITUAL id=final state=end pop_k=147
+MLTD 2177 GONE tag=LAC capital=525 owner=TBH
+MLTD 2177 DECISION id=mltd_offering_of_the_drowned pop_k=146 mp_k=9 caps=113
+MLTD 2190 SNAP owned=39 controlled=58 pop_k=146 mp_k=9 divs=102 mil=97 civ=84 dock=10 caps=98 pp=23 stab=70 ws=47 books=5 cults=0 cult_pts=0 cult_target=SHI subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-0 date= 1:00, 1 January, 2281
+MLTD 2205 FOCUS id=mltd_ncr_drowned_delegates
+MLTD 2221 SNAP owned=39 controlled=59 pop_k=147 mp_k=9 divs=102 mil=101 civ=86 dock=11 caps=144 pp=13 stab=69 ws=46 books=5 cults=1 cult_pts=10 cult_target=SHI subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-0 date= 1:00, 1 February, 2281
+MLTD 2221 CULT tag=NCR str=10
+MLTD 2240 FOCUS id=mltd_ncr_sleepers_on_the_long_15
+MLTD 2240 DECISION id=mltd_offering_of_the_tides pop_k=145 mp_k=9 caps=149
+MLTD 2249 SNAP owned=39 controlled=60 pop_k=145 mp_k=9 divs=101 mil=105 civ=89 dock=11 caps=165 pp=23 stab=76 ws=52 books=5 cults=1 cult_pts=6 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-3 eq_sup=-0 date= 1:00, 1 March, 2281
+MLTD 2249 CULT tag=NCR str=6
+MLTD 2254 DECISION id=mltd_offering_of_the_drowned pop_k=144 mp_k=9 caps=265
+MLTD 2268 GONE tag=HEA capital=962 owner=BDT
+MLTD 2275 FOCUS id=mltd_ncr_salt_on_the_caravan_roads
+MLTD 2275 MARKET caps=185
+MLTD 2280 SNAP owned=39 controlled=60 pop_k=144 mp_k=9 divs=104 mil=107 civ=89 dock=11 caps=35 pp=49 stab=78 ws=52 books=5 cults=1 cult_pts=3 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-3 eq_sup=-0 date= 1:00, 1 April, 2281
+MLTD 2280 CULT tag=NCR str=3
+MLTD 2303 FOCUS id=lurk_metal_crab_claw
+MLTD 2310 SNAP owned=39 controlled=61 pop_k=145 mp_k=10 divs=104 mil=108 civ=97 dock=11 caps=145 pp=33 stab=78 ws=51 books=5 cults=0 cult_pts=0 cult_target=SHI subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-0 date= 1:00, 1 May, 2281
+MLTD 2317 FOCUS id=mltd_ncr_the_turbines_sing
+MLTD 2317 DECISION id=mltd_offering_of_the_drowned pop_k=144 mp_k=10 caps=245
+MLTD 2341 SNAP owned=39 controlled=62 pop_k=144 mp_k=10 divs=107 mil=114 civ=101 dock=11 caps=189 pp=20 stab=78 ws=49 books=5 cults=0 cult_pts=0 cult_target=SHI subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-0 date= 1:00, 1 June, 2281
+MLTD 2352 FOCUS id=mltd_ces_what_the_river_carries
+MLTD 2371 SNAP owned=39 controlled=63 pop_k=143 mp_k=10 divs=107 mil=118 civ=102 dock=12 caps=259 pp=45 stab=77 ws=47 books=5 cults=0 cult_pts=0 cult_target=SHI subjects=0 wars=8 eq_mirelurk=42 eq_inf=-4 eq_sup=-2 date= 1:00, 1 July, 2281
+MLTD 2373 DECISION id=mltd_offering_of_the_drowned pop_k=143 mp_k=11 caps=176
+MLTD 2387 FOCUS id=mltd_ces_the_chained_are_given_to_the_tide
+MLTD 2402 SNAP owned=39 controlled=63 pop_k=145 mp_k=11 divs=107 mil=121 civ=103 dock=12 caps=130 pp=97 stab=83 ws=45 books=5 cults=0 cult_pts=0 cult_target=SHI subjects=0 wars=8 eq_mirelurk=169 eq_inf=-4 eq_sup=-2 date= 1:00, 1 August, 2281
+MLTD 2422 FOCUS id=mltd_bos_the_drowned_paladin
+MLTD 2429 DECISION id=mltd_offering_of_the_tides pop_k=143 mp_k=11 caps=130
+MLTD 2433 SNAP owned=39 controlled=65 pop_k=143 mp_k=11 divs=108 mil=126 civ=105 dock=13 caps=130 pp=14 stab=82 ws=44 books=5 cults=1 cult_pts=5 cult_target=SHI subjects=0 wars=8 eq_mirelurk=403 eq_inf=-4 eq_sup=-1 date= 1:00, 1 September, 2281
+MLTD 2433 CULT tag=SHI str=5
+MLTD 2443 DECISION id=mltd_offering_of_the_drowned pop_k=142 mp_k=12 caps=371
+MLTD 2450 FOCUS id=mltd_tex_all_waters_are_one
+MLTD 2457 MARKET caps=186
+MLTD 2463 SNAP owned=39 controlled=67 pop_k=142 mp_k=12 divs=107 mil=135 civ=114 dock=15 caps=186 pp=39 stab=80 ws=44 books=5 cults=0 cult_pts=0 cult_target=SHI subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-0 date= 1:00, 1 October, 2281
+MLTD 2485 FOCUS id=mltd_tla_the_iron_god_dreams
+MLTD 2494 SNAP owned=39 controlled=69 pop_k=143 mp_k=13 divs=108 mil=141 civ=122 dock=16 caps=270 pp=40 stab=80 ws=49 books=5 cults=0 cult_pts=0 cult_target=SHI subjects=0 wars=8 eq_mirelurk=0 eq_inf=-3 eq_sup=-1 date= 1:00, 1 November, 2281
+MLTD 2506 DECISION id=mltd_offering_of_the_drowned pop_k=142 mp_k=13 caps=20
+MLTD 2513 FOCUS id=lurk_brine_battlers
+MLTD 2524 SNAP owned=39 controlled=68 pop_k=142 mp_k=13 divs=114 mil=145 civ=122 dock=17 caps=20 pp=65 stab=80 ws=51 books=5 cults=0 cult_pts=0 cult_target=SHI subjects=0 wars=8 eq_mirelurk=0 eq_inf=-3 eq_sup=-2 date= 1:00, 1 December, 2281
+MLTD 2534 TECH id=amphibious_beast_king_form
+MLTD 2541 FOCUS id=lurk_local_chems_workshops
+MLTD 2555 SNAP owned=39 controlled=68 pop_k=142 mp_k=13 divs=119 mil=149 civ=126 dock=17 caps=15 pp=117 stab=80 ws=52 books=5 cults=1 cult_pts=3 cult_target=SHI subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-1 date= 1:00, 1 January, 2282
+MLTD 2555 CULT tag=SHI str=3
+MLTD 2562 DECISION id=mltd_offering_of_the_drowned pop_k=141 mp_k=12 caps=221
+MLTD 2569 FOCUS id=lurk_searching_shipwrecks
+MLTD 2586 SNAP owned=39 controlled=68 pop_k=141 mp_k=13 divs=119 mil=156 civ=133 dock=18 caps=221 pp=77 stab=80 ws=52 books=5 cults=0 cult_pts=0 cult_target=SHI subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-1 date= 1:00, 1 February, 2282
+MLTD 2604 FOCUS id=mlt_spread_the_crowsland
+MLTD 2614 SNAP owned=39 controlled=69 pop_k=141 mp_k=15 divs=119 mil=161 civ=134 dock=18 caps=172 pp=52 stab=80 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=87 date= 1:00, 1 March, 2282
+MLTD 2625 DECISION id=mltd_offering_of_the_drowned pop_k=140 mp_k=14 caps=272
+MLTD 2632 FOCUS id=lurk_coral_built_canoes
+MLTD 2645 SNAP owned=39 controlled=69 pop_k=140 mp_k=15 divs=119 mil=165 civ=130 dock=19 caps=257 pp=79 stab=80 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=54 date= 1:00, 1 April, 2282
+MLTD 2646 MARKET caps=200
+MLTD 2660 FOCUS id=mlt_clearing_out_the_cannibals
+MLTD 2675 SNAP owned=39 controlled=70 pop_k=141 mp_k=19 divs=120 mil=171 civ=129 dock=19 caps=177 pp=129 stab=80 ws=52 books=5 cults=1 cult_pts=6 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=55 eq_sup=7 date= 1:00, 1 May, 2282
+MLTD 2675 CULT tag=SHI str=6
+MLTD 2688 DECISION id=mltd_offering_of_the_drowned pop_k=140 mp_k=18 caps=77
+MLTD 2695 FOCUS id=mlt_weapon_stashes_on_the_beach
+MLTD 2695 FOCUS id=mlt_offer_muttfruit_for_ribbreaker_coast
+MLTD 2706 SNAP owned=39 controlled=66 pop_k=140 mp_k=19 divs=114 mil=174 civ=134 dock=19 caps=77 pp=6 stab=75 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-2 date= 1:00, 1 June, 2282
+MLTD 2709 LAW id=children_and_mothers
+MLTD 2723 FOCUS id=mlt_leaving_the_swamp
+MLTD 2730 DECISION id=mltd_offering_of_the_tides pop_k=138 mp_k=19 caps=77
+MLTD 2736 SNAP owned=39 controlled=65 pop_k=138 mp_k=19 divs=112 mil=177 civ=163 dock=20 caps=77 pp=21 stab=75 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-2 date= 1:00, 1 July, 2282
+MLTD 2744 DECISION id=mltd_offering_of_the_drowned pop_k=137 mp_k=18 caps=252
+MLTD 2751 FOCUS id=mlt_defending_the_new_coastline
+MLTD 2767 SNAP owned=39 controlled=66 pop_k=137 mp_k=17 divs=73 mil=192 civ=174 dock=21 caps=252 pp=47 stab=75 ws=52 books=5 cults=1 cult_pts=8 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-3 eq_sup=-2 date= 1:00, 1 August, 2282
+MLTD 2767 CULT tag=NCR str=8
+MLTD 2779 FOCUS id=lurk_coral_apprenticeship
+MLTD 2798 SNAP owned=39 controlled=66 pop_k=138 mp_k=17 divs=73 mil=199 civ=179 dock=21 caps=202 pp=98 stab=75 ws=52 books=5 cults=1 cult_pts=5 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-2 eq_sup=-2 date= 1:00, 1 September, 2282
+MLTD 2798 CULT tag=NCR str=5
+MLTD 2807 DECISION id=mltd_offering_of_the_drowned pop_k=137 mp_k=18 caps=302
+MLTD 2814 FOCUS id=lurk_the_land_of_coral
+MLTD 2828 SNAP owned=39 controlled=66 pop_k=137 mp_k=17 divs=83 mil=204 civ=177 dock=22 caps=292 pp=147 stab=75 ws=52 books=5 cults=1 cult_pts=1 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-3 date= 1:00, 1 October, 2282
+MLTD 2828 CULT tag=NCR str=1
+MLTD 2835 MARKET caps=203
+MLTD 2842 FOCUS id=mlt_connecting_the_spawning_pools
+MLTD 2859 SNAP owned=39 controlled=67 pop_k=137 mp_k=18 divs=88 mil=212 civ=175 dock=23 caps=191 pp=198 stab=75 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-3 eq_sup=-3 date= 1:00, 1 November, 2282
+MLTD 2863 DECISION id=mltd_offering_of_the_drowned pop_k=136 mp_k=17 caps=291
+MLTD 2870 FOCUS id=mlt_roads_from_the_swamp
+MLTD 2870 TECH id=amphibious_beast_upgrade_tech_4
+MLTD 2877 MARKET caps=246
+MLTD 2889 SNAP owned=39 controlled=67 pop_k=136 mp_k=17 divs=91 mil=217 civ=176 dock=23 caps=231 pp=222 stab=75 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-3 date= 1:00, 1 December, 2282
+MLTD 2912 GONE tag=ARM capital=759 owner=RRG
+MLTD 2912 DECISION id=mltd_offering_of_the_tides pop_k=134 mp_k=18 caps=231
+MLTD 2920 SNAP owned=39 controlled=67 pop_k=135 mp_k=18 divs=93 mil=222 civ=174 dock=23 caps=161 pp=238 stab=75 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-2 eq_sup=-3 date= 1:00, 1 January, 2283
+MLTD 2926 DECISION id=mltd_offering_of_the_drowned pop_k=134 mp_k=18 caps=210
+MLTD 2926 MARKET caps=210
+MLTD 2951 SNAP owned=39 controlled=67 pop_k=134 mp_k=18 divs=102 mil=227 civ=170 dock=23 caps=210 pp=264 stab=75 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-4 eq_sup=-3 date= 1:00, 1 February, 2283
+MLTD 2979 SNAP owned=39 controlled=67 pop_k=134 mp_k=18 divs=110 mil=229 civ=167 dock=23 caps=165 pp=260 stab=75 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=8 eq_mirelurk=0 eq_inf=-3 eq_sup=-3 date= 1:00, 1 March, 2283
+MLTD 2982 DECISION id=mltd_offering_of_the_drowned pop_k=133 mp_k=19 caps=265
+MLTD 2996 GONE tag=ZAP capital=782 owner=RRG
+MLTD 3010 SNAP owned=39 controlled=67 pop_k=133 mp_k=18 divs=120 mil=232 civ=167 dock=23 caps=221 pp=286 stab=77 ws=52 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=8 eq_mirelurk=0 eq_inf=-2 eq_sup=15 date= 1:00, 1 April, 2283
+MLTD 3017 MARKET caps=195
+MLTD 3040 SNAP owned=39 controlled=76 pop_k=133 mp_k=19 divs=126 mil=249 civ=174 dock=24 caps=195 pp=336 stab=77 ws=52 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=0 eq_inf=-4 eq_sup=45 date= 1:00, 1 May, 2283
+MLTD 3045 WAR_END tag=MOT exists=no
+MLTD 3045 GONE tag=MOT capital=47 owner=VEG
+MLTD 3045 GONE tag=CES capital=528 owner=NCR
+MLTD 3045 DECISION id=mltd_offering_of_the_drowned pop_k=132 mp_k=19 caps=295
+MLTD 3071 SNAP owned=39 controlled=86 pop_k=132 mp_k=17 divs=138 mil=272 civ=182 dock=24 caps=278 pp=362 stab=77 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=7 eq_mirelurk=0 eq_inf=-1 eq_sup=39 date= 1:00, 1 June, 2283
+MLTD 3087 FOCUS id=mltd_ces_the_drowned_frumentarius
+MLTD 3087 DECISION id=mltd_offering_of_the_tides pop_k=131 mp_k=17 caps=268
+MLTD 3101 SNAP owned=39 controlled=90 pop_k=131 mp_k=17 divs=142 mil=279 civ=192 dock=25 caps=251 pp=377 stab=77 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=7 eq_mirelurk=0 eq_inf=-4 eq_sup=79 date= 1:00, 1 July, 2283
+MLTD 3108 DECISION id=mltd_offering_of_the_drowned pop_k=130 mp_k=17 caps=351
+MLTD 3108 MARKET caps=351
+MLTD 3122 FOCUS id=mltd_ces_salt_in_the_armouries
+MLTD 3132 SNAP owned=39 controlled=90 pop_k=130 mp_k=16 divs=152 mil=277 civ=160 dock=24 caps=431 pp=285 stab=77 ws=52 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=7 eq_mirelurk=0 eq_inf=-4 eq_sup=93 date= 1:00, 1 August, 2283
+MLTD 3150 MARKET caps=214
+MLTD 3163 SNAP owned=39 controlled=95 pop_k=129 mp_k=17 divs=169 mil=294 civ=174 dock=26 caps=425 pp=363 stab=78 ws=57 books=5 cults=0 cult_pts=0 cult_target=NCR subjects=0 wars=7 eq_mirelurk=0 eq_inf=-5 eq_sup=104 date= 1:00, 1 September, 2283
+MLTD 3164 FOCUS id=mltd_ces_the_sea_against_mars
+MLTD 3164 DECISION id=mltd_offering_of_the_drowned pop_k=129 mp_k=16 caps=425
+MLTD 3193 SNAP owned=39 controlled=182 pop_k=129 mp_k=15 divs=168 mil=387 civ=230 dock=40 caps=39 pp=414 stab=78 ws=57 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=0 eq_inf=-6 eq_sup=479 date= 1:00, 1 October, 2283
+MLTD 3224 SNAP owned=39 controlled=186 pop_k=128 mp_k=16 divs=171 mil=394 civ=234 dock=41 caps=268 pp=442 stab=78 ws=57 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=0 eq_inf=-7 eq_sup=509 date= 1:00, 1 November, 2283
+MLTD 3227 DECISION id=mltd_offering_of_the_drowned pop_k=128 mp_k=15 caps=268
+MLTD 3254 SNAP owned=39 controlled=186 pop_k=128 mp_k=14 divs=180 mil=396 civ=237 dock=42 caps=237 pp=494 stab=78 ws=57 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=0 eq_inf=-7 eq_sup=500 date= 1:00, 1 December, 2283
+MLTD 3269 DECISION id=mltd_offering_of_the_tides pop_k=127 mp_k=13 caps=60
+MLTD 3283 DECISION id=mltd_offering_of_the_drowned pop_k=126 mp_k=14 caps=189
+MLTD 3285 SNAP owned=39 controlled=188 pop_k=126 mp_k=15 divs=208 mil=404 civ=244 dock=43 caps=189 pp=437 stab=78 ws=57 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=11 eq_inf=489 eq_sup=500 date= 1:00, 1 January, 2284
+MLTD 3290 MARKET caps=286
+MLTD 3316 SNAP owned=39 controlled=196 pop_k=126 mp_k=18 divs=212 mil=422 civ=256 dock=45 caps=281 pp=491 stab=82 ws=57 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=28 eq_inf=-6 eq_sup=527 date= 1:00, 1 February, 2284
+MLTD 3344 SNAP owned=39 controlled=198 pop_k=125 mp_k=17 divs=220 mil=427 civ=259 dock=43 caps=365 pp=437 stab=81 ws=53 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=0 eq_inf=-6 eq_sup=518 date= 1:00, 1 March, 2284
+MLTD 3346 DECISION id=mltd_offering_of_the_drowned pop_k=125 mp_k=17 caps=165
+MLTD 3346 MARKET caps=165
+MLTD 3353 GONE tag=RRG capital=122 owner=MOC
+MLTD 3375 SNAP owned=39 controlled=197 pop_k=125 mp_k=17 divs=221 mil=425 civ=259 dock=43 caps=387 pp=428 stab=81 ws=53 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=20 eq_inf=-5 eq_sup=519 date= 1:00, 1 April, 2284
+MLTD 3402 DECISION id=mltd_offering_of_the_drowned pop_k=124 mp_k=17 caps=190
+MLTD 3405 SNAP owned=39 controlled=197 pop_k=124 mp_k=17 divs=230 mil=429 civ=263 dock=43 caps=190 pp=316 stab=81 ws=53 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=1 eq_inf=-6 eq_sup=514 date= 1:00, 1 May, 2284
+MLTD 3436 SNAP owned=39 controlled=194 pop_k=124 mp_k=15 divs=248 mil=438 civ=271 dock=43 caps=175 pp=370 stab=77 ws=54 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=1 eq_inf=-6 eq_sup=507 date= 1:00, 1 June, 2284
+MLTD 3451 DECISION id=mltd_offering_of_the_tides pop_k=123 mp_k=16 caps=175
+MLTD 3465 DECISION id=mltd_offering_of_the_drowned pop_k=122 mp_k=16 caps=285
+MLTD 3465 MARKET caps=285
+MLTD 3466 SNAP owned=39 controlled=191 pop_k=122 mp_k=16 divs=253 mil=454 civ=283 dock=45 caps=285 pp=361 stab=78 ws=54 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=1 eq_inf=-3 eq_sup=493 date= 1:00, 1 July, 2284
+MLTD 3497 SNAP owned=39 controlled=194 pop_k=122 mp_k=15 divs=252 mil=460 civ=292 dock=46 caps=562 pp=414 stab=78 ws=54 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=11 eq_inf=-5 eq_sup=513 date= 1:00, 1 August, 2284
+MLTD 3507 MARKET caps=346
+MLTD 3528 DECISION id=mltd_offering_of_the_drowned pop_k=121 mp_k=15 caps=446
+MLTD 3528 SNAP owned=39 controlled=198 pop_k=121 mp_k=16 divs=262 mil=474 civ=302 dock=48 caps=446 pp=375 stab=78 ws=54 books=5 cults=1 cult_pts=5 cult_target=VLT subjects=0 wars=7 eq_mirelurk=23 eq_inf=113 eq_sup=549 date= 1:00, 1 September, 2284
+MLTD 3528 CULT tag=VLT str=5
+MLTD 3549 MARKET caps=226
+MLTD 3558 SNAP owned=39 controlled=200 pop_k=121 mp_k=14 divs=286 mil=482 civ=309 dock=50 caps=226 pp=362 stab=78 ws=55 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=0 eq_inf=-6 eq_sup=565 date= 1:00, 1 October, 2284
+MLTD 3584 DECISION id=mltd_offering_of_the_drowned pop_k=120 mp_k=14 caps=608
+MLTD 3589 SNAP owned=39 controlled=201 pop_k=120 mp_k=15 divs=294 mil=489 civ=315 dock=52 caps=608 pp=155 stab=78 ws=55 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=31 eq_inf=-5 eq_sup=549 date= 1:00, 1 November, 2284
+MLTD 3591 MARKET caps=408
+MLTD 3619 SNAP owned=39 controlled=201 pop_k=120 mp_k=15 divs=308 mil=497 civ=321 dock=53 caps=393 pp=206 stab=78 ws=55 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=51 eq_inf=-4 eq_sup=560 date= 1:00, 1 December, 2284
+MLTD 3626 DECISION id=mltd_offering_of_the_tides pop_k=119 mp_k=16 caps=393
+MLTD 3633 MARKET caps=193
+MLTD 3647 DECISION id=mltd_offering_of_the_drowned pop_k=118 mp_k=15 caps=266
+MLTD 3650 SNAP owned=39 controlled=201 pop_k=118 mp_k=16 divs=325 mil=500 civ=325 dock=53 caps=266 pp=200 stab=78 ws=56 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=94 eq_inf=-2 eq_sup=310 date= 1:00, 1 January, 2285
+MLTD 3654 GONE tag=NCN capital=224 owner=ORO
+MLTD 3681 SNAP owned=39 controlled=204 pop_k=118 mp_k=17 divs=345 mil=513 civ=333 dock=56 caps=523 pp=253 stab=78 ws=56 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=1734 eq_inf=13 eq_sup=319 date= 1:00, 1 February, 2285
+MLTD 3703 DECISION id=mltd_offering_of_the_drowned pop_k=117 mp_k=17 caps=608
+MLTD 3709 SNAP owned=39 controlled=204 pop_k=117 mp_k=17 divs=356 mil=520 civ=340 dock=56 caps=608 pp=276 stab=78 ws=57 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=3364 eq_inf=-5 eq_sup=306 date= 1:00, 1 March, 2285
+MLTD 3738 GONE tag=FFI capital=687 owner=MOC
+MLTD 3740 SNAP owned=39 controlled=204 pop_k=117 mp_k=18 divs=368 mil=528 civ=349 dock=58 caps=270 pp=279 stab=78 ws=57 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=5571 eq_inf=116 eq_sup=306 date= 1:00, 1 April, 2285
+MLTD 3766 DECISION id=mltd_offering_of_the_drowned pop_k=116 mp_k=18 caps=577
+MLTD 3770 SNAP owned=39 controlled=204 pop_k=116 mp_k=18 divs=377 mil=540 civ=362 dock=59 caps=577 pp=224 stab=78 ws=57 books=5 cults=1 cult_pts=5 cult_target=VLT subjects=0 wars=7 eq_mirelurk=6874 eq_inf=12 eq_sup=262 date= 1:00, 1 May, 2285
+MLTD 3770 CULT tag=VLT str=5
+MLTD 3801 SNAP owned=39 controlled=204 pop_k=117 mp_k=19 divs=385 mil=570 civ=384 dock=62 caps=534 pp=277 stab=78 ws=58 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=8621 eq_inf=1044 eq_sup=273 date= 1:00, 1 June, 2285
+MLTD 3808 DECISION id=mltd_offering_of_the_tides pop_k=115 mp_k=19 caps=544
+MLTD 3822 DECISION id=mltd_offering_of_the_drowned pop_k=114 mp_k=19 caps=602
+MLTD 3831 SNAP owned=39 controlled=204 pop_k=114 mp_k=19 divs=388 mil=575 civ=390 dock=63 caps=602 pp=254 stab=81 ws=58 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=10092 eq_inf=1723 eq_sup=273 date= 1:00, 1 July, 2285
+MLTD 3862 SNAP owned=39 controlled=204 pop_k=114 mp_k=19 divs=388 mil=577 civ=395 dock=63 caps=106 pp=313 stab=81 ws=59 books=5 cults=1 cult_pts=7 cult_target=VLT subjects=0 wars=7 eq_mirelurk=12144 eq_inf=2132 eq_sup=226 date= 1:00, 1 August, 2285
+MLTD 3862 CULT tag=VLT str=7
+MLTD 3885 DECISION id=mltd_offering_of_the_drowned pop_k=113 mp_k=19 caps=206
+MLTD 3893 SNAP owned=39 controlled=204 pop_k=113 mp_k=20 divs=395 mil=589 civ=405 dock=64 caps=206 pp=174 stab=81 ws=59 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=13033 eq_inf=2776 eq_sup=226 date= 1:00, 1 September, 2285
+MLTD 3923 SNAP owned=39 controlled=204 pop_k=113 mp_k=20 divs=399 mil=597 civ=410 dock=64 caps=351 pp=116 stab=81 ws=60 books=5 cults=0 cult_pts=0 cult_target=VLT subjects=0 wars=7 eq_mirelurk=14192 eq_inf=3447 eq_sup=226 date= 1:00, 1 October, 2285

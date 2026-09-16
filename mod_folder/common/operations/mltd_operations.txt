@@ -13,6 +13,8 @@
 # per repeat against the same target (DEFAULT_OPERATION_COST_MULTIPLIER, vanilla 00_defines.lua:3733-3737), so the
 # equipment is exactly the figure above every time. The critical success (outcome_extra_execute replaces the base
 # outcome, so it repeats the transfer) also turns one of the target's generals: mltd_indoctrinate_defector.
+#
+# Found a Cult and Nurture the Cult (round 17, at the end of the file) replace the targeted cult decisions.
 
 mltd_op_indoctrinate_the_faithful_5000 = {
 	icon = GFX_operations_make_resistance_contacts
@@ -433,6 +435,191 @@ mltd_op_indoctrinate_the_faithful_100 = {
 
 	ai_will_do = {
 		base = 5
+	}
+
+	phases = { #make contact with the disaffected
+		infiltrate_military_ideological_supporter = { base = 100 }
+	}
+	phases = { #gather the faithful
+		recruit_mercs = { base = 100 }
+	}
+	phases = { #return to the water
+		river_escape = { base = 60 }
+		exfiltration_go_to_ground = { base = 40 }
+	}
+}
+
+# ---------------------------------------------------------------- Cult Infiltration (round 17)
+# Found a Cult and Nurture the Cult replace round 14's targeted decisions. Both need The Spreading Cult (which opens the
+# category) and, like every operation, a network in the target; founding reaches any country, not just neighbouring
+# majors. Founding plants a cult at 10 % (20 on a critical success); nurturing adds 12 (20 on a critical success) and is
+# paid in infantry and support equipment. The gains are in the outcome blocks and in mltd_op_*_tt; the equipment is
+# shown natively. Effects: mltd_cult_add_strength in FROM (the target), then mltd_cult_rebuild_list in ROOT.
+mltd_op_found_a_cult = {
+	icon = GFX_operations_infiltrate_civilian_govt
+	map_icon = GFX_operations_infiltrate_civilian_govt_map
+	name = mltd_op_found_a_cult
+	desc = mltd_op_found_a_cult_desc
+
+	priority = 10
+	days = 45
+	network_strength = 20
+	operatives = 1
+
+	allowed = {
+		original_tag = MLT
+	}
+
+	visible = {
+		ROOT = {
+			original_tag = MLT
+			has_completed_focus = mltd_the_spreading_cult
+		}
+		network_national_coverage = {
+			target = FROM
+			value > 0
+		}
+		FROM = {
+			NOT = { has_variable = mltd_cult_strength }
+		}
+	}
+
+	available = {
+		FROM = {
+			NOT = { has_variable = mltd_cult_strength }
+		}
+	}
+
+	equipment = {
+		infantry_equipment = 100
+		support_equipment = 20
+	}
+	cost_multiplier = 0
+
+	experience = 2
+
+	risk_chance = 0.1
+	outcome_extra_chance = 0.25
+	risk_modifiers = { operation_infiltrate_risk operation_risk }
+	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
+	cost_modifiers = { operation_infiltrate_cost operation_cost }
+
+	outcome_execute = {
+		FROM = {
+			set_temp_variable = { mltd_cult_gain = 10 }
+			mltd_cult_add_strength = yes
+		}
+		ROOT = {
+			mltd_cult_rebuild_list = yes
+		}
+	}
+	outcome_extra_execute = {
+		FROM = {
+			set_temp_variable = { mltd_cult_gain = 20 }
+			mltd_cult_add_strength = yes
+		}
+		ROOT = {
+			mltd_cult_rebuild_list = yes
+		}
+	}
+	outcome_potential = {
+		custom_effect_tooltip = mltd_op_found_a_cult_tt
+	}
+
+	# over OPERATION_AI_MINIMUM_SCORE (10, vanilla 00_defines.lua:3728), below which the AI scraps an operation it prepares
+	ai_will_do = {
+		base = 20
+	}
+
+	phases = { #make contact with the disaffected
+		infiltrate_military_ideological_supporter = { base = 100 }
+	}
+	phases = { #gather the faithful
+		recruit_mercs = { base = 100 }
+	}
+	phases = { #return to the water
+		river_escape = { base = 60 }
+		exfiltration_go_to_ground = { base = 40 }
+	}
+}
+
+mltd_op_nurture_the_cult = {
+	icon = GFX_operations_boost_resistance
+	map_icon = GFX_operations_boost_resistance_map
+	name = mltd_op_nurture_the_cult
+	desc = mltd_op_nurture_the_cult_desc
+
+	priority = 10
+	days = 60
+	network_strength = 20
+	operatives = 1
+
+	allowed = {
+		original_tag = MLT
+	}
+
+	visible = {
+		ROOT = {
+			original_tag = MLT
+			has_completed_focus = mltd_the_spreading_cult
+		}
+		network_national_coverage = {
+			target = FROM
+			value > 0
+		}
+		FROM = {
+			has_variable = mltd_cult_strength
+		}
+	}
+
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_cult_not_full_tt
+			FROM = {
+				check_variable = { mltd_cult_strength < 100 }
+			}
+		}
+	}
+
+	equipment = {
+		infantry_equipment = 250
+		support_equipment = 50
+	}
+	cost_multiplier = 0
+
+	experience = 2
+
+	risk_chance = 0.1
+	outcome_extra_chance = 0.25
+	risk_modifiers = { operation_infiltrate_risk operation_risk }
+	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
+	cost_modifiers = { operation_infiltrate_cost operation_cost }
+
+	outcome_execute = {
+		FROM = {
+			set_temp_variable = { mltd_cult_gain = 12 }
+			mltd_cult_add_strength = yes
+		}
+		ROOT = {
+			mltd_cult_rebuild_list = yes
+		}
+	}
+	outcome_extra_execute = {
+		FROM = {
+			set_temp_variable = { mltd_cult_gain = 20 }
+			mltd_cult_add_strength = yes
+		}
+		ROOT = {
+			mltd_cult_rebuild_list = yes
+		}
+	}
+	outcome_potential = {
+		custom_effect_tooltip = mltd_op_nurture_the_cult_tt
+	}
+
+	# over OPERATION_AI_MINIMUM_SCORE (10, vanilla 00_defines.lua:3728), as Found a Cult
+	ai_will_do = {
+		base = 20
 	}
 
 	phases = { #make contact with the disaffected

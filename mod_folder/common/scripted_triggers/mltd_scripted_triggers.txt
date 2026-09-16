@@ -31,8 +31,8 @@ mltd_hail_candidate = {
 	}
 }
 
-# mltd_cult_neighbouring_major: a major that neighbours ROOT (MLT), used by the focus
-# mltd_the_spreading_cult (every_country) and by mltd_cult_can_be_founded (the decision). Plain is_major,
+# mltd_cult_neighbouring_major: a major that neighbours ROOT (MLT), used by the focus mltd_the_spreading_cult
+# (every_country) to plant the first cults; since round 17 founding one is an operation on any country. Plain is_major,
 # by design. OWB also makes every non-subject country a major while it is at war (00_on_actions.txt:
 # 1362-1370, flag set_as_major_for_war; taken away at peace, :431-446), so a small neighbour at war counts
 # for as long as the war lasts; at peace only the top industrial powers are majors (fchanges_defines.lua:
@@ -43,13 +43,6 @@ mltd_cult_neighbouring_major = {
 	is_neighbor_of = ROOT
 	NOT = { is_subject_of = ROOT }
 	is_major = yes
-}
-
-# mltd_cult_can_be_founded: FROM scope of the decision mltd_cult_found (ROOT = MLT) - a neighbouring
-# major without a cult yet. Defined after mltd_cult_neighbouring_major, which it calls.
-mltd_cult_can_be_founded = {
-	mltd_cult_neighbouring_major = yes
-	NOT = { has_variable = mltd_cult_strength }
 }
 
 # mltd_defector_candidate: a general of the target of mltd_op_indoctrinate_the_faithful_* who may defect to MLT on its

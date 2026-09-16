@@ -1,0 +1,4050 @@
+# Rising Tide - MLT AI telemetry: scripted effects
+#
+# Writes machine-readable lines to game.log with the log effect while MLT exists, so that a spectator (observe mode) game
+# can be compared with CONQUEST_PLAN.txt by the report script at the repo root. Everything runs in MLT's scope from MLT's
+# own daily, weekly and monthly pulses (common/on_actions/mltd_telemetry_on_actions.txt), behind the kill switch
+# mltd_telemetry_on (common/scripted_triggers/mltd_telemetry_triggers.txt), and changes nothing but its own mltd_tm_
+# variables, flags and arrays: no tooltip, nothing on screen, nothing any AI or player reads. Deleting the three
+# mltd_telemetry_* files removes it; whatever it left in a save is then inert.
+#
+# THE LINE CONTRACT - the report parses exactly this, so the two change together:
+#   MLTD <day> <KIND> <key=value ...> [date=<GetDateText>]
+# - <day>: the variable mltd_tm_day on MLT, +1 on every on_daily_MLT tick from 0 - whole days since 2275.1.1 in 365-day
+#   years. START is written before the first tick adds its 1, so it reads 0, although that tick is probably 2275.1.2
+#   (the game starts at noon on 2275.1.1, after that day's pulses).
+# - <KIND>: START SNAP FOCUS TECH LAW JUSTIFY WARGOAL WAR_START WAR_END GONE RITUAL DECISION GIFT MARKET CULT ENEMY STAGE
+#   POCKET ADVISOR.
+# - key=value tokens: lower-case keys; values without spaces - tags, ids, whole numbers, yes/no, none. A game value is
+#   copied into a mltd_tm_ variable first and printed [?x|0], with no sign, suffix or colour flag.
+# - date=, last, on START and SNAP only: [GetDateText], which prints " 12:00, 1 January, 2275", leading space included.
+# game.log adds its own prefix, and each log call after the first in a burst lands on the previous call's dangling
+# effectbase.cpp:1799 prefix, so the report looks for "MLTD " anywhere in a line. Log text cannot branch, so a line whose
+# words depend on the game (yes or no, a tag or none, caps or not) is written out once per case.
+# unverified: the order of on_daily_MLT and the weekly or monthly pulse within one day - a weekly or monthly line may
+# carry the previous day's number (the date in game.log's own prefix is a second clock); whether [?x|0] rounds and
+# groups thousands; and that game.log gets the lines without -debug (documented for the log effect; this machine
+# launches with -debug).
+#
+# State, all named mltd_tm_:
+# - on MLT: mltd_tm_day; mltd_tm_law; the SNAP values (mltd_tm_<key>); the last capitals seen, mltd_tm_cap_<TAG>; the
+#   flags mltd_tm_f_<focus>, mltd_tm_t_<tech>, mltd_tm_alive_<TAG> and mltd_tm_ritual_<grand|final>_<start|end>; the
+#   timed markers mltd_tm_d_<decision>, mltd_tm_g_<gift> and mltd_tm_market; the arrays mltd_tm_watch and mltd_tm_drop;
+#   the flags mltd_tm_s_<stage>, mltd_tm_a_<advisor> and mltd_tm_pocket; mltd_tm_enemy_states.
+# - on other countries: mltd_tm_justify, mltd_tm_wargoal and mltd_tm_war - MLT's relation to that country, as last logged.
+# The FOCUS, TECH, GONE, DECISION and GIFT lists were generated in round 20 from the focus tree, CONQUEST_PLAN.txt, MLT's
+# AI files and common/decisions/mltd_decisions.txt: a focus, tech, conquest target, cooldown decision or gift added later
+# needs its own block, in the same pattern. Callees come before callers (a console reload registers effects in file order).
+
+# ---------------------------------------------------------------- values
+
+# pop_k: national population in thousands - state_population_k summed over every owned state into a variable on MLT
+# through PREV (the idiom of mltd_take_population_everywhere; OWB exodus_effects.txt:392-396). mltd_national_population
+# sums raw state_population instead, which wraps negative at the 2,147,483 variable ceiling past ~2.1 million people.
+mltd_tm_update_pop_k = {
+	set_variable = { mltd_tm_pop_k = 0 }
+	every_owned_state = {
+		add_to_variable = { PREV.mltd_tm_pop_k = state_population_k }
+	}
+}
+
+# pop_k, mp_k and caps, for the SNAP, RITUAL, DECISION and MARKET lines. caps_number_display is OWB's caps balance (read
+# and written by add_caps, caps_scripted_effects.txt:48-60), never set while the caps rule is off; the lines leave caps
+# out then.
+# unverified: that manpower_k (vanilla RAJ_GOE_scripted_effects.txt:494) is the pool the top bar shows - the
+# documentation calls it "total manpower of country in thousands".
+mltd_tm_update_economy = {
+	mltd_tm_update_pop_k = yes
+	set_variable = { mltd_tm_mp_k = manpower_k }
+	set_variable = { mltd_tm_caps = 0 }
+	if = {
+		limit = { has_variable = caps_number_display }
+		set_variable = { mltd_tm_caps = caps_number_display }
+	}
+}
+
+# ---------------------------------------------------------------- START and LAW
+
+# START, once, on the first daily tick. ai: MLT is AI-controlled, as every country is in observe mode. lar: La
+# Resistance. caps_rule: OWB's caps game rule, the global flag caps_enabled_global_flag set on_startup
+# (__game_rule_on_actions.txt:8058). schism: DIS holds DIS_mend_schism, without which it never offers itself to MLT
+# (nf_dis.4) and which OWB rolls on_startup for an AI MLT (:6505-6526, again :8448-8469); na once DIS is gone. v: the
+# contract's version.
+mltd_tm_log_start = {
+	if = {
+		limit = { is_ai = yes }
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { has_global_flag = caps_enabled_global_flag }
+				if = {
+					limit = { NOT = { country_exists = DIS } }
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=yes caps_rule=yes schism=na v=1 date=[GetDateText]"
+				}
+				else_if = {
+					limit = { DIS = { has_country_flag = DIS_mend_schism } }
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=yes caps_rule=yes schism=yes v=1 date=[GetDateText]"
+				}
+				else = {
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=yes caps_rule=yes schism=no v=1 date=[GetDateText]"
+				}
+			}
+			else = {
+				if = {
+					limit = { NOT = { country_exists = DIS } }
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=yes caps_rule=no schism=na v=1 date=[GetDateText]"
+				}
+				else_if = {
+					limit = { DIS = { has_country_flag = DIS_mend_schism } }
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=yes caps_rule=no schism=yes v=1 date=[GetDateText]"
+				}
+				else = {
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=yes caps_rule=no schism=no v=1 date=[GetDateText]"
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = { has_global_flag = caps_enabled_global_flag }
+				if = {
+					limit = { NOT = { country_exists = DIS } }
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=no caps_rule=yes schism=na v=1 date=[GetDateText]"
+				}
+				else_if = {
+					limit = { DIS = { has_country_flag = DIS_mend_schism } }
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=no caps_rule=yes schism=yes v=1 date=[GetDateText]"
+				}
+				else = {
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=no caps_rule=yes schism=no v=1 date=[GetDateText]"
+				}
+			}
+			else = {
+				if = {
+					limit = { NOT = { country_exists = DIS } }
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=no caps_rule=no schism=na v=1 date=[GetDateText]"
+				}
+				else_if = {
+					limit = { DIS = { has_country_flag = DIS_mend_schism } }
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=no caps_rule=no schism=yes v=1 date=[GetDateText]"
+				}
+				else = {
+					log = "MLTD [?mltd_tm_day|0] START ai=yes lar=no caps_rule=no schism=no v=1 date=[GetDateText]"
+				}
+			}
+		}
+	}
+	else = {
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { has_global_flag = caps_enabled_global_flag }
+				if = {
+					limit = { NOT = { country_exists = DIS } }
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=yes caps_rule=yes schism=na v=1 date=[GetDateText]"
+				}
+				else_if = {
+					limit = { DIS = { has_country_flag = DIS_mend_schism } }
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=yes caps_rule=yes schism=yes v=1 date=[GetDateText]"
+				}
+				else = {
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=yes caps_rule=yes schism=no v=1 date=[GetDateText]"
+				}
+			}
+			else = {
+				if = {
+					limit = { NOT = { country_exists = DIS } }
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=yes caps_rule=no schism=na v=1 date=[GetDateText]"
+				}
+				else_if = {
+					limit = { DIS = { has_country_flag = DIS_mend_schism } }
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=yes caps_rule=no schism=yes v=1 date=[GetDateText]"
+				}
+				else = {
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=yes caps_rule=no schism=no v=1 date=[GetDateText]"
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = { has_global_flag = caps_enabled_global_flag }
+				if = {
+					limit = { NOT = { country_exists = DIS } }
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=no caps_rule=yes schism=na v=1 date=[GetDateText]"
+				}
+				else_if = {
+					limit = { DIS = { has_country_flag = DIS_mend_schism } }
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=no caps_rule=yes schism=yes v=1 date=[GetDateText]"
+				}
+				else = {
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=no caps_rule=yes schism=no v=1 date=[GetDateText]"
+				}
+			}
+			else = {
+				if = {
+					limit = { NOT = { country_exists = DIS } }
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=no caps_rule=no schism=na v=1 date=[GetDateText]"
+				}
+				else_if = {
+					limit = { DIS = { has_country_flag = DIS_mend_schism } }
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=no caps_rule=no schism=yes v=1 date=[GetDateText]"
+				}
+				else = {
+					log = "MLTD [?mltd_tm_day|0] START ai=no lar=no caps_rule=no schism=no v=1 date=[GetDateText]"
+				}
+			}
+		}
+	}
+}
+
+# LAW: MLT's conscription law, at START and whenever it changes (mltd_tm_law holds the law logged last: 1-5 in the order
+# below, 6 for other). MLT can hold only OWB's five tribal laws - gov_manpower.txt, # TRIBAL CONSCRIPTION, allowed on
+# is_tribal_nation_allowed_block, and no script outside history files clears is_tribal_nation - so "other" would mean OWB
+# has changed that. A country holds one law of a category, so at most one block fires.
+mltd_tm_poll_law = {
+	if = {
+		limit = {
+			has_idea = born_warriors
+			NOT = { check_variable = { mltd_tm_law = 1 } }
+		}
+		set_variable = { mltd_tm_law = 1 }
+		log = "MLTD [?mltd_tm_day|0] LAW id=born_warriors"
+	}
+	if = {
+		limit = {
+			has_idea = veteran_pathfinders
+			NOT = { check_variable = { mltd_tm_law = 2 } }
+		}
+		set_variable = { mltd_tm_law = 2 }
+		log = "MLTD [?mltd_tm_day|0] LAW id=veteran_pathfinders"
+	}
+	if = {
+		limit = {
+			has_idea = able_bodied_tribesmen
+			NOT = { check_variable = { mltd_tm_law = 3 } }
+		}
+		set_variable = { mltd_tm_law = 3 }
+		log = "MLTD [?mltd_tm_day|0] LAW id=able_bodied_tribesmen"
+	}
+	if = {
+		limit = {
+			has_idea = first_sons_and_daughters
+			NOT = { check_variable = { mltd_tm_law = 4 } }
+		}
+		set_variable = { mltd_tm_law = 4 }
+		log = "MLTD [?mltd_tm_day|0] LAW id=first_sons_and_daughters"
+	}
+	if = {
+		limit = {
+			has_idea = children_and_mothers
+			NOT = { check_variable = { mltd_tm_law = 5 } }
+		}
+		set_variable = { mltd_tm_law = 5 }
+		log = "MLTD [?mltd_tm_day|0] LAW id=children_and_mothers"
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_idea = born_warriors
+				has_idea = veteran_pathfinders
+				has_idea = able_bodied_tribesmen
+				has_idea = first_sons_and_daughters
+				has_idea = children_and_mothers
+			}
+			NOT = { check_variable = { mltd_tm_law = 6 } }
+		}
+		set_variable = { mltd_tm_law = 6 }
+		log = "MLTD [?mltd_tm_day|0] LAW id=other"
+	}
+}
+
+# ---------------------------------------------------------------- FOCUS and TECH
+
+# FOCUS: every focus MLT can take, in three groups - mlt_nf's own, the shared lurk_ focuses its two Oregon roots pull in
+# from OWB, and the conflict sub-trees. The flag mltd_tm_f_<id> marks a focus logged.
+mltd_tm_poll_focuses = {
+	# mlt_nf: OWB's national focuses, then ours (45)
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_sanity_lost } has_completed_focus = mlt_sanity_lost }
+		set_country_flag = mltd_tm_f_mlt_sanity_lost
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_sanity_lost"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_sanity_found } has_completed_focus = mlt_sanity_found }
+		set_country_flag = mltd_tm_f_mlt_sanity_found
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_sanity_found"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_the_coral_court } has_completed_focus = mlt_the_coral_court }
+		set_country_flag = mltd_tm_f_mlt_the_coral_court
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_the_coral_court"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_seeing_to_the_queens_needs } has_completed_focus = mlt_seeing_to_the_queens_needs }
+		set_country_flag = mltd_tm_f_mlt_seeing_to_the_queens_needs
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_seeing_to_the_queens_needs"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_plant_for_the_next_harvest } has_completed_focus = mlt_plant_for_the_next_harvest }
+		set_country_flag = mltd_tm_f_mlt_plant_for_the_next_harvest
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_plant_for_the_next_harvest"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_defend_the_river } has_completed_focus = mlt_defend_the_river }
+		set_country_flag = mltd_tm_f_mlt_defend_the_river
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_defend_the_river"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_meeting_of_the_coral_prophets } has_completed_focus = mlt_meeting_of_the_coral_prophets }
+		set_country_flag = mltd_tm_f_mlt_meeting_of_the_coral_prophets
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_meeting_of_the_coral_prophets"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_new_spawning_pools_needed } has_completed_focus = mlt_new_spawning_pools_needed }
+		set_country_flag = mltd_tm_f_mlt_new_spawning_pools_needed
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_new_spawning_pools_needed"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_offer_muttfruit_for_the_cannibal_territories } has_completed_focus = mlt_offer_muttfruit_for_the_cannibal_territories }
+		set_country_flag = mltd_tm_f_mlt_offer_muttfruit_for_the_cannibal_territories
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_offer_muttfruit_for_the_cannibal_territories"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_clearing_out_the_cannibals } has_completed_focus = mlt_clearing_out_the_cannibals }
+		set_country_flag = mltd_tm_f_mlt_clearing_out_the_cannibals
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_clearing_out_the_cannibals"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_spread_the_crowsland } has_completed_focus = mlt_spread_the_crowsland }
+		set_country_flag = mltd_tm_f_mlt_spread_the_crowsland
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_spread_the_crowsland"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_weapon_stashes_on_the_beach } has_completed_focus = mlt_weapon_stashes_on_the_beach }
+		set_country_flag = mltd_tm_f_mlt_weapon_stashes_on_the_beach
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_weapon_stashes_on_the_beach"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_offer_muttfruit_for_ribbreaker_coast } has_completed_focus = mlt_offer_muttfruit_for_ribbreaker_coast }
+		set_country_flag = mltd_tm_f_mlt_offer_muttfruit_for_ribbreaker_coast
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_offer_muttfruit_for_ribbreaker_coast"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_leaving_the_swamp } has_completed_focus = mlt_leaving_the_swamp }
+		set_country_flag = mltd_tm_f_mlt_leaving_the_swamp
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_leaving_the_swamp"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_defending_the_new_coastline } has_completed_focus = mlt_defending_the_new_coastline }
+		set_country_flag = mltd_tm_f_mlt_defending_the_new_coastline
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_defending_the_new_coastline"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_connecting_the_spawning_pools } has_completed_focus = mlt_connecting_the_spawning_pools }
+		set_country_flag = mltd_tm_f_mlt_connecting_the_spawning_pools
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_connecting_the_spawning_pools"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_roads_from_the_swamp } has_completed_focus = mlt_roads_from_the_swamp }
+		set_country_flag = mltd_tm_f_mlt_roads_from_the_swamp
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_roads_from_the_swamp"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_dig_barrows_for_spawning_pools } has_completed_focus = mlt_dig_barrows_for_spawning_pools }
+		set_country_flag = mltd_tm_f_mlt_dig_barrows_for_spawning_pools
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_dig_barrows_for_spawning_pools"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_striking_iron } has_completed_focus = mlt_striking_iron }
+		set_country_flag = mltd_tm_f_mlt_striking_iron
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_striking_iron"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_arena_in_the_tunnels } has_completed_focus = mlt_arena_in_the_tunnels }
+		set_country_flag = mltd_tm_f_mlt_arena_in_the_tunnels
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_arena_in_the_tunnels"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_blind_eyed_workers } has_completed_focus = mlt_blind_eyed_workers }
+		set_country_flag = mltd_tm_f_mlt_blind_eyed_workers
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_blind_eyed_workers"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_deeper_into_the_earth } has_completed_focus = mlt_deeper_into_the_earth }
+		set_country_flag = mltd_tm_f_mlt_deeper_into_the_earth
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_deeper_into_the_earth"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_striking_gold } has_completed_focus = mlt_striking_gold }
+		set_country_flag = mltd_tm_f_mlt_striking_gold
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_striking_gold"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_defend_the_spawnlings } has_completed_focus = mlt_defend_the_spawnlings }
+		set_country_flag = mltd_tm_f_mlt_defend_the_spawnlings
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_defend_the_spawnlings"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_deep_earth_breathing_equipment } has_completed_focus = mlt_deep_earth_breathing_equipment }
+		set_country_flag = mltd_tm_f_mlt_deep_earth_breathing_equipment
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_deep_earth_breathing_equipment"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_the_great_tunnels_of_mlulu } has_completed_focus = mlt_the_great_tunnels_of_mlulu }
+		set_country_flag = mltd_tm_f_mlt_the_great_tunnels_of_mlulu
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_the_great_tunnels_of_mlulu"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_ritual_of_black_hollows_night } has_completed_focus = ritual_of_black_hollows_night }
+		set_country_flag = mltd_tm_f_ritual_of_black_hollows_night
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=ritual_of_black_hollows_night"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_protect_the_southern_crossing } has_completed_focus = mlt_protect_the_southern_crossing }
+		set_country_flag = mltd_tm_f_mlt_protect_the_southern_crossing
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_protect_the_southern_crossing"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_expanding_mlulus_domain } has_completed_focus = mlt_expanding_mlulus_domain }
+		set_country_flag = mltd_tm_f_mlt_expanding_mlulus_domain
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_expanding_mlulus_domain"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_kingdom_of_mlyeh } has_completed_focus = mlt_kingdom_of_mlyeh }
+		set_country_flag = mltd_tm_f_mlt_kingdom_of_mlyeh
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_kingdom_of_mlyeh"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_cascadian_current } has_completed_focus = mlt_cascadian_current }
+		set_country_flag = mltd_tm_f_mlt_cascadian_current
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_cascadian_current"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_sea_of_cortez } has_completed_focus = mlt_sea_of_cortez }
+		set_country_flag = mltd_tm_f_mlt_sea_of_cortez
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_sea_of_cortez"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mlt_tropic_of_cancer } has_completed_focus = mlt_tropic_of_cancer }
+		set_country_flag = mltd_tm_f_mlt_tropic_of_cancer
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mlt_tropic_of_cancer"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_the_spreading_cult } has_completed_focus = mltd_the_spreading_cult }
+		set_country_flag = mltd_tm_f_mltd_the_spreading_cult
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_the_spreading_cult"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_the_wet_market } has_completed_focus = mltd_the_wet_market }
+		set_country_flag = mltd_tm_f_mltd_the_wet_market
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_the_wet_market"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_gifts_from_the_deep } has_completed_focus = mltd_gifts_from_the_deep }
+		set_country_flag = mltd_tm_f_mltd_gifts_from_the_deep
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_gifts_from_the_deep"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_first_book } has_completed_focus = mltd_first_book }
+		set_country_flag = mltd_tm_f_mltd_first_book
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_first_book"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_second_book } has_completed_focus = mltd_second_book }
+		set_country_flag = mltd_tm_f_mltd_second_book
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_second_book"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_third_book } has_completed_focus = mltd_third_book }
+		set_country_flag = mltd_tm_f_mltd_third_book
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_third_book"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_fourth_book } has_completed_focus = mltd_fourth_book }
+		set_country_flag = mltd_tm_f_mltd_fourth_book
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_fourth_book"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_fifth_book } has_completed_focus = mltd_fifth_book }
+		set_country_flag = mltd_tm_f_mltd_fifth_book
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_fifth_book"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_call_of_the_deep_ones } has_completed_focus = mltd_call_of_the_deep_ones }
+		set_country_flag = mltd_tm_f_mltd_call_of_the_deep_ones
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_call_of_the_deep_ones"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_the_grand_ritual } has_completed_focus = mltd_the_grand_ritual }
+		set_country_flag = mltd_tm_f_mltd_the_grand_ritual
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_the_grand_ritual"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_the_deep_ones_walk } has_completed_focus = mltd_the_deep_ones_walk }
+		set_country_flag = mltd_tm_f_mltd_the_deep_ones_walk
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_the_deep_ones_walk"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_the_final_ritual } has_completed_focus = mltd_the_final_ritual }
+		set_country_flag = mltd_tm_f_mltd_the_final_ritual
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_the_final_ritual"
+	}
+	# OWB's Shared Oregon Coastals Focus.txt, pulled in by lurk_aquatic_construction and lurk_consult_the_oracles (32)
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_aquatic_construction } has_completed_focus = lurk_aquatic_construction }
+		set_country_flag = mltd_tm_f_lurk_aquatic_construction
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_aquatic_construction"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_defend_the_tribe } has_completed_focus = lurk_defend_the_tribe }
+		set_country_flag = mltd_tm_f_lurk_defend_the_tribe
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_defend_the_tribe"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_rock_tossers } has_completed_focus = lurk_rock_tossers }
+		set_country_flag = mltd_tm_f_lurk_rock_tossers
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_rock_tossers"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_whale_hunting } has_completed_focus = lurk_whale_hunting }
+		set_country_flag = mltd_tm_f_lurk_whale_hunting
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_whale_hunting"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_feeding_the_tribesman } has_completed_focus = lurk_feeding_the_tribesman }
+		set_country_flag = mltd_tm_f_lurk_feeding_the_tribesman
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_feeding_the_tribesman"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_scrap_excavation } has_completed_focus = lurk_scrap_excavation }
+		set_country_flag = mltd_tm_f_lurk_scrap_excavation
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_scrap_excavation"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_craft_more_tools } has_completed_focus = lurk_craft_more_tools }
+		set_country_flag = mltd_tm_f_lurk_craft_more_tools
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_craft_more_tools"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_searching_shipwrecks } has_completed_focus = lurk_searching_shipwrecks }
+		set_country_flag = mltd_tm_f_lurk_searching_shipwrecks
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_searching_shipwrecks"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_coral_houses } has_completed_focus = lurk_coral_houses }
+		set_country_flag = mltd_tm_f_lurk_coral_houses
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_coral_houses"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_freighter_fortress } has_completed_focus = lurk_freighter_fortress }
+		set_country_flag = mltd_tm_f_lurk_freighter_fortress
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_freighter_fortress"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_more_conch_knives } has_completed_focus = lurk_more_conch_knives }
+		set_country_flag = mltd_tm_f_lurk_more_conch_knives
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_more_conch_knives"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_local_chems_workshops } has_completed_focus = lurk_local_chems_workshops }
+		set_country_flag = mltd_tm_f_lurk_local_chems_workshops
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_local_chems_workshops"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_import_thunder_sticks } has_completed_focus = lurk_import_thunder_sticks }
+		set_country_flag = mltd_tm_f_lurk_import_thunder_sticks
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_import_thunder_sticks"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_oregon_weapon_trade } has_completed_focus = lurk_oregon_weapon_trade }
+		set_country_flag = mltd_tm_f_lurk_oregon_weapon_trade
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_oregon_weapon_trade"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_brine_battlers } has_completed_focus = lurk_brine_battlers }
+		set_country_flag = mltd_tm_f_lurk_brine_battlers
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_brine_battlers"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_coral_apprenticeship } has_completed_focus = lurk_coral_apprenticeship }
+		set_country_flag = mltd_tm_f_lurk_coral_apprenticeship
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_coral_apprenticeship"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_the_land_of_coral } has_completed_focus = lurk_the_land_of_coral }
+		set_country_flag = mltd_tm_f_lurk_the_land_of_coral
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_the_land_of_coral"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_consult_the_oracles } has_completed_focus = lurk_consult_the_oracles }
+		set_country_flag = mltd_tm_f_lurk_consult_the_oracles
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_consult_the_oracles"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_shelled_warriors } has_completed_focus = lurk_shelled_warriors }
+		set_country_flag = mltd_tm_f_lurk_shelled_warriors
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_shelled_warriors"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_warrior_trials } has_completed_focus = lurk_warrior_trials }
+		set_country_flag = mltd_tm_f_lurk_warrior_trials
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_warrior_trials"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_visions_of_tactics } has_completed_focus = lurk_visions_of_tactics }
+		set_country_flag = mltd_tm_f_lurk_visions_of_tactics
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_visions_of_tactics"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_visions_of_strategies } has_completed_focus = lurk_visions_of_strategies }
+		set_country_flag = mltd_tm_f_lurk_visions_of_strategies
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_visions_of_strategies"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_in_the_depths } has_completed_focus = lurk_in_the_depths }
+		set_country_flag = mltd_tm_f_lurk_in_the_depths
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_in_the_depths"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_in_the_swamps } has_completed_focus = lurk_in_the_swamps }
+		set_country_flag = mltd_tm_f_lurk_in_the_swamps
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_in_the_swamps"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_warriors_league } has_completed_focus = lurk_warriors_league }
+		set_country_flag = mltd_tm_f_lurk_warriors_league
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_warriors_league"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_visions_of_designs } has_completed_focus = lurk_visions_of_designs }
+		set_country_flag = mltd_tm_f_lurk_visions_of_designs
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_visions_of_designs"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_coral_built_canoes } has_completed_focus = lurk_coral_built_canoes }
+		set_country_flag = mltd_tm_f_lurk_coral_built_canoes
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_coral_built_canoes"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_refurbish_scrap_war_machines } has_completed_focus = lurk_refurbish_scrap_war_machines }
+		set_country_flag = mltd_tm_f_lurk_refurbish_scrap_war_machines
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_refurbish_scrap_war_machines"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_metal_crab_claw } has_completed_focus = lurk_metal_crab_claw }
+		set_country_flag = mltd_tm_f_lurk_metal_crab_claw
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_metal_crab_claw"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_defensive_mindset } has_completed_focus = lurk_defensive_mindset }
+		set_country_flag = mltd_tm_f_lurk_defensive_mindset
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_defensive_mindset"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_aggressive_mindset } has_completed_focus = lurk_aggressive_mindset }
+		set_country_flag = mltd_tm_f_lurk_aggressive_mindset
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_aggressive_mindset"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_lurk_the_shell_games } has_completed_focus = lurk_the_shell_games }
+		set_country_flag = mltd_tm_f_lurk_the_shell_games
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_the_shell_games"
+	}
+	# the conflict sub-trees, common/national_focus/mltd_conflicts_focus.txt (36)
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ncr_a_mole_in_shady_sands } has_completed_focus = mltd_ncr_a_mole_in_shady_sands }
+		set_country_flag = mltd_tm_f_mltd_ncr_a_mole_in_shady_sands
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ncr_a_mole_in_shady_sands"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ncr_drowned_delegates } has_completed_focus = mltd_ncr_drowned_delegates }
+		set_country_flag = mltd_tm_f_mltd_ncr_drowned_delegates
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ncr_drowned_delegates"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ncr_sleepers_on_the_long_15 } has_completed_focus = mltd_ncr_sleepers_on_the_long_15 }
+		set_country_flag = mltd_tm_f_mltd_ncr_sleepers_on_the_long_15
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ncr_sleepers_on_the_long_15"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ncr_salt_on_the_caravan_roads } has_completed_focus = mltd_ncr_salt_on_the_caravan_roads }
+		set_country_flag = mltd_tm_f_mltd_ncr_salt_on_the_caravan_roads
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ncr_salt_on_the_caravan_roads"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ncr_the_turbines_sing } has_completed_focus = mltd_ncr_the_turbines_sing }
+		set_country_flag = mltd_tm_f_mltd_ncr_the_turbines_sing
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ncr_the_turbines_sing"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tex_all_waters_are_one } has_completed_focus = mltd_tex_all_waters_are_one }
+		set_country_flag = mltd_tm_f_mltd_tex_all_waters_are_one
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tex_all_waters_are_one"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tex_the_silent_partner } has_completed_focus = mltd_tex_the_silent_partner }
+		set_country_flag = mltd_tm_f_mltd_tex_the_silent_partner
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tex_the_silent_partner"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tex_wreckers_on_the_trinity } has_completed_focus = mltd_tex_wreckers_on_the_trinity }
+		set_country_flag = mltd_tm_f_mltd_tex_wreckers_on_the_trinity
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tex_wreckers_on_the_trinity"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tex_black_water_rising } has_completed_focus = mltd_tex_black_water_rising }
+		set_country_flag = mltd_tm_f_mltd_tex_black_water_rising
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tex_black_water_rising"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_eyes_in_the_sound } has_completed_focus = mltd_wbh_eyes_in_the_sound }
+		set_country_flag = mltd_tm_f_mltd_wbh_eyes_in_the_sound
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_eyes_in_the_sound"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_salt_in_the_citadel } has_completed_focus = mltd_wbh_salt_in_the_citadel }
+		set_country_flag = mltd_tm_f_mltd_wbh_salt_in_the_citadel
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_salt_in_the_citadel"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_the_drowned_knights } has_completed_focus = mltd_wbh_the_drowned_knights }
+		set_country_flag = mltd_tm_f_mltd_wbh_the_drowned_knights
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_the_drowned_knights"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_the_tide_wall } has_completed_focus = mltd_wbh_the_tide_wall }
+		set_country_flag = mltd_tm_f_mltd_wbh_the_tide_wall
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_the_tide_wall"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ces_what_the_river_carries } has_completed_focus = mltd_ces_what_the_river_carries }
+		set_country_flag = mltd_tm_f_mltd_ces_what_the_river_carries
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ces_what_the_river_carries"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ces_the_drowned_frumentarius } has_completed_focus = mltd_ces_the_drowned_frumentarius }
+		set_country_flag = mltd_tm_f_mltd_ces_the_drowned_frumentarius
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ces_the_drowned_frumentarius"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ces_the_chained_are_given_to_the_tide } has_completed_focus = mltd_ces_the_chained_are_given_to_the_tide }
+		set_country_flag = mltd_tm_f_mltd_ces_the_chained_are_given_to_the_tide
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ces_the_chained_are_given_to_the_tide"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ces_salt_in_the_armouries } has_completed_focus = mltd_ces_salt_in_the_armouries }
+		set_country_flag = mltd_tm_f_mltd_ces_salt_in_the_armouries
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ces_salt_in_the_armouries"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ces_the_sea_against_mars } has_completed_focus = mltd_ces_the_sea_against_mars }
+		set_country_flag = mltd_tm_f_mltd_ces_the_sea_against_mars
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ces_the_sea_against_mars"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bos_the_drowned_paladin } has_completed_focus = mltd_bos_the_drowned_paladin }
+		set_country_flag = mltd_tm_f_mltd_bos_the_drowned_paladin
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bos_the_drowned_paladin"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bos_the_paladin_returns } has_completed_focus = mltd_bos_the_paladin_returns }
+		set_country_flag = mltd_tm_f_mltd_bos_the_paladin_returns
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bos_the_paladin_returns"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bos_the_tide_takes_the_armoury } has_completed_focus = mltd_bos_the_tide_takes_the_armoury }
+		set_country_flag = mltd_tm_f_mltd_bos_the_tide_takes_the_armoury
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bos_the_tide_takes_the_armoury"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bos_the_codex_unsealed } has_completed_focus = mltd_bos_the_codex_unsealed }
+		set_country_flag = mltd_tm_f_mltd_bos_the_codex_unsealed
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bos_the_codex_unsealed"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bos_blood_in_the_water } has_completed_focus = mltd_bos_blood_in_the_water }
+		set_country_flag = mltd_tm_f_mltd_bos_blood_in_the_water
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bos_blood_in_the_water"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tla_the_iron_god_dreams } has_completed_focus = mltd_tla_the_iron_god_dreams }
+		set_country_flag = mltd_tm_f_mltd_tla_the_iron_god_dreams
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tla_the_iron_god_dreams"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tla_the_three_voices } has_completed_focus = mltd_tla_the_three_voices }
+		set_country_flag = mltd_tm_f_mltd_tla_the_three_voices
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tla_the_three_voices"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tla_picking_the_iron_bones } has_completed_focus = mltd_tla_picking_the_iron_bones }
+		set_country_flag = mltd_tm_f_mltd_tla_picking_the_iron_bones
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tla_picking_the_iron_bones"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tla_the_drowned_god_sleeps } has_completed_focus = mltd_tla_the_drowned_god_sleeps }
+		set_country_flag = mltd_tm_f_mltd_tla_the_drowned_god_sleeps
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tla_the_drowned_god_sleeps"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_hea_whispers_in_the_steam } has_completed_focus = mltd_hea_whispers_in_the_steam }
+		set_country_flag = mltd_tm_f_mltd_hea_whispers_in_the_steam
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_hea_whispers_in_the_steam"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_hea_a_second_schism } has_completed_focus = mltd_hea_a_second_schism }
+		set_country_flag = mltd_tm_f_mltd_hea_a_second_schism
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_hea_a_second_schism"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_hea_steam_for_the_deep } has_completed_focus = mltd_hea_steam_for_the_deep }
+		set_country_flag = mltd_tm_f_mltd_hea_steam_for_the_deep
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_hea_steam_for_the_deep"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_hea_the_crusade_turns_south } has_completed_focus = mltd_hea_the_crusade_turns_south }
+		set_country_flag = mltd_tm_f_mltd_hea_the_crusade_turns_south
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_hea_the_crusade_turns_south"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wht_the_lake_god_answers } has_completed_focus = mltd_wht_the_lake_god_answers }
+		set_country_flag = mltd_tm_f_mltd_wht_the_lake_god_answers
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_the_lake_god_answers"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wht_the_drowned_shamans } has_completed_focus = mltd_wht_the_drowned_shamans }
+		set_country_flag = mltd_tm_f_mltd_wht_the_drowned_shamans
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_the_drowned_shamans"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wht_guns_for_both_sides } has_completed_focus = mltd_wht_guns_for_both_sides }
+		set_country_flag = mltd_tm_f_mltd_wht_guns_for_both_sides
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_guns_for_both_sides"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wht_sand_in_the_engines } has_completed_focus = mltd_wht_sand_in_the_engines }
+		set_country_flag = mltd_tm_f_mltd_wht_sand_in_the_engines
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_sand_in_the_engines"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wht_rites_on_the_spiral_jetty } has_completed_focus = mltd_wht_rites_on_the_spiral_jetty }
+		set_country_flag = mltd_tm_f_mltd_wht_rites_on_the_spiral_jetty
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_rites_on_the_spiral_jetty"
+	}
+}
+
+# TECH: the techs CONQUEST_PLAN.txt researches, those MLT's AI forces (research_tech, common/ai_strategy/mltd_MLT.txt),
+# the rest of OWB's mirelurk line and our two reward techs. amphibious_beast_unlock_tech is a start tech (MLT's
+# history), so it logs at the first poll. The flag mltd_tm_t_<id> marks a tech logged.
+mltd_tm_poll_techs = {
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_scavtool_engineering_1 } has_tech = scavtool_engineering_1 }
+		set_country_flag = mltd_tm_t_scavtool_engineering_1
+		log = "MLTD [?mltd_tm_day|0] TECH id=scavtool_engineering_1"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_electronic_engineering } has_tech = electronic_engineering }
+		set_country_flag = mltd_tm_t_electronic_engineering
+		log = "MLTD [?mltd_tm_day|0] TECH id=electronic_engineering"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_construction_industry_tech_1 } has_tech = construction_industry_tech_1 }
+		set_country_flag = mltd_tm_t_construction_industry_tech_1
+		log = "MLTD [?mltd_tm_day|0] TECH id=construction_industry_tech_1"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_unit_training_tech_1 } has_tech = unit_training_tech_1 }
+		set_country_flag = mltd_tm_t_unit_training_tech_1
+		log = "MLTD [?mltd_tm_day|0] TECH id=unit_training_tech_1"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_specialized_industry_tech_1 } has_tech = specialized_industry_tech_1 }
+		set_country_flag = mltd_tm_t_specialized_industry_tech_1
+		log = "MLTD [?mltd_tm_day|0] TECH id=specialized_industry_tech_1"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_outsider_warfare_doctrine } has_tech = outsider_warfare_doctrine }
+		set_country_flag = mltd_tm_t_outsider_warfare_doctrine
+		log = "MLTD [?mltd_tm_day|0] TECH id=outsider_warfare_doctrine"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_we_are_different_doctrine } has_tech = we_are_different_doctrine }
+		set_country_flag = mltd_tm_t_we_are_different_doctrine
+		log = "MLTD [?mltd_tm_day|0] TECH id=we_are_different_doctrine"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_1 } has_tech = amphibious_beast_upgrade_tech_1 }
+		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_1
+		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_1"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_construction_industry_tech_2 } has_tech = construction_industry_tech_2 }
+		set_country_flag = mltd_tm_t_construction_industry_tech_2
+		log = "MLTD [?mltd_tm_day|0] TECH id=construction_industry_tech_2"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_we_are_special_doctrine } has_tech = we_are_special_doctrine }
+		set_country_flag = mltd_tm_t_we_are_special_doctrine
+		log = "MLTD [?mltd_tm_day|0] TECH id=we_are_special_doctrine"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_intermediate_form } has_tech = amphibious_beast_intermediate_form }
+		set_country_flag = mltd_tm_t_amphibious_beast_intermediate_form
+		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_intermediate_form"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_king_form } has_tech = amphibious_beast_king_form }
+		set_country_flag = mltd_tm_t_amphibious_beast_king_form
+		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_king_form"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_2 } has_tech = amphibious_beast_upgrade_tech_2 }
+		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_2
+		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_2"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_4 } has_tech = amphibious_beast_upgrade_tech_4 }
+		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_4
+		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_4"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_unlock_tech } has_tech = amphibious_beast_unlock_tech }
+		set_country_flag = mltd_tm_t_amphibious_beast_unlock_tech
+		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_unlock_tech"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_armor_form } has_tech = amphibious_beast_armor_form }
+		set_country_flag = mltd_tm_t_amphibious_beast_armor_form
+		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_armor_form"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_3 } has_tech = amphibious_beast_upgrade_tech_3 }
+		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_3
+		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_3"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_warbike_unlock_tech } has_tech = warbike_unlock_tech }
+		set_country_flag = mltd_tm_t_warbike_unlock_tech
+		log = "MLTD [?mltd_tm_day|0] TECH id=warbike_unlock_tech"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_mltd_star_spawn_tech } has_tech = mltd_star_spawn_tech }
+		set_country_flag = mltd_tm_t_mltd_star_spawn_tech
+		log = "MLTD [?mltd_tm_day|0] TECH id=mltd_star_spawn_tech"
+	}
+}
+
+# ---------------------------------------------------------------- JUSTIFY, WARGOAL, WAR_START, WAR_END
+
+# A flag on the other country records what was logged last: mltd_tm_justify (MLT is justifying a war goal against it),
+# mltd_tm_wargoal (MLT holds one), mltd_tm_war (they are at war). The array mltd_tm_watch on MLT lists every country
+# carrying one of them, because every_other_country skips a country that no longer exists (the note on
+# mltd_cult_rebuild_list): the walk still reaches it, so its war ends with exists=no and its flags are cleared, and a
+# country released again starts afresh. First the walk re-arms whatever has stopped and logs WAR_END; then one scan of
+# every other country logs what is new. The scan's limit holds only the three relation triggers, tested through
+# ROOT = { ... PREV } as OWB's operative_mission_scorer.txt:68-71 does.
+# A dead country in an array is still a scope: OWB walks GLOBAL.chiconet_nations, which holds MAX, MOC and ZAP before
+# they exist, with for_each_scope_loop (tlaloc_on_actions.txt:4-26), and vanilla tests exists = no inside such a loop
+# (TOA_scripted_effects.txt:1050-1055).
+# unverified: that a flag can be cleared on a country that no longer exists.
+mltd_tm_poll_wars = {
+	clear_array = mltd_tm_drop
+	for_each_scope_loop = {
+		array = mltd_tm_watch
+		if = {
+			limit = {
+				has_country_flag = mltd_tm_justify
+				OR = {
+					exists = no
+					NOT = { ROOT = { is_justifying_wargoal_against = PREV } }
+				}
+			}
+			clr_country_flag = mltd_tm_justify
+		}
+		if = {
+			limit = {
+				has_country_flag = mltd_tm_wargoal
+				OR = {
+					exists = no
+					NOT = { ROOT = { has_wargoal_against = PREV } }
+				}
+			}
+			clr_country_flag = mltd_tm_wargoal
+		}
+		if = {
+			limit = {
+				has_country_flag = mltd_tm_war
+				OR = {
+					exists = no
+					NOT = { has_war_with = ROOT }
+				}
+			}
+			clr_country_flag = mltd_tm_war
+			if = {
+				limit = { exists = yes }
+				log = "MLTD [?ROOT.mltd_tm_day|0] WAR_END tag=[THIS.GetTag] exists=yes"
+			}
+			else = {
+				log = "MLTD [?ROOT.mltd_tm_day|0] WAR_END tag=[THIS.GetTag] exists=no"
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = mltd_tm_justify
+					has_country_flag = mltd_tm_wargoal
+					has_country_flag = mltd_tm_war
+				}
+			}
+			add_to_array = { ROOT.mltd_tm_drop = THIS }
+		}
+	}
+	# a country left with no flag leaves the watch list - after the walk, which must not change the array it walks
+	for_each_scope_loop = {
+		array = mltd_tm_drop
+		remove_from_array = { ROOT.mltd_tm_watch = THIS }
+	}
+	clear_array = mltd_tm_drop
+	every_other_country = {
+		limit = {
+			OR = {
+				has_war_with = ROOT
+				ROOT = { is_justifying_wargoal_against = PREV }
+				ROOT = { has_wargoal_against = PREV }
+			}
+		}
+		if = {
+			limit = {
+				NOT = { has_country_flag = mltd_tm_justify }
+				ROOT = { is_justifying_wargoal_against = PREV }
+			}
+			set_country_flag = mltd_tm_justify
+			log = "MLTD [?ROOT.mltd_tm_day|0] JUSTIFY tag=[THIS.GetTag]"
+		}
+		if = {
+			limit = {
+				NOT = { has_country_flag = mltd_tm_wargoal }
+				ROOT = { has_wargoal_against = PREV }
+			}
+			set_country_flag = mltd_tm_wargoal
+			log = "MLTD [?ROOT.mltd_tm_day|0] WARGOAL tag=[THIS.GetTag]"
+		}
+		if = {
+			limit = {
+				NOT = { has_country_flag = mltd_tm_war }
+				has_war_with = ROOT
+			}
+			set_country_flag = mltd_tm_war
+			log = "MLTD [?ROOT.mltd_tm_day|0] WAR_START tag=[THIS.GetTag]"
+		}
+		if = {
+			limit = { NOT = { is_in_array = { ROOT.mltd_tm_watch = THIS } } }
+			add_to_array = { ROOT.mltd_tm_watch = THIS }
+		}
+	}
+}
+
+# ---------------------------------------------------------------- GONE
+
+# GONE: every country MLT's AI sets out to conquer (a conquer strategy above 0 in common/ai_strategy/mltd_MLT.txt).
+# Each poll while it exists records its capital in mltd_tm_cap_<TAG> on MLT (vanilla india_goe.txt:12455 stores a
+# capital_scope the same way). The first poll that finds it gone logs that state, a week old at most, and whoever owns
+# it now, or none - tested as OWB's achievements do (03_owb_achievements_impossible.txt:250-254; 313 of OWB's states
+# start with no owner). The last capital, not the one OWB's history gives (each block's comment), because capitals move:
+# a peace deal that takes one moves it to another state, and OWB script moves some - the Eighties' goes from 478 to 40
+# when the Thunderbirds rise (eighties_scripted_effects.txt:244-253). A country is tracked only once seen alive
+# (mltd_tm_alive_<TAG>), so MAX, MOC and ZAP, which exist only after Tlaloc dies, log nothing at the start, and a
+# country released again is tracked again. var:<variable> = { } scopes to the state a variable holds (vanilla
+# WTT_border_conflicts.txt:408), and a state variable prints through the state's functions (vanilla
+# [?ITA.state_integrated.GetName], bba_decisions_l_english.yml:169).
+# unverified: that GetID, the state's id (loc_objects_documentation.md, State; OWB's one use is [From.Capital.GetID],
+# decisions_TLA_l_english.yml:19), prints as a number in a log line.
+mltd_tm_poll_gone = {
+	# CCW (capital 437 at the start)
+	if = {
+		limit = { country_exists = CCW }
+		set_country_flag = mltd_tm_alive_CCW
+		CCW = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_CCW = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_CCW }
+		clr_country_flag = mltd_tm_alive_CCW
+		var:mltd_tm_cap_CCW = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CCW capital=[?ROOT.mltd_tm_cap_CCW.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CCW capital=[?ROOT.mltd_tm_cap_CCW.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TRL (capital 235 at the start)
+	if = {
+		limit = { country_exists = TRL }
+		set_country_flag = mltd_tm_alive_TRL
+		TRL = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TRL = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TRL }
+		clr_country_flag = mltd_tm_alive_TRL
+		var:mltd_tm_cap_TRL = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TRL capital=[?ROOT.mltd_tm_cap_TRL.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TRL capital=[?ROOT.mltd_tm_cap_TRL.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# RBT (capital 493 at the start)
+	if = {
+		limit = { country_exists = RBT }
+		set_country_flag = mltd_tm_alive_RBT
+		RBT = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_RBT = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_RBT }
+		clr_country_flag = mltd_tm_alive_RBT
+		var:mltd_tm_cap_RBT = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=RBT capital=[?ROOT.mltd_tm_cap_RBT.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=RBT capital=[?ROOT.mltd_tm_cap_RBT.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# DIS (capital 150 at the start)
+	if = {
+		limit = { country_exists = DIS }
+		set_country_flag = mltd_tm_alive_DIS
+		DIS = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_DIS = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_DIS }
+		clr_country_flag = mltd_tm_alive_DIS
+		var:mltd_tm_cap_DIS = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=DIS capital=[?ROOT.mltd_tm_cap_DIS.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=DIS capital=[?ROOT.mltd_tm_cap_DIS.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MDT (capital 231 at the start)
+	if = {
+		limit = { country_exists = MDT }
+		set_country_flag = mltd_tm_alive_MDT
+		MDT = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MDT = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MDT }
+		clr_country_flag = mltd_tm_alive_MDT
+		var:mltd_tm_cap_MDT = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MDT capital=[?ROOT.mltd_tm_cap_MDT.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MDT capital=[?ROOT.mltd_tm_cap_MDT.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# PMR (capital 274 at the start)
+	if = {
+		limit = { country_exists = PMR }
+		set_country_flag = mltd_tm_alive_PMR
+		PMR = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_PMR = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_PMR }
+		clr_country_flag = mltd_tm_alive_PMR
+		var:mltd_tm_cap_PMR = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=PMR capital=[?ROOT.mltd_tm_cap_PMR.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=PMR capital=[?ROOT.mltd_tm_cap_PMR.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# ARR (capital 337 at the start)
+	if = {
+		limit = { country_exists = ARR }
+		set_country_flag = mltd_tm_alive_ARR
+		ARR = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_ARR = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_ARR }
+		clr_country_flag = mltd_tm_alive_ARR
+		var:mltd_tm_cap_ARR = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ARR capital=[?ROOT.mltd_tm_cap_ARR.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ARR capital=[?ROOT.mltd_tm_cap_ARR.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TIM (capital 51 at the start)
+	if = {
+		limit = { country_exists = TIM }
+		set_country_flag = mltd_tm_alive_TIM
+		TIM = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TIM = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TIM }
+		clr_country_flag = mltd_tm_alive_TIM
+		var:mltd_tm_cap_TIM = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TIM capital=[?ROOT.mltd_tm_cap_TIM.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TIM capital=[?ROOT.mltd_tm_cap_TIM.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# KLA (capital 454 at the start)
+	if = {
+		limit = { country_exists = KLA }
+		set_country_flag = mltd_tm_alive_KLA
+		KLA = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_KLA = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_KLA }
+		clr_country_flag = mltd_tm_alive_KLA
+		var:mltd_tm_cap_KLA = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=KLA capital=[?ROOT.mltd_tm_cap_KLA.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=KLA capital=[?ROOT.mltd_tm_cap_KLA.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TCA (capital 37 at the start)
+	if = {
+		limit = { country_exists = TCA }
+		set_country_flag = mltd_tm_alive_TCA
+		TCA = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TCA = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TCA }
+		clr_country_flag = mltd_tm_alive_TCA
+		var:mltd_tm_cap_TCA = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TCA capital=[?ROOT.mltd_tm_cap_TCA.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TCA capital=[?ROOT.mltd_tm_cap_TCA.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# WBH (capital 84 at the start)
+	if = {
+		limit = { country_exists = WBH }
+		set_country_flag = mltd_tm_alive_WBH
+		WBH = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_WBH = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_WBH }
+		clr_country_flag = mltd_tm_alive_WBH
+		var:mltd_tm_cap_WBH = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WBH capital=[?ROOT.mltd_tm_cap_WBH.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WBH capital=[?ROOT.mltd_tm_cap_WBH.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# OLY (capital 424 at the start)
+	if = {
+		limit = { country_exists = OLY }
+		set_country_flag = mltd_tm_alive_OLY
+		OLY = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_OLY = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_OLY }
+		clr_country_flag = mltd_tm_alive_OLY
+		var:mltd_tm_cap_OLY = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=OLY capital=[?ROOT.mltd_tm_cap_OLY.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=OLY capital=[?ROOT.mltd_tm_cap_OLY.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# YAK (capital 540 at the start)
+	if = {
+		limit = { country_exists = YAK }
+		set_country_flag = mltd_tm_alive_YAK
+		YAK = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_YAK = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_YAK }
+		clr_country_flag = mltd_tm_alive_YAK
+		var:mltd_tm_cap_YAK = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=YAK capital=[?ROOT.mltd_tm_cap_YAK.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=YAK capital=[?ROOT.mltd_tm_cap_YAK.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TOC (capital 332 at the start)
+	if = {
+		limit = { country_exists = TOC }
+		set_country_flag = mltd_tm_alive_TOC
+		TOC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TOC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TOC }
+		clr_country_flag = mltd_tm_alive_TOC
+		var:mltd_tm_cap_TOC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TOC capital=[?ROOT.mltd_tm_cap_TOC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TOC capital=[?ROOT.mltd_tm_cap_TOC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# KAM (capital 177 at the start)
+	if = {
+		limit = { country_exists = KAM }
+		set_country_flag = mltd_tm_alive_KAM
+		KAM = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_KAM = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_KAM }
+		clr_country_flag = mltd_tm_alive_KAM
+		var:mltd_tm_cap_KAM = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=KAM capital=[?ROOT.mltd_tm_cap_KAM.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=KAM capital=[?ROOT.mltd_tm_cap_KAM.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# BRK (capital 492 at the start)
+	if = {
+		limit = { country_exists = BRK }
+		set_country_flag = mltd_tm_alive_BRK
+		BRK = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_BRK = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_BRK }
+		clr_country_flag = mltd_tm_alive_BRK
+		var:mltd_tm_cap_BRK = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BRK capital=[?ROOT.mltd_tm_cap_BRK.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BRK capital=[?ROOT.mltd_tm_cap_BRK.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MXS (capital 467 at the start)
+	if = {
+		limit = { country_exists = MXS }
+		set_country_flag = mltd_tm_alive_MXS
+		MXS = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MXS = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MXS }
+		clr_country_flag = mltd_tm_alive_MXS
+		var:mltd_tm_cap_MXS = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MXS capital=[?ROOT.mltd_tm_cap_MXS.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MXS capital=[?ROOT.mltd_tm_cap_MXS.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# FOU (capital 369 at the start)
+	if = {
+		limit = { country_exists = FOU }
+		set_country_flag = mltd_tm_alive_FOU
+		FOU = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_FOU = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_FOU }
+		clr_country_flag = mltd_tm_alive_FOU
+		var:mltd_tm_cap_FOU = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=FOU capital=[?ROOT.mltd_tm_cap_FOU.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=FOU capital=[?ROOT.mltd_tm_cap_FOU.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TDN (capital 57 at the start)
+	if = {
+		limit = { country_exists = TDN }
+		set_country_flag = mltd_tm_alive_TDN
+		TDN = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TDN = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TDN }
+		clr_country_flag = mltd_tm_alive_TDN
+		var:mltd_tm_cap_TDN = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TDN capital=[?ROOT.mltd_tm_cap_TDN.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TDN capital=[?ROOT.mltd_tm_cap_TDN.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# NCR (capital 253 at the start)
+	if = {
+		limit = { country_exists = NCR }
+		set_country_flag = mltd_tm_alive_NCR
+		NCR = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_NCR = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_NCR }
+		clr_country_flag = mltd_tm_alive_NCR
+		var:mltd_tm_cap_NCR = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=NCR capital=[?ROOT.mltd_tm_cap_NCR.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=NCR capital=[?ROOT.mltd_tm_cap_NCR.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MOT (capital 77 at the start)
+	if = {
+		limit = { country_exists = MOT }
+		set_country_flag = mltd_tm_alive_MOT
+		MOT = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MOT = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MOT }
+		clr_country_flag = mltd_tm_alive_MOT
+		var:mltd_tm_cap_MOT = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MOT capital=[?ROOT.mltd_tm_cap_MOT.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MOT capital=[?ROOT.mltd_tm_cap_MOT.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# NAT (capital 548 at the start)
+	if = {
+		limit = { country_exists = NAT }
+		set_country_flag = mltd_tm_alive_NAT
+		NAT = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_NAT = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_NAT }
+		clr_country_flag = mltd_tm_alive_NAT
+		var:mltd_tm_cap_NAT = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=NAT capital=[?ROOT.mltd_tm_cap_NAT.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=NAT capital=[?ROOT.mltd_tm_cap_NAT.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SHI (capital 163 at the start)
+	if = {
+		limit = { country_exists = SHI }
+		set_country_flag = mltd_tm_alive_SHI
+		SHI = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SHI = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SHI }
+		clr_country_flag = mltd_tm_alive_SHI
+		var:mltd_tm_cap_SHI = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SHI capital=[?ROOT.mltd_tm_cap_SHI.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SHI capital=[?ROOT.mltd_tm_cap_SHI.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# NEW (capital 285 at the start)
+	if = {
+		limit = { country_exists = NEW }
+		set_country_flag = mltd_tm_alive_NEW
+		NEW = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_NEW = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_NEW }
+		clr_country_flag = mltd_tm_alive_NEW
+		var:mltd_tm_cap_NEW = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=NEW capital=[?ROOT.mltd_tm_cap_NEW.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=NEW capital=[?ROOT.mltd_tm_cap_NEW.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# CES (capital 520 at the start)
+	if = {
+		limit = { country_exists = CES }
+		set_country_flag = mltd_tm_alive_CES
+		CES = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_CES = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_CES }
+		clr_country_flag = mltd_tm_alive_CES
+		var:mltd_tm_cap_CES = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CES capital=[?ROOT.mltd_tm_cap_CES.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CES capital=[?ROOT.mltd_tm_cap_CES.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# BOS (capital 157 at the start)
+	if = {
+		limit = { country_exists = BOS }
+		set_country_flag = mltd_tm_alive_BOS
+		BOS = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_BOS = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_BOS }
+		clr_country_flag = mltd_tm_alive_BOS
+		var:mltd_tm_cap_BOS = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BOS capital=[?ROOT.mltd_tm_cap_BOS.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BOS capital=[?ROOT.mltd_tm_cap_BOS.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# VEG (capital 211 at the start)
+	if = {
+		limit = { country_exists = VEG }
+		set_country_flag = mltd_tm_alive_VEG
+		VEG = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_VEG = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_VEG }
+		clr_country_flag = mltd_tm_alive_VEG
+		var:mltd_tm_cap_VEG = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=VEG capital=[?ROOT.mltd_tm_cap_VEG.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=VEG capital=[?ROOT.mltd_tm_cap_VEG.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# WHT (capital 326 at the start)
+	if = {
+		limit = { country_exists = WHT }
+		set_country_flag = mltd_tm_alive_WHT
+		WHT = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_WHT = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_WHT }
+		clr_country_flag = mltd_tm_alive_WHT
+		var:mltd_tm_cap_WHT = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WHT capital=[?ROOT.mltd_tm_cap_WHT.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WHT capital=[?ROOT.mltd_tm_cap_WHT.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# EHT (capital 478 at the start)
+	if = {
+		limit = { country_exists = EHT }
+		set_country_flag = mltd_tm_alive_EHT
+		EHT = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_EHT = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_EHT }
+		clr_country_flag = mltd_tm_alive_EHT
+		var:mltd_tm_cap_EHT = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=EHT capital=[?ROOT.mltd_tm_cap_EHT.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=EHT capital=[?ROOT.mltd_tm_cap_EHT.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TAR (capital 138 at the start)
+	if = {
+		limit = { country_exists = TAR }
+		set_country_flag = mltd_tm_alive_TAR
+		TAR = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TAR = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TAR }
+		clr_country_flag = mltd_tm_alive_TAR
+		var:mltd_tm_cap_TAR = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TAR capital=[?ROOT.mltd_tm_cap_TAR.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TAR capital=[?ROOT.mltd_tm_cap_TAR.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# NCN (capital 551 at the start)
+	if = {
+		limit = { country_exists = NCN }
+		set_country_flag = mltd_tm_alive_NCN
+		NCN = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_NCN = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_NCN }
+		clr_country_flag = mltd_tm_alive_NCN
+		var:mltd_tm_cap_NCN = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=NCN capital=[?ROOT.mltd_tm_cap_NCN.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=NCN capital=[?ROOT.mltd_tm_cap_NCN.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# HEA (capital 1384 at the start)
+	if = {
+		limit = { country_exists = HEA }
+		set_country_flag = mltd_tm_alive_HEA
+		HEA = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_HEA = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_HEA }
+		clr_country_flag = mltd_tm_alive_HEA
+		var:mltd_tm_cap_HEA = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=HEA capital=[?ROOT.mltd_tm_cap_HEA.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=HEA capital=[?ROOT.mltd_tm_cap_HEA.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# HGH (capital 172 at the start)
+	if = {
+		limit = { country_exists = HGH }
+		set_country_flag = mltd_tm_alive_HGH
+		HGH = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_HGH = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_HGH }
+		clr_country_flag = mltd_tm_alive_HGH
+		var:mltd_tm_cap_HGH = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=HGH capital=[?ROOT.mltd_tm_cap_HGH.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=HGH capital=[?ROOT.mltd_tm_cap_HGH.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# HAN (capital 525 at the start)
+	if = {
+		limit = { country_exists = HAN }
+		set_country_flag = mltd_tm_alive_HAN
+		HAN = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_HAN = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_HAN }
+		clr_country_flag = mltd_tm_alive_HAN
+		var:mltd_tm_cap_HAN = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=HAN capital=[?ROOT.mltd_tm_cap_HAN.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=HAN capital=[?ROOT.mltd_tm_cap_HAN.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# BLC (capital 572 at the start)
+	if = {
+		limit = { country_exists = BLC }
+		set_country_flag = mltd_tm_alive_BLC
+		BLC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_BLC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_BLC }
+		clr_country_flag = mltd_tm_alive_BLC
+		var:mltd_tm_cap_BLC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BLC capital=[?ROOT.mltd_tm_cap_BLC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BLC capital=[?ROOT.mltd_tm_cap_BLC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# ORO (capital 90 at the start)
+	if = {
+		limit = { country_exists = ORO }
+		set_country_flag = mltd_tm_alive_ORO
+		ORO = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_ORO = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_ORO }
+		clr_country_flag = mltd_tm_alive_ORO
+		var:mltd_tm_cap_ORO = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ORO capital=[?ROOT.mltd_tm_cap_ORO.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ORO capital=[?ROOT.mltd_tm_cap_ORO.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MXC (capital 412 at the start)
+	if = {
+		limit = { country_exists = MXC }
+		set_country_flag = mltd_tm_alive_MXC
+		MXC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MXC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MXC }
+		clr_country_flag = mltd_tm_alive_MXC
+		var:mltd_tm_cap_MXC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MXC capital=[?ROOT.mltd_tm_cap_MXC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MXC capital=[?ROOT.mltd_tm_cap_MXC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# LAC (capital 5 at the start)
+	if = {
+		limit = { country_exists = LAC }
+		set_country_flag = mltd_tm_alive_LAC
+		LAC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_LAC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_LAC }
+		clr_country_flag = mltd_tm_alive_LAC
+		var:mltd_tm_cap_LAC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LAC capital=[?ROOT.mltd_tm_cap_LAC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LAC capital=[?ROOT.mltd_tm_cap_LAC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TBH (capital 892 at the start)
+	if = {
+		limit = { country_exists = TBH }
+		set_country_flag = mltd_tm_alive_TBH
+		TBH = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TBH = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TBH }
+		clr_country_flag = mltd_tm_alive_TBH
+		var:mltd_tm_cap_TBH = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TBH capital=[?ROOT.mltd_tm_cap_TBH.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TBH capital=[?ROOT.mltd_tm_cap_TBH.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# LNS (capital 921 at the start)
+	if = {
+		limit = { country_exists = LNS }
+		set_country_flag = mltd_tm_alive_LNS
+		LNS = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_LNS = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_LNS }
+		clr_country_flag = mltd_tm_alive_LNS
+		var:mltd_tm_cap_LNS = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LNS capital=[?ROOT.mltd_tm_cap_LNS.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LNS capital=[?ROOT.mltd_tm_cap_LNS.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TAA (capital 796 at the start)
+	if = {
+		limit = { country_exists = TAA }
+		set_country_flag = mltd_tm_alive_TAA
+		TAA = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TAA = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TAA }
+		clr_country_flag = mltd_tm_alive_TAA
+		var:mltd_tm_cap_TAA = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TAA capital=[?ROOT.mltd_tm_cap_TAA.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TAA capital=[?ROOT.mltd_tm_cap_TAA.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# RRG (capital 746 at the start)
+	if = {
+		limit = { country_exists = RRG }
+		set_country_flag = mltd_tm_alive_RRG
+		RRG = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_RRG = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_RRG }
+		clr_country_flag = mltd_tm_alive_RRG
+		var:mltd_tm_cap_RRG = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=RRG capital=[?ROOT.mltd_tm_cap_RRG.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=RRG capital=[?ROOT.mltd_tm_cap_RRG.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SHA (capital 932 at the start)
+	if = {
+		limit = { country_exists = SHA }
+		set_country_flag = mltd_tm_alive_SHA
+		SHA = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SHA = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SHA }
+		clr_country_flag = mltd_tm_alive_SHA
+		var:mltd_tm_cap_SHA = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SHA capital=[?ROOT.mltd_tm_cap_SHA.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SHA capital=[?ROOT.mltd_tm_cap_SHA.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# ARM (capital 755 at the start)
+	if = {
+		limit = { country_exists = ARM }
+		set_country_flag = mltd_tm_alive_ARM
+		ARM = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_ARM = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_ARM }
+		clr_country_flag = mltd_tm_alive_ARM
+		var:mltd_tm_cap_ARM = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ARM capital=[?ROOT.mltd_tm_cap_ARM.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ARM capital=[?ROOT.mltd_tm_cap_ARM.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TLA (capital 769 at the start)
+	if = {
+		limit = { country_exists = TLA }
+		set_country_flag = mltd_tm_alive_TLA
+		TLA = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TLA = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TLA }
+		clr_country_flag = mltd_tm_alive_TLA
+		var:mltd_tm_cap_TLA = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TLA capital=[?ROOT.mltd_tm_cap_TLA.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TLA capital=[?ROOT.mltd_tm_cap_TLA.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MAX (capital 753 at the start)
+	if = {
+		limit = { country_exists = MAX }
+		set_country_flag = mltd_tm_alive_MAX
+		MAX = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MAX = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MAX }
+		clr_country_flag = mltd_tm_alive_MAX
+		var:mltd_tm_cap_MAX = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MAX capital=[?ROOT.mltd_tm_cap_MAX.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MAX capital=[?ROOT.mltd_tm_cap_MAX.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MOC (capital 765 at the start)
+	if = {
+		limit = { country_exists = MOC }
+		set_country_flag = mltd_tm_alive_MOC
+		MOC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MOC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MOC }
+		clr_country_flag = mltd_tm_alive_MOC
+		var:mltd_tm_cap_MOC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MOC capital=[?ROOT.mltd_tm_cap_MOC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MOC capital=[?ROOT.mltd_tm_cap_MOC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# ZAP (capital 750 at the start)
+	if = {
+		limit = { country_exists = ZAP }
+		set_country_flag = mltd_tm_alive_ZAP
+		ZAP = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_ZAP = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_ZAP }
+		clr_country_flag = mltd_tm_alive_ZAP
+		var:mltd_tm_cap_ZAP = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ZAP capital=[?ROOT.mltd_tm_cap_ZAP.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ZAP capital=[?ROOT.mltd_tm_cap_ZAP.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# ATE (capital 863 at the start)
+	if = {
+		limit = { country_exists = ATE }
+		set_country_flag = mltd_tm_alive_ATE
+		ATE = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_ATE = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_ATE }
+		clr_country_flag = mltd_tm_alive_ATE
+		var:mltd_tm_cap_ATE = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ATE capital=[?ROOT.mltd_tm_cap_ATE.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ATE capital=[?ROOT.mltd_tm_cap_ATE.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# ITZ (capital 788 at the start)
+	if = {
+		limit = { country_exists = ITZ }
+		set_country_flag = mltd_tm_alive_ITZ
+		ITZ = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_ITZ = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_ITZ }
+		clr_country_flag = mltd_tm_alive_ITZ
+		var:mltd_tm_cap_ITZ = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ITZ capital=[?ROOT.mltd_tm_cap_ITZ.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ITZ capital=[?ROOT.mltd_tm_cap_ITZ.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# FFI (capital 687 at the start)
+	if = {
+		limit = { country_exists = FFI }
+		set_country_flag = mltd_tm_alive_FFI
+		FFI = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_FFI = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_FFI }
+		clr_country_flag = mltd_tm_alive_FFI
+		var:mltd_tm_cap_FFI = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=FFI capital=[?ROOT.mltd_tm_cap_FFI.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=FFI capital=[?ROOT.mltd_tm_cap_FFI.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# GDH (capital 471 at the start)
+	if = {
+		limit = { country_exists = GDH }
+		set_country_flag = mltd_tm_alive_GDH
+		GDH = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_GDH = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_GDH }
+		clr_country_flag = mltd_tm_alive_GDH
+		var:mltd_tm_cap_GDH = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=GDH capital=[?ROOT.mltd_tm_cap_GDH.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=GDH capital=[?ROOT.mltd_tm_cap_GDH.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# LGS (capital 122 at the start)
+	if = {
+		limit = { country_exists = LGS }
+		set_country_flag = mltd_tm_alive_LGS
+		LGS = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_LGS = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_LGS }
+		clr_country_flag = mltd_tm_alive_LGS
+		var:mltd_tm_cap_LGS = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LGS capital=[?ROOT.mltd_tm_cap_LGS.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LGS capital=[?ROOT.mltd_tm_cap_LGS.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MCA (capital 656 at the start)
+	if = {
+		limit = { country_exists = MCA }
+		set_country_flag = mltd_tm_alive_MCA
+		MCA = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MCA = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MCA }
+		clr_country_flag = mltd_tm_alive_MCA
+		var:mltd_tm_cap_MCA = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MCA capital=[?ROOT.mltd_tm_cap_MCA.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MCA capital=[?ROOT.mltd_tm_cap_MCA.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# PAS (capital 316 at the start)
+	if = {
+		limit = { country_exists = PAS }
+		set_country_flag = mltd_tm_alive_PAS
+		PAS = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_PAS = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_PAS }
+		clr_country_flag = mltd_tm_alive_PAS
+		var:mltd_tm_cap_PAS = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=PAS capital=[?ROOT.mltd_tm_cap_PAS.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=PAS capital=[?ROOT.mltd_tm_cap_PAS.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MTC (capital 1319 at the start)
+	if = {
+		limit = { country_exists = MTC }
+		set_country_flag = mltd_tm_alive_MTC
+		MTC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MTC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MTC }
+		clr_country_flag = mltd_tm_alive_MTC
+		var:mltd_tm_cap_MTC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MTC capital=[?ROOT.mltd_tm_cap_MTC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MTC capital=[?ROOT.mltd_tm_cap_MTC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# STA (capital 1263 at the start)
+	if = {
+		limit = { country_exists = STA }
+		set_country_flag = mltd_tm_alive_STA
+		STA = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_STA = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_STA }
+		clr_country_flag = mltd_tm_alive_STA
+		var:mltd_tm_cap_STA = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=STA capital=[?ROOT.mltd_tm_cap_STA.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=STA capital=[?ROOT.mltd_tm_cap_STA.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# STC (capital 1110 at the start)
+	if = {
+		limit = { country_exists = STC }
+		set_country_flag = mltd_tm_alive_STC
+		STC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_STC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_STC }
+		clr_country_flag = mltd_tm_alive_STC
+		var:mltd_tm_cap_STC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=STC capital=[?ROOT.mltd_tm_cap_STC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=STC capital=[?ROOT.mltd_tm_cap_STC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# WPG (capital 1108 at the start)
+	if = {
+		limit = { country_exists = WPG }
+		set_country_flag = mltd_tm_alive_WPG
+		WPG = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_WPG = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_WPG }
+		clr_country_flag = mltd_tm_alive_WPG
+		var:mltd_tm_cap_WPG = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WPG capital=[?ROOT.mltd_tm_cap_WPG.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WPG capital=[?ROOT.mltd_tm_cap_WPG.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MDM (capital 1206 at the start)
+	if = {
+		limit = { country_exists = MDM }
+		set_country_flag = mltd_tm_alive_MDM
+		MDM = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MDM = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MDM }
+		clr_country_flag = mltd_tm_alive_MDM
+		var:mltd_tm_cap_MDM = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MDM capital=[?ROOT.mltd_tm_cap_MDM.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MDM capital=[?ROOT.mltd_tm_cap_MDM.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# ANO (capital 484 at the start)
+	if = {
+		limit = { country_exists = ANO }
+		set_country_flag = mltd_tm_alive_ANO
+		ANO = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_ANO = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_ANO }
+		clr_country_flag = mltd_tm_alive_ANO
+		var:mltd_tm_cap_ANO = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ANO capital=[?ROOT.mltd_tm_cap_ANO.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ANO capital=[?ROOT.mltd_tm_cap_ANO.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# ASF (capital 44 at the start)
+	if = {
+		limit = { country_exists = ASF }
+		set_country_flag = mltd_tm_alive_ASF
+		ASF = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_ASF = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_ASF }
+		clr_country_flag = mltd_tm_alive_ASF
+		var:mltd_tm_cap_ASF = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ASF capital=[?ROOT.mltd_tm_cap_ASF.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ASF capital=[?ROOT.mltd_tm_cap_ASF.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# BAG (capital 453 at the start)
+	if = {
+		limit = { country_exists = BAG }
+		set_country_flag = mltd_tm_alive_BAG
+		BAG = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_BAG = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_BAG }
+		clr_country_flag = mltd_tm_alive_BAG
+		var:mltd_tm_cap_BAG = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BAG capital=[?ROOT.mltd_tm_cap_BAG.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BAG capital=[?ROOT.mltd_tm_cap_BAG.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# BDT (capital 71 at the start)
+	if = {
+		limit = { country_exists = BDT }
+		set_country_flag = mltd_tm_alive_BDT
+		BDT = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_BDT = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_BDT }
+		clr_country_flag = mltd_tm_alive_BDT
+		var:mltd_tm_cap_BDT = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BDT capital=[?ROOT.mltd_tm_cap_BDT.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BDT capital=[?ROOT.mltd_tm_cap_BDT.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# BEL (capital 21 at the start)
+	if = {
+		limit = { country_exists = BEL }
+		set_country_flag = mltd_tm_alive_BEL
+		BEL = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_BEL = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_BEL }
+		clr_country_flag = mltd_tm_alive_BEL
+		var:mltd_tm_cap_BEL = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BEL capital=[?ROOT.mltd_tm_cap_BEL.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BEL capital=[?ROOT.mltd_tm_cap_BEL.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# BJS (capital 176 at the start)
+	if = {
+		limit = { country_exists = BJS }
+		set_country_flag = mltd_tm_alive_BJS
+		BJS = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_BJS = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_BJS }
+		clr_country_flag = mltd_tm_alive_BJS
+		var:mltd_tm_cap_BJS = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BJS capital=[?ROOT.mltd_tm_cap_BJS.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BJS capital=[?ROOT.mltd_tm_cap_BJS.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# BVC (capital 41 at the start)
+	if = {
+		limit = { country_exists = BVC }
+		set_country_flag = mltd_tm_alive_BVC
+		BVC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_BVC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_BVC }
+		clr_country_flag = mltd_tm_alive_BVC
+		var:mltd_tm_cap_BVC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BVC capital=[?ROOT.mltd_tm_cap_BVC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=BVC capital=[?ROOT.mltd_tm_cap_BVC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# CHE (capital 580 at the start)
+	if = {
+		limit = { country_exists = CHE }
+		set_country_flag = mltd_tm_alive_CHE
+		CHE = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_CHE = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_CHE }
+		clr_country_flag = mltd_tm_alive_CHE
+		var:mltd_tm_cap_CHE = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CHE capital=[?ROOT.mltd_tm_cap_CHE.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CHE capital=[?ROOT.mltd_tm_cap_CHE.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# CLJ (capital 515 at the start)
+	if = {
+		limit = { country_exists = CLJ }
+		set_country_flag = mltd_tm_alive_CLJ
+		CLJ = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_CLJ = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_CLJ }
+		clr_country_flag = mltd_tm_alive_CLJ
+		var:mltd_tm_cap_CLJ = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CLJ capital=[?ROOT.mltd_tm_cap_CLJ.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CLJ capital=[?ROOT.mltd_tm_cap_CLJ.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# COW (capital 2 at the start)
+	if = {
+		limit = { country_exists = COW }
+		set_country_flag = mltd_tm_alive_COW
+		COW = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_COW = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_COW }
+		clr_country_flag = mltd_tm_alive_COW
+		var:mltd_tm_cap_COW = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=COW capital=[?ROOT.mltd_tm_cap_COW.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=COW capital=[?ROOT.mltd_tm_cap_COW.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# CRZ (capital 197 at the start)
+	if = {
+		limit = { country_exists = CRZ }
+		set_country_flag = mltd_tm_alive_CRZ
+		CRZ = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_CRZ = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_CRZ }
+		clr_country_flag = mltd_tm_alive_CRZ
+		var:mltd_tm_cap_CRZ = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CRZ capital=[?ROOT.mltd_tm_cap_CRZ.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CRZ capital=[?ROOT.mltd_tm_cap_CRZ.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# CWB (capital 937 at the start)
+	if = {
+		limit = { country_exists = CWB }
+		set_country_flag = mltd_tm_alive_CWB
+		CWB = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_CWB = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_CWB }
+		clr_country_flag = mltd_tm_alive_CWB
+		var:mltd_tm_cap_CWB = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CWB capital=[?ROOT.mltd_tm_cap_CWB.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CWB capital=[?ROOT.mltd_tm_cap_CWB.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# CYC (capital 612 at the start)
+	if = {
+		limit = { country_exists = CYC }
+		set_country_flag = mltd_tm_alive_CYC
+		CYC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_CYC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_CYC }
+		clr_country_flag = mltd_tm_alive_CYC
+		var:mltd_tm_cap_CYC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CYC capital=[?ROOT.mltd_tm_cap_CYC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=CYC capital=[?ROOT.mltd_tm_cap_CYC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# DES (capital 307 at the start)
+	if = {
+		limit = { country_exists = DES }
+		set_country_flag = mltd_tm_alive_DES
+		DES = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_DES = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_DES }
+		clr_country_flag = mltd_tm_alive_DES
+		var:mltd_tm_cap_DES = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=DES capital=[?ROOT.mltd_tm_cap_DES.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=DES capital=[?ROOT.mltd_tm_cap_DES.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# DRE (capital 125 at the start)
+	if = {
+		limit = { country_exists = DRE }
+		set_country_flag = mltd_tm_alive_DRE
+		DRE = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_DRE = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_DRE }
+		clr_country_flag = mltd_tm_alive_DRE
+		var:mltd_tm_cap_DRE = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=DRE capital=[?ROOT.mltd_tm_cap_DRE.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=DRE capital=[?ROOT.mltd_tm_cap_DRE.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# EAG (capital 222 at the start)
+	if = {
+		limit = { country_exists = EAG }
+		set_country_flag = mltd_tm_alive_EAG
+		EAG = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_EAG = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_EAG }
+		clr_country_flag = mltd_tm_alive_EAG
+		var:mltd_tm_cap_EAG = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=EAG capital=[?ROOT.mltd_tm_cap_EAG.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=EAG capital=[?ROOT.mltd_tm_cap_EAG.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# EAS (capital 367 at the start)
+	if = {
+		limit = { country_exists = EAS }
+		set_country_flag = mltd_tm_alive_EAS
+		EAS = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_EAS = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_EAS }
+		clr_country_flag = mltd_tm_alive_EAS
+		var:mltd_tm_cap_EAS = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=EAS capital=[?ROOT.mltd_tm_cap_EAS.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=EAS capital=[?ROOT.mltd_tm_cap_EAS.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# EUR (capital 39 at the start)
+	if = {
+		limit = { country_exists = EUR }
+		set_country_flag = mltd_tm_alive_EUR
+		EUR = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_EUR = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_EUR }
+		clr_country_flag = mltd_tm_alive_EUR
+		var:mltd_tm_cap_EUR = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=EUR capital=[?ROOT.mltd_tm_cap_EUR.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=EUR capital=[?ROOT.mltd_tm_cap_EUR.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# EXE (capital 566 at the start)
+	if = {
+		limit = { country_exists = EXE }
+		set_country_flag = mltd_tm_alive_EXE
+		EXE = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_EXE = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_EXE }
+		clr_country_flag = mltd_tm_alive_EXE
+		var:mltd_tm_cap_EXE = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=EXE capital=[?ROOT.mltd_tm_cap_EXE.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=EXE capital=[?ROOT.mltd_tm_cap_EXE.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# GLW (capital 568 at the start)
+	if = {
+		limit = { country_exists = GLW }
+		set_country_flag = mltd_tm_alive_GLW
+		GLW = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_GLW = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_GLW }
+		clr_country_flag = mltd_tm_alive_GLW
+		var:mltd_tm_cap_GLW = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=GLW capital=[?ROOT.mltd_tm_cap_GLW.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=GLW capital=[?ROOT.mltd_tm_cap_GLW.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# JAC (capital 475 at the start)
+	if = {
+		limit = { country_exists = JAC }
+		set_country_flag = mltd_tm_alive_JAC
+		JAC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_JAC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_JAC }
+		clr_country_flag = mltd_tm_alive_JAC
+		var:mltd_tm_cap_JAC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=JAC capital=[?ROOT.mltd_tm_cap_JAC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=JAC capital=[?ROOT.mltd_tm_cap_JAC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# LON (capital 611 at the start)
+	if = {
+		limit = { country_exists = LON }
+		set_country_flag = mltd_tm_alive_LON
+		LON = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_LON = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_LON }
+		clr_country_flag = mltd_tm_alive_LON
+		var:mltd_tm_cap_LON = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LON capital=[?ROOT.mltd_tm_cap_LON.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LON capital=[?ROOT.mltd_tm_cap_LON.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# LUB (capital 927 at the start)
+	if = {
+		limit = { country_exists = LUB }
+		set_country_flag = mltd_tm_alive_LUB
+		LUB = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_LUB = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_LUB }
+		clr_country_flag = mltd_tm_alive_LUB
+		var:mltd_tm_cap_LUB = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LUB capital=[?ROOT.mltd_tm_cap_LUB.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LUB capital=[?ROOT.mltd_tm_cap_LUB.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# LUM (capital 390 at the start)
+	if = {
+		limit = { country_exists = LUM }
+		set_country_flag = mltd_tm_alive_LUM
+		LUM = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_LUM = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_LUM }
+		clr_country_flag = mltd_tm_alive_LUM
+		var:mltd_tm_cap_LUM = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LUM capital=[?ROOT.mltd_tm_cap_LUM.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=LUM capital=[?ROOT.mltd_tm_cap_LUM.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MOD (capital 585 at the start)
+	if = {
+		limit = { country_exists = MOD }
+		set_country_flag = mltd_tm_alive_MOD
+		MOD = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MOD = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MOD }
+		clr_country_flag = mltd_tm_alive_MOD
+		var:mltd_tm_cap_MOD = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MOD capital=[?ROOT.mltd_tm_cap_MOD.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MOD capital=[?ROOT.mltd_tm_cap_MOD.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MOJ (capital 417 at the start)
+	if = {
+		limit = { country_exists = MOJ }
+		set_country_flag = mltd_tm_alive_MOJ
+		MOJ = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MOJ = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MOJ }
+		clr_country_flag = mltd_tm_alive_MOJ
+		var:mltd_tm_cap_MOJ = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MOJ capital=[?ROOT.mltd_tm_cap_MOJ.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MOJ capital=[?ROOT.mltd_tm_cap_MOJ.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# MOS (capital 13 at the start)
+	if = {
+		limit = { country_exists = MOS }
+		set_country_flag = mltd_tm_alive_MOS
+		MOS = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_MOS = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_MOS }
+		clr_country_flag = mltd_tm_alive_MOS
+		var:mltd_tm_cap_MOS = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MOS capital=[?ROOT.mltd_tm_cap_MOS.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=MOS capital=[?ROOT.mltd_tm_cap_MOS.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# PAC (capital 182 at the start)
+	if = {
+		limit = { country_exists = PAC }
+		set_country_flag = mltd_tm_alive_PAC
+		PAC = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_PAC = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_PAC }
+		clr_country_flag = mltd_tm_alive_PAC
+		var:mltd_tm_cap_PAC = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=PAC capital=[?ROOT.mltd_tm_cap_PAC.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=PAC capital=[?ROOT.mltd_tm_cap_PAC.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# PAL (capital 223 at the start)
+	if = {
+		limit = { country_exists = PAL }
+		set_country_flag = mltd_tm_alive_PAL
+		PAL = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_PAL = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_PAL }
+		clr_country_flag = mltd_tm_alive_PAL
+		var:mltd_tm_cap_PAL = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=PAL capital=[?ROOT.mltd_tm_cap_PAL.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=PAL capital=[?ROOT.mltd_tm_cap_PAL.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# RAP (capital 99 at the start)
+	if = {
+		limit = { country_exists = RAP }
+		set_country_flag = mltd_tm_alive_RAP
+		RAP = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_RAP = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_RAP }
+		clr_country_flag = mltd_tm_alive_RAP
+		var:mltd_tm_cap_RAP = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=RAP capital=[?ROOT.mltd_tm_cap_RAP.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=RAP capital=[?ROOT.mltd_tm_cap_RAP.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# RIP (capital 462 at the start)
+	if = {
+		limit = { country_exists = RIP }
+		set_country_flag = mltd_tm_alive_RIP
+		RIP = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_RIP = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_RIP }
+		clr_country_flag = mltd_tm_alive_RIP
+		var:mltd_tm_cap_RIP = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=RIP capital=[?ROOT.mltd_tm_cap_RIP.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=RIP capital=[?ROOT.mltd_tm_cap_RIP.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# ROT (capital 418 at the start)
+	if = {
+		limit = { country_exists = ROT }
+		set_country_flag = mltd_tm_alive_ROT
+		ROT = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_ROT = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_ROT }
+		clr_country_flag = mltd_tm_alive_ROT
+		var:mltd_tm_cap_ROT = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ROT capital=[?ROOT.mltd_tm_cap_ROT.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=ROT capital=[?ROOT.mltd_tm_cap_ROT.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# RUB (capital 237 at the start)
+	if = {
+		limit = { country_exists = RUB }
+		set_country_flag = mltd_tm_alive_RUB
+		RUB = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_RUB = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_RUB }
+		clr_country_flag = mltd_tm_alive_RUB
+		var:mltd_tm_cap_RUB = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=RUB capital=[?ROOT.mltd_tm_cap_RUB.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=RUB capital=[?ROOT.mltd_tm_cap_RUB.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SHO (capital 447 at the start)
+	if = {
+		limit = { country_exists = SHO }
+		set_country_flag = mltd_tm_alive_SHO
+		SHO = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SHO = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SHO }
+		clr_country_flag = mltd_tm_alive_SHO
+		var:mltd_tm_cap_SHO = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SHO capital=[?ROOT.mltd_tm_cap_SHO.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SHO capital=[?ROOT.mltd_tm_cap_SHO.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SIE (capital 1037 at the start)
+	if = {
+		limit = { country_exists = SIE }
+		set_country_flag = mltd_tm_alive_SIE
+		SIE = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SIE = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SIE }
+		clr_country_flag = mltd_tm_alive_SIE
+		var:mltd_tm_cap_SIE = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SIE capital=[?ROOT.mltd_tm_cap_SIE.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SIE capital=[?ROOT.mltd_tm_cap_SIE.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SKY (capital 389 at the start)
+	if = {
+		limit = { country_exists = SKY }
+		set_country_flag = mltd_tm_alive_SKY
+		SKY = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SKY = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SKY }
+		clr_country_flag = mltd_tm_alive_SKY
+		var:mltd_tm_cap_SKY = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SKY capital=[?ROOT.mltd_tm_cap_SKY.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SKY capital=[?ROOT.mltd_tm_cap_SKY.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SLA (capital 382 at the start)
+	if = {
+		limit = { country_exists = SLA }
+		set_country_flag = mltd_tm_alive_SLA
+		SLA = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SLA = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SLA }
+		clr_country_flag = mltd_tm_alive_SLA
+		var:mltd_tm_cap_SLA = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SLA capital=[?ROOT.mltd_tm_cap_SLA.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SLA capital=[?ROOT.mltd_tm_cap_SLA.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SLE (capital 1032 at the start)
+	if = {
+		limit = { country_exists = SLE }
+		set_country_flag = mltd_tm_alive_SLE
+		SLE = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SLE = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SLE }
+		clr_country_flag = mltd_tm_alive_SLE
+		var:mltd_tm_cap_SLE = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SLE capital=[?ROOT.mltd_tm_cap_SLE.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SLE capital=[?ROOT.mltd_tm_cap_SLE.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SLN (capital 598 at the start)
+	if = {
+		limit = { country_exists = SLN }
+		set_country_flag = mltd_tm_alive_SLN
+		SLN = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SLN = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SLN }
+		clr_country_flag = mltd_tm_alive_SLN
+		var:mltd_tm_cap_SLN = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SLN capital=[?ROOT.mltd_tm_cap_SLN.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SLN capital=[?ROOT.mltd_tm_cap_SLN.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SOK (capital 54 at the start)
+	if = {
+		limit = { country_exists = SOK }
+		set_country_flag = mltd_tm_alive_SOK
+		SOK = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SOK = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SOK }
+		clr_country_flag = mltd_tm_alive_SOK
+		var:mltd_tm_cap_SOK = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SOK capital=[?ROOT.mltd_tm_cap_SOK.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SOK capital=[?ROOT.mltd_tm_cap_SOK.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SUF (capital 546 at the start)
+	if = {
+		limit = { country_exists = SUF }
+		set_country_flag = mltd_tm_alive_SUF
+		SUF = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SUF = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SUF }
+		clr_country_flag = mltd_tm_alive_SUF
+		var:mltd_tm_cap_SUF = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SUF capital=[?ROOT.mltd_tm_cap_SUF.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SUF capital=[?ROOT.mltd_tm_cap_SUF.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SUN (capital 233 at the start)
+	if = {
+		limit = { country_exists = SUN }
+		set_country_flag = mltd_tm_alive_SUN
+		SUN = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SUN = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SUN }
+		clr_country_flag = mltd_tm_alive_SUN
+		var:mltd_tm_cap_SUN = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SUN capital=[?ROOT.mltd_tm_cap_SUN.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SUN capital=[?ROOT.mltd_tm_cap_SUN.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# SYN (capital 288 at the start)
+	if = {
+		limit = { country_exists = SYN }
+		set_country_flag = mltd_tm_alive_SYN
+		SYN = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_SYN = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_SYN }
+		clr_country_flag = mltd_tm_alive_SYN
+		var:mltd_tm_cap_SYN = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SYN capital=[?ROOT.mltd_tm_cap_SYN.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=SYN capital=[?ROOT.mltd_tm_cap_SYN.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TOB (capital 302 at the start)
+	if = {
+		limit = { country_exists = TOB }
+		set_country_flag = mltd_tm_alive_TOB
+		TOB = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TOB = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TOB }
+		clr_country_flag = mltd_tm_alive_TOB
+		var:mltd_tm_cap_TOB = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TOB capital=[?ROOT.mltd_tm_cap_TOB.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TOB capital=[?ROOT.mltd_tm_cap_TOB.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TOF (capital 11 at the start)
+	if = {
+		limit = { country_exists = TOF }
+		set_country_flag = mltd_tm_alive_TOF
+		TOF = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TOF = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TOF }
+		clr_country_flag = mltd_tm_alive_TOF
+		var:mltd_tm_cap_TOF = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TOF capital=[?ROOT.mltd_tm_cap_TOF.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TOF capital=[?ROOT.mltd_tm_cap_TOF.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TON (capital 517 at the start)
+	if = {
+		limit = { country_exists = TON }
+		set_country_flag = mltd_tm_alive_TON
+		TON = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TON = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TON }
+		clr_country_flag = mltd_tm_alive_TON
+		var:mltd_tm_cap_TON = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TON capital=[?ROOT.mltd_tm_cap_TON.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TON capital=[?ROOT.mltd_tm_cap_TON.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# TWO (capital 516 at the start)
+	if = {
+		limit = { country_exists = TWO }
+		set_country_flag = mltd_tm_alive_TWO
+		TWO = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_TWO = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_TWO }
+		clr_country_flag = mltd_tm_alive_TWO
+		var:mltd_tm_cap_TWO = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TWO capital=[?ROOT.mltd_tm_cap_TWO.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=TWO capital=[?ROOT.mltd_tm_cap_TWO.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# UIN (capital 535 at the start)
+	if = {
+		limit = { country_exists = UIN }
+		set_country_flag = mltd_tm_alive_UIN
+		UIN = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_UIN = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_UIN }
+		clr_country_flag = mltd_tm_alive_UIN
+		var:mltd_tm_cap_UIN = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=UIN capital=[?ROOT.mltd_tm_cap_UIN.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=UIN capital=[?ROOT.mltd_tm_cap_UIN.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# UMB (capital 239 at the start)
+	if = {
+		limit = { country_exists = UMB }
+		set_country_flag = mltd_tm_alive_UMB
+		UMB = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_UMB = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_UMB }
+		clr_country_flag = mltd_tm_alive_UMB
+		var:mltd_tm_cap_UMB = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=UMB capital=[?ROOT.mltd_tm_cap_UMB.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=UMB capital=[?ROOT.mltd_tm_cap_UMB.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# VIP (capital 947 at the start)
+	if = {
+		limit = { country_exists = VIP }
+		set_country_flag = mltd_tm_alive_VIP
+		VIP = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_VIP = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_VIP }
+		clr_country_flag = mltd_tm_alive_VIP
+		var:mltd_tm_cap_VIP = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=VIP capital=[?ROOT.mltd_tm_cap_VIP.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=VIP capital=[?ROOT.mltd_tm_cap_VIP.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# VLT (capital 291 at the start)
+	if = {
+		limit = { country_exists = VLT }
+		set_country_flag = mltd_tm_alive_VLT
+		VLT = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_VLT = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_VLT }
+		clr_country_flag = mltd_tm_alive_VLT
+		var:mltd_tm_cap_VLT = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=VLT capital=[?ROOT.mltd_tm_cap_VLT.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=VLT capital=[?ROOT.mltd_tm_cap_VLT.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# WHD (capital 405 at the start)
+	if = {
+		limit = { country_exists = WHD }
+		set_country_flag = mltd_tm_alive_WHD
+		WHD = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_WHD = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_WHD }
+		clr_country_flag = mltd_tm_alive_WHD
+		var:mltd_tm_cap_WHD = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WHD capital=[?ROOT.mltd_tm_cap_WHD.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WHD capital=[?ROOT.mltd_tm_cap_WHD.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# WHI (capital 557 at the start)
+	if = {
+		limit = { country_exists = WHI }
+		set_country_flag = mltd_tm_alive_WHI
+		WHI = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_WHI = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_WHI }
+		clr_country_flag = mltd_tm_alive_WHI
+		var:mltd_tm_cap_WHI = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WHI capital=[?ROOT.mltd_tm_cap_WHI.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WHI capital=[?ROOT.mltd_tm_cap_WHI.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# WOO (capital 615 at the start)
+	if = {
+		limit = { country_exists = WOO }
+		set_country_flag = mltd_tm_alive_WOO
+		WOO = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_WOO = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_WOO }
+		clr_country_flag = mltd_tm_alive_WOO
+		var:mltd_tm_cap_WOO = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WOO capital=[?ROOT.mltd_tm_cap_WOO.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=WOO capital=[?ROOT.mltd_tm_cap_WOO.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+	# YKZ (capital 156 at the start)
+	if = {
+		limit = { country_exists = YKZ }
+		set_country_flag = mltd_tm_alive_YKZ
+		YKZ = { capital_scope = { set_variable = { ROOT.mltd_tm_cap_YKZ = THIS } } }
+	}
+	else_if = {
+		limit = { has_country_flag = mltd_tm_alive_YKZ }
+		clr_country_flag = mltd_tm_alive_YKZ
+		var:mltd_tm_cap_YKZ = {
+			if = {
+				limit = { NOT = { any_country = { owns_state = PREV } } }
+				log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=YKZ capital=[?ROOT.mltd_tm_cap_YKZ.GetID] owner=none"
+			}
+			else = {
+				OWNER = { log = "MLTD [?ROOT.mltd_tm_day|0] GONE tag=YKZ capital=[?ROOT.mltd_tm_cap_YKZ.GetID] owner=[THIS.GetTag]" }
+			}
+		}
+	}
+}
+
+# ---------------------------------------------------------------- STAGE, POCKET, ADVISOR
+
+# STAGE: each conquest stage of MLT's AI (mltd_ai_stage_<id>, common/scripted_triggers/mltd_ai_triggers.txt) the first time a
+# poll finds it open, and id=north the first time the weekly survey (mltd_ai_survey) finds the north consolidated. A stage
+# is MLT's plan, not its war: its conquest block still needs a safe target and a justification. The flag mltd_tm_s_<id>
+# marks a stage logged. For a human MLT the lines only say what an AI would have planned (and id=north never comes: the
+# survey runs for an AI alone).
+mltd_tm_poll_stages = {
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_ccw } mltd_ai_stage_ccw = yes }
+		set_country_flag = mltd_tm_s_ccw
+		log = "MLTD [?mltd_tm_day|0] STAGE id=ccw"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_trl } mltd_ai_stage_trl = yes }
+		set_country_flag = mltd_tm_s_trl
+		log = "MLTD [?mltd_tm_day|0] STAGE id=trl"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_rbt } mltd_ai_stage_rbt = yes }
+		set_country_flag = mltd_tm_s_rbt
+		log = "MLTD [?mltd_tm_day|0] STAGE id=rbt"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_dis } mltd_ai_stage_dis = yes }
+		set_country_flag = mltd_tm_s_dis
+		log = "MLTD [?mltd_tm_day|0] STAGE id=dis"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_mdt } mltd_ai_stage_mdt = yes }
+		set_country_flag = mltd_tm_s_mdt
+		log = "MLTD [?mltd_tm_day|0] STAGE id=mdt"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_pmr } mltd_ai_stage_pmr = yes }
+		set_country_flag = mltd_tm_s_pmr
+		log = "MLTD [?mltd_tm_day|0] STAGE id=pmr"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_arr } mltd_ai_stage_arr = yes }
+		set_country_flag = mltd_tm_s_arr
+		log = "MLTD [?mltd_tm_day|0] STAGE id=arr"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_tim } mltd_ai_stage_tim = yes }
+		set_country_flag = mltd_tm_s_tim
+		log = "MLTD [?mltd_tm_day|0] STAGE id=tim"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_kla } mltd_ai_stage_kla = yes }
+		set_country_flag = mltd_tm_s_kla
+		log = "MLTD [?mltd_tm_day|0] STAGE id=kla"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_tca } mltd_ai_stage_tca = yes }
+		set_country_flag = mltd_tm_s_tca
+		log = "MLTD [?mltd_tm_day|0] STAGE id=tca"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_wbh } mltd_ai_stage_wbh = yes }
+		set_country_flag = mltd_tm_s_wbh
+		log = "MLTD [?mltd_tm_day|0] STAGE id=wbh"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_oly } mltd_ai_stage_oly = yes }
+		set_country_flag = mltd_tm_s_oly
+		log = "MLTD [?mltd_tm_day|0] STAGE id=oly"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_yak } mltd_ai_stage_yak = yes }
+		set_country_flag = mltd_tm_s_yak
+		log = "MLTD [?mltd_tm_day|0] STAGE id=yak"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_toc } mltd_ai_stage_toc = yes }
+		set_country_flag = mltd_tm_s_toc
+		log = "MLTD [?mltd_tm_day|0] STAGE id=toc"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_kam } mltd_ai_stage_kam = yes }
+		set_country_flag = mltd_tm_s_kam
+		log = "MLTD [?mltd_tm_day|0] STAGE id=kam"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_brk } mltd_ai_stage_brk = yes }
+		set_country_flag = mltd_tm_s_brk
+		log = "MLTD [?mltd_tm_day|0] STAGE id=brk"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_mxs } mltd_ai_stage_mxs = yes }
+		set_country_flag = mltd_tm_s_mxs
+		log = "MLTD [?mltd_tm_day|0] STAGE id=mxs"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_fou } mltd_ai_stage_fou = yes }
+		set_country_flag = mltd_tm_s_fou
+		log = "MLTD [?mltd_tm_day|0] STAGE id=fou"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_tdn } mltd_ai_stage_tdn = yes }
+		set_country_flag = mltd_tm_s_tdn
+		log = "MLTD [?mltd_tm_day|0] STAGE id=tdn"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_ncr } mltd_ai_stage_ncr = yes }
+		set_country_flag = mltd_tm_s_ncr
+		log = "MLTD [?mltd_tm_day|0] STAGE id=ncr"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_mot } mltd_ai_stage_mot = yes }
+		set_country_flag = mltd_tm_s_mot
+		log = "MLTD [?mltd_tm_day|0] STAGE id=mot"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_nat } mltd_ai_stage_nat = yes }
+		set_country_flag = mltd_tm_s_nat
+		log = "MLTD [?mltd_tm_day|0] STAGE id=nat"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_shi } mltd_ai_stage_shi = yes }
+		set_country_flag = mltd_tm_s_shi
+		log = "MLTD [?mltd_tm_day|0] STAGE id=shi"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_new } mltd_ai_stage_new = yes }
+		set_country_flag = mltd_tm_s_new
+		log = "MLTD [?mltd_tm_day|0] STAGE id=new"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_ces } mltd_ai_stage_ces = yes }
+		set_country_flag = mltd_tm_s_ces
+		log = "MLTD [?mltd_tm_day|0] STAGE id=ces"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_bos } mltd_ai_stage_bos = yes }
+		set_country_flag = mltd_tm_s_bos
+		log = "MLTD [?mltd_tm_day|0] STAGE id=bos"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_veg } mltd_ai_stage_veg = yes }
+		set_country_flag = mltd_tm_s_veg
+		log = "MLTD [?mltd_tm_day|0] STAGE id=veg"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_wht } mltd_ai_stage_wht = yes }
+		set_country_flag = mltd_tm_s_wht
+		log = "MLTD [?mltd_tm_day|0] STAGE id=wht"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_eht } mltd_ai_stage_eht = yes }
+		set_country_flag = mltd_tm_s_eht
+		log = "MLTD [?mltd_tm_day|0] STAGE id=eht"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_tar } mltd_ai_stage_tar = yes }
+		set_country_flag = mltd_tm_s_tar
+		log = "MLTD [?mltd_tm_day|0] STAGE id=tar"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_ncn } mltd_ai_stage_ncn = yes }
+		set_country_flag = mltd_tm_s_ncn
+		log = "MLTD [?mltd_tm_day|0] STAGE id=ncn"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_hea } mltd_ai_stage_hea = yes }
+		set_country_flag = mltd_tm_s_hea
+		log = "MLTD [?mltd_tm_day|0] STAGE id=hea"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_hgh } mltd_ai_stage_hgh = yes }
+		set_country_flag = mltd_tm_s_hgh
+		log = "MLTD [?mltd_tm_day|0] STAGE id=hgh"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_han } mltd_ai_stage_han = yes }
+		set_country_flag = mltd_tm_s_han
+		log = "MLTD [?mltd_tm_day|0] STAGE id=han"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_blc } mltd_ai_stage_blc = yes }
+		set_country_flag = mltd_tm_s_blc
+		log = "MLTD [?mltd_tm_day|0] STAGE id=blc"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_oro } mltd_ai_stage_oro = yes }
+		set_country_flag = mltd_tm_s_oro
+		log = "MLTD [?mltd_tm_day|0] STAGE id=oro"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_mxc } mltd_ai_stage_mxc = yes }
+		set_country_flag = mltd_tm_s_mxc
+		log = "MLTD [?mltd_tm_day|0] STAGE id=mxc"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_lac } mltd_ai_stage_lac = yes }
+		set_country_flag = mltd_tm_s_lac
+		log = "MLTD [?mltd_tm_day|0] STAGE id=lac"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_tbh } mltd_ai_stage_tbh = yes }
+		set_country_flag = mltd_tm_s_tbh
+		log = "MLTD [?mltd_tm_day|0] STAGE id=tbh"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_lns } mltd_ai_stage_lns = yes }
+		set_country_flag = mltd_tm_s_lns
+		log = "MLTD [?mltd_tm_day|0] STAGE id=lns"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_taa } mltd_ai_stage_taa = yes }
+		set_country_flag = mltd_tm_s_taa
+		log = "MLTD [?mltd_tm_day|0] STAGE id=taa"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_rrg } mltd_ai_stage_rrg = yes }
+		set_country_flag = mltd_tm_s_rrg
+		log = "MLTD [?mltd_tm_day|0] STAGE id=rrg"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_sha } mltd_ai_stage_sha = yes }
+		set_country_flag = mltd_tm_s_sha
+		log = "MLTD [?mltd_tm_day|0] STAGE id=sha"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_arm } mltd_ai_stage_arm = yes }
+		set_country_flag = mltd_tm_s_arm
+		log = "MLTD [?mltd_tm_day|0] STAGE id=arm"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_tla } mltd_ai_stage_tla = yes }
+		set_country_flag = mltd_tm_s_tla
+		log = "MLTD [?mltd_tm_day|0] STAGE id=tla"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_max } mltd_ai_stage_max = yes }
+		set_country_flag = mltd_tm_s_max
+		log = "MLTD [?mltd_tm_day|0] STAGE id=max"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_moc } mltd_ai_stage_moc = yes }
+		set_country_flag = mltd_tm_s_moc
+		log = "MLTD [?mltd_tm_day|0] STAGE id=moc"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_zap } mltd_ai_stage_zap = yes }
+		set_country_flag = mltd_tm_s_zap
+		log = "MLTD [?mltd_tm_day|0] STAGE id=zap"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_ate } mltd_ai_stage_ate = yes }
+		set_country_flag = mltd_tm_s_ate
+		log = "MLTD [?mltd_tm_day|0] STAGE id=ate"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_itz } mltd_ai_stage_itz = yes }
+		set_country_flag = mltd_tm_s_itz
+		log = "MLTD [?mltd_tm_day|0] STAGE id=itz"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_ffi } mltd_ai_stage_ffi = yes }
+		set_country_flag = mltd_tm_s_ffi
+		log = "MLTD [?mltd_tm_day|0] STAGE id=ffi"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_gdh } mltd_ai_stage_gdh = yes }
+		set_country_flag = mltd_tm_s_gdh
+		log = "MLTD [?mltd_tm_day|0] STAGE id=gdh"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_lgs } mltd_ai_stage_lgs = yes }
+		set_country_flag = mltd_tm_s_lgs
+		log = "MLTD [?mltd_tm_day|0] STAGE id=lgs"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_mca } mltd_ai_stage_mca = yes }
+		set_country_flag = mltd_tm_s_mca
+		log = "MLTD [?mltd_tm_day|0] STAGE id=mca"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_pas } mltd_ai_stage_pas = yes }
+		set_country_flag = mltd_tm_s_pas
+		log = "MLTD [?mltd_tm_day|0] STAGE id=pas"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_mtc } mltd_ai_stage_mtc = yes }
+		set_country_flag = mltd_tm_s_mtc
+		log = "MLTD [?mltd_tm_day|0] STAGE id=mtc"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_sta } mltd_ai_stage_sta = yes }
+		set_country_flag = mltd_tm_s_sta
+		log = "MLTD [?mltd_tm_day|0] STAGE id=sta"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_stc } mltd_ai_stage_stc = yes }
+		set_country_flag = mltd_tm_s_stc
+		log = "MLTD [?mltd_tm_day|0] STAGE id=stc"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_wpg } mltd_ai_stage_wpg = yes }
+		set_country_flag = mltd_tm_s_wpg
+		log = "MLTD [?mltd_tm_day|0] STAGE id=wpg"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_mdm } mltd_ai_stage_mdm = yes }
+		set_country_flag = mltd_tm_s_mdm
+		log = "MLTD [?mltd_tm_day|0] STAGE id=mdm"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_s_north } has_country_flag = mltd_ai_north_done }
+		set_country_flag = mltd_tm_s_north
+		log = "MLTD [?mltd_tm_day|0] STAGE id=north"
+	}
+}
+
+# POCKET: MLT's AI has found an enemy it cannot reach by land (the flag mltd_ai_pocket, set and cleared by mltd_ai_survey):
+# state=start when the flag appears, state=end when it is gone.
+mltd_tm_poll_pocket = {
+	if = {
+		limit = {
+			has_country_flag = mltd_ai_pocket
+			NOT = { has_country_flag = mltd_tm_pocket }
+		}
+		set_country_flag = mltd_tm_pocket
+		log = "MLTD [?mltd_tm_day|0] POCKET state=start"
+	}
+	if = {
+		limit = {
+			NOT = { has_country_flag = mltd_ai_pocket }
+			has_country_flag = mltd_tm_pocket
+		}
+		clr_country_flag = mltd_tm_pocket
+		log = "MLTD [?mltd_tm_day|0] POCKET state=end"
+	}
+}
+
+# ADVISOR: each of MLT's advisors (common/characters/MLT.txt, a character with an advisor role) the first time a poll finds
+# it hired (is_hired_as_advisor, vanilla AST.txt:1813-1816). The flag mltd_tm_a_<character> marks one logged.
+mltd_tm_poll_advisors = {
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_killclaw } MLT_KILLCLAW = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_killclaw
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_KILLCLAW"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_hunter } MLT_HUNTER = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_hunter
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_HUNTER"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_king } MLT_KING = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_king
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_KING"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_softshell } MLT_SOFTSHELL = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_softshell
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_SOFTSHELL"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_terror } MLT_TERROR = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_terror
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_TERROR"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_tide_hunter } MLT_TIDE_HUNTER = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_tide_hunter
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_TIDE_HUNTER"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_ocean } MLT_OCEAN = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_ocean
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_OCEAN"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_cloud } MLT_CLOUD = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_cloud
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_CLOUD"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_knows } MLT_KNOWS = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_knows
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_KNOWS"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_mutants } MLT_MUTANTS = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_mutants
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_MUTANTS"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_old_castro } MLT_OLD_CASTRO = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_old_castro
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_OLD_CASTRO"
+	}
+}
+
+# ---------------------------------------------------------------- RITUAL, DECISION, GIFT, MARKET
+
+# RITUAL: start is the ritual's idea first seen - its focus holds it only while in progress (added in the focus's
+# select_effect, removed on completion) - and end the focus first seen completed.
+mltd_tm_poll_rituals = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = mltd_tm_ritual_grand_start }
+			has_idea = mltd_the_grand_ritual
+		}
+		set_country_flag = mltd_tm_ritual_grand_start
+		mltd_tm_update_pop_k = yes
+		log = "MLTD [?mltd_tm_day|0] RITUAL id=grand state=start pop_k=[?mltd_tm_pop_k|0]"
+	}
+	if = {
+		limit = {
+			NOT = { has_country_flag = mltd_tm_ritual_grand_end }
+			has_completed_focus = mltd_the_grand_ritual
+		}
+		set_country_flag = mltd_tm_ritual_grand_end
+		mltd_tm_update_pop_k = yes
+		log = "MLTD [?mltd_tm_day|0] RITUAL id=grand state=end pop_k=[?mltd_tm_pop_k|0]"
+	}
+	if = {
+		limit = {
+			NOT = { has_country_flag = mltd_tm_ritual_final_start }
+			has_idea = mltd_the_final_ritual
+		}
+		set_country_flag = mltd_tm_ritual_final_start
+		mltd_tm_update_pop_k = yes
+		log = "MLTD [?mltd_tm_day|0] RITUAL id=final state=start pop_k=[?mltd_tm_pop_k|0]"
+	}
+	if = {
+		limit = {
+			NOT = { has_country_flag = mltd_tm_ritual_final_end }
+			has_completed_focus = mltd_the_final_ritual
+		}
+		set_country_flag = mltd_tm_ritual_final_end
+		mltd_tm_update_pop_k = yes
+		log = "MLTD [?mltd_tm_day|0] RITUAL id=final state=end pop_k=[?mltd_tm_pop_k|0]"
+	}
+}
+
+# DECISION: a summon, offering or Call was taken - the timed cooldown flag its complete_effect sets
+# (common/decisions/mltd_decisions.txt) is new since the last poll. An AI can take a decision again on the day its
+# cooldown ends, before a poll sees the flag gone, so a take counts when the flag was set in the last 7 days, or when no
+# marker says it was logged already. The marker mltd_tm_d_<decision> lasts as long as the cooldown, so it outlives the
+# flag it logged, and nothing is logged twice.
+# unverified: that days counts the whole days since the flag was set (vanilla BUL_scripted_triggers.txt:142,
+# has_country_flag = { flag = X days < 365 }).
+mltd_tm_poll_decisions = {
+	# mltd_summon_the_deep_ones: mltd_deep_ones_summon_cooldown, 90 days
+	if = {
+		limit = {
+			has_country_flag = mltd_deep_ones_summon_cooldown
+			OR = {
+				NOT = { has_country_flag = mltd_tm_d_summon_the_deep_ones }
+				has_country_flag = { flag = mltd_deep_ones_summon_cooldown days < 7 }
+			}
+		}
+		set_country_flag = { flag = mltd_tm_d_summon_the_deep_ones value = 1 days = 90 }
+		mltd_tm_update_economy = yes
+		if = {
+			limit = { has_global_flag = caps_enabled_global_flag }
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_summon_the_deep_ones pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] caps=[?mltd_tm_caps|0]"
+		}
+		else = {
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_summon_the_deep_ones pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0]"
+		}
+	}
+	# mltd_summon_the_star_spawn: mltd_star_spawn_summon_cooldown, 120 days
+	if = {
+		limit = {
+			has_country_flag = mltd_star_spawn_summon_cooldown
+			OR = {
+				NOT = { has_country_flag = mltd_tm_d_summon_the_star_spawn }
+				has_country_flag = { flag = mltd_star_spawn_summon_cooldown days < 7 }
+			}
+		}
+		set_country_flag = { flag = mltd_tm_d_summon_the_star_spawn value = 1 days = 120 }
+		mltd_tm_update_economy = yes
+		if = {
+			limit = { has_global_flag = caps_enabled_global_flag }
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_summon_the_star_spawn pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] caps=[?mltd_tm_caps|0]"
+		}
+		else = {
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_summon_the_star_spawn pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0]"
+		}
+	}
+	# mltd_offering_of_the_drowned: mltd_offering_drowned_cooldown, 60 days
+	if = {
+		limit = {
+			has_country_flag = mltd_offering_drowned_cooldown
+			OR = {
+				NOT = { has_country_flag = mltd_tm_d_offering_of_the_drowned }
+				has_country_flag = { flag = mltd_offering_drowned_cooldown days < 7 }
+			}
+		}
+		set_country_flag = { flag = mltd_tm_d_offering_of_the_drowned value = 1 days = 60 }
+		mltd_tm_update_economy = yes
+		if = {
+			limit = { has_global_flag = caps_enabled_global_flag }
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_offering_of_the_drowned pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] caps=[?mltd_tm_caps|0]"
+		}
+		else = {
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_offering_of_the_drowned pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0]"
+		}
+	}
+	# mltd_offering_of_the_tides: mltd_offering_tides_cooldown, 180 days
+	if = {
+		limit = {
+			has_country_flag = mltd_offering_tides_cooldown
+			OR = {
+				NOT = { has_country_flag = mltd_tm_d_offering_of_the_tides }
+				has_country_flag = { flag = mltd_offering_tides_cooldown days < 7 }
+			}
+		}
+		set_country_flag = { flag = mltd_tm_d_offering_of_the_tides value = 1 days = 180 }
+		mltd_tm_update_economy = yes
+		if = {
+			limit = { has_global_flag = caps_enabled_global_flag }
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_offering_of_the_tides pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] caps=[?mltd_tm_caps|0]"
+		}
+		else = {
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_offering_of_the_tides pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0]"
+		}
+	}
+	# mltd_cult_call_for_people: mltd_cult_call_people_cooldown, 90 days
+	if = {
+		limit = {
+			has_country_flag = mltd_cult_call_people_cooldown
+			OR = {
+				NOT = { has_country_flag = mltd_tm_d_cult_call_for_people }
+				has_country_flag = { flag = mltd_cult_call_people_cooldown days < 7 }
+			}
+		}
+		set_country_flag = { flag = mltd_tm_d_cult_call_for_people value = 1 days = 90 }
+		mltd_tm_update_economy = yes
+		if = {
+			limit = { has_global_flag = caps_enabled_global_flag }
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_cult_call_for_people pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] caps=[?mltd_tm_caps|0]"
+		}
+		else = {
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_cult_call_for_people pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0]"
+		}
+	}
+	# mltd_cult_call_for_equipment: mltd_cult_call_equipment_cooldown, 90 days
+	if = {
+		limit = {
+			has_country_flag = mltd_cult_call_equipment_cooldown
+			OR = {
+				NOT = { has_country_flag = mltd_tm_d_cult_call_for_equipment }
+				has_country_flag = { flag = mltd_cult_call_equipment_cooldown days < 7 }
+			}
+		}
+		set_country_flag = { flag = mltd_tm_d_cult_call_for_equipment value = 1 days = 90 }
+		mltd_tm_update_economy = yes
+		if = {
+			limit = { has_global_flag = caps_enabled_global_flag }
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_cult_call_for_equipment pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] caps=[?mltd_tm_caps|0]"
+		}
+		else = {
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_cult_call_for_equipment pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0]"
+		}
+	}
+}
+
+# GIFT: a gift's mission became active. A mission has no age to read, so the marker mltd_tm_g_<gift> lasts as long as the
+# mission: it outlives the mission it logged, so nothing is logged twice, and a gift taken again in the few days before the
+# marker lapses is logged at the first poll after it lapses - at most a week later than usual.
+mltd_tm_poll_gifts = {
+	# mltd_gift_of_the_tide: mltd_gift_of_the_tide_mission, 30 days
+	if = {
+		limit = {
+			has_active_mission = mltd_gift_of_the_tide_mission
+			NOT = { has_country_flag = mltd_tm_g_gift_of_the_tide }
+		}
+		set_country_flag = { flag = mltd_tm_g_gift_of_the_tide value = 1 days = 30 }
+		log = "MLTD [?mltd_tm_day|0] GIFT id=mltd_gift_of_the_tide"
+	}
+	# mltd_gift_of_the_shell: mltd_gift_of_the_shell_mission, 30 days
+	if = {
+		limit = {
+			has_active_mission = mltd_gift_of_the_shell_mission
+			NOT = { has_country_flag = mltd_tm_g_gift_of_the_shell }
+		}
+		set_country_flag = { flag = mltd_tm_g_gift_of_the_shell value = 1 days = 30 }
+		log = "MLTD [?mltd_tm_day|0] GIFT id=mltd_gift_of_the_shell"
+	}
+	# mltd_gift_of_the_current: mltd_gift_of_the_current_mission, 30 days
+	if = {
+		limit = {
+			has_active_mission = mltd_gift_of_the_current_mission
+			NOT = { has_country_flag = mltd_tm_g_gift_of_the_current }
+		}
+		set_country_flag = { flag = mltd_tm_g_gift_of_the_current value = 1 days = 30 }
+		log = "MLTD [?mltd_tm_day|0] GIFT id=mltd_gift_of_the_current"
+	}
+	# mltd_gift_of_the_brood: mltd_gift_of_the_brood_mission, 30 days
+	if = {
+		limit = {
+			has_active_mission = mltd_gift_of_the_brood_mission
+			NOT = { has_country_flag = mltd_tm_g_gift_of_the_brood }
+		}
+		set_country_flag = { flag = mltd_tm_g_gift_of_the_brood value = 1 days = 30 }
+		log = "MLTD [?mltd_tm_day|0] GIFT id=mltd_gift_of_the_brood"
+	}
+	# mltd_gift_of_the_abyss: mltd_gift_of_the_abyss_mission, 30 days
+	if = {
+		limit = {
+			has_active_mission = mltd_gift_of_the_abyss_mission
+			NOT = { has_country_flag = mltd_tm_g_gift_of_the_abyss }
+		}
+		set_country_flag = { flag = mltd_tm_g_gift_of_the_abyss value = 1 days = 30 }
+		log = "MLTD [?mltd_tm_day|0] GIFT id=mltd_gift_of_the_abyss"
+	}
+}
+
+# MARKET: a Wet Market trade - the timed flag mltd_wet_market_recent_trade, which a purchase and a sale alike set
+# (mltd_wet_market_pay / mltd_wet_market_receive), is new since the last poll; the marker works as DECISION's does. An AI
+# MLT buys in on_weekly_MLT (mltd_on_actions.txt) and never sells.
+mltd_tm_poll_market = {
+	if = {
+		limit = {
+			has_country_flag = mltd_wet_market_recent_trade
+			OR = {
+				NOT = { has_country_flag = mltd_tm_market }
+				has_country_flag = { flag = mltd_wet_market_recent_trade days < 7 }
+			}
+		}
+		set_country_flag = { flag = mltd_tm_market value = 1 days = 40 }
+		mltd_tm_update_economy = yes
+		if = {
+			limit = { has_global_flag = caps_enabled_global_flag }
+			log = "MLTD [?mltd_tm_day|0] MARKET caps=[?mltd_tm_caps|0]"
+		}
+		else = {
+			log = "MLTD [?mltd_tm_day|0] MARKET"
+		}
+	}
+}
+
+# ---------------------------------------------------------------- SNAP and CULT
+
+# SNAP: every value is copied into mltd_tm_<key> on MLT, then printed whole. stability and has_war_support are 0-1 game
+# values, turned into whole percentages. wars counts the countries at war with MLT (every_enemy_country): nothing counts
+# wars as such. cults and cult_pts are counted by the same loop as the CULT lines, so the two agree. cult_target is the
+# country an AI MLT runs its cult operations against (mltd_ai_cult_target, re-picked weekly in on_weekly_MLT; 0 when there
+# is none), printed through the variable as vanilla prints [?ROOT.vaps_from.GetName] (nsb_events_l_english.yml:309). caps
+# is left out while OWB's caps rule is off.
+# unverified: that num_equipment@<archetype> (OWB organization_scripted_effects.txt:588) counts every variant of the
+# archetype, as has_equipment does, and only the stockpile.
+mltd_tm_log_snap = {
+	mltd_tm_update_economy = yes
+	set_variable = { mltd_tm_owned = num_owned_states }
+	set_variable = { mltd_tm_controlled = num_controlled_states }
+	set_variable = { mltd_tm_divs = num_divisions }
+	set_variable = { mltd_tm_mil = num_of_military_factories }
+	set_variable = { mltd_tm_civ = num_of_civilian_factories }
+	set_variable = { mltd_tm_dock = num_of_naval_factories }
+	set_variable = { mltd_tm_pp = political_power }
+	set_variable = { mltd_tm_stab = stability }
+	multiply_variable = { mltd_tm_stab = 100 }
+	set_variable = { mltd_tm_ws = has_war_support }
+	multiply_variable = { mltd_tm_ws = 100 }
+	set_variable = { mltd_tm_books = 0 }
+	if = {
+		limit = { has_variable = mltd_books_read }
+		set_variable = { mltd_tm_books = mltd_books_read }
+	}
+	set_variable = { mltd_tm_cults = 0 }
+	set_variable = { mltd_tm_cult_pts = 0 }
+	every_country = {
+		limit = { has_variable = mltd_cult_strength }
+		add_to_variable = { ROOT.mltd_tm_cults = 1 }
+		add_to_variable = { ROOT.mltd_tm_cult_pts = mltd_cult_strength }
+	}
+	set_variable = { mltd_tm_subjects = num_subjects }
+	set_variable = { mltd_tm_wars = 0 }
+	every_enemy_country = {
+		add_to_variable = { ROOT.mltd_tm_wars = 1 }
+	}
+	set_variable = { mltd_tm_eq_mirelurk = num_equipment@amphibious_beast_equipment }
+	set_variable = { mltd_tm_eq_inf = num_equipment@infantry_equipment }
+	set_variable = { mltd_tm_eq_sup = num_equipment@support_equipment }
+	# the weekly survey's readings (0 for a human MLT, which never runs it), and the agency's operatives and slots
+	set_variable = { mltd_tm_border = 0 }
+	set_variable = { mltd_tm_target = 0 }
+	set_variable = { mltd_tm_north = 0 }
+	if = {
+		limit = { has_variable = mltd_ai_army_target }
+		set_variable = { mltd_tm_border = mltd_ai_border_states }
+		set_variable = { mltd_tm_target = mltd_ai_army_target }
+		set_variable = { mltd_tm_north = mltd_ai_north_owned }
+	}
+	set_variable = { mltd_tm_ops = num_of_operatives }
+	set_variable = { mltd_tm_slots = num_operative_slots }
+	if = {
+		limit = {
+			has_variable = mltd_ai_cult_target
+			NOT = { check_variable = { mltd_ai_cult_target = 0 } }
+		}
+		if = {
+			limit = { has_global_flag = caps_enabled_global_flag }
+			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] caps=[?mltd_tm_caps|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=[?ROOT.mltd_ai_cult_target.GetTag] subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
+		}
+		else = {
+			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=[?ROOT.mltd_ai_cult_target.GetTag] subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
+		}
+	}
+	else = {
+		if = {
+			limit = { has_global_flag = caps_enabled_global_flag }
+			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] caps=[?mltd_tm_caps|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=none subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
+		}
+		else = {
+			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=none subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
+		}
+	}
+}
+
+# ENEMY: one line per country at war with MLT, after SNAP: whether it has capitulated, how many states it controls
+# (num_controlled_states, copied to mltd_tm_enemy_states on MLT to print it), and whether any of its land touches land MLT
+# controls (reach: is_neighbor_of compares controlled territory). An enemy that has not capitulated, holds land and is out
+# of reach is the pocket that kept run 2's NCR war going for two years after the NCR fell.
+mltd_tm_log_enemies = {
+	every_enemy_country = {
+		set_variable = { ROOT.mltd_tm_enemy_states = num_controlled_states }
+		if = {
+			limit = { has_capitulated = yes }
+			if = {
+				limit = { is_neighbor_of = ROOT }
+				log = "MLTD [?ROOT.mltd_tm_day|0] ENEMY tag=[THIS.GetTag] cap=yes states=[?ROOT.mltd_tm_enemy_states|0] reach=yes"
+			}
+			else = {
+				log = "MLTD [?ROOT.mltd_tm_day|0] ENEMY tag=[THIS.GetTag] cap=yes states=[?ROOT.mltd_tm_enemy_states|0] reach=no"
+			}
+		}
+		else = {
+			if = {
+				limit = { is_neighbor_of = ROOT }
+				log = "MLTD [?ROOT.mltd_tm_day|0] ENEMY tag=[THIS.GetTag] cap=no states=[?ROOT.mltd_tm_enemy_states|0] reach=yes"
+			}
+			else = {
+				log = "MLTD [?ROOT.mltd_tm_day|0] ENEMY tag=[THIS.GetTag] cap=no states=[?ROOT.mltd_tm_enemy_states|0] reach=no"
+			}
+		}
+	}
+}
+
+# CULT: one line per country holding a cult of M'lyeh (its mltd_cult_strength, 0-100), right after SNAP.
+mltd_tm_log_cults = {
+	every_country = {
+		limit = { has_variable = mltd_cult_strength }
+		log = "MLTD [?ROOT.mltd_tm_day|0] CULT tag=[THIS.GetTag] str=[?mltd_cult_strength|0]"
+	}
+}
+
+# ---------------------------------------------------------------- the three pulses
+
+# on_daily_MLT: the clock - and, on the first tick, before it counts, START and the first LAW line.
+mltd_tm_daily = {
+	if = {
+		limit = { mltd_telemetry_on = yes }
+		if = {
+			limit = {
+				OR = {
+					NOT = { has_variable = mltd_tm_day }
+					check_variable = { mltd_tm_day = 0 }
+				}
+			}
+			mltd_tm_log_start = yes
+			mltd_tm_poll_law = yes
+		}
+		add_to_variable = { mltd_tm_day = 1 }
+	}
+}
+
+# on_weekly_MLT: every poll. The wars come before GONE, so a country annexed at the peace table ends its war before it
+# is gone.
+mltd_tm_weekly = {
+	if = {
+		limit = { mltd_telemetry_on = yes }
+		mltd_tm_poll_focuses = yes
+		mltd_tm_poll_techs = yes
+		mltd_tm_poll_law = yes
+		mltd_tm_poll_wars = yes
+		mltd_tm_poll_gone = yes
+		mltd_tm_poll_rituals = yes
+		mltd_tm_poll_decisions = yes
+		mltd_tm_poll_gifts = yes
+		mltd_tm_poll_market = yes
+		mltd_tm_poll_stages = yes
+		mltd_tm_poll_pocket = yes
+		mltd_tm_poll_advisors = yes
+	}
+}
+
+# on_monthly_MLT: SNAP, then the ENEMY and CULT lines.
+mltd_tm_monthly = {
+	if = {
+		limit = { mltd_telemetry_on = yes }
+		mltd_tm_log_snap = yes
+		mltd_tm_log_enemies = yes
+		mltd_tm_log_cults = yes
+	}
+}

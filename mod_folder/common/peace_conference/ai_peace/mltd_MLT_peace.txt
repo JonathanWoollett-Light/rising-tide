@@ -1,0 +1,32 @@
+# Rising Tide - AI peace desires for the Mirelurk Tribe (MLT) negotiating for itself
+#
+# Take the land, never a puppet: the ritual gates and the summons count only states MLT holds itself
+# (mltd_national_population, mltd_controlled_population), and each Book needs direct control of its state.
+# Desires add to OWB's own (00_misc.txt: cores +200, claims +125, ...); a sum at 0 or below means the AI will not take
+# that action (documentation.info:17). Scopes as OWB documents them: ROOT the negotiator, FROM the taker, FROM.FROM the
+# giver, FROM.FROM.FROM the state.
+# OWB replace_paths common/peace_conference/ai_peace, so this file only loads after OWB (dependencies in descriptor.mod).
+peace_ai_desires = {
+
+	mltd_mlt_take_states = {
+		peace_action_type = take_states
+		enable = {
+			FROM = {
+				tag = ROOT	# we are negotiating for ourselves (OWB TCA_WBH_peace.txt:9-15)
+				original_tag = MLT
+			}
+		}
+		ai_desire = 150
+	}
+
+	mltd_mlt_no_puppets = {
+		peace_action_type = puppet
+		enable = {
+			FROM = {
+				tag = ROOT	# we are negotiating for ourselves
+				original_tag = MLT
+			}
+		}
+		ai_desire = -1000
+	}
+}

@@ -1,0 +1,79 @@
+# Rising Tide - MLT's AI: the weekly survey
+#
+# An AI Mirelurk Tribe reads the map once a week (on_weekly_MLT, common/on_actions/mltd_on_actions.txt) and writes what it
+# sees into plain variables and flags on itself, which its ai_strategy blocks read back: how long its borders are, how big
+# its army should be, how much of the north it holds, and whether an enemy is out of its reach. Nothing here changes the
+# game for MLT or anyone else - no resource, claim, war goal or unit - and a human MLT never runs it.
+# The tests it calls live in common/scripted_triggers/mltd_ai_triggers.txt (section H).
+mltd_ai_survey = {
+	# Border states: states MLT controls that touch, by land, a passable state someone else controls (OWB's own tests:
+	# is_impassable, 00_scripted_triggers.txt:152-154, and a state with an owner, :156-162).
+	set_variable = { mltd_ai_border_states = 0 }
+	every_controlled_state = {
+		limit = {
+			any_neighbor_state = {
+				NOT = { is_controlled_by = ROOT }
+				impassable = no
+				NOT = { check_variable = { owner = 0 } }
+			}
+		}
+		add_to_variable = { ROOT.mltd_ai_border_states = 1 }
+	}
+
+	# The army MLT aims for: two divisions a border state, three at war, never under 12, and its cap a quarter higher (read
+	# by mltd_ai_army_short and mltd_ai_army_full, common/ai_strategy/mltd_MLT.txt). Run 2's AI, left to the engine's count -
+	# which weighs military factories at 0.45 (vanilla WANTED_UNITS_WEIGHT_FACTORIES) - kept 402 divisions on 57 border states
+	# on the occupied NCR's factories. CONQUEST_PLAN.txt's snapshots (60-80 divisions for 75-170 states) sit near two a border
+	# state.
+	set_variable = { mltd_ai_army_target = mltd_ai_border_states }
+	multiply_variable = { mltd_ai_army_target = 2 }
+	if = {
+		limit = { has_war = yes }
+		multiply_variable = { mltd_ai_army_target = 1.5 }
+	}
+	clamp_variable = { var = mltd_ai_army_target min = 12 max = 500 }
+	# a quarter over the target before the AI holds back, so it does not swing between building and disbanding
+	set_variable = { mltd_ai_army_cap = mltd_ai_army_target }
+	multiply_variable = { mltd_ai_army_cap = 1.25 }
+
+	# The north: how many of its 79 states MLT owns, and whether it is consolidated - more than 70 owned, or none left to a
+	# country MLT could safely attack (mltd_ai_north_done, read by the NCR's and New Reno's stages).
+	set_variable = { mltd_ai_north_owned = 0 }
+	every_owned_state = {
+		limit = { mltd_ai_north_state = yes }
+		add_to_variable = { ROOT.mltd_ai_north_owned = 1 }
+	}
+	if = {
+		limit = {
+			OR = {
+				check_variable = { mltd_ai_north_owned > 70 }
+				NOT = {
+					any_other_country = {
+						NOT = { is_subject_of = ROOT }
+						any_owned_state = { mltd_ai_north_state = yes }
+						mltd_ai_safe_target = yes
+					}
+				}
+			}
+		}
+		set_country_flag = mltd_ai_north_done
+	}
+	else = {
+		clr_country_flag = mltd_ai_north_done
+	}
+
+	# A pocket: an enemy MLT's land does not touch (mltd_ai_enemy_cut_off). The flag keeps the day it was first set, so the
+	# frontier can wait 90 days of military-access requests before it treats the country in between as a target.
+	if = {
+		limit = {
+			any_enemy_country = { mltd_ai_enemy_cut_off = yes }
+		}
+		if = {
+			limit = { NOT = { has_country_flag = mltd_ai_pocket } }
+			set_country_flag = mltd_ai_pocket
+		}
+	}
+	else = {
+		clr_country_flag = mltd_ai_pocket
+	}
+}

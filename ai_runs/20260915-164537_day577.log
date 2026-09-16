@@ -1,0 +1,60 @@
+MLTD 0 START ai=yes lar=yes caps_rule=yes schism=yes v=1 date= 1:00, 2 January, 2275
+MLTD 0 LAW id=born_warriors
+MLTD 7 FOCUS id=mlt_sanity_lost
+MLTD 7 TECH id=amphibious_beast_unlock_tech
+MLTD 14 FOCUS id=mlt_sanity_found
+MLTD 21 FOCUS id=mlt_the_coral_court
+MLTD 31 SNAP owned=2 controlled=2 pop_k=11 mp_k=1 divs=7 mil=3 civ=2 dock=1 caps=127 pp=36 stab=63 ws=40 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=173 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 February, 2275
+MLTD 56 FOCUS id=lurk_aquatic_construction
+MLTD 59 SNAP owned=2 controlled=2 pop_k=11 mp_k=1 divs=7 mil=4 civ=3 dock=1 caps=127 pp=69 stab=63 ws=40 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=192 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 March, 2275
+MLTD 63 GONE tag=OLY capital=424 owner=WBH
+MLTD 77 TECH id=electronic_engineering
+MLTD 84 FOCUS id=lurk_more_conch_knives
+MLTD 90 SNAP owned=2 controlled=2 pop_k=11 mp_k=1 divs=7 mil=6 civ=4 dock=1 caps=127 pp=104 stab=63 ws=40 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=192 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 April, 2275
+MLTD 112 FOCUS id=lurk_import_thunder_sticks
+MLTD 119 GONE tag=YAK capital=65 owner=WBH
+MLTD 120 SNAP owned=2 controlled=2 pop_k=11 mp_k=1 divs=7 mil=6 civ=4 dock=1 caps=133 pp=139 stab=63 ws=40 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=542 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 May, 2275
+MLTD 133 TECH id=scavtool_engineering_1
+MLTD 133 LAW id=veteran_pathfinders
+MLTD 140 FOCUS id=lurk_oregon_weapon_trade
+MLTD 151 SNAP owned=2 controlled=2 pop_k=11 mp_k=1 divs=7 mil=9 civ=4 dock=1 caps=183 pp=26 stab=63 ws=40 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=541 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 June, 2275
+MLTD 175 FOCUS id=mlt_seeing_to_the_queens_needs
+MLTD 181 SNAP owned=2 controlled=2 pop_k=11 mp_k=1 divs=7 mil=9 civ=3 dock=1 caps=200 pp=61 stab=63 ws=40 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=291 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 July, 2275
+MLTD 203 FOCUS id=mlt_meeting_of_the_coral_prophets
+MLTD 212 SNAP owned=2 controlled=2 pop_k=11 mp_k=1 divs=7 mil=9 civ=3 dock=1 caps=200 pp=98 stab=78 ws=41 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=291 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 August, 2275
+MLTD 217 TECH id=specialized_industry_tech_1
+MLTD 217 TECH id=outsider_warfare_doctrine
+MLTD 231 FOCUS id=mlt_defend_the_river
+MLTD 231 GONE tag=MXC capital=412 owner=ROB
+MLTD 243 SNAP owned=2 controlled=2 pop_k=11 mp_k=0 divs=8 mil=9 civ=3 dock=1 caps=200 pp=136 stab=78 ws=40 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=216 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 September, 2275
+MLTD 245 GONE tag=CCW capital=166 owner=TRL
+MLTD 266 FOCUS id=mlt_plant_for_the_next_harvest
+MLTD 273 TECH id=construction_industry_tech_1
+MLTD 273 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=8 mil=9 civ=3 dock=1 caps=145 pp=23 stab=78 ws=40 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=466 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 October, 2275
+MLTD 280 GONE tag=NAT capital=56 owner=NCR
+MLTD 294 FOCUS id=mlt_new_spawning_pools_needed
+MLTD 294 TECH id=unit_training_tech_1
+MLTD 301 GONE tag=TRL capital=235 owner=MDT
+MLTD 304 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=8 mil=9 civ=3 dock=1 caps=145 pp=11 stab=78 ws=40 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=466 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 November, 2275
+MLTD 322 FOCUS id=mlt_dig_barrows_for_spawning_pools
+MLTD 334 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=8 mil=9 civ=3 dock=1 caps=145 pp=48 stab=78 ws=40 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=466 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 December, 2275
+MLTD 350 FOCUS id=mlt_arena_in_the_tunnels
+MLTD 365 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=9 mil=11 civ=3 dock=1 caps=145 pp=85 stab=78 ws=41 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=388 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 January, 2276
+MLTD 385 FOCUS id=mlt_blind_eyed_workers
+MLTD 396 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=10 mil=11 civ=5 dock=1 caps=139 pp=27 stab=78 ws=41 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=311 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 February, 2276
+MLTD 413 FOCUS id=mlt_striking_iron
+MLTD 424 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=10 mil=11 civ=5 dock=1 caps=139 pp=67 stab=78 ws=42 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=311 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 March, 2276
+MLTD 441 FOCUS id=mlt_deeper_into_the_earth
+MLTD 455 GONE tag=MOT capital=77 owner=NCR
+MLTD 455 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=10 mil=11 civ=5 dock=1 caps=139 pp=12 stab=78 ws=42 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=311 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 April, 2276
+MLTD 462 GONE tag=TOC capital=179 owner=ROT
+MLTD 476 FOCUS id=mlt_defend_the_spawnlings
+MLTD 476 TECH id=we_are_different_doctrine
+MLTD 485 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=11 mil=14 civ=5 dock=1 caps=148 pp=59 stab=78 ws=42 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=247 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 May, 2276
+MLTD 504 FOCUS id=mlt_deep_earth_breathing_equipment
+MLTD 516 SNAP owned=2 controlled=2 pop_k=16 mp_k=1 divs=11 mil=14 civ=8 dock=1 caps=138 pp=7 stab=88 ws=37 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=268 eq_sup=0 eq_deep=0 eq_star=0 date= 1:00, 1 June, 2276
+MLTD 532 FOCUS id=mlt_striking_gold
+MLTD 532 GONE tag=DIS capital=600 owner=MLT
+MLTD 546 SNAP owned=5 controlled=5 pop_k=30 mp_k=1 divs=24 mil=14 civ=8 dock=1 caps=216 pp=54 stab=87 ws=33 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=306 eq_sup=100 eq_deep=0 eq_star=0 date= 1:00, 1 July, 2276
+MLTD 560 FOCUS id=ritual_of_black_hollows_night
+MLTD 577 SNAP owned=5 controlled=5 pop_k=30 mp_k=8 divs=25 mil=14 civ=8 dock=1 caps=166 pp=3 stab=80 ws=48 books=0 cults=0 cult_pts=0 cult_target=none subjects=0 wars=0 eq_mirelurk=0 eq_inf=455 eq_sup=100 eq_deep=0 eq_star=0 date= 1:00, 1 August, 2276

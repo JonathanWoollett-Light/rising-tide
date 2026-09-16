@@ -23,6 +23,12 @@ shared_focus = {
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
+		custom_effect_tooltip = mltd_ncr_cult_sheltered_tt
+		hidden_effect = {
+			NCR = { set_country_flag = mltd_cult_sheltered }
+			MOT = { set_country_flag = mltd_cult_sheltered }
+		}
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
@@ -297,7 +303,20 @@ shared_focus = {
 	y = 2
 	relative_position_id = mltd_ncr_a_mole_in_shady_sands
 	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = NCR
 	completion_reward = {
+		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		if = {
+			limit = {
+				country_exists = NCR
+				NOT = { has_war_with = NCR }
+				NCR = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = NCR
+			}
+		}
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
@@ -387,6 +406,12 @@ shared_focus = {
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
+		custom_effect_tooltip = mltd_tex_cult_sheltered_tt
+		hidden_effect = {
+			TBH = { set_country_flag = mltd_cult_sheltered }
+			LNS = { set_country_flag = mltd_cult_sheltered }
+		}
 		if = {
 			limit = { has_dlc = "La Resistance" }
 			if = {
@@ -584,7 +609,32 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = TBH
+	will_lead_to_war_with = LNS
 	completion_reward = {
+		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		if = {
+			limit = {
+				country_exists = TBH
+				NOT = { has_war_with = TBH }
+				TBH = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = TBH
+			}
+		}
+		if = {
+			limit = {
+				country_exists = LNS
+				NOT = { has_war_with = LNS }
+				LNS = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = LNS
+			}
+		}
 		capital_scope = {
 			add_resource = {
 				type = energy
@@ -652,6 +702,11 @@ shared_focus = {
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
+		custom_effect_tooltip = mltd_wbh_cult_sheltered_tt
+		hidden_effect = {
+			WBH = { set_country_flag = mltd_cult_sheltered }
+		}
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
@@ -802,7 +857,20 @@ shared_focus = {
 	y = 2
 	relative_position_id = mltd_wbh_eyes_in_the_sound
 	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = WBH
 	completion_reward = {
+		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		if = {
+			limit = {
+				country_exists = WBH
+				NOT = { has_war_with = WBH }
+				WBH = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = WBH
+			}
+		}
 		if = {
 			limit = { 235 = { is_owned_and_controlled_by = ROOT } }
 			235 = {
@@ -870,6 +938,11 @@ shared_focus = {
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
+		custom_effect_tooltip = mltd_ces_cult_sheltered_tt
+		hidden_effect = {
+			CES = { set_country_flag = mltd_cult_sheltered }
+		}
 		if = {
 			limit = { has_dlc = "La Resistance" }
 			if = {
@@ -1068,7 +1141,20 @@ shared_focus = {
 	y = 2
 	relative_position_id = mltd_ces_what_the_river_carries
 	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = CES
 	completion_reward = {
+		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		if = {
+			limit = {
+				country_exists = CES
+				NOT = { has_war_with = CES }
+				CES = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = CES
+			}
+		}
 		add_timed_idea = { idea = mltd_ces_the_drowned_bull days = 180 }
 		# OWB's own Legion scripting: Caesar's illness (CES_stress, nf_legion.26 from CES's first focus), his death (nf_legion.70 retires CES_caesar), the succession war (CES_civil_war)
 		if = {
@@ -1139,6 +1225,11 @@ shared_focus = {
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
+		custom_effect_tooltip = mltd_bos_cult_sheltered_tt
+		hidden_effect = {
+			BOS = { set_country_flag = mltd_cult_sheltered }
+		}
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
@@ -1384,7 +1475,20 @@ shared_focus = {
 	y = 2
 	relative_position_id = mltd_bos_the_drowned_paladin
 	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = BOS
 	completion_reward = {
+		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		if = {
+			limit = {
+				country_exists = BOS
+				NOT = { has_war_with = BOS }
+				BOS = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = BOS
+			}
+		}
 		if = {
 			limit = {
 				country_exists = BOS
@@ -1470,6 +1574,15 @@ shared_focus = {
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
+		custom_effect_tooltip = mltd_tla_cult_sheltered_tt
+		hidden_effect = {
+			TLA = { set_country_flag = mltd_cult_sheltered }
+			MAX = { set_country_flag = mltd_cult_sheltered }
+			MOC = { set_country_flag = mltd_cult_sheltered }
+			ZAP = { set_country_flag = mltd_cult_sheltered }
+			ARM = { set_country_flag = mltd_cult_sheltered }
+		}
 		if = {
 			limit = { country_exists = TLA }
 			custom_effect_tooltip = mltd_tla_databanks_tt
@@ -1806,7 +1919,56 @@ shared_focus = {
 	y = 2
 	relative_position_id = mltd_tla_the_iron_god_dreams
 	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = TLA
+	will_lead_to_war_with = MAX
+	will_lead_to_war_with = MOC
+	will_lead_to_war_with = ZAP
 	completion_reward = {
+		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		if = {
+			limit = {
+				country_exists = TLA
+				NOT = { has_war_with = TLA }
+				TLA = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = TLA
+			}
+		}
+		if = {
+			limit = {
+				country_exists = MAX
+				NOT = { has_war_with = MAX }
+				MAX = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = MAX
+			}
+		}
+		if = {
+			limit = {
+				country_exists = MOC
+				NOT = { has_war_with = MOC }
+				MOC = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = MOC
+			}
+		}
+		if = {
+			limit = {
+				country_exists = ZAP
+				NOT = { has_war_with = ZAP }
+				ZAP = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = ZAP
+			}
+		}
 		if = {
 			limit = { country_exists = TLA }
 			# only while OWB's own drain runs (tlaloc_on_actions.txt:276-281); OWB's daily clamp and death check still fire nf_tlaloc.100
@@ -1947,6 +2109,11 @@ shared_focus = {
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
+		custom_effect_tooltip = mltd_hea_cult_sheltered_tt
+		hidden_effect = {
+			HEA = { set_country_flag = mltd_cult_sheltered }
+		}
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
@@ -2137,7 +2304,20 @@ shared_focus = {
 	y = 2
 	relative_position_id = mltd_hea_whispers_in_the_steam
 	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = HEA
 	completion_reward = {
+		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		if = {
+			limit = {
+				country_exists = HEA
+				NOT = { has_war_with = HEA }
+				HEA = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = HEA
+			}
+		}
 		if = {
 			limit = {
 				country_exists = HEA
@@ -2185,6 +2365,12 @@ shared_focus = {
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
+		custom_effect_tooltip = mltd_wht_cult_sheltered_tt
+		hidden_effect = {
+			WHT = { set_country_flag = mltd_cult_sheltered }
+			EHT = { set_country_flag = mltd_cult_sheltered }
+		}
 		if = {
 			limit = { has_dlc = "La Resistance" }
 			if = {
@@ -2445,7 +2631,32 @@ shared_focus = {
 	y = 2
 	relative_position_id = mltd_wht_the_lake_god_answers
 	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = WHT
+	will_lead_to_war_with = EHT
 	completion_reward = {
+		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		if = {
+			limit = {
+				country_exists = WHT
+				NOT = { has_war_with = WHT }
+				WHT = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = WHT
+			}
+		}
+		if = {
+			limit = {
+				country_exists = EHT
+				NOT = { has_war_with = EHT }
+				EHT = { NOT = { is_subject_of = ROOT } }
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = EHT
+			}
+		}
 		add_timed_idea = {
 			idea = mltd_wht_rites_on_the_jetty
 			days = 180

@@ -796,7 +796,14 @@ country_event = {
 		trigger = {
 			has_character = MLT_TERROR
 		}
-		ai_chance = { base = 1 }
+		ai_chance = {
+			base = 1
+			modifier = {
+				# the AI spares an advisor it has hired (character scope: vanilla common/decisions/AST.txt:1813-1816)
+				factor = 0.1
+				MLT_TERROR = { is_hired_as_advisor = yes }
+			}
+		}
 		retire_character = MLT_TERROR
 		army_experience = 10
 		custom_effect_tooltip = mltd_expedition_continues_tt
@@ -807,7 +814,13 @@ country_event = {
 		trigger = {
 			has_character = MLT_TIDE_HUNTER
 		}
-		ai_chance = { base = 1 }
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 0.1
+				MLT_TIDE_HUNTER = { is_hired_as_advisor = yes }
+			}
+		}
 		retire_character = MLT_TIDE_HUNTER
 		add_war_support = 0.02
 		custom_effect_tooltip = mltd_expedition_continues_tt
@@ -889,7 +902,14 @@ country_event = {
 		trigger = {
 			has_character = MLT_KNOWS
 		}
-		ai_chance = { base = 1 }
+		ai_chance = {
+			base = 1
+			modifier = {
+				# the AI spares an advisor it has hired, as in mltd.202
+				factor = 0.1
+				MLT_KNOWS = { is_hired_as_advisor = yes }
+			}
+		}
 		retire_character = MLT_KNOWS
 		add_political_power = 25
 		custom_effect_tooltip = mltd_expedition_continues_tt
@@ -900,7 +920,13 @@ country_event = {
 		trigger = {
 			has_character = MLT_MUTANTS
 		}
-		ai_chance = { base = 1 }
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 0.1
+				MLT_MUTANTS = { is_hired_as_advisor = yes }
+			}
+		}
 		retire_character = MLT_MUTANTS
 		army_experience = 10
 		custom_effect_tooltip = mltd_expedition_continues_tt
@@ -1063,7 +1089,14 @@ country_event = {
 		trigger = {
 			has_character = MLT_KILLCLAW
 		}
-		ai_chance = { base = 1 }
+		ai_chance = {
+			base = 1
+			modifier = {
+				# the AI spares an advisor it has hired, as in mltd.202
+				factor = 0.1
+				MLT_KILLCLAW = { is_hired_as_advisor = yes }
+			}
+		}
 		retire_character = MLT_KILLCLAW
 		add_war_support = 0.02
 		custom_effect_tooltip = mltd_expedition_continues_tt
@@ -1074,7 +1107,13 @@ country_event = {
 		trigger = {
 			has_character = MLT_KING
 		}
-		ai_chance = { base = 1 }
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 0.1
+				MLT_KING = { is_hired_as_advisor = yes }
+			}
+		}
 		retire_character = MLT_KING
 		add_political_power = 25
 		custom_effect_tooltip = mltd_expedition_continues_tt

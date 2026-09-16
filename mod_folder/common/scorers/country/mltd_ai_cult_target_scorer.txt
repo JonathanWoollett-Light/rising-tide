@@ -1,0 +1,79 @@
+# Rising Tide - the AI Mirelurk Tribe's cult target
+#
+# Which country an AI MLT founds or nurtures a cult in (mltd_op_found_a_cult / mltd_op_nurture_the_cult,
+# common/operations/mltd_operations.txt). Scored every week in on_weekly_MLT with get_highest_scored_country into the
+# country variable mltd_ai_cult_target, the way OWB's update_operation_ai picks its own target
+# (scripted_effects/operation_strat_effects.txt:21-24); an ai_strategy block reads it back as var:mltd_ai_cult_target.
+# THIS is the candidate and FROM is MLT (OWB operative_mission_scorer.txt:36-37). A cult lives on its country as
+# mltd_cult_strength (0-100); one at 90 or more is left alone.
+# A cult is built before its war, not in it: at war with MLT a cult decays three times as fast (mltd_cult_weekly), so run 2's
+# cults, founded in current enemies, died within months, and the NCR's was only founded mid-war. The NCR comes first from
+# The Deep Ones Walk on, so its cult can reach the 40 % its war waits for (mltd_ai_ncr_cult_ready).
+# OWB replace_paths common/scorers/country, so this file only loads after OWB (dependencies in descriptor.mod).
+mltd_ai_cult_target_scorer = {
+	targets = {
+		target_array = neighbors
+		target_array = potential_and_current_enemies
+		target_array = global.majors
+
+		score = {
+			base = 100
+
+			# Never MLT itself - OWB makes every non-subject belligerent a major, so a warring MLT is in global.majors -
+			# nor a country that is gone, beaten or bound to MLT, nor one whose cult is already at 90 or more
+			modifier = {
+				OR = {
+					exists = no
+					tag = FROM
+					has_capitulated = yes
+					is_subject_of = FROM
+					is_ally_with = FROM
+					AND = {
+						has_variable = mltd_cult_strength
+						NOT = { check_variable = { mltd_cult_strength < 90 } }
+					}
+				}
+				factor = 0
+			}
+
+			# at war with MLT a cult withers three times as fast: build the next war's cults instead
+			modifier = {
+				has_war_with = FROM
+				factor = 0.25
+			}
+
+			# the NCR, MLT's great war, from The Deep Ones Walk on (the Final Ritual comes next, then that war)
+			modifier = {
+				tag = NCR
+				NOT = { has_war_with = FROM }
+				FROM = { has_completed_focus = mltd_the_deep_ones_walk }
+				factor = 6
+			}
+
+			# a conflict sub-tree's root shelters its cults (mltd_cult_sheltered halves their decay)
+			modifier = {
+				has_country_flag = mltd_cult_sheltered
+				factor = 1.5
+			}
+
+			# a major: the NCR at peace; at war OWB makes every non-subject a major
+			modifier = {
+				is_major = yes
+				factor = 2
+			}
+
+			# a neighbour of MLT (OWB generic_operation_target_scorer.txt:48-51)
+			modifier = {
+				is_in_array = { FROM.neighbors = this }
+				factor = 1.5
+			}
+
+			# nurture a cult that is already there before founding another
+			modifier = {
+				has_variable = mltd_cult_strength
+				check_variable = { mltd_cult_strength < 90 }
+				factor = 1.5
+			}
+		}
+	}
+}

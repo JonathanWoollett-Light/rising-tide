@@ -1,0 +1,958 @@
+# Rising Tide - MLT's AI: when each conquest opens
+#
+# One trigger per country MLT's AI conquers on the plan's schedule, mltd_ai_stage_<tag>, in MLT's scope, read by that
+# country's conquest block in common/ai_strategy/mltd_MLT.txt (together with "or already at war with it", and only while
+# the country is a safe target, mltd_ai_safe_target). The order is CONQUEST_PLAN.txt's: a stage opens when the previous
+# target falls or is at war, on a focus, or on a fallback date that only unsticks a stalled game. The comments above each
+# trigger come from its conquest block. Section H holds the tests the stages and the conquest blocks share, and the ones
+# the frontier (common/ai_strategy/mltd_MLT_frontier.txt) and the weekly survey (mltd_ai_survey) read.
+
+# ---- H. What the stages, the conquest blocks and the survey ask of the map --------------------------------------------------
+# Each names its scope; ROOT is always MLT (the ai_strategy enable or the on_weekly_MLT effect that calls it).
+
+# The north MLT holds before it turns on the NCR: every state that MLT, CCW, TRL, RBT, DIS, MDT, PMR, TIM, KLA, TCA, WBH, OLY,
+# YAK, TOC, KAM, BRK and TDN own at game start (79; OWB history/states) - Oregon, Washington and the British Columbia coast,
+# the conquests CONQUEST_PLAN.txt makes before the NCR war, with The Den on the way to New Reno. State scope.
+mltd_ai_north_state = {
+	OR = {
+		# MLT, Mirelurk Tribe
+		state = 358	# Crowlands
+		state = 451	# Culp Creek
+		# CCW, Carcass Walkers
+		state = 166	# Carcass Wastes
+		state = 437	# Feeding Grounds
+		# TRL, Pittman's Warband
+		state = 235	# The Warren
+		# RBT, Rib Breakers
+		state = 449	# Brightenbush
+		state = 450	# Albany
+		state = 493	# Salem
+		state = 506	# Belknap Springs
+		# DIS, The Apostles
+		state = 86	# Leneve
+		state = 150	# Arago
+		state = 600	# Diamond Peak
+		# MDT, Marrow Drinkers
+		state = 113	# Broken Top
+		state = 231	# Paisley Pit
+		state = 268	# Bend Ralley
+		# PMR, Port Maw
+		state = 7	# Rainerview
+		state = 23	# West Portland
+		state = 186	# Cannibal Territories
+		state = 192	# Tillamook
+		state = 221	# Illwican Stretch
+		state = 274	# The Maw
+		# TIM, The Timberline
+		state = 51	# Walla Walla
+		state = 53	# Baker City
+		state = 149	# Warm Springs
+		state = 178	# Kingsley
+		state = 277	# Clarkston
+		state = 322	# Greenhorn
+		state = 345	# Tygh Valley
+		state = 399	# Redmond
+		state = 434	# Pendleton
+		state = 491	# Condon
+		state = 587	# Enterprise
+		state = 950	# Rock Creek Butte
+		state = 951	# Wehana Toucannon
+		state = 952	# Wallowa Whitman
+		# KLA, Klamath
+		state = 251	# Crater Lake
+		state = 454	# Klamath
+		# TCA, The Cause
+		state = 37	# East Portland
+		state = 351	# The Couve
+		# WBH, Washington Brotherhood
+		state = 61	# White Sprawl
+		state = 84	# Seattle
+		state = 387	# Enumclaw
+		state = 575	# Gold Bar
+		# OLY, Olympus Tribe
+		state = 424	# Mount Olympus
+		state = 556	# Kodiak Base
+		state = 609	# Makah Territory
+		state = 737	# Kitsap Peninsula
+		# YAK, Yakama Nation
+		state = 65	# Kennewick
+		state = 66	# Mount St. Helens
+		state = 105	# Soqualmee Passage
+		state = 230	# Pahto
+		state = 468	# Bedal
+		state = 509	# Wenatchee
+		state = 540	# Yakama
+		state = 599	# The Camp
+		# TOC, The Old Country
+		state = 69	# Fort Spokane
+		state = 179	# Electric City
+		state = 300	# Coulee City
+		state = 314	# Joso
+		state = 332	# Spokane
+		# KAM, Kamlo
+		state = 27	# Upper Nicola
+		state = 79	# Fort Nelson
+		state = 134	# The Lakeline
+		state = 139	# Revelstoke
+		state = 177	# Kamlo
+		state = 196	# Old Shaftson
+		state = 321	# Equidae Bite
+		state = 507	# Clearwater
+		state = 980	# Cariboo Mountains
+		# BRK, Broken Coast
+		state = 14	# Arista Harbor
+		state = 17	# Kitessing Territory
+		state = 148	# Sechet
+		state = 188	# Frozen Isles
+		state = 194	# Hangman's Sound
+		state = 262	# Tantalus' Pain
+		state = 492	# North Koover
+		state = 561	# Earl's Cove
+		# TDN, The Den
+		state = 57	# The Den
+		state = 59	# Dorris
+	}
+}
+
+# The NCR's side: the NCR, a member of its faction, its subject, or a country it guarantees - a war on any of them is a war on
+# the NCR. Run 2 declared on Arroyo in September 2279, three years before its plan, and fought the NCR's whole faction for six.
+# Country scope.
+mltd_ai_in_ncr_bloc = {
+	country_exists = NCR
+	OR = {
+		tag = NCR
+		is_in_faction_with = NCR
+		is_subject_of = NCR
+		NCR = { has_guaranteed = PREV }
+	}
+}
+
+# The NCR, or the Legion, beaten: gone, or capitulated. A capitulated country stays at war while any ally holds out, so
+# waiting for it to be gone can wait for ever (run 2's NCR capitulated in September 2283 and still existed in 2285). Any scope.
+mltd_ai_ncr_beaten = {
+	OR = {
+		NOT = { country_exists = NCR }
+		NCR = { has_capitulated = yes }
+	}
+}
+
+mltd_ai_legion_beaten = {
+	OR = {
+		NOT = { country_exists = CES }
+		CES = { has_capitulated = yes }
+	}
+}
+
+# A country MLT can attack without starting a war it cannot win, as a player would judge it: on the NCR's side only once the
+# NCR's own stage is open (then that whole side is the target), and otherwise with no ally - faction member, overlord or
+# subject - at half MLT's estimated army strength or more (strength_ratio, vanilla ai_strategy/ENG.txt:1368). Country scope.
+mltd_ai_safe_target = {
+	if = {
+		limit = { mltd_ai_in_ncr_bloc = yes }
+		ROOT = { mltd_ai_stage_ncr = yes }
+	}
+	else = {
+		NOT = {
+			any_allied_country = {
+				strength_ratio = { tag = ROOT ratio > 0.5 }
+			}
+		}
+	}
+}
+
+# An enemy of MLT that MLT cannot reach by land: it holds land, has not capitulated, and none of it touches land MLT controls
+# (is_neighbor_of compares controlled territory, vanilla triggers_documentation.md). Run 2's war never ended because Vault
+# City, Elko and S'Lanter held eleven states that touched only New Reno, EAS, BDT and Ouroboros. Country scope (the enemy).
+mltd_ai_enemy_cut_off = {
+	has_capitulated = no
+	num_of_controlled_states > 0
+	NOT = { is_neighbor_of = ROOT }
+}
+
+# A country at peace with MLT that stands between MLT and such an enemy: it borders both. Country scope.
+mltd_ai_cuts_off_an_enemy = {
+	NOT = { has_war_with = ROOT }
+	is_neighbor_of = ROOT
+	any_neighbor_country = {
+		has_war_with = ROOT
+		mltd_ai_enemy_cut_off = yes
+	}
+}
+
+# A conquest the stages do not schedule but the map calls for, against a safe target:
+# - it holds land of the north once the Kingdom stands (never while the Final Ritual runs): the plan's northern targets die
+#   to others - run 2 lost KLA and TDN to MOD (then New Reno), TIM to BDT, and KAM and BRK to SYN - and the north comes first;
+# - or it stands between MLT and an enemy MLT cannot reach, MLT has had such an enemy for 90 days (mltd_ai_pocket, set by
+#   mltd_ai_survey) and still has no military access through it (the requests in common/ai_strategy/mltd_MLT_frontier.txt).
+# Country scope (the candidate).
+mltd_ai_frontier_target = {
+	OR = {
+		AND = {
+			ROOT = {
+				has_completed_focus = mlt_kingdom_of_mlyeh
+				NOT = { has_idea = mltd_the_final_ritual }
+			}
+			any_owned_state = { mltd_ai_north_state = yes }
+		}
+		AND = {
+			ROOT = { has_country_flag = { flag = mltd_ai_pocket days > 90 } }
+			mltd_ai_cuts_off_an_enemy = yes
+			NOT = { ROOT = { has_military_access_to = PREV } }
+		}
+	}
+	mltd_ai_safe_target = yes
+}
+
+# The north consolidated: mltd_ai_survey sets the flag each week while MLT owns more than 70 of the 79 northern states, or no
+# northern state is left to a country MLT could safely attack. MLT scope.
+mltd_ai_north_done = {
+	has_country_flag = mltd_ai_north_done
+}
+
+# The NCR's cult is ready for the war: at 40 % or more - a war triples a cult's decay (mltd_cult_weekly), so it has to stand
+# before the war - or there is no cult to wait for: no La Resistance, no NCR, or it has had until 2283. MLT scope.
+mltd_ai_ncr_cult_ready = {
+	OR = {
+		NOT = { has_dlc = "La Resistance" }
+		NOT = { country_exists = NCR }
+		NCR = {
+			has_variable = mltd_cult_strength
+			check_variable = { mltd_cult_strength > 39 }
+		}
+		date > 2283.1.1
+	}
+}
+
+# New Reno first: Vault City, Elko or S'Lanter stands on the NCR's side and New Reno does not, so New Reno's land is the way
+# to them (run 2's pocket). MLT scope.
+mltd_ai_new_reno_first = {
+	country_exists = NEW
+	NOT = { NEW = { mltd_ai_in_ncr_bloc = yes } }
+	OR = {
+		AND = {
+			country_exists = VLT
+			VLT = { mltd_ai_in_ncr_bloc = yes }
+		}
+		AND = {
+			country_exists = PAL
+			PAL = { mltd_ai_in_ncr_bloc = yes }
+		}
+		AND = {
+			country_exists = SLN
+			SLN = { mltd_ai_in_ncr_bloc = yes }
+		}
+	}
+}
+
+# The late army: the king or armour form of the mirelurk, and the NCR beaten (or 2285). The Shell Levies and Coral Hosts then
+# become all-mirelurk divisions in the field (common/ai_templates/mltd_MLT.txt). MLT scope.
+mltd_ai_late_army = {
+	OR = {
+		has_tech = amphibious_beast_king_form
+		has_tech = amphibious_beast_armor_form
+	}
+	OR = {
+		mltd_ai_ncr_beaten = yes
+		date > 2285.1.1
+	}
+}
+
+# ---- B1. Oregon, 2275: CCW, then TRL, then RBT (CONQUEST_PLAN.txt, 2275) --------------------------------------------------
+# CCW from day 0: TRL's Wizard war (~day 133) can only target CCW, and finds nothing to take if CCW's land is already ours.
+mltd_ai_stage_ccw = {
+	always = yes
+}
+
+# TRL from the CCW war on (or April 2275): the plan justifies on The Warren while CCW falls. TRL turns on MLT itself once MDT
+# is gone (OWB TRL.txt:138-167).
+mltd_ai_stage_trl = {
+	OR = {
+		NOT = { country_exists = CCW }
+		has_war_with = CCW
+		date > 2275.4.1
+	}
+}
+
+# RBT from the TRL war on (or September 2275), before MDT can make it a puppet (OWB ai_strategy_plans/MDT.txt:89-165).
+mltd_ai_stage_rbt = {
+	OR = {
+		NOT = { country_exists = TRL }
+		has_war_with = TRL
+		date > 2275.9.1
+	}
+}
+
+# ---- B2. The Apostles (DIS) -------------------------------------------------------------------------------------------------
+# DIS offers itself through lake_mend_the_lurker_schism (nf_dis.4), which it only takes while it holds DIS_mend_schism and is
+# not at war with MLT (The Apostles (DIS) Focus.txt:243-256). By force: without the flag, once DIS has chosen
+# lake_preemptive_defenses (exclusive with the offer), or when no offer has come by October 2276 - and only after RBT.
+mltd_ai_stage_dis = {
+	OR = {
+		AND = {
+			OR = {
+				DIS = { NOT = { has_country_flag = DIS_mend_schism } }
+				DIS = { has_completed_focus = lake_preemptive_defenses }
+				date > 2276.10.1
+			}
+			OR = {
+				NOT = { country_exists = RBT }
+				date > 2276.3.1
+			}
+		}
+	}
+}
+
+# ---- B3. MDT, 2276: Paisley Pit (231) is Book 3's state. From the RBT war on (or March 2276). ------------------------------
+mltd_ai_stage_mdt = {
+	OR = {
+		NOT = { country_exists = RBT }
+		has_war_with = RBT
+		date > 2276.3.1
+	}
+}
+
+# ---- B4. The other Book states, after the Kingdom: The Maw (274, PMR) is Book 5's, Arroyo (337, ARR) Book 4's. --------------
+mltd_ai_stage_pmr = {
+	OR = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+	}
+}
+
+# Arroyo only while it stands apart from the NCR: once it has joined the NCR's side it waits for the NCR's stage, and Book 4
+# comes through a full intelligence network in Arroyo instead (mltd_ai_book_networks in common/ai_strategy/mltd_MLT.txt).
+mltd_ai_stage_arr = {
+	OR = {
+		AND = {
+			has_completed_focus = mlt_kingdom_of_mlyeh
+			NOT = { ARR = { mltd_ai_in_ncr_bloc = yes } }
+		}
+		mltd_ai_stage_ncr = yes
+	}
+}
+
+# ---- B5. The Oregon ring, once PMR has fallen or is at war (or from September 2277): TIM, KLA, TCA. -------------------------------
+mltd_ai_stage_tim = {
+	has_completed_focus = mlt_kingdom_of_mlyeh
+	OR = {
+		NOT = { country_exists = PMR }
+		has_war_with = PMR
+		date > 2277.9.1
+	}
+}
+
+mltd_ai_stage_kla = {
+	has_completed_focus = mlt_kingdom_of_mlyeh
+	OR = {
+		NOT = { country_exists = PMR }
+		has_war_with = PMR
+		date > 2277.9.1
+	}
+}
+
+mltd_ai_stage_tca = {
+	has_completed_focus = mlt_kingdom_of_mlyeh
+	OR = {
+		NOT = { country_exists = PMR }
+		has_war_with = PMR
+		date > 2277.9.1
+	}
+}
+
+# ---- B6. Cascadia, with more than 30 states and after The Deep Ones Walk (or from June 2278), never while the Final Ritual
+# runs (CONQUEST_PLAN.txt: no major war during the Final Ritual): WBH first, then the coast.
+mltd_ai_stage_wbh = {
+	OR = {
+		AND = {
+			NOT = { has_idea = mltd_the_final_ritual }
+			has_completed_focus = mlt_kingdom_of_mlyeh
+			num_of_controlled_states > 30
+			OR = {
+				has_completed_focus = mltd_the_deep_ones_walk
+				date > 2278.6.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_oly = {
+	OR = {
+		AND = {
+			NOT = { has_idea = mltd_the_final_ritual }
+			has_completed_focus = mlt_kingdom_of_mlyeh
+			num_of_controlled_states > 30
+			OR = {
+				has_completed_focus = mltd_the_deep_ones_walk
+				date > 2278.6.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_yak = {
+	OR = {
+		AND = {
+			NOT = { has_idea = mltd_the_final_ritual }
+			has_completed_focus = mlt_kingdom_of_mlyeh
+			num_of_controlled_states > 30
+			OR = {
+				has_completed_focus = mltd_the_deep_ones_walk
+				date > 2278.6.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_toc = {
+	OR = {
+		AND = {
+			NOT = { has_idea = mltd_the_final_ritual }
+			has_completed_focus = mlt_kingdom_of_mlyeh
+			num_of_controlled_states > 30
+			OR = {
+				has_completed_focus = mltd_the_deep_ones_walk
+				date > 2278.6.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_kam = {
+	OR = {
+		AND = {
+			NOT = { has_idea = mltd_the_final_ritual }
+			has_completed_focus = mlt_kingdom_of_mlyeh
+			num_of_controlled_states > 30
+			OR = {
+				has_completed_focus = mltd_the_deep_ones_walk
+				date > 2278.6.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_brk = {
+	OR = {
+		AND = {
+			NOT = { has_idea = mltd_the_final_ritual }
+			has_completed_focus = mlt_kingdom_of_mlyeh
+			num_of_controlled_states > 30
+			OR = {
+				has_completed_focus = mltd_the_deep_ones_walk
+				date > 2278.6.1
+			}
+		}
+	}
+}
+
+# ---- B7. The route to the NCR, after The Deep Ones Walk (or from 2279), never while the Final Ritual runs: MXS, FOU, TDN.
+# OWB only lets an AI justify on a neighbour (diplomacy_scripted_triggers.txt:1210-1216), so these are the stepping stones:
+# MXS borders KLA and ARR, and FOU and TDN border the NCR (FOU's 369 and TDN's 57 touch Redding, 141).
+mltd_ai_stage_mxs = {
+	OR = {
+		AND = {
+			NOT = { has_idea = mltd_the_final_ritual }
+			OR = {
+				has_completed_focus = mltd_the_deep_ones_walk
+				date > 2279.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_fou = {
+	OR = {
+		AND = {
+			NOT = { has_idea = mltd_the_final_ritual }
+			OR = {
+				has_completed_focus = mltd_the_deep_ones_walk
+				date > 2279.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_tdn = {
+	OR = {
+		AND = {
+			NOT = { has_idea = mltd_the_final_ritual }
+			OR = {
+				has_completed_focus = mltd_the_deep_ones_walk
+				date > 2279.1.1
+			}
+		}
+	}
+}
+
+# ---- B8. The NCR and its side, never while the Final Ritual runs: once The Final Ritual is done, the north is consolidated
+# (mltd_ai_north_done), the NCR's cult stands (mltd_ai_ncr_cult_ready) and New Reno does not stand between MLT and the
+# NCR's Nevada allies (mltd_ai_new_reno_first) - or from 2284, to unstick a stalled game. The Turbines Sing, whose war goal
+# would start the war sooner, waits for the late-game plan (ai_strategy_plans/mltd_MLT.txt), and a hold keeps MLT from
+# declaring on any of the NCR's side before this (mltd_ai_hold_ncr_side_*). SHI (San Francisco, 163) borders only NAT and
+# the NCR, so it opens with them.
+mltd_ai_stage_ncr = {
+	NOT = { has_idea = mltd_the_final_ritual }
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			mltd_ai_north_done = yes
+			mltd_ai_ncr_cult_ready = yes
+			NOT = { mltd_ai_new_reno_first = yes }
+		}
+		date > 2284.1.1
+	}
+}
+
+mltd_ai_stage_mot = {
+	mltd_ai_stage_ncr = yes
+}
+
+mltd_ai_stage_nat = {
+	mltd_ai_stage_ncr = yes
+}
+
+mltd_ai_stage_shi = {
+	mltd_ai_stage_ncr = yes
+}
+
+# New Reno, before the NCR, when Vault City, Elko or S'Lanter stands on the NCR's side and New Reno does not: its land is the
+# only way to them. New Reno borders The Den (TDN, part of the north) and the NCR.
+mltd_ai_stage_new = {
+	NOT = { has_idea = mltd_the_final_ritual }
+	has_completed_focus = mltd_the_final_ritual
+	mltd_ai_north_done = yes
+	mltd_ai_new_reno_first = yes
+}
+
+# ---- B9. The Legion and the interior, after The Final Ritual, once the NCR is beaten - gone or capitulated (or from 2283).
+mltd_ai_stage_ces = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_bos = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_veg = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_wht = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_eht = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_tar = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_ncn = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_hea = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_hgh = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_han = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_blc = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_oro = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_mxc = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_lac = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				date > 2283.1.1
+			}
+		}
+	}
+}
+
+# ---- B10. Texas, Mexico and the north, after The Final Ritual, once the Legion is beaten (or from 2286). --------------------
+mltd_ai_stage_tbh = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_lns = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_taa = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_rrg = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_sha = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_arm = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_tla = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_max = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_moc = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_zap = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_ate = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_itz = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_ffi = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_gdh = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_lgs = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_mca = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_pas = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_mtc = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_sta = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_stc = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_wpg = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}
+
+mltd_ai_stage_mdm = {
+	OR = {
+		AND = {
+			has_completed_focus = mltd_the_final_ritual
+			OR = {
+				mltd_ai_legion_beaten = yes
+				date > 2286.1.1
+			}
+		}
+	}
+}

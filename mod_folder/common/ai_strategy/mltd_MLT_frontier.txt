@@ -1,0 +1,2605 @@
+# Rising Tide - MLT's AI: the frontier
+#
+# Conquests and requests that no stage of CONQUEST_PLAN.txt schedules but the map can call for. Every block is allowed only
+# for original_tag = MLT; the scripted triggers they read are in common/scripted_triggers/mltd_ai_triggers.txt (section H),
+# fed by the weekly mltd_ai_survey (common/scripted_effects/mltd_ai_survey_effects.txt). Nothing here gives MLT anything: a
+# conquest still needs a justification, and military access is the plain diplomatic request any player can send.
+#
+# F1. Frontier conquests (one block per country without a stage of its own), on while the country is a safe target
+#     (mltd_ai_safe_target) and either holds land of the north once the Kingdom stands, or stands between MLT and an enemy
+#     MLT cannot reach after 90 days of asking it for military access (mltd_ai_frontier_target). The countries are those
+#     that border the north (MLT's northern stages and TDN) or the NCR's possible side at game start, or can join that side
+#     themselves (OWB history/states and map/provinces.bmp, 2026-09-16) - run 2 lost the Oregon ring to MOD, BDT and SYN and
+#     ended in a pocket bordered by New Reno, EAS, BDT and Ouroboros. A country with a conquest stage carries the same test
+#     in its own block (common/ai_strategy/mltd_MLT.txt).
+# F2. Military access, asked of every country that stands between MLT and an enemy MLT cannot reach
+#     (mltd_ai_cuts_off_an_enemy): OWB's own AI asks the same way (CYC.txt:23-33, LAC.txt:75-80).
+# OWB replace_paths common/ai_strategy, so this file only exists when Rising Tide loads after OWB (dependencies in
+# descriptor.mod).
+
+# ---- F1. Frontier conquests ---------------------------------------------------------------------------------------------
+# ANO, Lord's Anointed: borders the NCR's side
+mltd_ai_conquer_ano = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ANO
+		ANO = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = ANO }
+		OR = {
+			has_war_with = ANO
+			ANO = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "ANO" value = 150 }
+	ai_strategy = { type = antagonize id = "ANO" value = 75 }
+	ai_strategy = { type = consider_weak id = "ANO" value = 200 }
+	ai_strategy = { type = declare_war id = "ANO" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ANO } value = 100 }
+}
+
+# ASF, Archdiocese of Santa Fe: borders the NCR's side
+mltd_ai_conquer_asf = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ASF
+		ASF = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = ASF }
+		OR = {
+			has_war_with = ASF
+			ASF = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "ASF" value = 150 }
+	ai_strategy = { type = antagonize id = "ASF" value = 75 }
+	ai_strategy = { type = consider_weak id = "ASF" value = 200 }
+	ai_strategy = { type = declare_war id = "ASF" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ASF } value = 100 }
+}
+
+# BAG, Baggers: can join the NCR's side
+mltd_ai_conquer_bag = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BAG
+		BAG = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = BAG }
+		OR = {
+			has_war_with = BAG
+			BAG = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "BAG" value = 150 }
+	ai_strategy = { type = antagonize id = "BAG" value = 75 }
+	ai_strategy = { type = consider_weak id = "BAG" value = 200 }
+	ai_strategy = { type = declare_war id = "BAG" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BAG } value = 100 }
+}
+
+# BDT, Pillar Men: borders the north
+mltd_ai_conquer_bdt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BDT
+		BDT = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = BDT }
+		OR = {
+			has_war_with = BDT
+			BDT = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "BDT" value = 150 }
+	ai_strategy = { type = antagonize id = "BDT" value = 75 }
+	ai_strategy = { type = consider_weak id = "BDT" value = 200 }
+	ai_strategy = { type = declare_war id = "BDT" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BDT } value = 100 }
+}
+
+# BEL, Koover: borders the north
+mltd_ai_conquer_bel = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BEL
+		BEL = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = BEL }
+		OR = {
+			has_war_with = BEL
+			BEL = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "BEL" value = 150 }
+	ai_strategy = { type = antagonize id = "BEL" value = 75 }
+	ai_strategy = { type = consider_weak id = "BEL" value = 200 }
+	ai_strategy = { type = declare_war id = "BEL" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BEL } value = 100 }
+}
+
+# BJS, Baja State: can join the NCR's side
+mltd_ai_conquer_bjs = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BJS
+		BJS = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = BJS }
+		OR = {
+			has_war_with = BJS
+			BJS = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "BJS" value = 150 }
+	ai_strategy = { type = antagonize id = "BJS" value = 75 }
+	ai_strategy = { type = consider_weak id = "BJS" value = 200 }
+	ai_strategy = { type = declare_war id = "BJS" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BJS } value = 100 }
+}
+
+# BVC, Valle Bandits: borders the NCR's side
+mltd_ai_conquer_bvc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BVC
+		BVC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = BVC }
+		OR = {
+			has_war_with = BVC
+			BVC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "BVC" value = 150 }
+	ai_strategy = { type = antagonize id = "BVC" value = 75 }
+	ai_strategy = { type = consider_weak id = "BVC" value = 200 }
+	ai_strategy = { type = declare_war id = "BVC" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BVC } value = 100 }
+}
+
+# CHE, Chemult Station: borders the north; borders the NCR's side
+mltd_ai_conquer_che = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = CHE
+		CHE = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = CHE }
+		OR = {
+			has_war_with = CHE
+			CHE = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "CHE" value = 150 }
+	ai_strategy = { type = antagonize id = "CHE" value = 75 }
+	ai_strategy = { type = consider_weak id = "CHE" value = 200 }
+	ai_strategy = { type = declare_war id = "CHE" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CHE } value = 100 }
+}
+
+# CLJ, Claim Jumpers: borders the NCR's side
+mltd_ai_conquer_clj = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = CLJ
+		CLJ = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = CLJ }
+		OR = {
+			has_war_with = CLJ
+			CLJ = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "CLJ" value = 150 }
+	ai_strategy = { type = antagonize id = "CLJ" value = 75 }
+	ai_strategy = { type = consider_weak id = "CLJ" value = 200 }
+	ai_strategy = { type = declare_war id = "CLJ" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CLJ } value = 100 }
+}
+
+# COW, Cowboy Country: can join the NCR's side
+mltd_ai_conquer_cow = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = COW
+		COW = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = COW }
+		OR = {
+			has_war_with = COW
+			COW = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "COW" value = 150 }
+	ai_strategy = { type = antagonize id = "COW" value = 75 }
+	ai_strategy = { type = consider_weak id = "COW" value = 200 }
+	ai_strategy = { type = declare_war id = "COW" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = COW } value = 100 }
+}
+
+# CRZ, Crazy Horns: borders the NCR's side
+mltd_ai_conquer_crz = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = CRZ
+		CRZ = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = CRZ }
+		OR = {
+			has_war_with = CRZ
+			CRZ = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "CRZ" value = 150 }
+	ai_strategy = { type = antagonize id = "CRZ" value = 75 }
+	ai_strategy = { type = consider_weak id = "CRZ" value = 200 }
+	ai_strategy = { type = declare_war id = "CRZ" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CRZ } value = 100 }
+}
+
+# CWB, Cypher Warband: borders the NCR's side
+mltd_ai_conquer_cwb = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = CWB
+		CWB = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = CWB }
+		OR = {
+			has_war_with = CWB
+			CWB = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "CWB" value = 150 }
+	ai_strategy = { type = antagonize id = "CWB" value = 75 }
+	ai_strategy = { type = consider_weak id = "CWB" value = 200 }
+	ai_strategy = { type = declare_war id = "CWB" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CWB } value = 100 }
+}
+
+# CYC, Badland Buckaroos: can join the NCR's side
+mltd_ai_conquer_cyc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = CYC
+		CYC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = CYC }
+		OR = {
+			has_war_with = CYC
+			CYC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "CYC" value = 150 }
+	ai_strategy = { type = antagonize id = "CYC" value = 75 }
+	ai_strategy = { type = consider_weak id = "CYC" value = 200 }
+	ai_strategy = { type = declare_war id = "CYC" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CYC } value = 100 }
+}
+
+# DES, Rogue Rangers: borders the NCR's side
+mltd_ai_conquer_des = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = DES
+		DES = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = DES }
+		OR = {
+			has_war_with = DES
+			DES = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "DES" value = 150 }
+	ai_strategy = { type = antagonize id = "DES" value = 75 }
+	ai_strategy = { type = consider_weak id = "DES" value = 200 }
+	ai_strategy = { type = declare_war id = "DES" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = DES } value = 100 }
+}
+
+# DRE, Dredgers: borders the north
+mltd_ai_conquer_dre = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = DRE
+		DRE = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = DRE }
+		OR = {
+			has_war_with = DRE
+			DRE = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "DRE" value = 150 }
+	ai_strategy = { type = antagonize id = "DRE" value = 75 }
+	ai_strategy = { type = consider_weak id = "DRE" value = 200 }
+	ai_strategy = { type = declare_war id = "DRE" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = DRE } value = 100 }
+}
+
+# EAG, Eagle Rock: can join the NCR's side
+mltd_ai_conquer_eag = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = EAG
+		EAG = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = EAG }
+		OR = {
+			has_war_with = EAG
+			EAG = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "EAG" value = 150 }
+	ai_strategy = { type = antagonize id = "EAG" value = 75 }
+	ai_strategy = { type = consider_weak id = "EAG" value = 200 }
+	ai_strategy = { type = declare_war id = "EAG" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = EAG } value = 100 }
+}
+
+# EAS, Eastport: borders the NCR's side
+mltd_ai_conquer_eas = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = EAS
+		EAS = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = EAS }
+		OR = {
+			has_war_with = EAS
+			EAS = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "EAS" value = 150 }
+	ai_strategy = { type = antagonize id = "EAS" value = 75 }
+	ai_strategy = { type = consider_weak id = "EAS" value = 200 }
+	ai_strategy = { type = declare_war id = "EAS" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = EAS } value = 100 }
+}
+
+# EUR, Eureka: can join the NCR's side
+mltd_ai_conquer_eur = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = EUR
+		EUR = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = EUR }
+		OR = {
+			has_war_with = EUR
+			EUR = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "EUR" value = 150 }
+	ai_strategy = { type = antagonize id = "EUR" value = 75 }
+	ai_strategy = { type = consider_weak id = "EUR" value = 200 }
+	ai_strategy = { type = declare_war id = "EUR" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = EUR } value = 100 }
+}
+
+# EXE, The Executives: borders the NCR's side
+mltd_ai_conquer_exe = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = EXE
+		EXE = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = EXE }
+		OR = {
+			has_war_with = EXE
+			EXE = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "EXE" value = 150 }
+	ai_strategy = { type = antagonize id = "EXE" value = 75 }
+	ai_strategy = { type = consider_weak id = "EXE" value = 200 }
+	ai_strategy = { type = declare_war id = "EXE" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = EXE } value = 100 }
+}
+
+# GLW, Glowbugs: borders the NCR's side
+mltd_ai_conquer_glw = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = GLW
+		GLW = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = GLW }
+		OR = {
+			has_war_with = GLW
+			GLW = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "GLW" value = 150 }
+	ai_strategy = { type = antagonize id = "GLW" value = 75 }
+	ai_strategy = { type = consider_weak id = "GLW" value = 200 }
+	ai_strategy = { type = declare_war id = "GLW" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = GLW } value = 100 }
+}
+
+# JAC, Jackals: can join the NCR's side
+mltd_ai_conquer_jac = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = JAC
+		JAC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = JAC }
+		OR = {
+			has_war_with = JAC
+			JAC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "JAC" value = 150 }
+	ai_strategy = { type = antagonize id = "JAC" value = 75 }
+	ai_strategy = { type = consider_weak id = "JAC" value = 200 }
+	ai_strategy = { type = declare_war id = "JAC" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = JAC } value = 100 }
+}
+
+# LON, Lonetree: borders the NCR's side
+mltd_ai_conquer_lon = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = LON
+		LON = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = LON }
+		OR = {
+			has_war_with = LON
+			LON = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "LON" value = 150 }
+	ai_strategy = { type = antagonize id = "LON" value = 75 }
+	ai_strategy = { type = consider_weak id = "LON" value = 200 }
+	ai_strategy = { type = declare_war id = "LON" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = LON } value = 100 }
+}
+
+# LUB, Lubbock: borders the NCR's side
+mltd_ai_conquer_lub = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = LUB
+		LUB = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = LUB }
+		OR = {
+			has_war_with = LUB
+			LUB = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "LUB" value = 150 }
+	ai_strategy = { type = antagonize id = "LUB" value = 75 }
+	ai_strategy = { type = consider_weak id = "LUB" value = 200 }
+	ai_strategy = { type = declare_war id = "LUB" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = LUB } value = 100 }
+}
+
+# LUM, Luminous Ones: borders the NCR's side
+mltd_ai_conquer_lum = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = LUM
+		LUM = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = LUM }
+		OR = {
+			has_war_with = LUM
+			LUM = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "LUM" value = 150 }
+	ai_strategy = { type = antagonize id = "LUM" value = 75 }
+	ai_strategy = { type = consider_weak id = "LUM" value = 200 }
+	ai_strategy = { type = declare_war id = "LUM" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = LUM } value = 100 }
+}
+
+# MOD, Modoc: borders the north; can join the NCR's side
+mltd_ai_conquer_mod = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MOD
+		MOD = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MOD }
+		OR = {
+			has_war_with = MOD
+			MOD = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MOD" value = 150 }
+	ai_strategy = { type = antagonize id = "MOD" value = 75 }
+	ai_strategy = { type = consider_weak id = "MOD" value = 200 }
+	ai_strategy = { type = declare_war id = "MOD" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MOD } value = 100 }
+}
+
+# MOJ, Mojave Chapter: borders the NCR's side
+mltd_ai_conquer_moj = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MOJ
+		MOJ = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MOJ }
+		OR = {
+			has_war_with = MOJ
+			MOJ = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MOJ" value = 150 }
+	ai_strategy = { type = antagonize id = "MOJ" value = 75 }
+	ai_strategy = { type = consider_weak id = "MOJ" value = 200 }
+	ai_strategy = { type = declare_war id = "MOJ" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MOJ } value = 100 }
+}
+
+# MOS, The Divide: borders the NCR's side
+mltd_ai_conquer_mos = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MOS
+		MOS = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MOS }
+		OR = {
+			has_war_with = MOS
+			MOS = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MOS" value = 150 }
+	ai_strategy = { type = antagonize id = "MOS" value = 75 }
+	ai_strategy = { type = consider_weak id = "MOS" value = 200 }
+	ai_strategy = { type = declare_war id = "MOS" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MOS } value = 100 }
+}
+
+# PAC, Packers: can join the NCR's side
+mltd_ai_conquer_pac = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = PAC
+		PAC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = PAC }
+		OR = {
+			has_war_with = PAC
+			PAC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "PAC" value = 150 }
+	ai_strategy = { type = antagonize id = "PAC" value = 75 }
+	ai_strategy = { type = consider_weak id = "PAC" value = 200 }
+	ai_strategy = { type = declare_war id = "PAC" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = PAC } value = 100 }
+}
+
+# PAL, Elko Posse: can join the NCR's side
+mltd_ai_conquer_pal = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = PAL
+		PAL = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = PAL }
+		OR = {
+			has_war_with = PAL
+			PAL = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "PAL" value = 150 }
+	ai_strategy = { type = antagonize id = "PAL" value = 75 }
+	ai_strategy = { type = consider_weak id = "PAL" value = 200 }
+	ai_strategy = { type = declare_war id = "PAL" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = PAL } value = 100 }
+}
+
+# RAP, The Rapids: borders the NCR's side
+mltd_ai_conquer_rap = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = RAP
+		RAP = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = RAP }
+		OR = {
+			has_war_with = RAP
+			RAP = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "RAP" value = 150 }
+	ai_strategy = { type = antagonize id = "RAP" value = 75 }
+	ai_strategy = { type = consider_weak id = "RAP" value = 200 }
+	ai_strategy = { type = declare_war id = "RAP" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = RAP } value = 100 }
+}
+
+# RIP, Riperult Territory: borders the NCR's side
+mltd_ai_conquer_rip = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = RIP
+		RIP = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = RIP }
+		OR = {
+			has_war_with = RIP
+			RIP = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "RIP" value = 150 }
+	ai_strategy = { type = antagonize id = "RIP" value = 75 }
+	ai_strategy = { type = consider_weak id = "RIP" value = 200 }
+	ai_strategy = { type = declare_war id = "RIP" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = RIP } value = 100 }
+}
+
+# ROT, Rotpurgers: borders the north
+mltd_ai_conquer_rot = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ROT
+		ROT = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = ROT }
+		OR = {
+			has_war_with = ROT
+			ROT = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "ROT" value = 150 }
+	ai_strategy = { type = antagonize id = "ROT" value = 75 }
+	ai_strategy = { type = consider_weak id = "ROT" value = 200 }
+	ai_strategy = { type = declare_war id = "ROT" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ROT } value = 100 }
+}
+
+# RUB, Ruby Valley Refuge: borders the NCR's side
+mltd_ai_conquer_rub = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = RUB
+		RUB = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = RUB }
+		OR = {
+			has_war_with = RUB
+			RUB = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "RUB" value = 150 }
+	ai_strategy = { type = antagonize id = "RUB" value = 75 }
+	ai_strategy = { type = consider_weak id = "RUB" value = 200 }
+	ai_strategy = { type = declare_war id = "RUB" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = RUB } value = 100 }
+}
+
+# SHO, Shoshone Nation: borders the NCR's side
+mltd_ai_conquer_sho = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SHO
+		SHO = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SHO }
+		OR = {
+			has_war_with = SHO
+			SHO = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SHO" value = 150 }
+	ai_strategy = { type = antagonize id = "SHO" value = 75 }
+	ai_strategy = { type = consider_weak id = "SHO" value = 200 }
+	ai_strategy = { type = declare_war id = "SHO" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SHO } value = 100 }
+}
+
+# SIE, Highland Watch: borders the NCR's side
+mltd_ai_conquer_sie = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SIE
+		SIE = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SIE }
+		OR = {
+			has_war_with = SIE
+			SIE = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SIE" value = 150 }
+	ai_strategy = { type = antagonize id = "SIE" value = 75 }
+	ai_strategy = { type = consider_weak id = "SIE" value = 200 }
+	ai_strategy = { type = declare_war id = "SIE" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SIE } value = 100 }
+}
+
+# SKY, Sky Reavers: borders the NCR's side
+mltd_ai_conquer_sky = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SKY
+		SKY = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SKY }
+		OR = {
+			has_war_with = SKY
+			SKY = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SKY" value = 150 }
+	ai_strategy = { type = antagonize id = "SKY" value = 75 }
+	ai_strategy = { type = consider_weak id = "SKY" value = 200 }
+	ai_strategy = { type = declare_war id = "SKY" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SKY } value = 100 }
+}
+
+# SLA, Slags: borders the north; can join the NCR's side
+mltd_ai_conquer_sla = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SLA
+		SLA = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SLA }
+		OR = {
+			has_war_with = SLA
+			SLA = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SLA" value = 150 }
+	ai_strategy = { type = antagonize id = "SLA" value = 75 }
+	ai_strategy = { type = consider_weak id = "SLA" value = 200 }
+	ai_strategy = { type = declare_war id = "SLA" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SLA } value = 100 }
+}
+
+# SLE, Sleepers: borders the NCR's side
+mltd_ai_conquer_sle = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SLE
+		SLE = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SLE }
+		OR = {
+			has_war_with = SLE
+			SLE = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SLE" value = 150 }
+	ai_strategy = { type = antagonize id = "SLE" value = 75 }
+	ai_strategy = { type = consider_weak id = "SLE" value = 200 }
+	ai_strategy = { type = declare_war id = "SLE" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SLE } value = 100 }
+}
+
+# SLN, S'lanter: can join the NCR's side
+mltd_ai_conquer_sln = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SLN
+		SLN = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SLN }
+		OR = {
+			has_war_with = SLN
+			SLN = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SLN" value = 150 }
+	ai_strategy = { type = antagonize id = "SLN" value = 75 }
+	ai_strategy = { type = consider_weak id = "SLN" value = 200 }
+	ai_strategy = { type = declare_war id = "SLN" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SLN } value = 100 }
+}
+
+# SOK, Sons: borders the NCR's side
+mltd_ai_conquer_sok = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SOK
+		SOK = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SOK }
+		OR = {
+			has_war_with = SOK
+			SOK = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SOK" value = 150 }
+	ai_strategy = { type = antagonize id = "SOK" value = 75 }
+	ai_strategy = { type = consider_weak id = "SOK" value = 200 }
+	ai_strategy = { type = declare_war id = "SOK" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SOK } value = 100 }
+}
+
+# SUF, Summers Federation: can join the NCR's side
+mltd_ai_conquer_suf = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SUF
+		SUF = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SUF }
+		OR = {
+			has_war_with = SUF
+			SUF = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SUF" value = 150 }
+	ai_strategy = { type = antagonize id = "SUF" value = 75 }
+	ai_strategy = { type = consider_weak id = "SUF" value = 200 }
+	ai_strategy = { type = declare_war id = "SUF" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SUF } value = 100 }
+}
+
+# SUN, Sun Dogs: borders the NCR's side
+mltd_ai_conquer_sun = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SUN
+		SUN = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SUN }
+		OR = {
+			has_war_with = SUN
+			SUN = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SUN" value = 150 }
+	ai_strategy = { type = antagonize id = "SUN" value = 75 }
+	ai_strategy = { type = consider_weak id = "SUN" value = 200 }
+	ai_strategy = { type = declare_war id = "SUN" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SUN } value = 100 }
+}
+
+# SYN, Syilx Nation: borders the north
+mltd_ai_conquer_syn = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SYN
+		SYN = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SYN }
+		OR = {
+			has_war_with = SYN
+			SYN = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SYN" value = 150 }
+	ai_strategy = { type = antagonize id = "SYN" value = 75 }
+	ai_strategy = { type = consider_weak id = "SYN" value = 200 }
+	ai_strategy = { type = declare_war id = "SYN" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SYN } value = 100 }
+}
+
+# TOB, The Old Bones: borders the NCR's side
+mltd_ai_conquer_tob = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TOB
+		TOB = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TOB }
+		OR = {
+			has_war_with = TOB
+			TOB = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TOB" value = 150 }
+	ai_strategy = { type = antagonize id = "TOB" value = 75 }
+	ai_strategy = { type = consider_weak id = "TOB" value = 200 }
+	ai_strategy = { type = declare_war id = "TOB" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TOB } value = 100 }
+}
+
+# TOF, 215th: borders the NCR's side
+mltd_ai_conquer_tof = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TOF
+		TOF = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TOF }
+		OR = {
+			has_war_with = TOF
+			TOF = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TOF" value = 150 }
+	ai_strategy = { type = antagonize id = "TOF" value = 75 }
+	ai_strategy = { type = consider_weak id = "TOF" value = 200 }
+	ai_strategy = { type = declare_war id = "TOF" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TOF } value = 100 }
+}
+
+# TON, Tohono Nation: borders the NCR's side
+mltd_ai_conquer_ton = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TON
+		TON = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TON }
+		OR = {
+			has_war_with = TON
+			TON = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TON" value = 150 }
+	ai_strategy = { type = antagonize id = "TON" value = 75 }
+	ai_strategy = { type = consider_weak id = "TON" value = 200 }
+	ai_strategy = { type = declare_war id = "TON" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TON } value = 100 }
+}
+
+# TWO, Two Sun: borders the NCR's side
+mltd_ai_conquer_two = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TWO
+		TWO = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TWO }
+		OR = {
+			has_war_with = TWO
+			TWO = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TWO" value = 150 }
+	ai_strategy = { type = antagonize id = "TWO" value = 75 }
+	ai_strategy = { type = consider_weak id = "TWO" value = 200 }
+	ai_strategy = { type = declare_war id = "TWO" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TWO } value = 100 }
+}
+
+# UIN, Uintah: borders the NCR's side
+mltd_ai_conquer_uin = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = UIN
+		UIN = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = UIN }
+		OR = {
+			has_war_with = UIN
+			UIN = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "UIN" value = 150 }
+	ai_strategy = { type = antagonize id = "UIN" value = 75 }
+	ai_strategy = { type = consider_weak id = "UIN" value = 200 }
+	ai_strategy = { type = declare_war id = "UIN" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = UIN } value = 100 }
+}
+
+# UMB, Umbra: can join the NCR's side
+mltd_ai_conquer_umb = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = UMB
+		UMB = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = UMB }
+		OR = {
+			has_war_with = UMB
+			UMB = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "UMB" value = 150 }
+	ai_strategy = { type = antagonize id = "UMB" value = 75 }
+	ai_strategy = { type = consider_weak id = "UMB" value = 200 }
+	ai_strategy = { type = declare_war id = "UMB" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = UMB } value = 100 }
+}
+
+# VIP, Vipers: borders the NCR's side
+mltd_ai_conquer_vip = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = VIP
+		VIP = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = VIP }
+		OR = {
+			has_war_with = VIP
+			VIP = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "VIP" value = 150 }
+	ai_strategy = { type = antagonize id = "VIP" value = 75 }
+	ai_strategy = { type = consider_weak id = "VIP" value = 200 }
+	ai_strategy = { type = declare_war id = "VIP" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = VIP } value = 100 }
+}
+
+# VLT, Vault City: can join the NCR's side
+mltd_ai_conquer_vlt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = VLT
+		VLT = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = VLT }
+		OR = {
+			has_war_with = VLT
+			VLT = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "VLT" value = 150 }
+	ai_strategy = { type = antagonize id = "VLT" value = 75 }
+	ai_strategy = { type = consider_weak id = "VLT" value = 200 }
+	ai_strategy = { type = declare_war id = "VLT" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = VLT } value = 100 }
+}
+
+# WHD, Withered Dogs: borders the NCR's side
+mltd_ai_conquer_whd = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = WHD
+		WHD = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = WHD }
+		OR = {
+			has_war_with = WHD
+			WHD = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "WHD" value = 150 }
+	ai_strategy = { type = antagonize id = "WHD" value = 75 }
+	ai_strategy = { type = consider_weak id = "WHD" value = 200 }
+	ai_strategy = { type = declare_war id = "WHD" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WHD } value = 100 }
+}
+
+# WHI, Whistler: borders the north
+mltd_ai_conquer_whi = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = WHI
+		WHI = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = WHI }
+		OR = {
+			has_war_with = WHI
+			WHI = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "WHI" value = 150 }
+	ai_strategy = { type = antagonize id = "WHI" value = 75 }
+	ai_strategy = { type = consider_weak id = "WHI" value = 200 }
+	ai_strategy = { type = declare_war id = "WHI" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WHI } value = 100 }
+}
+
+# WOO, Oscar Kilo: can join the NCR's side
+mltd_ai_conquer_woo = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = WOO
+		WOO = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = WOO }
+		OR = {
+			has_war_with = WOO
+			WOO = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "WOO" value = 150 }
+	ai_strategy = { type = antagonize id = "WOO" value = 75 }
+	ai_strategy = { type = consider_weak id = "WOO" value = 200 }
+	ai_strategy = { type = declare_war id = "WOO" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WOO } value = 100 }
+}
+
+# YKZ, Yakuza: borders the NCR's side
+mltd_ai_conquer_ykz = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = YKZ
+		YKZ = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = YKZ }
+		OR = {
+			has_war_with = YKZ
+			YKZ = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "YKZ" value = 150 }
+	ai_strategy = { type = antagonize id = "YKZ" value = 75 }
+	ai_strategy = { type = consider_weak id = "YKZ" value = 200 }
+	ai_strategy = { type = declare_war id = "YKZ" value = 250 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = YKZ } value = 100 }
+}
+
+# ---- F2. Military access -----------------------------------------------------------------------------------------------
+mltd_ai_access_ano = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = ANO
+		NOT = { has_military_access_to = ANO }
+		ANO = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "ANO" target = military_access value = 300 }
+}
+
+mltd_ai_access_arm = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = ARM
+		NOT = { has_military_access_to = ARM }
+		ARM = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "ARM" target = military_access value = 300 }
+}
+
+mltd_ai_access_arr = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = ARR
+		NOT = { has_military_access_to = ARR }
+		ARR = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "ARR" target = military_access value = 300 }
+}
+
+mltd_ai_access_asf = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = ASF
+		NOT = { has_military_access_to = ASF }
+		ASF = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "ASF" target = military_access value = 300 }
+}
+
+mltd_ai_access_ate = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = ATE
+		NOT = { has_military_access_to = ATE }
+		ATE = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "ATE" target = military_access value = 300 }
+}
+
+mltd_ai_access_bag = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = BAG
+		NOT = { has_military_access_to = BAG }
+		BAG = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "BAG" target = military_access value = 300 }
+}
+
+mltd_ai_access_bdt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = BDT
+		NOT = { has_military_access_to = BDT }
+		BDT = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "BDT" target = military_access value = 300 }
+}
+
+mltd_ai_access_bel = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = BEL
+		NOT = { has_military_access_to = BEL }
+		BEL = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "BEL" target = military_access value = 300 }
+}
+
+mltd_ai_access_bjs = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = BJS
+		NOT = { has_military_access_to = BJS }
+		BJS = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "BJS" target = military_access value = 300 }
+}
+
+mltd_ai_access_blc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = BLC
+		NOT = { has_military_access_to = BLC }
+		BLC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "BLC" target = military_access value = 300 }
+}
+
+mltd_ai_access_bos = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = BOS
+		NOT = { has_military_access_to = BOS }
+		BOS = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "BOS" target = military_access value = 300 }
+}
+
+mltd_ai_access_brk = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = BRK
+		NOT = { has_military_access_to = BRK }
+		BRK = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "BRK" target = military_access value = 300 }
+}
+
+mltd_ai_access_bvc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = BVC
+		NOT = { has_military_access_to = BVC }
+		BVC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "BVC" target = military_access value = 300 }
+}
+
+mltd_ai_access_ces = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = CES
+		NOT = { has_military_access_to = CES }
+		CES = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "CES" target = military_access value = 300 }
+}
+
+mltd_ai_access_che = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = CHE
+		NOT = { has_military_access_to = CHE }
+		CHE = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "CHE" target = military_access value = 300 }
+}
+
+mltd_ai_access_clj = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = CLJ
+		NOT = { has_military_access_to = CLJ }
+		CLJ = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "CLJ" target = military_access value = 300 }
+}
+
+mltd_ai_access_cow = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = COW
+		NOT = { has_military_access_to = COW }
+		COW = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "COW" target = military_access value = 300 }
+}
+
+mltd_ai_access_crz = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = CRZ
+		NOT = { has_military_access_to = CRZ }
+		CRZ = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "CRZ" target = military_access value = 300 }
+}
+
+mltd_ai_access_cwb = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = CWB
+		NOT = { has_military_access_to = CWB }
+		CWB = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "CWB" target = military_access value = 300 }
+}
+
+mltd_ai_access_cyc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = CYC
+		NOT = { has_military_access_to = CYC }
+		CYC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "CYC" target = military_access value = 300 }
+}
+
+mltd_ai_access_des = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = DES
+		NOT = { has_military_access_to = DES }
+		DES = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "DES" target = military_access value = 300 }
+}
+
+mltd_ai_access_dre = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = DRE
+		NOT = { has_military_access_to = DRE }
+		DRE = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "DRE" target = military_access value = 300 }
+}
+
+mltd_ai_access_eag = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = EAG
+		NOT = { has_military_access_to = EAG }
+		EAG = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "EAG" target = military_access value = 300 }
+}
+
+mltd_ai_access_eas = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = EAS
+		NOT = { has_military_access_to = EAS }
+		EAS = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "EAS" target = military_access value = 300 }
+}
+
+mltd_ai_access_eht = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = EHT
+		NOT = { has_military_access_to = EHT }
+		EHT = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "EHT" target = military_access value = 300 }
+}
+
+mltd_ai_access_eur = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = EUR
+		NOT = { has_military_access_to = EUR }
+		EUR = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "EUR" target = military_access value = 300 }
+}
+
+mltd_ai_access_exe = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = EXE
+		NOT = { has_military_access_to = EXE }
+		EXE = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "EXE" target = military_access value = 300 }
+}
+
+mltd_ai_access_ffi = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = FFI
+		NOT = { has_military_access_to = FFI }
+		FFI = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "FFI" target = military_access value = 300 }
+}
+
+mltd_ai_access_fou = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = FOU
+		NOT = { has_military_access_to = FOU }
+		FOU = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "FOU" target = military_access value = 300 }
+}
+
+mltd_ai_access_gdh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = GDH
+		NOT = { has_military_access_to = GDH }
+		GDH = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "GDH" target = military_access value = 300 }
+}
+
+mltd_ai_access_glw = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = GLW
+		NOT = { has_military_access_to = GLW }
+		GLW = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "GLW" target = military_access value = 300 }
+}
+
+mltd_ai_access_han = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = HAN
+		NOT = { has_military_access_to = HAN }
+		HAN = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "HAN" target = military_access value = 300 }
+}
+
+mltd_ai_access_hea = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = HEA
+		NOT = { has_military_access_to = HEA }
+		HEA = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "HEA" target = military_access value = 300 }
+}
+
+mltd_ai_access_hgh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = HGH
+		NOT = { has_military_access_to = HGH }
+		HGH = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "HGH" target = military_access value = 300 }
+}
+
+mltd_ai_access_itz = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = ITZ
+		NOT = { has_military_access_to = ITZ }
+		ITZ = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "ITZ" target = military_access value = 300 }
+}
+
+mltd_ai_access_jac = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = JAC
+		NOT = { has_military_access_to = JAC }
+		JAC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "JAC" target = military_access value = 300 }
+}
+
+mltd_ai_access_kam = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = KAM
+		NOT = { has_military_access_to = KAM }
+		KAM = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "KAM" target = military_access value = 300 }
+}
+
+mltd_ai_access_kla = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = KLA
+		NOT = { has_military_access_to = KLA }
+		KLA = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "KLA" target = military_access value = 300 }
+}
+
+mltd_ai_access_lac = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = LAC
+		NOT = { has_military_access_to = LAC }
+		LAC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "LAC" target = military_access value = 300 }
+}
+
+mltd_ai_access_lgs = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = LGS
+		NOT = { has_military_access_to = LGS }
+		LGS = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "LGS" target = military_access value = 300 }
+}
+
+mltd_ai_access_lns = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = LNS
+		NOT = { has_military_access_to = LNS }
+		LNS = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "LNS" target = military_access value = 300 }
+}
+
+mltd_ai_access_lon = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = LON
+		NOT = { has_military_access_to = LON }
+		LON = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "LON" target = military_access value = 300 }
+}
+
+mltd_ai_access_lub = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = LUB
+		NOT = { has_military_access_to = LUB }
+		LUB = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "LUB" target = military_access value = 300 }
+}
+
+mltd_ai_access_lum = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = LUM
+		NOT = { has_military_access_to = LUM }
+		LUM = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "LUM" target = military_access value = 300 }
+}
+
+mltd_ai_access_max = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MAX
+		NOT = { has_military_access_to = MAX }
+		MAX = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MAX" target = military_access value = 300 }
+}
+
+mltd_ai_access_mca = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MCA
+		NOT = { has_military_access_to = MCA }
+		MCA = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MCA" target = military_access value = 300 }
+}
+
+mltd_ai_access_mdm = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MDM
+		NOT = { has_military_access_to = MDM }
+		MDM = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MDM" target = military_access value = 300 }
+}
+
+mltd_ai_access_moc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MOC
+		NOT = { has_military_access_to = MOC }
+		MOC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MOC" target = military_access value = 300 }
+}
+
+mltd_ai_access_mod = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MOD
+		NOT = { has_military_access_to = MOD }
+		MOD = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MOD" target = military_access value = 300 }
+}
+
+mltd_ai_access_moj = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MOJ
+		NOT = { has_military_access_to = MOJ }
+		MOJ = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MOJ" target = military_access value = 300 }
+}
+
+mltd_ai_access_mos = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MOS
+		NOT = { has_military_access_to = MOS }
+		MOS = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MOS" target = military_access value = 300 }
+}
+
+mltd_ai_access_mot = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MOT
+		NOT = { has_military_access_to = MOT }
+		MOT = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MOT" target = military_access value = 300 }
+}
+
+mltd_ai_access_mtc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MTC
+		NOT = { has_military_access_to = MTC }
+		MTC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MTC" target = military_access value = 300 }
+}
+
+mltd_ai_access_mxc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MXC
+		NOT = { has_military_access_to = MXC }
+		MXC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MXC" target = military_access value = 300 }
+}
+
+mltd_ai_access_mxs = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = MXS
+		NOT = { has_military_access_to = MXS }
+		MXS = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "MXS" target = military_access value = 300 }
+}
+
+mltd_ai_access_nat = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = NAT
+		NOT = { has_military_access_to = NAT }
+		NAT = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "NAT" target = military_access value = 300 }
+}
+
+mltd_ai_access_ncn = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = NCN
+		NOT = { has_military_access_to = NCN }
+		NCN = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "NCN" target = military_access value = 300 }
+}
+
+mltd_ai_access_ncr = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = NCR
+		NOT = { has_military_access_to = NCR }
+		NCR = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "NCR" target = military_access value = 300 }
+}
+
+mltd_ai_access_new = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = NEW
+		NOT = { has_military_access_to = NEW }
+		NEW = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "NEW" target = military_access value = 300 }
+}
+
+mltd_ai_access_oly = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = OLY
+		NOT = { has_military_access_to = OLY }
+		OLY = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "OLY" target = military_access value = 300 }
+}
+
+mltd_ai_access_oro = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = ORO
+		NOT = { has_military_access_to = ORO }
+		ORO = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "ORO" target = military_access value = 300 }
+}
+
+mltd_ai_access_pac = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = PAC
+		NOT = { has_military_access_to = PAC }
+		PAC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "PAC" target = military_access value = 300 }
+}
+
+mltd_ai_access_pal = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = PAL
+		NOT = { has_military_access_to = PAL }
+		PAL = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "PAL" target = military_access value = 300 }
+}
+
+mltd_ai_access_pas = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = PAS
+		NOT = { has_military_access_to = PAS }
+		PAS = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "PAS" target = military_access value = 300 }
+}
+
+mltd_ai_access_pmr = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = PMR
+		NOT = { has_military_access_to = PMR }
+		PMR = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "PMR" target = military_access value = 300 }
+}
+
+mltd_ai_access_rap = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = RAP
+		NOT = { has_military_access_to = RAP }
+		RAP = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "RAP" target = military_access value = 300 }
+}
+
+mltd_ai_access_rip = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = RIP
+		NOT = { has_military_access_to = RIP }
+		RIP = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "RIP" target = military_access value = 300 }
+}
+
+mltd_ai_access_rot = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = ROT
+		NOT = { has_military_access_to = ROT }
+		ROT = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "ROT" target = military_access value = 300 }
+}
+
+mltd_ai_access_rrg = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = RRG
+		NOT = { has_military_access_to = RRG }
+		RRG = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "RRG" target = military_access value = 300 }
+}
+
+mltd_ai_access_rub = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = RUB
+		NOT = { has_military_access_to = RUB }
+		RUB = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "RUB" target = military_access value = 300 }
+}
+
+mltd_ai_access_sha = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SHA
+		NOT = { has_military_access_to = SHA }
+		SHA = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SHA" target = military_access value = 300 }
+}
+
+mltd_ai_access_shi = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SHI
+		NOT = { has_military_access_to = SHI }
+		SHI = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SHI" target = military_access value = 300 }
+}
+
+mltd_ai_access_sho = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SHO
+		NOT = { has_military_access_to = SHO }
+		SHO = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SHO" target = military_access value = 300 }
+}
+
+mltd_ai_access_sie = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SIE
+		NOT = { has_military_access_to = SIE }
+		SIE = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SIE" target = military_access value = 300 }
+}
+
+mltd_ai_access_sky = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SKY
+		NOT = { has_military_access_to = SKY }
+		SKY = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SKY" target = military_access value = 300 }
+}
+
+mltd_ai_access_sla = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SLA
+		NOT = { has_military_access_to = SLA }
+		SLA = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SLA" target = military_access value = 300 }
+}
+
+mltd_ai_access_sle = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SLE
+		NOT = { has_military_access_to = SLE }
+		SLE = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SLE" target = military_access value = 300 }
+}
+
+mltd_ai_access_sln = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SLN
+		NOT = { has_military_access_to = SLN }
+		SLN = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SLN" target = military_access value = 300 }
+}
+
+mltd_ai_access_sok = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SOK
+		NOT = { has_military_access_to = SOK }
+		SOK = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SOK" target = military_access value = 300 }
+}
+
+mltd_ai_access_sta = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = STA
+		NOT = { has_military_access_to = STA }
+		STA = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "STA" target = military_access value = 300 }
+}
+
+mltd_ai_access_stc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = STC
+		NOT = { has_military_access_to = STC }
+		STC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "STC" target = military_access value = 300 }
+}
+
+mltd_ai_access_suf = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SUF
+		NOT = { has_military_access_to = SUF }
+		SUF = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SUF" target = military_access value = 300 }
+}
+
+mltd_ai_access_sun = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SUN
+		NOT = { has_military_access_to = SUN }
+		SUN = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SUN" target = military_access value = 300 }
+}
+
+mltd_ai_access_syn = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = SYN
+		NOT = { has_military_access_to = SYN }
+		SYN = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "SYN" target = military_access value = 300 }
+}
+
+mltd_ai_access_taa = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TAA
+		NOT = { has_military_access_to = TAA }
+		TAA = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TAA" target = military_access value = 300 }
+}
+
+mltd_ai_access_tar = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TAR
+		NOT = { has_military_access_to = TAR }
+		TAR = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TAR" target = military_access value = 300 }
+}
+
+mltd_ai_access_tbh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TBH
+		NOT = { has_military_access_to = TBH }
+		TBH = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TBH" target = military_access value = 300 }
+}
+
+mltd_ai_access_tca = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TCA
+		NOT = { has_military_access_to = TCA }
+		TCA = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TCA" target = military_access value = 300 }
+}
+
+mltd_ai_access_tdn = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TDN
+		NOT = { has_military_access_to = TDN }
+		TDN = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TDN" target = military_access value = 300 }
+}
+
+mltd_ai_access_tim = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TIM
+		NOT = { has_military_access_to = TIM }
+		TIM = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TIM" target = military_access value = 300 }
+}
+
+mltd_ai_access_tla = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TLA
+		NOT = { has_military_access_to = TLA }
+		TLA = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TLA" target = military_access value = 300 }
+}
+
+mltd_ai_access_tob = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TOB
+		NOT = { has_military_access_to = TOB }
+		TOB = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TOB" target = military_access value = 300 }
+}
+
+mltd_ai_access_toc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TOC
+		NOT = { has_military_access_to = TOC }
+		TOC = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TOC" target = military_access value = 300 }
+}
+
+mltd_ai_access_tof = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TOF
+		NOT = { has_military_access_to = TOF }
+		TOF = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TOF" target = military_access value = 300 }
+}
+
+mltd_ai_access_ton = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TON
+		NOT = { has_military_access_to = TON }
+		TON = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TON" target = military_access value = 300 }
+}
+
+mltd_ai_access_two = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = TWO
+		NOT = { has_military_access_to = TWO }
+		TWO = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "TWO" target = military_access value = 300 }
+}
+
+mltd_ai_access_uin = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = UIN
+		NOT = { has_military_access_to = UIN }
+		UIN = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "UIN" target = military_access value = 300 }
+}
+
+mltd_ai_access_umb = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = UMB
+		NOT = { has_military_access_to = UMB }
+		UMB = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "UMB" target = military_access value = 300 }
+}
+
+mltd_ai_access_veg = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = VEG
+		NOT = { has_military_access_to = VEG }
+		VEG = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "VEG" target = military_access value = 300 }
+}
+
+mltd_ai_access_vip = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = VIP
+		NOT = { has_military_access_to = VIP }
+		VIP = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "VIP" target = military_access value = 300 }
+}
+
+mltd_ai_access_vlt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = VLT
+		NOT = { has_military_access_to = VLT }
+		VLT = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "VLT" target = military_access value = 300 }
+}
+
+mltd_ai_access_wbh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = WBH
+		NOT = { has_military_access_to = WBH }
+		WBH = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "WBH" target = military_access value = 300 }
+}
+
+mltd_ai_access_whd = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = WHD
+		NOT = { has_military_access_to = WHD }
+		WHD = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "WHD" target = military_access value = 300 }
+}
+
+mltd_ai_access_whi = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = WHI
+		NOT = { has_military_access_to = WHI }
+		WHI = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "WHI" target = military_access value = 300 }
+}
+
+mltd_ai_access_wht = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = WHT
+		NOT = { has_military_access_to = WHT }
+		WHT = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "WHT" target = military_access value = 300 }
+}
+
+mltd_ai_access_woo = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = WOO
+		NOT = { has_military_access_to = WOO }
+		WOO = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "WOO" target = military_access value = 300 }
+}
+
+mltd_ai_access_wpg = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = WPG
+		NOT = { has_military_access_to = WPG }
+		WPG = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "WPG" target = military_access value = 300 }
+}
+
+mltd_ai_access_yak = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = YAK
+		NOT = { has_military_access_to = YAK }
+		YAK = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "YAK" target = military_access value = 300 }
+}
+
+mltd_ai_access_ykz = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = YKZ
+		NOT = { has_military_access_to = YKZ }
+		YKZ = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "YKZ" target = military_access value = 300 }
+}
+
+mltd_ai_access_zap = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_ai_pocket
+		country_exists = ZAP
+		NOT = { has_military_access_to = ZAP }
+		ZAP = { mltd_ai_cuts_off_an_enemy = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = diplo_action_desire id = "ZAP" target = military_access value = 300 }
+}

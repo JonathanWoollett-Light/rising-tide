@@ -56,8 +56,11 @@ on_actions = {
 	}
 
 	# Every week: every cult of M'lyeh abroad loses its decay (faster the stronger it is, three times as
-	# fast while at war with us), counts its cooldowns down and dissolves below 1 % (mltd_cult_weekly); then the
-	# category's list of cults is rebuilt (mltd_cult_rebuild_list).
+	# fast while at war with us, half as fast where a conflict sub-tree shelters it) and dissolves below 1 %
+	# (mltd_cult_weekly); then the
+	# category's list of cults is rebuilt (mltd_cult_rebuild_list). An AI Mirelurk Tribe then surveys the map for its
+	# strategy (mltd_ai_survey), re-picks the target of its cult operations and may buy a lot from The Wet Market (the three
+	# blocks at the end).
 	on_weekly_MLT = {
 		effect = {
 			every_country = {
@@ -65,6 +68,122 @@ on_actions = {
 				mltd_cult_weekly = yes
 			}
 			mltd_cult_rebuild_list = yes
+
+			# AI only: borders, the army's size, the north and pockets, read by common/ai_strategy
+			# (common/scripted_effects/mltd_ai_survey_effects.txt).
+			if = {
+				limit = { is_ai = yes }
+				mltd_ai_survey = yes
+			}
+
+			# AI only: the target of the cult operations, read by their strategies' enable (common/ai_strategy). The same
+			# weekly pick as OWB's update_operation_ai (scripted_effects/operation_strat_effects.txt:5-24): drop a target that
+			# is gone, capitulated or allied, then re-score with mltd_ai_cult_target_scorer (common/scorers/country).
+			if = {
+				limit = {
+					is_ai = yes
+					has_dlc = "La Resistance"
+					has_intelligence_agency = yes
+					has_completed_focus = mltd_the_spreading_cult
+				}
+				if = {
+					limit = {
+						NOT = { check_variable = { mltd_ai_cult_target = 0 } }
+						var:mltd_ai_cult_target = {
+							OR = {
+								exists = no
+								has_capitulated = yes
+								is_ally_with = PREV
+							}
+						}
+					}
+					set_variable = { mltd_ai_cult_target = 0 }
+				}
+				# unverified: the vanilla documentation (effects_documentation.md:4483-4507) says this form stores a temp
+				# variable and the _temp form a variable; OWB reads its result from a strategy's enable, so it persists. Also
+				# unverified: that the variable is left as it was when no country scores above 0.
+				get_highest_scored_country = {
+					scorer = mltd_ai_cult_target_scorer
+					var = mltd_ai_cult_target
+				}
+			}
+
+			# AI only: The Wet Market's GUI is is_ai = no, so an AI Mirelurk Tribe buys here, exactly as the buy button does
+			# (common/scripted_guis/mltd_wet_market_gui.txt, whose prices these repeat). One lot of the best variant it has
+			# the tech for, while its stockpile holds under a lot, with over 300 caps in hand and 150 left after paying. OWB's
+			# own AI floor (organization_scripted_effects.txt:654-655) also asks for positive caps income, which a large army's
+			# upkeep turns negative (caps_scripted_effects.txt:425-537) and the offerings' caps never count towards; the 150
+			# left keeps the balance clear of OWB's bankruptcy test. The shared 40-day flag paces it.
+			if = {
+				limit = {
+					is_ai = yes
+					has_global_flag = mltd_wet_market_open
+					NOT = { has_country_flag = caps_market_prevented }
+					NOT = { has_country_flag = mltd_wet_market_recent_trade }
+					check_variable = { caps_number_display > 300 }
+					has_equipment = { amphibious_beast_equipment < 250 }
+				}
+				# the armour and king forms exclude each other (OWB tech_creatures.txt:840-842, :910-912)
+				if = {
+					limit = { has_tech = amphibious_beast_king_form }
+					set_temp_variable = { mltd_wm_price = 200 }
+					set_temp_variable = { mltd_wm_ai_variant = 4 }
+				}
+				else_if = {
+					limit = { has_tech = amphibious_beast_armor_form }
+					set_temp_variable = { mltd_wm_price = 200 }
+					set_temp_variable = { mltd_wm_ai_variant = 3 }
+				}
+				else_if = {
+					limit = { has_tech = amphibious_beast_intermediate_form }
+					set_temp_variable = { mltd_wm_price = 180 }
+					set_temp_variable = { mltd_wm_ai_variant = 2 }
+				}
+				else = {
+					set_temp_variable = { mltd_wm_price = 150 }
+					set_temp_variable = { mltd_wm_ai_variant = 1 }
+				}
+				set_temp_variable = { mltd_wm_ai_caps_left = caps_number_display }
+				subtract_from_temp_variable = { mltd_wm_ai_caps_left = mltd_wm_price }
+				if = {
+					limit = {
+						check_variable = { var = mltd_wm_ai_caps_left value = 150 compare = greater_than_or_equals }
+						mltd_wet_market_can_buy = yes
+					}
+					mltd_wet_market_pay = yes
+					if = {
+						limit = { check_variable = { mltd_wm_ai_variant = 4 } }
+						add_equipment_to_stockpile = {
+							type = amphibious_beast_equipment_king
+							amount = 250
+							producer = MLT
+						}
+					}
+					else_if = {
+						limit = { check_variable = { mltd_wm_ai_variant = 3 } }
+						add_equipment_to_stockpile = {
+							type = amphibious_beast_equipment_armor
+							amount = 250
+							producer = MLT
+						}
+					}
+					else_if = {
+						limit = { check_variable = { mltd_wm_ai_variant = 2 } }
+						add_equipment_to_stockpile = {
+							type = amphibious_beast_equipment_2
+							amount = 250
+							producer = MLT
+						}
+					}
+					else = {
+						add_equipment_to_stockpile = {
+							type = amphibious_beast_equipment_1
+							amount = 250
+							producer = MLT
+						}
+					}
+				}
+			}
 		}
 	}
 

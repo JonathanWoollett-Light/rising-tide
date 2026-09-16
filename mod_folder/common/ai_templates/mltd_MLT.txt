@@ -1,0 +1,230 @@
+# Rising Tide - AI division templates for the Mirelurk Tribe (MLT)
+#
+# Five roles of our own, each available_for MLT only. How many divisions of each the AI wants is set by role_ratio in the
+# ai_strategy files. OWB's generic roles that also reach MLT (creatures / amphibious_beast, infantry, the garrisons) cannot
+# be blocked for it without overriding OWB's files; role_ratio decides between them and these.
+# Every target fits OWB's designer: 5 columns x 3 rows (01_defines.lua:445-447), one sub-unit group per column -
+# amphibious_beast_creature, mltd_deep_ones and mltd_star_spawn are mutant_group, infantry and militia are infantry.
+# No support companies: MLT starts with none unlocked, and the scripted Deep Ones / Star Spawn templates carry none.
+# Target templates are named apart from the role and sub-unit tokens (no precedent in vanilla or OWB shares one).
+# OWB replace_paths common/ai_templates, so this file only loads after OWB (dependencies in descriptor.mod).
+
+# Coral Host: the line division, 4 mirelurks + 5 infantry (20 wide, 4 columns). Late (mltd_ai_late_army: the king or armour
+# form, and the NCR beaten or 2285) the role turns into an all-mirelurk division, the Tide Wall's 8, and its divisions are
+# upgraded in the field as mirelurk stock allows (can_upgrade_in_field and replace_with, vanilla _documentation.md:81-117):
+# run 2 ended with 102 Coral Hosts and 75 Shell Levies beside 138 Tide Walls.
+mltd_coral_host_templates = {
+	available_for = { MLT }
+	role = mltd_coral_host
+
+	upgrade_prio = {
+		factor = 60
+		modifier = {
+			factor = 0
+			NOT = { has_tech = amphibious_beast_unlock_tech }
+		}
+	}
+
+	mltd_coral_host_target = {
+		reinforce_prio = 1
+		upgrade_prio = {
+			factor = 2
+			modifier = {
+				factor = 0
+				mltd_ai_late_army = yes
+			}
+		}
+		can_upgrade_in_field = {
+			mltd_ai_late_army = yes
+			has_equipment = { amphibious_beast_equipment > 1000 }
+		}
+		target_template = {
+			regiments = {
+				amphibious_beast_creature = 4
+				infantry = 5
+			}
+		}
+		replace_at_match = 1.5
+		replace_with = mltd_coral_host_late
+		target_min_match = 0.0
+	}
+
+	mltd_coral_host_late = {
+		reinforce_prio = 1
+		enable = { mltd_ai_late_army = yes }
+		upgrade_prio = {
+			factor = 1
+			modifier = {
+				factor = 5
+				mltd_ai_late_army = yes
+			}
+		}
+		target_template = {
+			regiments = {
+				amphibious_beast_creature = 8
+			}
+		}
+	}
+}
+
+# Shell Levy: garrison and filler for the egg ritual's manpower, 1 mirelurk + 11 militia (19 wide). 1 + 4 columns is
+# OWB's cap of 5, so no battalion can be added. No XP goes here until ritual_of_black_hollows_night has paid out. Late it
+# becomes an all-mirelurk division like the Coral Host.
+mltd_shell_levy_templates = {
+	available_for = { MLT }
+	role = mltd_shell_levy
+
+	upgrade_prio = {
+		factor = 30
+		modifier = {
+			factor = 0
+			NOT = { has_completed_focus = ritual_of_black_hollows_night }
+		}
+	}
+
+	mltd_shell_levy_target = {
+		reinforce_prio = 0
+		upgrade_prio = {
+			factor = 2
+			modifier = {
+				factor = 0
+				mltd_ai_late_army = yes
+			}
+		}
+		can_upgrade_in_field = {
+			mltd_ai_late_army = yes
+			has_equipment = { amphibious_beast_equipment > 1000 }
+		}
+		target_template = {
+			regiments = {
+				amphibious_beast_creature = 1
+				militia = 11
+			}
+		}
+		replace_at_match = 1.5
+		replace_with = mltd_shell_levy_late
+		target_min_match = 0.0
+	}
+
+	mltd_shell_levy_late = {
+		reinforce_prio = 1
+		enable = { mltd_ai_late_army = yes }
+		upgrade_prio = {
+			factor = 1
+			modifier = {
+				factor = 5
+				mltd_ai_late_army = yes
+			}
+		}
+		target_template = {
+			regiments = {
+				amphibious_beast_creature = 8
+			}
+		}
+	}
+}
+
+# Tide Wall: the heavy creature line. Until The Deep Ones Walk it targets M'lulu's Clutch as OWB's history builds it
+# (5 mirelurks). replace_at_match above 1.0 moves the chain on only when upgrade_prio does (vanilla generic.txt:67), and
+# the Walk decides that: the Clutch drops to 0 and the Tide Wall (8 mirelurks, 20 wide, 3 columns) rises to 5.
+mltd_tide_wall_templates = {
+	available_for = { MLT }
+	role = mltd_tide_wall
+
+	upgrade_prio = {
+		factor = 50
+		modifier = {
+			factor = 0
+			NOT = { has_tech = amphibious_beast_unlock_tech }
+		}
+	}
+
+	mltd_clutch = {
+		reinforce_prio = 2
+		upgrade_prio = {
+			factor = 2
+			modifier = {
+				factor = 0
+				has_completed_focus = mltd_the_deep_ones_walk
+			}
+		}
+		target_template = {
+			regiments = {
+				amphibious_beast_creature = 5
+			}
+		}
+		replace_at_match = 1.5
+		replace_with = mltd_tide_wall_target
+		target_min_match = 0.5
+	}
+
+	mltd_tide_wall_target = {
+		reinforce_prio = 2
+		upgrade_prio = {
+			factor = 1
+			modifier = {
+				factor = 5
+				has_completed_focus = mltd_the_deep_ones_walk
+			}
+		}
+		target_template = {
+			regiments = {
+				amphibious_beast_creature = 8
+			}
+		}
+	}
+}
+
+# Deep Ones and Star Spawn: exactly the templates mltd_ensure_*_template creates (8 battalions, no support), so the
+# summoned divisions' template is a 1.0 match and needs no XP. Both roles stay at 0 until the reward tech makes the
+# sub-unit trainable: warbike_unlock_tech (event mltd.8, from The Deep Ones Walk) and mltd_star_spawn_tech (The Final Ritual).
+# unverified: that the AI then trains the scripted template for the role rather than copying it.
+mltd_deep_ones_templates = {
+	available_for = { MLT }
+	role = mltd_deep_ones
+
+	upgrade_prio = {
+		factor = 40
+		modifier = {
+			factor = 0
+			NOT = { has_tech = warbike_unlock_tech }
+		}
+	}
+
+	mltd_deep_ones_target = {
+		reinforce_prio = 2
+		upgrade_prio = {
+			factor = 2
+		}
+		target_template = {
+			regiments = {
+				mltd_deep_ones = 8
+			}
+		}
+	}
+}
+
+mltd_star_spawn_templates = {
+	available_for = { MLT }
+	role = mltd_star_spawn
+
+	upgrade_prio = {
+		factor = 40
+		modifier = {
+			factor = 0
+			NOT = { has_tech = mltd_star_spawn_tech }
+		}
+	}
+
+	mltd_star_spawn_target = {
+		reinforce_prio = 2
+		upgrade_prio = {
+			factor = 2
+		}
+		target_template = {
+			regiments = {
+				mltd_star_spawn = 8
+			}
+		}
+	}
+}

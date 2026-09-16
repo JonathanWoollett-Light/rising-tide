@@ -1,4 +1,6 @@
 # Rising Tide - Gifts from the Deep (timed buffs) and Children of the Deep (summons)
+# AI weights: a gift only at war and with manpower to spare; a summon or an offering never while it could take the nation
+# under the population gate of a ritual that has not begun.
 mltd_gifts_from_the_deep_cat = {
 	mltd_gift_of_the_tide = {
 		icon = GFX_decision_generic_naval
@@ -20,7 +22,15 @@ mltd_gifts_from_the_deep_cat = {
 		cost = 25
 		fire_only_once = no
 		ai_will_do = {
-			factor = 1
+			factor = 20
+			modifier = {
+				factor = 0
+				has_war = no
+			}
+			modifier = {
+				factor = 0
+				has_manpower < 2000
+			}
 		}
 		complete_effect = {
 			add_manpower = -500
@@ -71,7 +81,15 @@ mltd_gifts_from_the_deep_cat = {
 		cost = 25
 		fire_only_once = no
 		ai_will_do = {
-			factor = 1
+			factor = 20
+			modifier = {
+				factor = 0
+				has_war = no
+			}
+			modifier = {
+				factor = 0
+				has_manpower < 2000
+			}
 		}
 		complete_effect = {
 			add_manpower = -500
@@ -122,7 +140,15 @@ mltd_gifts_from_the_deep_cat = {
 		cost = 25
 		fire_only_once = no
 		ai_will_do = {
-			factor = 1
+			factor = 20
+			modifier = {
+				factor = 0
+				has_war = no
+			}
+			modifier = {
+				factor = 0
+				has_manpower < 2000
+			}
 		}
 		complete_effect = {
 			add_manpower = -500
@@ -173,7 +199,15 @@ mltd_gifts_from_the_deep_cat = {
 		cost = 25
 		fire_only_once = no
 		ai_will_do = {
-			factor = 1
+			factor = 20
+			modifier = {
+				factor = 0
+				has_war = no
+			}
+			modifier = {
+				factor = 0
+				has_manpower < 2000
+			}
 		}
 		complete_effect = {
 			add_manpower = -500
@@ -224,7 +258,15 @@ mltd_gifts_from_the_deep_cat = {
 		cost = 25
 		fire_only_once = no
 		ai_will_do = {
-			factor = 1
+			factor = 20
+			modifier = {
+				factor = 0
+				has_war = no
+			}
+			modifier = {
+				factor = 0
+				has_manpower < 2000
+			}
 		}
 		complete_effect = {
 			add_manpower = -500
@@ -278,15 +320,17 @@ mltd_children_of_the_deep_cat = {
 		}
 		cost = 50
 		ai_will_do = {
-			factor = 1
+			factor = 50
 			modifier = {
 				factor = 0
 				check_variable = { mltd_controlled_population < 24000 }
 			}
+			# keeps the nation over the Grand Ritual's 100,000 gate until the ritual has begun
 			modifier = {
 				factor = 0
 				NOT = { has_completed_focus = mltd_the_grand_ritual }
-				check_variable = { mltd_national_population < 60000 }
+				NOT = { has_idea = mltd_the_grand_ritual }
+				check_variable = { mltd_national_population < 115000 }
 			}
 		}
 		complete_effect = {
@@ -324,15 +368,16 @@ mltd_children_of_the_deep_cat = {
 		}
 		cost = 75
 		ai_will_do = {
-			factor = 1
+			factor = 50
 			modifier = {
 				factor = 0
 				check_variable = { mltd_controlled_population < 48000 }
 			}
+			# keeps the nation over the Final Ritual's 200,000 gate until the ritual has begun (the decision hides once it ends)
 			modifier = {
 				factor = 0
-				NOT = { has_completed_focus = mltd_the_final_ritual }
-				check_variable = { mltd_national_population < 85000 }
+				NOT = { has_idea = mltd_the_final_ritual }
+				check_variable = { mltd_national_population < 225000 }
 			}
 		}
 		complete_effect = {
@@ -376,10 +421,34 @@ mltd_children_of_the_deep_cat = {
 		cost = 25
 		fire_only_once = no
 		ai_will_do = {
-			factor = 2
+			factor = 10
 			modifier = {
 				factor = 0
 				NOT = { any_owned_state = { is_controlled_by = ROOT state_population > 6000 } }
+			}
+			# keeps the nation over the next ritual's gate (100,000, then 200,000) until that ritual has begun
+			modifier = {
+				factor = 0
+				NOT = { has_completed_focus = mltd_the_grand_ritual }
+				NOT = { has_idea = mltd_the_grand_ritual }
+				check_variable = { mltd_national_population < 110000 }
+			}
+			modifier = {
+				factor = 0
+				has_completed_focus = mltd_the_grand_ritual
+				NOT = { has_completed_focus = mltd_the_final_ritual }
+				NOT = { has_idea = mltd_the_final_ritual }
+				check_variable = { mltd_national_population < 210000 }
+			}
+			# once the rituals are done the people matter more than the caps: only when the purse is nearly empty (run 2's
+			# AI made 39 offerings after the Final Ritual with hundreds of caps in hand)
+			modifier = {
+				factor = 0
+				has_completed_focus = mltd_the_final_ritual
+				OR = {
+					NOT = { has_variable = caps_number_display }
+					check_variable = { caps_number_display > 49 }
+				}
 			}
 		}
 		complete_effect = {
@@ -417,10 +486,30 @@ mltd_children_of_the_deep_cat = {
 		cost = 35
 		fire_only_once = no
 		ai_will_do = {
-			factor = 2
+			factor = 5
 			modifier = {
 				factor = 0
 				NOT = { any_owned_state = { is_controlled_by = ROOT state_population > 6000 } }
+			}
+			# as the Drowned Hoard: never under the next ritual's gate before that ritual has begun
+			modifier = {
+				factor = 0
+				NOT = { has_completed_focus = mltd_the_grand_ritual }
+				NOT = { has_idea = mltd_the_grand_ritual }
+				check_variable = { mltd_national_population < 110000 }
+			}
+			modifier = {
+				factor = 0
+				has_completed_focus = mltd_the_grand_ritual
+				NOT = { has_completed_focus = mltd_the_final_ritual }
+				NOT = { has_idea = mltd_the_final_ritual }
+				check_variable = { mltd_national_population < 210000 }
+			}
+			# after the Final Ritual, only a large nation spares the people for water
+			modifier = {
+				factor = 0
+				has_completed_focus = mltd_the_final_ritual
+				check_variable = { mltd_national_population < 300000 }
 			}
 		}
 		complete_effect = {
@@ -443,341 +532,98 @@ mltd_children_of_the_deep_cat = {
 	}
 }
 
-# Rising Tide - Cult Infiltration (targeted decisions: FROM is the target country).
-# A cult's strength lives on the country that holds it, as mltd_cult_strength (0-100, shown as a %).
-# The category and all five decisions open with the focus mltd_the_spreading_cult.
-# Founding needs a neighbouring major (mltd_cult_can_be_founded, common/scripted_triggers); the other
-# four need a living cult there, and three of them need La Resistance intelligence on the target.
-# Costs are paid in hidden_effect, as OWB's custom_cost decisions do (area51_decisions.txt): each literal
-# appears in custom_cost_trigger (PP and manpower as N-1, caps as caps_diff = -N), in complete_effect and in
-# the mltd_cult_cost_<id> loc text and its _blocked twin. With the caps rule off, add_caps charges caps as
-# 1.25 x political power (caps_scripted_effects.txt:89-92) and caps_cost_trigger always passes for a cost,
-# so the trigger's else gates on PP + 1.25 x caps (as N-1) instead.
-# Cooldowns are countdown variables on the target, in weeks, lowered by mltd_cult_weekly (on_weekly_MLT);
-# each literal appears in the set_variable and in mltd_cult_<id>_again_tt. Gains appear twice (the tooltip's
-# temp variable and the one inside FROM). Mechanics: common/scripted_effects/mltd_scripted_effects.txt.
+# Rising Tide - Cult Infiltration (round 17). A cult's strength lives on the country that holds it, as mltd_cult_strength
+# (0-100, shown as a %). The category opens with the focus mltd_the_spreading_cult, which also plants the first cults.
+# Cults are founded and grown by La Resistance operations (common/operations/mltd_operations.txt: mltd_op_found_a_cult,
+# mltd_op_nurture_the_cult). These two decisions are untargeted and draw on every cult at once through
+# mltd_cult_total_strength, the sum of every cult's strength in points, kept on MLT by mltd_cult_rebuild_list (daily).
+# Call for People pays 10 manpower per point, Call for Equipment 4 infantry equipment + 1 support equipment per point; each
+# costs 25 PP on a 90-day timed-flag cooldown (the house idiom, [?flag:days_left|0]). The rates appear in the temp-variable
+# lines below and in mltd_cult_call_*_tt; the cooldown in the flag and in mltd_cult_call_*_again_tt.
 mltd_cult_infiltration_cat = {
 
-	mltd_cult_found = {
+	mltd_cult_call_for_people = {
 		icon = GFX_decision_mltd_cult_hood
 		allowed = {
 			original_tag = MLT
 		}
-		target_array = neighbors
-		target_root_trigger = {
-			has_completed_focus = mltd_the_spreading_cult
-		}
-		target_trigger = {
-			FROM = {
-				mltd_cult_can_be_founded = yes
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_any_tt
+				check_variable = { mltd_cult_total_strength > 0 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_cult_call_people_cooldown_tt
+				NOT = { has_country_flag = mltd_cult_call_people_cooldown }
 			}
 		}
-		custom_cost_trigger = {
-			has_manpower > 999
-			if = {
-				limit = { has_global_flag = caps_enabled_global_flag }
-				has_political_power > 49
-				set_temp_variable = { caps_diff = -50 }
-				caps_cost_trigger = yes
-			}
-			else = {
-				has_political_power > 111.5	# 50 PP + 50 caps, which add_caps takes as 62.5 PP
-			}
-		}
-		custom_cost_text = mltd_cult_cost_found
+		cost = 25
 		fire_only_once = no
 		ai_will_do = {
-			factor = 1
+			factor = 5
 			modifier = {
 				factor = 0
-				has_political_power < 150
+				check_variable = { mltd_cult_total_strength < 50 }
+			}
+			# manpower is rarely what the tribe lacks: only when the pool runs low
+			modifier = {
+				factor = 0
+				has_manpower > 20000
 			}
 		}
 		complete_effect = {
-			set_temp_variable = { mltd_cult_gain = 10 }
-			custom_effect_tooltip = mltd_cult_found_tt
+			set_temp_variable = { mltd_cult_call_amount = mltd_cult_total_strength }
+			multiply_temp_variable = { mltd_cult_call_amount = 10 }
+			custom_effect_tooltip = mltd_cult_call_people_tt
+			custom_effect_tooltip = mltd_cult_call_people_again_tt
 			hidden_effect = {
-				add_political_power = -50
-				add_manpower = -1000
-				set_temp_variable = { caps_to_add = -50 }
-				add_caps = yes
-				FROM = {
-					set_temp_variable = { mltd_cult_gain = 10 }
-					mltd_cult_add_strength = yes
-				}
-				mltd_cult_rebuild_list = yes
+				add_manpower = mltd_cult_call_amount
+				set_country_flag = { flag = mltd_cult_call_people_cooldown value = 1 days = 90 }
 			}
 		}
 	}
 
-	mltd_cult_spread_the_word = {
-		icon = GFX_decision_enc_propaganda
+	mltd_cult_call_for_equipment = {
+		icon = GFX_decision_generic_army_support
 		allowed = {
 			original_tag = MLT
 		}
-		target_root_trigger = {
-			has_completed_focus = mltd_the_spreading_cult
-		}
-		target_trigger = {
-			FROM = {
-				has_variable = mltd_cult_strength
-			}
-		}
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = mltd_cult_spread_ready_tt
-				FROM = { check_variable = { mltd_cult_cd_spread < 1 } }
+				tooltip = mltd_cult_any_tt
+				check_variable = { mltd_cult_total_strength > 0 }
 			}
 			custom_trigger_tooltip = {
-				tooltip = mltd_cult_not_full_tt
-				FROM = { check_variable = { mltd_cult_strength < 100 } }
+				tooltip = mltd_cult_call_equipment_cooldown_tt
+				NOT = { has_country_flag = mltd_cult_call_equipment_cooldown }
 			}
 		}
-		custom_cost_trigger = {
-			has_manpower > 499
-			if = {
-				limit = { has_global_flag = caps_enabled_global_flag }
-				has_political_power > 19
-				set_temp_variable = { caps_diff = -20 }
-				caps_cost_trigger = yes
-			}
-			else = {
-				has_political_power > 44	# 20 PP + 20 caps, which add_caps takes as 25 PP
-			}
-		}
-		custom_cost_text = mltd_cult_cost_spread_the_word
+		cost = 25
 		fire_only_once = no
 		ai_will_do = {
-			factor = 1
+			factor = 20
 			modifier = {
 				factor = 0
-				has_political_power < 100
+				check_variable = { mltd_cult_total_strength < 50 }
 			}
 		}
 		complete_effect = {
-			set_temp_variable = { mltd_cult_gain = 6 }
-			custom_effect_tooltip = mltd_cult_grows_tt
-			custom_effect_tooltip = mltd_cult_spread_again_tt
+			# archetypes, so the stockpile gets MLT's best variant (OWB _MOT_decisions.txt:156-163 pays the same pair by variable)
+			set_temp_variable = { mltd_cult_call_infantry = mltd_cult_total_strength }
+			multiply_temp_variable = { mltd_cult_call_infantry = 4 }
+			set_temp_variable = { mltd_cult_call_support = mltd_cult_total_strength }
+			custom_effect_tooltip = mltd_cult_call_equipment_tt
+			custom_effect_tooltip = mltd_cult_call_equipment_again_tt
 			hidden_effect = {
-				add_political_power = -20
-				add_manpower = -500
-				set_temp_variable = { caps_to_add = -20 }
-				add_caps = yes
-				FROM = {
-					set_temp_variable = { mltd_cult_gain = 6 }
-					mltd_cult_add_strength = yes
-					set_variable = { mltd_cult_cd_spread = 4 }
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = mltd_cult_call_infantry
 				}
-				mltd_cult_rebuild_list = yes
-			}
-		}
-	}
-
-	mltd_cult_whispers_in_the_halls = {
-		icon = GFX_decision_eyeball
-		allowed = {
-			original_tag = MLT
-		}
-		visible = {
-			has_dlc = "La Resistance"
-		}
-		target_root_trigger = {
-			has_completed_focus = mltd_the_spreading_cult
-		}
-		target_trigger = {
-			FROM = {
-				has_variable = mltd_cult_strength
-			}
-		}
-		available = {
-			has_operation_token = { tag = FROM token = token_civilian }
-			custom_trigger_tooltip = {
-				tooltip = mltd_cult_halls_ready_tt
-				FROM = { check_variable = { mltd_cult_cd_halls < 1 } }
-			}
-			custom_trigger_tooltip = {
-				tooltip = mltd_cult_not_full_tt
-				FROM = { check_variable = { mltd_cult_strength < 100 } }
-			}
-		}
-		custom_cost_trigger = {
-			has_manpower > 499
-			if = {
-				limit = { has_global_flag = caps_enabled_global_flag }
-				has_political_power > 29
-				set_temp_variable = { caps_diff = -35 }
-				caps_cost_trigger = yes
-			}
-			else = {
-				has_political_power > 72.75	# 30 PP + 35 caps, which add_caps takes as 43.75 PP
-			}
-		}
-		custom_cost_text = mltd_cult_cost_whispers_in_the_halls
-		fire_only_once = no
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				has_political_power < 100
-			}
-		}
-		complete_effect = {
-			set_temp_variable = { mltd_cult_gain = 12 }
-			custom_effect_tooltip = mltd_cult_grows_tt
-			custom_effect_tooltip = mltd_cult_halls_again_tt
-			hidden_effect = {
-				add_political_power = -30
-				add_manpower = -500
-				set_temp_variable = { caps_to_add = -35 }
-				add_caps = yes
-				FROM = {
-					set_temp_variable = { mltd_cult_gain = 12 }
-					mltd_cult_add_strength = yes
-					set_variable = { mltd_cult_cd_halls = 6 }
+				add_equipment_to_stockpile = {
+					type = support_equipment
+					amount = mltd_cult_call_support
 				}
-				mltd_cult_rebuild_list = yes
-			}
-		}
-	}
-
-	mltd_cult_seed_the_barracks = {
-		icon = GFX_decision_gas_mask
-		allowed = {
-			original_tag = MLT
-		}
-		visible = {
-			has_dlc = "La Resistance"
-		}
-		target_root_trigger = {
-			has_completed_focus = mltd_the_spreading_cult
-		}
-		target_trigger = {
-			FROM = {
-				has_variable = mltd_cult_strength
-			}
-		}
-		available = {
-			has_operation_token = { tag = FROM token = token_army }
-			custom_trigger_tooltip = {
-				tooltip = mltd_cult_barracks_ready_tt
-				FROM = { check_variable = { mltd_cult_cd_barracks < 1 } }
-			}
-			custom_trigger_tooltip = {
-				tooltip = mltd_cult_not_full_tt
-				FROM = { check_variable = { mltd_cult_strength < 100 } }
-			}
-		}
-		custom_cost_trigger = {
-			has_manpower > 749
-			if = {
-				limit = { has_global_flag = caps_enabled_global_flag }
-				has_political_power > 29
-				set_temp_variable = { caps_diff = -35 }
-				caps_cost_trigger = yes
-			}
-			else = {
-				has_political_power > 72.75	# 30 PP + 35 caps, which add_caps takes as 43.75 PP
-			}
-		}
-		custom_cost_text = mltd_cult_cost_seed_the_barracks
-		fire_only_once = no
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				has_political_power < 100
-			}
-		}
-		complete_effect = {
-			set_temp_variable = { mltd_cult_gain = 12 }
-			custom_effect_tooltip = mltd_cult_grows_tt
-			custom_effect_tooltip = mltd_cult_barracks_again_tt
-			hidden_effect = {
-				add_political_power = -30
-				add_manpower = -750
-				set_temp_variable = { caps_to_add = -35 }
-				add_caps = yes
-				FROM = {
-					set_temp_variable = { mltd_cult_gain = 12 }
-					mltd_cult_add_strength = yes
-					set_variable = { mltd_cult_cd_barracks = 6 }
-				}
-				mltd_cult_rebuild_list = yes
-			}
-		}
-	}
-
-	mltd_cult_drown_the_doubters = {
-		icon = GFX_decision_nor_horror_eye
-		allowed = {
-			original_tag = MLT
-		}
-		visible = {
-			has_dlc = "La Resistance"
-		}
-		target_root_trigger = {
-			has_completed_focus = mltd_the_spreading_cult
-		}
-		target_trigger = {
-			FROM = {
-				has_variable = mltd_cult_strength
-			}
-		}
-		available = {
-			# the native line prints 0.3 as "More than 0%"; mltd_cult_coverage_30_tt copies it with the right figure
-			custom_trigger_tooltip = {
-				tooltip = mltd_cult_coverage_30_tt
-				network_national_coverage = { target = FROM value > 0.3 }
-			}
-			custom_trigger_tooltip = {
-				tooltip = mltd_cult_strength_30_tt
-				FROM = { check_variable = { mltd_cult_strength > 29 } }
-			}
-			custom_trigger_tooltip = {
-				tooltip = mltd_cult_drown_ready_tt
-				FROM = { check_variable = { mltd_cult_cd_drown < 1 } }
-			}
-			custom_trigger_tooltip = {
-				tooltip = mltd_cult_not_full_tt
-				FROM = { check_variable = { mltd_cult_strength < 100 } }
-			}
-		}
-		custom_cost_trigger = {
-			has_manpower > 1499
-			if = {
-				limit = { has_global_flag = caps_enabled_global_flag }
-				has_political_power > 49
-				set_temp_variable = { caps_diff = -75 }
-				caps_cost_trigger = yes
-			}
-			else = {
-				has_political_power > 142.75	# 50 PP + 75 caps, which add_caps takes as 93.75 PP
-			}
-		}
-		custom_cost_text = mltd_cult_cost_drown_the_doubters
-		fire_only_once = no
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				has_political_power < 100
-			}
-		}
-		complete_effect = {
-			set_temp_variable = { mltd_cult_gain = 20 }
-			custom_effect_tooltip = mltd_cult_grows_tt
-			custom_effect_tooltip = mltd_cult_drown_again_tt
-			hidden_effect = {
-				add_political_power = -50
-				add_manpower = -1500
-				set_temp_variable = { caps_to_add = -75 }
-				add_caps = yes
-				FROM = {
-					set_temp_variable = { mltd_cult_gain = 20 }
-					mltd_cult_add_strength = yes
-					set_variable = { mltd_cult_cd_drown = 12 }
-				}
-				mltd_cult_rebuild_list = yes
+				set_country_flag = { flag = mltd_cult_call_equipment_cooldown value = 1 days = 90 }
 			}
 		}
 	}

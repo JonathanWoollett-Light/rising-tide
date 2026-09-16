@@ -1,0 +1,2330 @@
+# Rising Tide - AI strategy for the Mirelurk Tribe (MLT)
+#
+# Every block is allowed only for original_tag = MLT (the Kingdom of M'lyeh is a cosmetic tag, so the tag stays MLT). OWB
+# replace_paths common/ai_strategy, so this file only exists when Rising Tide loads after OWB (the descriptor's dependencies).
+# Values of one type add up across every active block, OWB's generic ones included (vanilla _documentation.md:158-162, :202).
+#
+# The conquest order is CONQUEST_PLAN.txt's (repo root): CCW, TRL, RBT; DIS through its schism offer when it holds
+# DIS_mend_schism, else by force; MDT; the Kingdom; the Book states' owners (PMR, and ARR while it stands apart from the
+# NCR); the Oregon ring; Cascadia; the route to the NCR - the whole north first, whoever holds it by then; New Reno when it
+# stands between MLT and the NCR's Nevada allies; the NCR; then the Legion and the interior; then Texas, Mexico and the north.
+# Conquests no stage schedules - the north's land in other hands, and countries that cut MLT off from an enemy - are in
+# mltd_MLT_frontier.txt.
+#
+# A. always on: unit mix, research, political power, war discipline, army size, every front, Old Castro, Book networks
+# B. one conquest block per target, war-goal holds, the NCR's side   C. defence of The Warren   D. cult operations (La Resistance)
+
+# ---- A. Always on ----------------------------------------------------------------------------------------------------------
+
+# Unit mix. OWB gives MLT role_ratio infantry +50 -13, marines +15 and amphibious_beast +60 (default.txt:163-204,
+# creature_defaults.txt:13-28). A role's share is a base of 100 plus the values (vanilla _documentation.md:158-160), so
+# cancelling OWB's generic infantry and marines takes -137 and -115; build_army -999 also stops those two and OWB's motorised
+# and mechanised roles outright (OWB's own idiom, _caps_div_limiter.txt and default.txt:571-606) - run 2 ended with generic
+# Infantry, Motorized Infantry and Special Ops templates beside our roles. OWB's amphibious_beast keeps a share: its
+# divisions are mirelurks. Creature archetypes are type = infantry (cre_amphibious_eq.txt:6), so OWB's
+# equipment_production_factor infantry -15 also cut mirelurk production; +15 undoes it. unverified:
+# equipment_variant_production_factor on a modded archetype (OWB's only use is anti_air_equipment, default.txt:323-327).
+mltd_ai_unit_mix = {
+	allowed = { original_tag = MLT }
+	enable = { always = yes }
+	abort = { always = no }
+
+	ai_strategy = { type = role_ratio id = infantry value = -137 }
+	ai_strategy = { type = role_ratio id = marines value = -115 }
+	ai_strategy = { type = build_army id = infantry value = -999 }
+	ai_strategy = { type = build_army id = marines value = -999 }
+	ai_strategy = { type = build_army id = motorized value = -999 }
+	ai_strategy = { type = build_army id = mechanized value = -999 }
+	ai_strategy = { type = role_ratio id = amphibious_beast value = -30 }
+	ai_strategy = { type = role_ratio id = mltd_coral_host value = 60 }
+	ai_strategy = { type = equipment_production_factor id = infantry value = 15 }
+	ai_strategy = { type = equipment_variant_production_factor id = amphibious_beast_equipment value = 50 }
+}
+
+# Shell Levies once the egg ritual has paid out its manpower (nf_mlt.7).
+mltd_ai_unit_mix_levies = {
+	allowed = { original_tag = MLT }
+	enable = { has_completed_focus = ritual_of_black_hollows_night }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = role_ratio id = mltd_shell_levy value = 80 }
+}
+
+# The Deep Ones become trainable with The Deep Ones Walk (mltd.8 grants warbike_unlock_tech).
+mltd_ai_unit_mix_deep = {
+	allowed = { original_tag = MLT }
+	enable = { has_tech = warbike_unlock_tech }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = role_ratio id = mltd_tide_wall value = 40 }
+	ai_strategy = { type = role_ratio id = mltd_deep_ones value = 25 }
+	ai_strategy = { type = equipment_variant_production_factor id = mltd_deep_ones_equipment value = 30 }
+}
+
+# The Star Spawn become trainable with The Final Ritual. Few and expensive: a small share.
+mltd_ai_unit_mix_star = {
+	allowed = { original_tag = MLT }
+	enable = { has_tech = mltd_star_spawn_tech }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = role_ratio id = mltd_star_spawn value = 15 }
+	ai_strategy = { type = equipment_variant_production_factor id = mltd_star_spawn_equipment value = 10 }
+}
+
+# Research: the plan's picks. research_tech forces a tech "ASAP (if able)" and its value only needs to be positive (vanilla
+# _documentation.md:593-601; OWB COW.txt:160-174). The exclusive alternatives maketool_engineering_1 (XOR with scavtool),
+# generalized_industry_tech_1 (XOR with specialized) and amphibious_beast_armor_form (XOR with king_form) are left out.
+mltd_ai_research = {
+	allowed = { original_tag = MLT }
+	enable = { always = yes }
+	abort = { always = no }
+
+	ai_strategy = { type = research_tech id = scavtool_engineering_1 value = 100 }
+	ai_strategy = { type = research_tech id = specialized_industry_tech_1 value = 100 }
+	ai_strategy = { type = research_tech id = construction_industry_tech_1 value = 100 }
+	ai_strategy = { type = research_tech id = electronic_engineering value = 100 }
+	ai_strategy = { type = research_tech id = unit_training_tech_1 value = 100 }
+	ai_strategy = { type = research_tech id = outsider_warfare_doctrine value = 100 }
+	ai_strategy = { type = research_tech id = we_are_different_doctrine value = 100 }
+	ai_strategy = { type = research_tech id = we_are_special_doctrine value = 100 }
+}
+
+# The mirelurk line, each tech from about when the plan starts it (CONQUEST_PLAN.txt's research lines; start years 2277,
+# 2279, 2280, 2282, 2283). unverified: whether research_tech weighs the ahead-of-time penalty (NAI.RESEARCH_AHEAD_OF_TIME_FACTOR,
+# vanilla 00_defines.lua:2397, left alone by OWB); the dates keep each tech off the forced list until then.
+mltd_ai_research_mirelurk_1 = {
+	allowed = { original_tag = MLT }
+	enable = { date > 2276.4.1 }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = research_tech id = amphibious_beast_upgrade_tech_1 value = 100 }
+}
+
+mltd_ai_research_mirelurk_2 = {
+	allowed = { original_tag = MLT }
+	enable = { date > 2278.6.1 }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = research_tech id = amphibious_beast_intermediate_form value = 100 }
+}
+
+mltd_ai_research_mirelurk_3 = {
+	allowed = { original_tag = MLT }
+	enable = { date > 2279.6.1 }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = research_tech id = amphibious_beast_upgrade_tech_2 value = 100 }
+}
+
+mltd_ai_research_mirelurk_4 = {
+	allowed = { original_tag = MLT }
+	enable = { date > 2281.6.1 }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = research_tech id = amphibious_beast_king_form value = 100 }
+}
+
+mltd_ai_research_mirelurk_5 = {
+	allowed = { original_tag = MLT }
+	enable = { date > 2282.6.1 }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = research_tech id = amphibious_beast_upgrade_tech_4 value = 100 }
+}
+
+# The next construction tech from the Kingdom on, where the plan researches it.
+mltd_ai_research_kingdom = {
+	allowed = { original_tag = MLT }
+	enable = { has_completed_focus = mlt_kingdom_of_mlyeh }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = research_tech id = construction_industry_tech_2 value = 100 }
+}
+
+# The armour and king forms are XOR (OWB tech_creatures.txt:840-842, :910-912) and share every category, so no plan's research
+# block can choose between them: weight the techs themselves (+200 % / -90 %, vanilla _documentation.md:603-611; precedent
+# USA.txt:1387-1401). From The Final Ritual on, with the late-game plan's research weights.
+mltd_ai_research_king_form = {
+	allowed = { original_tag = MLT }
+	enable = { has_completed_focus = mltd_the_final_ritual }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = research_weight_factor id = amphibious_beast_king_form value = 200 }
+	ai_strategy = { type = research_weight_factor id = amphibious_beast_armor_form value = -90 }
+}
+
+# Political power for our decisions once the Kingdom opens them (gifts, summons, offerings, the cult calls): OWB's ARR.txt:1-24
+# idiom. OWB's default_ai_pp_priority already gives idea 100 and decision 20 (default.txt:206-234).
+mltd_ai_pp_decisions = {
+	allowed = { original_tag = MLT }
+	enable = { has_completed_focus = mlt_kingdom_of_mlyeh }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = pp_spend_amount id = decision value = 30 }
+	ai_strategy = { type = pp_spend_priority id = decision value = 30 }
+}
+
+# Stay on the plan: avoid_starting_wars is targetless and adds to every conquer weight (vanilla _documentation.md:197-209), so
+# every country outside the current stage reads -150 while each stage's targets (conquer 200-400) stay positive. Off from The
+# Final Ritual on, when the late stages open.
+mltd_ai_stay_on_plan = {
+	allowed = { original_tag = MLT }
+	enable = { NOT = { has_completed_focus = mltd_the_final_ritual } }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = avoid_starting_wars value = -150 }
+}
+
+# No new war while losing one (CES.txt:132 aborts its invasion at surrender_progress > 0.5).
+mltd_ai_no_new_wars_when_losing = {
+	allowed = { original_tag = MLT }
+	enable = { surrender_progress > 0.15 }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = avoid_starting_wars value = -500 }
+}
+
+# ---- A2. The army: cover the borders, then upgrade ------------------------------------------------------------------------
+# mltd_ai_survey (on_weekly_MLT) sets mltd_ai_army_target: two divisions a border state, three at war, at least 12, and
+# mltd_ai_army_cap a quarter above it. Below the target the AI wants more divisions; above the cap it wants fewer, trains no
+# more of its line roles and spends army experience on its templates instead (the upgrades). The Deep Ones and Star Spawn, capped by special_forces_min, keep training. unverified:
+# ai_wanted_divisions_factor's unit - read as a percentage change, as HUN.txt:788-791 (240) and CHI.txt:1133-1151 use it.
+mltd_ai_army_short = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_variable = mltd_ai_army_target
+		check_variable = { num_divisions < mltd_ai_army_target }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ai_wanted_divisions_factor value = 50 }
+}
+
+mltd_ai_army_full = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_variable = mltd_ai_army_cap
+		check_variable = { num_divisions > mltd_ai_army_cap }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ai_wanted_divisions_factor value = -50 }
+	ai_strategy = { type = build_army id = mltd_coral_host value = -500 }
+	ai_strategy = { type = build_army id = mltd_shell_levy value = -500 }
+	ai_strategy = { type = build_army id = mltd_tide_wall value = -500 }
+	ai_strategy = { type = build_army id = amphibious_beast value = -500 }
+	ai_strategy = { type = land_xp_spend_priority id = division_template value = 100 }
+}
+
+# ---- A3. Every front ---------------------------------------------------------------------------------------------------------
+# At war, man the front against every enemy still standing, and push against the weak ones: run 2 left Baja's front
+# unmanned for over a year after the NCR capitulated, because only its conquest targets asked for troops. country_trigger's
+# scope is the enemy and FROM is MLT (vanilla _documentation.md:315-333, :276-298).
+mltd_ai_every_front = {
+	allowed = { original_tag = MLT }
+	enable = { has_war = yes }
+	abort_when_not_enabled = yes
+
+	ai_strategy = {
+		type = front_unit_request
+		country_trigger = { has_capitulated = no }
+		value = 50
+	}
+	ai_strategy = {
+		type = front_control
+		country_trigger = {
+			has_capitulated = no
+			strength_ratio = { tag = FROM ratio < 0.5 }
+		}
+		priority = 10
+		ordertype = front
+		execution_type = balanced
+		execute_order = yes
+		manual_attack = yes
+	}
+}
+
+# ---- A4. Old Castro --------------------------------------------------------------------------------------------------------
+# With La Resistance, save political power for Old Castro (+2 operative slots, 150 PP) once the agency exists: run 2 never
+# hired him and ran its cults and networks on 2 operatives all game. Our decisions give way to him (mltd_ai_pp_decisions'
+# +30 cancelled); the focus plans weight him too (ideas, common/ai_strategy_plans/mltd_MLT.txt).
+mltd_ai_save_for_castro = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_dlc = "La Resistance"
+		has_intelligence_agency = yes
+		MLT_OLD_CASTRO = { is_hired_as_advisor = no }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = pp_spend_priority id = decision value = -30 }
+}
+
+# ---- A5. Book networks -----------------------------------------------------------------------------------------------------
+# A Book whose state MLT cannot take without a war it should not start - Arroyo once it stands on the NCR's side, The Maw
+# behind a strong ally - is read the other way the focus allows: a full (100 %) intelligence network in the state (La
+# Resistance). The agency builds one in the owner's land, in the Book's state (operative_mission's state, vanilla
+# _documentation.md:418-429). unverified: that a network the AI builds there reaches the full 100 % the focus asks.
+mltd_ai_book_network_arr = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_dlc = "La Resistance"
+		has_intelligence_agency = yes
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		NOT = { has_country_flag = mltd_fourth_book_found }
+		country_exists = ARR
+		337 = { is_owned_by = ARR }
+		NOT = { has_war_with = ARR }
+		NOT = { ARR = { mltd_ai_safe_target = yes } }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = operative_mission mission = build_intel_network mission_target = ARR state = 337 priority = 100 value = 900 }
+}
+
+mltd_ai_book_network_pmr = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_dlc = "La Resistance"
+		has_intelligence_agency = yes
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		NOT = { has_country_flag = mltd_fifth_book_found }
+		country_exists = PMR
+		274 = { is_owned_by = PMR }
+		NOT = { has_war_with = PMR }
+		NOT = { PMR = { mltd_ai_safe_target = yes } }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = operative_mission mission = build_intel_network mission_target = PMR state = 274 priority = 100 value = 900 }
+}
+
+# ---- B. Conquest ------------------------------------------------------------------------------------------------------------
+# Each block's stage is the scripted trigger mltd_ai_stage_<tag> (common/scripted_triggers/mltd_ai_triggers.txt).
+# One block per target, the shape of OWB's TRL.txt:50-77, CES.txt:110-148 and BRA.txt:198-229. The target must exist, not be
+# our subject and not share our faction. A war already under way with it switches the block on; so does its stage, while it
+# is a target MLT can take on (mltd_ai_safe_target: not on the NCR's side before the NCR's stage, no ally at half MLT's
+# strength); so does the frontier (mltd_ai_frontier_target: it holds land of the north, or stands between MLT and an enemy
+# MLT cannot reach), as for the countries in mltd_MLT_frontier.txt.
+# - conquer: what makes the AI justify war goals (wiki; unverified in files - no strategy is verified to force a justification).
+# - antagonize: lowers the tension bar for a war goal (GENERATE_WARGOAL_ANTAGONIZE_SCALE, vanilla 00_defines.lua:2629).
+# - consider_weak: large, because OWB's DECLARE_WAR_RELATIVE_FORCE_FACTOR = 500 (01_defines.lua:292) lets relative force
+#   dominate the decision to declare.
+# - declare_war: only acts once a war goal exists - a justification, or a conflict capstone's create_wargoal.
+# - prepare_for_war: moves troops to the border; the primary target of each stage only.
+# - front_unit_request: takes a country_trigger, not an id (TRL.txt:65-71).
+
+# ---- B1. Oregon, 2275: CCW, then TRL, then RBT (CONQUEST_PLAN.txt, 2275) --------------------------------------------------
+# CCW from day 0: TRL's Wizard war (~day 133) can only target CCW, and finds nothing to take if CCW's land is already ours.
+mltd_ai_conquer_ccw = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = CCW
+		CCW = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = CCW }
+		OR = {
+			has_war_with = CCW
+			AND = {
+				mltd_ai_stage_ccw = yes
+				CCW = { mltd_ai_safe_target = yes }
+			}
+			CCW = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "CCW" value = 400 }
+	ai_strategy = { type = antagonize id = "CCW" value = 200 }
+	ai_strategy = { type = consider_weak id = "CCW" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "CCW" value = 500 }
+	ai_strategy = { type = declare_war id = "CCW" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CCW } value = 200 }
+}
+
+# TRL from the CCW war on (or April 2275): the plan justifies on The Warren while CCW falls. TRL turns on MLT itself once MDT
+# is gone (OWB TRL.txt:138-167).
+mltd_ai_conquer_trl = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TRL
+		TRL = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TRL }
+		OR = {
+			has_war_with = TRL
+			AND = {
+				mltd_ai_stage_trl = yes
+				TRL = { mltd_ai_safe_target = yes }
+			}
+			TRL = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TRL" value = 400 }
+	ai_strategy = { type = antagonize id = "TRL" value = 200 }
+	ai_strategy = { type = consider_weak id = "TRL" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "TRL" value = 500 }
+	ai_strategy = { type = declare_war id = "TRL" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TRL } value = 200 }
+}
+
+# RBT from the TRL war on (or September 2275), before MDT can make it a puppet (OWB ai_strategy_plans/MDT.txt:89-165).
+mltd_ai_conquer_rbt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = RBT
+		RBT = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = RBT }
+		OR = {
+			has_war_with = RBT
+			AND = {
+				mltd_ai_stage_rbt = yes
+				RBT = { mltd_ai_safe_target = yes }
+			}
+			RBT = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "RBT" value = 350 }
+	ai_strategy = { type = antagonize id = "RBT" value = 175 }
+	ai_strategy = { type = consider_weak id = "RBT" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "RBT" value = 400 }
+	ai_strategy = { type = declare_war id = "RBT" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = RBT } value = 150 }
+}
+
+# ---- B2. The Apostles (DIS) -------------------------------------------------------------------------------------------------
+# DIS offers itself through lake_mend_the_lurker_schism (nf_dis.4), which it only takes while it holds DIS_mend_schism and is
+# not at war with MLT (The Apostles (DIS) Focus.txt:243-256). By force: without the flag, once DIS has chosen
+# lake_preemptive_defenses (exclusive with the offer), or when no offer has come by October 2276 - and only after RBT.
+mltd_ai_conquer_dis = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = DIS
+		DIS = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = DIS }
+		OR = {
+			has_war_with = DIS
+			AND = {
+				mltd_ai_stage_dis = yes
+				DIS = { mltd_ai_safe_target = yes }
+			}
+			DIS = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "DIS" value = 300 }
+	ai_strategy = { type = antagonize id = "DIS" value = 150 }
+	ai_strategy = { type = consider_weak id = "DIS" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "DIS" value = 400 }
+	ai_strategy = { type = declare_war id = "DIS" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = DIS } value = 150 }
+}
+
+# While the offer is still possible, keep MLT from justifying on or attacking DIS: a war cancels it.
+mltd_ai_spare_dis = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = DIS
+		DIS = {
+			has_country_flag = DIS_mend_schism
+			NOT = { has_completed_focus = lake_preemptive_defenses }
+		}
+		date < 2276.10.1
+		NOT = { has_war_with = DIS }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "DIS" value = -500 }
+	ai_strategy = { type = declare_war id = "DIS" value = -2000 }
+	ai_strategy = { type = befriend id = "DIS" value = 50 }
+}
+
+# ---- B3. MDT, 2276: Paisley Pit (231) is Book 3's state. From the RBT war on (or March 2276). ------------------------------
+mltd_ai_conquer_mdt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MDT
+		MDT = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MDT }
+		OR = {
+			has_war_with = MDT
+			AND = {
+				mltd_ai_stage_mdt = yes
+				MDT = { mltd_ai_safe_target = yes }
+			}
+			MDT = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MDT" value = 300 }
+	ai_strategy = { type = antagonize id = "MDT" value = 150 }
+	ai_strategy = { type = consider_weak id = "MDT" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "MDT" value = 400 }
+	ai_strategy = { type = declare_war id = "MDT" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MDT } value = 150 }
+}
+
+# ---- B4. The other Book states, after the Kingdom: The Maw (274, PMR) is Book 5's, Arroyo (337, ARR) Book 4's - Arroyo only
+# while it stands apart from the NCR (else its Book comes through a network, A5). ------------------------------------------
+mltd_ai_conquer_pmr = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = PMR
+		PMR = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = PMR }
+		OR = {
+			has_war_with = PMR
+			AND = {
+				mltd_ai_stage_pmr = yes
+				PMR = { mltd_ai_safe_target = yes }
+			}
+			PMR = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "PMR" value = 350 }
+	ai_strategy = { type = antagonize id = "PMR" value = 175 }
+	ai_strategy = { type = consider_weak id = "PMR" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "PMR" value = 400 }
+	ai_strategy = { type = declare_war id = "PMR" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = PMR } value = 150 }
+}
+
+mltd_ai_conquer_arr = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ARR
+		ARR = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = ARR }
+		OR = {
+			has_war_with = ARR
+			AND = {
+				mltd_ai_stage_arr = yes
+				ARR = { mltd_ai_safe_target = yes }
+			}
+			ARR = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "ARR" value = 300 }
+	ai_strategy = { type = antagonize id = "ARR" value = 150 }
+	ai_strategy = { type = consider_weak id = "ARR" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "ARR" value = 300 }
+	ai_strategy = { type = declare_war id = "ARR" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ARR } value = 150 }
+}
+
+# ---- B5. The Oregon ring, once PMR has fallen or is at war (or from September 2277): TIM, KLA, TCA. ------------------------
+mltd_ai_conquer_tim = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TIM
+		TIM = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TIM }
+		OR = {
+			has_war_with = TIM
+			AND = {
+				mltd_ai_stage_tim = yes
+				TIM = { mltd_ai_safe_target = yes }
+			}
+			TIM = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TIM" value = 300 }
+	ai_strategy = { type = antagonize id = "TIM" value = 150 }
+	ai_strategy = { type = consider_weak id = "TIM" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "TIM" value = 300 }
+	ai_strategy = { type = declare_war id = "TIM" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TIM } value = 150 }
+}
+
+mltd_ai_conquer_kla = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = KLA
+		KLA = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = KLA }
+		OR = {
+			has_war_with = KLA
+			AND = {
+				mltd_ai_stage_kla = yes
+				KLA = { mltd_ai_safe_target = yes }
+			}
+			KLA = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "KLA" value = 250 }
+	ai_strategy = { type = antagonize id = "KLA" value = 125 }
+	ai_strategy = { type = consider_weak id = "KLA" value = 400 }
+	ai_strategy = { type = declare_war id = "KLA" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = KLA } value = 150 }
+}
+
+mltd_ai_conquer_tca = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TCA
+		TCA = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TCA }
+		OR = {
+			has_war_with = TCA
+			AND = {
+				mltd_ai_stage_tca = yes
+				TCA = { mltd_ai_safe_target = yes }
+			}
+			TCA = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TCA" value = 250 }
+	ai_strategy = { type = antagonize id = "TCA" value = 125 }
+	ai_strategy = { type = consider_weak id = "TCA" value = 400 }
+	ai_strategy = { type = declare_war id = "TCA" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TCA } value = 150 }
+}
+
+# ---- B6. Cascadia, with more than 30 states and after The Deep Ones Walk (or from June 2278), never while the Final Ritual
+# runs (CONQUEST_PLAN.txt: no major war during the Final Ritual): WBH first, then the coast.
+mltd_ai_conquer_wbh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = WBH
+		WBH = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = WBH }
+		OR = {
+			has_war_with = WBH
+			AND = {
+				mltd_ai_stage_wbh = yes
+				WBH = { mltd_ai_safe_target = yes }
+			}
+			WBH = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "WBH" value = 300 }
+	ai_strategy = { type = antagonize id = "WBH" value = 150 }
+	ai_strategy = { type = consider_weak id = "WBH" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "WBH" value = 400 }
+	ai_strategy = { type = declare_war id = "WBH" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WBH } value = 200 }
+}
+
+mltd_ai_conquer_oly = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = OLY
+		OLY = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = OLY }
+		OR = {
+			has_war_with = OLY
+			AND = {
+				mltd_ai_stage_oly = yes
+				OLY = { mltd_ai_safe_target = yes }
+			}
+			OLY = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "OLY" value = 200 }
+	ai_strategy = { type = antagonize id = "OLY" value = 100 }
+	ai_strategy = { type = consider_weak id = "OLY" value = 400 }
+	ai_strategy = { type = declare_war id = "OLY" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = OLY } value = 100 }
+}
+
+mltd_ai_conquer_yak = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = YAK
+		YAK = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = YAK }
+		OR = {
+			has_war_with = YAK
+			AND = {
+				mltd_ai_stage_yak = yes
+				YAK = { mltd_ai_safe_target = yes }
+			}
+			YAK = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "YAK" value = 200 }
+	ai_strategy = { type = antagonize id = "YAK" value = 100 }
+	ai_strategy = { type = consider_weak id = "YAK" value = 400 }
+	ai_strategy = { type = declare_war id = "YAK" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = YAK } value = 100 }
+}
+
+mltd_ai_conquer_toc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TOC
+		TOC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TOC }
+		OR = {
+			has_war_with = TOC
+			AND = {
+				mltd_ai_stage_toc = yes
+				TOC = { mltd_ai_safe_target = yes }
+			}
+			TOC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TOC" value = 200 }
+	ai_strategy = { type = antagonize id = "TOC" value = 100 }
+	ai_strategy = { type = consider_weak id = "TOC" value = 400 }
+	ai_strategy = { type = declare_war id = "TOC" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TOC } value = 100 }
+}
+
+mltd_ai_conquer_kam = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = KAM
+		KAM = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = KAM }
+		OR = {
+			has_war_with = KAM
+			AND = {
+				mltd_ai_stage_kam = yes
+				KAM = { mltd_ai_safe_target = yes }
+			}
+			KAM = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "KAM" value = 200 }
+	ai_strategy = { type = antagonize id = "KAM" value = 100 }
+	ai_strategy = { type = consider_weak id = "KAM" value = 400 }
+	ai_strategy = { type = declare_war id = "KAM" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = KAM } value = 100 }
+}
+
+mltd_ai_conquer_brk = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BRK
+		BRK = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = BRK }
+		OR = {
+			has_war_with = BRK
+			AND = {
+				mltd_ai_stage_brk = yes
+				BRK = { mltd_ai_safe_target = yes }
+			}
+			BRK = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "BRK" value = 200 }
+	ai_strategy = { type = antagonize id = "BRK" value = 100 }
+	ai_strategy = { type = consider_weak id = "BRK" value = 400 }
+	ai_strategy = { type = declare_war id = "BRK" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BRK } value = 100 }
+}
+
+# ---- B7. The route to the NCR, after The Deep Ones Walk (or from 2279), never while the Final Ritual runs: MXS, FOU, TDN.
+# OWB only lets an AI justify on a neighbour (diplomacy_scripted_triggers.txt:1210-1216), so these are the stepping stones:
+# MXS borders KLA and ARR, and FOU and TDN border the NCR (FOU's 369 and TDN's 57 touch Redding, 141).
+mltd_ai_conquer_mxs = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MXS
+		MXS = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MXS }
+		OR = {
+			has_war_with = MXS
+			AND = {
+				mltd_ai_stage_mxs = yes
+				MXS = { mltd_ai_safe_target = yes }
+			}
+			MXS = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MXS" value = 200 }
+	ai_strategy = { type = antagonize id = "MXS" value = 100 }
+	ai_strategy = { type = consider_weak id = "MXS" value = 400 }
+	ai_strategy = { type = declare_war id = "MXS" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MXS } value = 100 }
+}
+
+mltd_ai_conquer_fou = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = FOU
+		FOU = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = FOU }
+		OR = {
+			has_war_with = FOU
+			AND = {
+				mltd_ai_stage_fou = yes
+				FOU = { mltd_ai_safe_target = yes }
+			}
+			FOU = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "FOU" value = 200 }
+	ai_strategy = { type = antagonize id = "FOU" value = 100 }
+	ai_strategy = { type = consider_weak id = "FOU" value = 400 }
+	ai_strategy = { type = declare_war id = "FOU" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = FOU } value = 100 }
+}
+
+mltd_ai_conquer_tdn = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TDN
+		TDN = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TDN }
+		OR = {
+			has_war_with = TDN
+			AND = {
+				mltd_ai_stage_tdn = yes
+				TDN = { mltd_ai_safe_target = yes }
+			}
+			TDN = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TDN" value = 200 }
+	ai_strategy = { type = antagonize id = "TDN" value = 100 }
+	ai_strategy = { type = consider_weak id = "TDN" value = 400 }
+	ai_strategy = { type = declare_war id = "TDN" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TDN } value = 100 }
+}
+
+# ---- B8. The NCR and its side, never while the Final Ritual runs: after The Final Ritual, once the north is consolidated, the
+# NCR's cult stands at 40 % and New Reno no longer stands in the way (or from 2284; mltd_ai_stage_ncr). The Turbines Sing,
+# whose war goal would start the war sooner, waits for the late-game plan (ai_strategy_plans/mltd_MLT.txt), and B12 holds
+# every country on the NCR's side until this stage. SHI (San Francisco, 163) borders only NAT and the NCR, so it opens with
+# them. New Reno comes first when Vault City, Elko or S'Lanter stands on the NCR's side and New Reno does not: its land is
+# the only way to them (run 2's war never ended for want of it).
+mltd_ai_conquer_ncr = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = NCR
+		NCR = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = NCR }
+		OR = {
+			has_war_with = NCR
+			AND = {
+				mltd_ai_stage_ncr = yes
+				NCR = { mltd_ai_safe_target = yes }
+			}
+			NCR = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "NCR" value = 400 }
+	ai_strategy = { type = antagonize id = "NCR" value = 200 }
+	ai_strategy = { type = consider_weak id = "NCR" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "NCR" value = 500 }
+	ai_strategy = { type = declare_war id = "NCR" value = 500 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = NCR } value = 200 }
+}
+
+mltd_ai_conquer_mot = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MOT
+		MOT = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MOT }
+		OR = {
+			has_war_with = MOT
+			AND = {
+				mltd_ai_stage_mot = yes
+				MOT = { mltd_ai_safe_target = yes }
+			}
+			MOT = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MOT" value = 200 }
+	ai_strategy = { type = antagonize id = "MOT" value = 100 }
+	ai_strategy = { type = consider_weak id = "MOT" value = 400 }
+	ai_strategy = { type = declare_war id = "MOT" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MOT } value = 150 }
+}
+
+mltd_ai_conquer_nat = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = NAT
+		NAT = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = NAT }
+		OR = {
+			has_war_with = NAT
+			AND = {
+				mltd_ai_stage_nat = yes
+				NAT = { mltd_ai_safe_target = yes }
+			}
+			NAT = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "NAT" value = 200 }
+	ai_strategy = { type = antagonize id = "NAT" value = 100 }
+	ai_strategy = { type = consider_weak id = "NAT" value = 400 }
+	ai_strategy = { type = declare_war id = "NAT" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = NAT } value = 150 }
+}
+
+mltd_ai_conquer_shi = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SHI
+		SHI = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SHI }
+		OR = {
+			has_war_with = SHI
+			AND = {
+				mltd_ai_stage_shi = yes
+				SHI = { mltd_ai_safe_target = yes }
+			}
+			SHI = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SHI" value = 200 }
+	ai_strategy = { type = antagonize id = "SHI" value = 100 }
+	ai_strategy = { type = consider_weak id = "SHI" value = 400 }
+	ai_strategy = { type = declare_war id = "SHI" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SHI } value = 100 }
+}
+
+mltd_ai_conquer_new = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = NEW
+		NEW = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = NEW }
+		OR = {
+			has_war_with = NEW
+			AND = {
+				mltd_ai_stage_new = yes
+				NEW = { mltd_ai_safe_target = yes }
+			}
+			NEW = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "NEW" value = 300 }
+	ai_strategy = { type = antagonize id = "NEW" value = 150 }
+	ai_strategy = { type = consider_weak id = "NEW" value = 400 }
+	ai_strategy = { type = prepare_for_war id = "NEW" value = 300 }
+	ai_strategy = { type = declare_war id = "NEW" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = NEW } value = 150 }
+}
+
+# ---- B9. The Legion and the interior, after The Final Ritual, once the NCR is beaten - gone or capitulated - (or from 2283).
+mltd_ai_conquer_ces = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = CES
+		CES = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = CES }
+		OR = {
+			has_war_with = CES
+			AND = {
+				mltd_ai_stage_ces = yes
+				CES = { mltd_ai_safe_target = yes }
+			}
+			CES = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "CES" value = 350 }
+	ai_strategy = { type = antagonize id = "CES" value = 175 }
+	ai_strategy = { type = consider_weak id = "CES" value = 500 }
+	ai_strategy = { type = prepare_for_war id = "CES" value = 400 }
+	ai_strategy = { type = declare_war id = "CES" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CES } value = 200 }
+}
+
+mltd_ai_conquer_bos = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BOS
+		BOS = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = BOS }
+		OR = {
+			has_war_with = BOS
+			AND = {
+				mltd_ai_stage_bos = yes
+				BOS = { mltd_ai_safe_target = yes }
+			}
+			BOS = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "BOS" value = 150 }
+	ai_strategy = { type = antagonize id = "BOS" value = 75 }
+	ai_strategy = { type = consider_weak id = "BOS" value = 300 }
+	ai_strategy = { type = declare_war id = "BOS" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BOS } value = 100 }
+}
+
+mltd_ai_conquer_veg = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = VEG
+		VEG = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = VEG }
+		OR = {
+			has_war_with = VEG
+			AND = {
+				mltd_ai_stage_veg = yes
+				VEG = { mltd_ai_safe_target = yes }
+			}
+			VEG = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "VEG" value = 150 }
+	ai_strategy = { type = antagonize id = "VEG" value = 75 }
+	ai_strategy = { type = consider_weak id = "VEG" value = 300 }
+	ai_strategy = { type = declare_war id = "VEG" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = VEG } value = 100 }
+}
+
+mltd_ai_conquer_wht = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = WHT
+		WHT = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = WHT }
+		OR = {
+			has_war_with = WHT
+			AND = {
+				mltd_ai_stage_wht = yes
+				WHT = { mltd_ai_safe_target = yes }
+			}
+			WHT = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "WHT" value = 150 }
+	ai_strategy = { type = antagonize id = "WHT" value = 75 }
+	ai_strategy = { type = consider_weak id = "WHT" value = 300 }
+	ai_strategy = { type = declare_war id = "WHT" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WHT } value = 100 }
+}
+
+mltd_ai_conquer_eht = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = EHT
+		EHT = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = EHT }
+		OR = {
+			has_war_with = EHT
+			AND = {
+				mltd_ai_stage_eht = yes
+				EHT = { mltd_ai_safe_target = yes }
+			}
+			EHT = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "EHT" value = 150 }
+	ai_strategy = { type = antagonize id = "EHT" value = 75 }
+	ai_strategy = { type = consider_weak id = "EHT" value = 300 }
+	ai_strategy = { type = declare_war id = "EHT" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = EHT } value = 100 }
+}
+
+mltd_ai_conquer_tar = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TAR
+		TAR = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TAR }
+		OR = {
+			has_war_with = TAR
+			AND = {
+				mltd_ai_stage_tar = yes
+				TAR = { mltd_ai_safe_target = yes }
+			}
+			TAR = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TAR" value = 150 }
+	ai_strategy = { type = antagonize id = "TAR" value = 75 }
+	ai_strategy = { type = consider_weak id = "TAR" value = 300 }
+	ai_strategy = { type = declare_war id = "TAR" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TAR } value = 100 }
+}
+
+mltd_ai_conquer_ncn = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = NCN
+		NCN = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = NCN }
+		OR = {
+			has_war_with = NCN
+			AND = {
+				mltd_ai_stage_ncn = yes
+				NCN = { mltd_ai_safe_target = yes }
+			}
+			NCN = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "NCN" value = 150 }
+	ai_strategy = { type = antagonize id = "NCN" value = 75 }
+	ai_strategy = { type = consider_weak id = "NCN" value = 300 }
+	ai_strategy = { type = declare_war id = "NCN" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = NCN } value = 100 }
+}
+
+mltd_ai_conquer_hea = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = HEA
+		HEA = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = HEA }
+		OR = {
+			has_war_with = HEA
+			AND = {
+				mltd_ai_stage_hea = yes
+				HEA = { mltd_ai_safe_target = yes }
+			}
+			HEA = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "HEA" value = 150 }
+	ai_strategy = { type = antagonize id = "HEA" value = 75 }
+	ai_strategy = { type = consider_weak id = "HEA" value = 300 }
+	ai_strategy = { type = declare_war id = "HEA" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = HEA } value = 100 }
+}
+
+mltd_ai_conquer_hgh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = HGH
+		HGH = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = HGH }
+		OR = {
+			has_war_with = HGH
+			AND = {
+				mltd_ai_stage_hgh = yes
+				HGH = { mltd_ai_safe_target = yes }
+			}
+			HGH = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "HGH" value = 150 }
+	ai_strategy = { type = antagonize id = "HGH" value = 75 }
+	ai_strategy = { type = consider_weak id = "HGH" value = 300 }
+	ai_strategy = { type = declare_war id = "HGH" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = HGH } value = 100 }
+}
+
+mltd_ai_conquer_han = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = HAN
+		HAN = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = HAN }
+		OR = {
+			has_war_with = HAN
+			AND = {
+				mltd_ai_stage_han = yes
+				HAN = { mltd_ai_safe_target = yes }
+			}
+			HAN = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "HAN" value = 150 }
+	ai_strategy = { type = antagonize id = "HAN" value = 75 }
+	ai_strategy = { type = consider_weak id = "HAN" value = 300 }
+	ai_strategy = { type = declare_war id = "HAN" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = HAN } value = 100 }
+}
+
+mltd_ai_conquer_blc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BLC
+		BLC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = BLC }
+		OR = {
+			has_war_with = BLC
+			AND = {
+				mltd_ai_stage_blc = yes
+				BLC = { mltd_ai_safe_target = yes }
+			}
+			BLC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "BLC" value = 150 }
+	ai_strategy = { type = antagonize id = "BLC" value = 75 }
+	ai_strategy = { type = consider_weak id = "BLC" value = 300 }
+	ai_strategy = { type = declare_war id = "BLC" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BLC } value = 100 }
+}
+
+mltd_ai_conquer_oro = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ORO
+		ORO = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = ORO }
+		OR = {
+			has_war_with = ORO
+			AND = {
+				mltd_ai_stage_oro = yes
+				ORO = { mltd_ai_safe_target = yes }
+			}
+			ORO = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "ORO" value = 150 }
+	ai_strategy = { type = antagonize id = "ORO" value = 75 }
+	ai_strategy = { type = consider_weak id = "ORO" value = 300 }
+	ai_strategy = { type = declare_war id = "ORO" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ORO } value = 100 }
+}
+
+mltd_ai_conquer_mxc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MXC
+		MXC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MXC }
+		OR = {
+			has_war_with = MXC
+			AND = {
+				mltd_ai_stage_mxc = yes
+				MXC = { mltd_ai_safe_target = yes }
+			}
+			MXC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MXC" value = 150 }
+	ai_strategy = { type = antagonize id = "MXC" value = 75 }
+	ai_strategy = { type = consider_weak id = "MXC" value = 300 }
+	ai_strategy = { type = declare_war id = "MXC" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MXC } value = 100 }
+}
+
+mltd_ai_conquer_lac = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = LAC
+		LAC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = LAC }
+		OR = {
+			has_war_with = LAC
+			AND = {
+				mltd_ai_stage_lac = yes
+				LAC = { mltd_ai_safe_target = yes }
+			}
+			LAC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "LAC" value = 150 }
+	ai_strategy = { type = antagonize id = "LAC" value = 75 }
+	ai_strategy = { type = consider_weak id = "LAC" value = 300 }
+	ai_strategy = { type = declare_war id = "LAC" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = LAC } value = 100 }
+}
+
+# ---- B10. Texas, Mexico and the north, after The Final Ritual, once the Legion is beaten (or from 2286). --------------------
+mltd_ai_conquer_tbh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TBH
+		TBH = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TBH }
+		OR = {
+			has_war_with = TBH
+			AND = {
+				mltd_ai_stage_tbh = yes
+				TBH = { mltd_ai_safe_target = yes }
+			}
+			TBH = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TBH" value = 100 }
+	ai_strategy = { type = antagonize id = "TBH" value = 50 }
+	ai_strategy = { type = consider_weak id = "TBH" value = 300 }
+	ai_strategy = { type = declare_war id = "TBH" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TBH } value = 100 }
+}
+
+mltd_ai_conquer_lns = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = LNS
+		LNS = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = LNS }
+		OR = {
+			has_war_with = LNS
+			AND = {
+				mltd_ai_stage_lns = yes
+				LNS = { mltd_ai_safe_target = yes }
+			}
+			LNS = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "LNS" value = 100 }
+	ai_strategy = { type = antagonize id = "LNS" value = 50 }
+	ai_strategy = { type = consider_weak id = "LNS" value = 300 }
+	ai_strategy = { type = declare_war id = "LNS" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = LNS } value = 100 }
+}
+
+mltd_ai_conquer_taa = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TAA
+		TAA = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TAA }
+		OR = {
+			has_war_with = TAA
+			AND = {
+				mltd_ai_stage_taa = yes
+				TAA = { mltd_ai_safe_target = yes }
+			}
+			TAA = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TAA" value = 100 }
+	ai_strategy = { type = antagonize id = "TAA" value = 50 }
+	ai_strategy = { type = consider_weak id = "TAA" value = 300 }
+	ai_strategy = { type = declare_war id = "TAA" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TAA } value = 100 }
+}
+
+mltd_ai_conquer_rrg = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = RRG
+		RRG = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = RRG }
+		OR = {
+			has_war_with = RRG
+			AND = {
+				mltd_ai_stage_rrg = yes
+				RRG = { mltd_ai_safe_target = yes }
+			}
+			RRG = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "RRG" value = 100 }
+	ai_strategy = { type = antagonize id = "RRG" value = 50 }
+	ai_strategy = { type = consider_weak id = "RRG" value = 300 }
+	ai_strategy = { type = declare_war id = "RRG" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = RRG } value = 100 }
+}
+
+mltd_ai_conquer_sha = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SHA
+		SHA = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = SHA }
+		OR = {
+			has_war_with = SHA
+			AND = {
+				mltd_ai_stage_sha = yes
+				SHA = { mltd_ai_safe_target = yes }
+			}
+			SHA = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "SHA" value = 100 }
+	ai_strategy = { type = antagonize id = "SHA" value = 50 }
+	ai_strategy = { type = consider_weak id = "SHA" value = 300 }
+	ai_strategy = { type = declare_war id = "SHA" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SHA } value = 100 }
+}
+
+mltd_ai_conquer_arm = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ARM
+		ARM = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = ARM }
+		OR = {
+			has_war_with = ARM
+			AND = {
+				mltd_ai_stage_arm = yes
+				ARM = { mltd_ai_safe_target = yes }
+			}
+			ARM = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "ARM" value = 100 }
+	ai_strategy = { type = antagonize id = "ARM" value = 50 }
+	ai_strategy = { type = consider_weak id = "ARM" value = 300 }
+	ai_strategy = { type = declare_war id = "ARM" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ARM } value = 100 }
+}
+
+mltd_ai_conquer_tla = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TLA
+		TLA = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = TLA }
+		OR = {
+			has_war_with = TLA
+			AND = {
+				mltd_ai_stage_tla = yes
+				TLA = { mltd_ai_safe_target = yes }
+			}
+			TLA = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "TLA" value = 100 }
+	ai_strategy = { type = antagonize id = "TLA" value = 50 }
+	ai_strategy = { type = consider_weak id = "TLA" value = 300 }
+	ai_strategy = { type = declare_war id = "TLA" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TLA } value = 100 }
+}
+
+mltd_ai_conquer_max = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MAX
+		MAX = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MAX }
+		OR = {
+			has_war_with = MAX
+			AND = {
+				mltd_ai_stage_max = yes
+				MAX = { mltd_ai_safe_target = yes }
+			}
+			MAX = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MAX" value = 100 }
+	ai_strategy = { type = antagonize id = "MAX" value = 50 }
+	ai_strategy = { type = consider_weak id = "MAX" value = 300 }
+	ai_strategy = { type = declare_war id = "MAX" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MAX } value = 100 }
+}
+
+mltd_ai_conquer_moc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MOC
+		MOC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MOC }
+		OR = {
+			has_war_with = MOC
+			AND = {
+				mltd_ai_stage_moc = yes
+				MOC = { mltd_ai_safe_target = yes }
+			}
+			MOC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MOC" value = 100 }
+	ai_strategy = { type = antagonize id = "MOC" value = 50 }
+	ai_strategy = { type = consider_weak id = "MOC" value = 300 }
+	ai_strategy = { type = declare_war id = "MOC" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MOC } value = 100 }
+}
+
+mltd_ai_conquer_zap = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ZAP
+		ZAP = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = ZAP }
+		OR = {
+			has_war_with = ZAP
+			AND = {
+				mltd_ai_stage_zap = yes
+				ZAP = { mltd_ai_safe_target = yes }
+			}
+			ZAP = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "ZAP" value = 100 }
+	ai_strategy = { type = antagonize id = "ZAP" value = 50 }
+	ai_strategy = { type = consider_weak id = "ZAP" value = 300 }
+	ai_strategy = { type = declare_war id = "ZAP" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ZAP } value = 100 }
+}
+
+mltd_ai_conquer_ate = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ATE
+		ATE = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = ATE }
+		OR = {
+			has_war_with = ATE
+			AND = {
+				mltd_ai_stage_ate = yes
+				ATE = { mltd_ai_safe_target = yes }
+			}
+			ATE = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "ATE" value = 100 }
+	ai_strategy = { type = antagonize id = "ATE" value = 50 }
+	ai_strategy = { type = consider_weak id = "ATE" value = 300 }
+	ai_strategy = { type = declare_war id = "ATE" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ATE } value = 100 }
+}
+
+mltd_ai_conquer_itz = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ITZ
+		ITZ = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = ITZ }
+		OR = {
+			has_war_with = ITZ
+			AND = {
+				mltd_ai_stage_itz = yes
+				ITZ = { mltd_ai_safe_target = yes }
+			}
+			ITZ = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "ITZ" value = 100 }
+	ai_strategy = { type = antagonize id = "ITZ" value = 50 }
+	ai_strategy = { type = consider_weak id = "ITZ" value = 300 }
+	ai_strategy = { type = declare_war id = "ITZ" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ITZ } value = 100 }
+}
+
+mltd_ai_conquer_ffi = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = FFI
+		FFI = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = FFI }
+		OR = {
+			has_war_with = FFI
+			AND = {
+				mltd_ai_stage_ffi = yes
+				FFI = { mltd_ai_safe_target = yes }
+			}
+			FFI = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "FFI" value = 100 }
+	ai_strategy = { type = antagonize id = "FFI" value = 50 }
+	ai_strategy = { type = consider_weak id = "FFI" value = 300 }
+	ai_strategy = { type = declare_war id = "FFI" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = FFI } value = 100 }
+}
+
+mltd_ai_conquer_gdh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = GDH
+		GDH = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = GDH }
+		OR = {
+			has_war_with = GDH
+			AND = {
+				mltd_ai_stage_gdh = yes
+				GDH = { mltd_ai_safe_target = yes }
+			}
+			GDH = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "GDH" value = 100 }
+	ai_strategy = { type = antagonize id = "GDH" value = 50 }
+	ai_strategy = { type = consider_weak id = "GDH" value = 300 }
+	ai_strategy = { type = declare_war id = "GDH" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = GDH } value = 100 }
+}
+
+mltd_ai_conquer_lgs = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = LGS
+		LGS = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = LGS }
+		OR = {
+			has_war_with = LGS
+			AND = {
+				mltd_ai_stage_lgs = yes
+				LGS = { mltd_ai_safe_target = yes }
+			}
+			LGS = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "LGS" value = 100 }
+	ai_strategy = { type = antagonize id = "LGS" value = 50 }
+	ai_strategy = { type = consider_weak id = "LGS" value = 300 }
+	ai_strategy = { type = declare_war id = "LGS" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = LGS } value = 100 }
+}
+
+mltd_ai_conquer_mca = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MCA
+		MCA = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MCA }
+		OR = {
+			has_war_with = MCA
+			AND = {
+				mltd_ai_stage_mca = yes
+				MCA = { mltd_ai_safe_target = yes }
+			}
+			MCA = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MCA" value = 100 }
+	ai_strategy = { type = antagonize id = "MCA" value = 50 }
+	ai_strategy = { type = consider_weak id = "MCA" value = 300 }
+	ai_strategy = { type = declare_war id = "MCA" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MCA } value = 100 }
+}
+
+mltd_ai_conquer_pas = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = PAS
+		PAS = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = PAS }
+		OR = {
+			has_war_with = PAS
+			AND = {
+				mltd_ai_stage_pas = yes
+				PAS = { mltd_ai_safe_target = yes }
+			}
+			PAS = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "PAS" value = 100 }
+	ai_strategy = { type = antagonize id = "PAS" value = 50 }
+	ai_strategy = { type = consider_weak id = "PAS" value = 300 }
+	ai_strategy = { type = declare_war id = "PAS" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = PAS } value = 100 }
+}
+
+mltd_ai_conquer_mtc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MTC
+		MTC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MTC }
+		OR = {
+			has_war_with = MTC
+			AND = {
+				mltd_ai_stage_mtc = yes
+				MTC = { mltd_ai_safe_target = yes }
+			}
+			MTC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MTC" value = 100 }
+	ai_strategy = { type = antagonize id = "MTC" value = 50 }
+	ai_strategy = { type = consider_weak id = "MTC" value = 300 }
+	ai_strategy = { type = declare_war id = "MTC" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MTC } value = 100 }
+}
+
+mltd_ai_conquer_sta = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = STA
+		STA = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = STA }
+		OR = {
+			has_war_with = STA
+			AND = {
+				mltd_ai_stage_sta = yes
+				STA = { mltd_ai_safe_target = yes }
+			}
+			STA = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "STA" value = 100 }
+	ai_strategy = { type = antagonize id = "STA" value = 50 }
+	ai_strategy = { type = consider_weak id = "STA" value = 300 }
+	ai_strategy = { type = declare_war id = "STA" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = STA } value = 100 }
+}
+
+mltd_ai_conquer_stc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = STC
+		STC = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = STC }
+		OR = {
+			has_war_with = STC
+			AND = {
+				mltd_ai_stage_stc = yes
+				STC = { mltd_ai_safe_target = yes }
+			}
+			STC = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "STC" value = 100 }
+	ai_strategy = { type = antagonize id = "STC" value = 50 }
+	ai_strategy = { type = consider_weak id = "STC" value = 300 }
+	ai_strategy = { type = declare_war id = "STC" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = STC } value = 100 }
+}
+
+mltd_ai_conquer_wpg = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = WPG
+		WPG = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = WPG }
+		OR = {
+			has_war_with = WPG
+			AND = {
+				mltd_ai_stage_wpg = yes
+				WPG = { mltd_ai_safe_target = yes }
+			}
+			WPG = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "WPG" value = 100 }
+	ai_strategy = { type = antagonize id = "WPG" value = 50 }
+	ai_strategy = { type = consider_weak id = "WPG" value = 300 }
+	ai_strategy = { type = declare_war id = "WPG" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WPG } value = 100 }
+}
+
+mltd_ai_conquer_mdm = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MDM
+		MDM = { NOT = { is_subject_of = ROOT } }
+		NOT = { is_in_faction_with = MDM }
+		OR = {
+			has_war_with = MDM
+			AND = {
+				mltd_ai_stage_mdm = yes
+				MDM = { mltd_ai_safe_target = yes }
+			}
+			MDM = { mltd_ai_frontier_target = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = conquer id = "MDM" value = 100 }
+	ai_strategy = { type = antagonize id = "MDM" value = 50 }
+	ai_strategy = { type = consider_weak id = "MDM" value = 300 }
+	ai_strategy = { type = declare_war id = "MDM" value = 300 }
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MDM } value = 100 }
+}
+
+# ---- B11. Holds on early war goals ------------------------------------------------------------------------------------------
+# Every conflict capstone creates an annex_everything war goal, and OWB's DILPOMATIC_ACTION_DECLARE_WAR_WARGOAL_BASE = 500
+# (01_defines.lua:291) sends an AI to war on any war goal it holds. The late-game plan takes the Legion's, Lost Hills', Utah's
+# and Heaven's Guard's capstones during the NCR war, and Texas's and Tlaloc's while the Legion stands (the Kingdom-and-Books
+# plan zeroes them), so those war goals wait for B9 (the NCR beaten or 2283) and B10 (the Legion beaten or 2286). A negative
+# declare_war vetoes a declaration (vanilla GER.txt:2175-2189; OWB NEW.txt:78-82). unverified: that -1000 outweighs OWB's
+# war-goal base of 500 and its relative-force term (DECLARE_WAR_RELATIVE_FORCE_FACTOR = 500, 01_defines.lua:292).
+mltd_ai_hold_late_wargoals = {
+	allowed = { original_tag = MLT }
+	enable = {
+		NOT = { mltd_ai_ncr_beaten = yes }
+		date < 2283.1.1
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "CES" value = -1000 }
+	ai_strategy = { type = declare_war id = "BOS" value = -1000 }
+	ai_strategy = { type = declare_war id = "WHT" value = -1000 }
+	ai_strategy = { type = declare_war id = "EHT" value = -1000 }
+	ai_strategy = { type = declare_war id = "HEA" value = -1000 }
+}
+
+mltd_ai_hold_south_wargoals = {
+	allowed = { original_tag = MLT }
+	enable = {
+		NOT = { mltd_ai_legion_beaten = yes }
+		date < 2286.1.1
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "TBH" value = -1000 }
+	ai_strategy = { type = declare_war id = "LNS" value = -1000 }
+	ai_strategy = { type = declare_war id = "TLA" value = -1000 }
+	ai_strategy = { type = declare_war id = "MAX" value = -1000 }
+	ai_strategy = { type = declare_war id = "MOC" value = -1000 }
+	ai_strategy = { type = declare_war id = "ZAP" value = -1000 }
+}
+
+# ---- B12. The NCR's side ---------------------------------------------------------------------------------------------------
+# Until the NCR's stage opens, no war on any country on the NCR's side (mltd_ai_in_ncr_bloc: its faction, subjects and
+# guarantees): a claim from Cascadian Current or Sea of Cortez would otherwise make an OWB AI justify on it (claims drive AI
+# justification, GENERATE_WARGOAL_THREAT_BASELINE = 0, OWB 01_defines.lua:286), and a war on one is a war on all. ignore_claim is
+# how vanilla and OWB stop a claim being pressed (vanilla GER.txt:2361-2384, PRU.txt:13-27); a negative declare_war vetoes the
+# declaration, as in B11. One block per country OWB can bring into the NCR's faction (create_or_join_new_california and
+# ask_to_join_new_california, faction_effects.txt, called for these countries) or that run 2 saw there.
+mltd_ai_hold_ncr_side_arr = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ARR
+		NOT = { has_war_with = ARR }
+		ARR = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "ARR" value = 200 }
+	ai_strategy = { type = declare_war id = "ARR" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_bag = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BAG
+		NOT = { has_war_with = BAG }
+		BAG = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "BAG" value = 200 }
+	ai_strategy = { type = declare_war id = "BAG" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_bjs = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BJS
+		NOT = { has_war_with = BJS }
+		BJS = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "BJS" value = 200 }
+	ai_strategy = { type = declare_war id = "BJS" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_blc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BLC
+		NOT = { has_war_with = BLC }
+		BLC = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "BLC" value = 200 }
+	ai_strategy = { type = declare_war id = "BLC" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_bos = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = BOS
+		NOT = { has_war_with = BOS }
+		BOS = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "BOS" value = 200 }
+	ai_strategy = { type = declare_war id = "BOS" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_cow = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = COW
+		NOT = { has_war_with = COW }
+		COW = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "COW" value = 200 }
+	ai_strategy = { type = declare_war id = "COW" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_cyc = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = CYC
+		NOT = { has_war_with = CYC }
+		CYC = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "CYC" value = 200 }
+	ai_strategy = { type = declare_war id = "CYC" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_eag = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = EAG
+		NOT = { has_war_with = EAG }
+		EAG = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "EAG" value = 200 }
+	ai_strategy = { type = declare_war id = "EAG" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_eur = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = EUR
+		NOT = { has_war_with = EUR }
+		EUR = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "EUR" value = 200 }
+	ai_strategy = { type = declare_war id = "EUR" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_fou = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = FOU
+		NOT = { has_war_with = FOU }
+		FOU = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "FOU" value = 200 }
+	ai_strategy = { type = declare_war id = "FOU" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_jac = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = JAC
+		NOT = { has_war_with = JAC }
+		JAC = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "JAC" value = 200 }
+	ai_strategy = { type = declare_war id = "JAC" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_mod = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MOD
+		NOT = { has_war_with = MOD }
+		MOD = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "MOD" value = 200 }
+	ai_strategy = { type = declare_war id = "MOD" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_mot = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MOT
+		NOT = { has_war_with = MOT }
+		MOT = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "MOT" value = 200 }
+	ai_strategy = { type = declare_war id = "MOT" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_mxs = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MXS
+		NOT = { has_war_with = MXS }
+		MXS = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "MXS" value = 200 }
+	ai_strategy = { type = declare_war id = "MXS" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_nat = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = NAT
+		NOT = { has_war_with = NAT }
+		NAT = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "NAT" value = 200 }
+	ai_strategy = { type = declare_war id = "NAT" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_ncn = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = NCN
+		NOT = { has_war_with = NCN }
+		NCN = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "NCN" value = 200 }
+	ai_strategy = { type = declare_war id = "NCN" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_ncr = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = NCR
+		NOT = { has_war_with = NCR }
+		NCR = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "NCR" value = 200 }
+	ai_strategy = { type = declare_war id = "NCR" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_new = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = NEW
+		NOT = { has_war_with = NEW }
+		NEW = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "NEW" value = 200 }
+	ai_strategy = { type = declare_war id = "NEW" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_pac = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = PAC
+		NOT = { has_war_with = PAC }
+		PAC = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "PAC" value = 200 }
+	ai_strategy = { type = declare_war id = "PAC" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_pal = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = PAL
+		NOT = { has_war_with = PAL }
+		PAL = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "PAL" value = 200 }
+	ai_strategy = { type = declare_war id = "PAL" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_shi = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SHI
+		NOT = { has_war_with = SHI }
+		SHI = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "SHI" value = 200 }
+	ai_strategy = { type = declare_war id = "SHI" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_sla = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SLA
+		NOT = { has_war_with = SLA }
+		SLA = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "SLA" value = 200 }
+	ai_strategy = { type = declare_war id = "SLA" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_sln = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SLN
+		NOT = { has_war_with = SLN }
+		SLN = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "SLN" value = 200 }
+	ai_strategy = { type = declare_war id = "SLN" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_suf = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = SUF
+		NOT = { has_war_with = SUF }
+		SUF = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "SUF" value = 200 }
+	ai_strategy = { type = declare_war id = "SUF" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_tdn = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TDN
+		NOT = { has_war_with = TDN }
+		TDN = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "TDN" value = 200 }
+	ai_strategy = { type = declare_war id = "TDN" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_umb = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = UMB
+		NOT = { has_war_with = UMB }
+		UMB = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "UMB" value = 200 }
+	ai_strategy = { type = declare_war id = "UMB" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_veg = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = VEG
+		NOT = { has_war_with = VEG }
+		VEG = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "VEG" value = 200 }
+	ai_strategy = { type = declare_war id = "VEG" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_vlt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = VLT
+		NOT = { has_war_with = VLT }
+		VLT = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "VLT" value = 200 }
+	ai_strategy = { type = declare_war id = "VLT" value = -1000 }
+}
+
+mltd_ai_hold_ncr_side_woo = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = WOO
+		NOT = { has_war_with = WOO }
+		WOO = { mltd_ai_in_ncr_bloc = yes }
+		NOT = { mltd_ai_stage_ncr = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "WOO" value = 200 }
+	ai_strategy = { type = declare_war id = "WOO" value = -1000 }
+}
+
+# ---- C. Defence -------------------------------------------------------------------------------------------------------------
+# Once TRL is gone, WBH_attack_the_warren gives WBH a claim on The Warren (235) and a demand_stolen_territory decision
+# (wargoal_effects.txt:69-83): man that front as soon as WBH justifies, holds a war goal or attacks.
+mltd_ai_guard_the_warren = {
+	allowed = { original_tag = MLT }
+	enable = {
+		owns_state = 235
+		country_exists = WBH
+		OR = {
+			WBH = { is_justifying_wargoal_against = MLT }
+			WBH = { has_wargoal_against = MLT }
+			has_war_with = WBH
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WBH } value = 150 }
+}
+
+# ---- D. Cult operations (La Resistance) -------------------------------------------------------------------------------------
+# mltd_ai_cult_target is written weekly in on_weekly_MLT from a scorer. The var: guard copies OWB's run_generic_operation
+# (generic_operation_strats.txt:1-33); 950 / 940 outrank its generic operation (900) but not its operative rescue (1000).
+# One operation per block, each switched on by that operation's own condition on the target, as vanilla does
+# (ENG_operation_strats.txt:44-73): Found a Cult where there is no cult, Nurture the Cult where one is under 100 %.
+mltd_ai_cult_found = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_intelligence_agency = yes
+		has_completed_focus = mltd_the_spreading_cult
+		has_variable = mltd_ai_cult_target
+		NOT = { check_variable = { mltd_ai_cult_target = 0 } }
+		var:mltd_ai_cult_target = {
+			exists = yes
+			has_capitulated = no
+			NOT = { is_ally_with = PREV }
+			NOT = { has_variable = mltd_cult_strength }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = operative_operation operation = mltd_op_found_a_cult operation_target = var:mltd_ai_cult_target value = 950 }
+	ai_strategy = { type = operative_mission mission = build_intel_network mission_target = var:mltd_ai_cult_target value = 850 }
+	ai_strategy = { type = operation_equipment_priority value = 100 }
+}
+
+mltd_ai_cult_nurture = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_intelligence_agency = yes
+		has_completed_focus = mltd_the_spreading_cult
+		has_variable = mltd_ai_cult_target
+		NOT = { check_variable = { mltd_ai_cult_target = 0 } }
+		var:mltd_ai_cult_target = {
+			exists = yes
+			has_capitulated = no
+			NOT = { is_ally_with = PREV }
+			has_variable = mltd_cult_strength
+			check_variable = { mltd_cult_strength < 100 }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = operative_operation operation = mltd_op_nurture_the_cult operation_target = var:mltd_ai_cult_target value = 940 }
+	ai_strategy = { type = operative_mission mission = build_intel_network mission_target = var:mltd_ai_cult_target value = 850 }
+	ai_strategy = { type = operation_equipment_priority value = 100 }
+}

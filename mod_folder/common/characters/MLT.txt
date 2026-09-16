@@ -434,8 +434,9 @@ characters = {
 				mltd_keeper_of_the_order
 			}
 			cost = 150
+			# the agency's two extra operatives carry the Books' networks and the cults: an AI hires him early (run 2 never did)
 			ai_will_do = {
-				factor = 10
+				factor = 50
 			}
 		}
 	}

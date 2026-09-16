@@ -1,0 +1,385 @@
+# Rising Tide - MLT AI strategy plans
+#
+# Three phase plans for an AI Mirelurk Tribe, in the order of CONQUEST_PLAN.txt: the Oregon opening until
+# mlt_kingdom_of_mlyeh, the Kingdom and the Books until mltd_the_final_ritual, then the late game. Their enable
+# and abort blocks are mutually exclusive, so one focus list runs at a time, and all three stop while MLT is a
+# subject. A plan ends only through abort (an enable that turns false does not end it), so each abort is the
+# next plan's enable; plans take no abort_when_not_enabled, which no vanilla or OWB plan uses.
+#
+# ai_national_focuses is taken in order, the first available entry first; unavailable entries are skipped, so
+# the fillers at the end run while a conquest, egg, Book or population gate holds everything above them (OWB
+# does the same at BDT.txt:43). focus_factors scales ai_will_do, which the AI consults only once no listed
+# focus is available. research weights technology categories (common/technology_tags); ideas weights advisors
+# by idea_token (common/characters/MLT.txt; OWB precedent BOS.txt:58-60).
+
+mltd_MLT_oregon_opening = {
+	name = "Mirelurk Tribe - Oregon opening"
+	desc = "The Coral Court, the shared Oregon industry, the Barrows and their eggs, Black Hollows Night, the Kingdom of M'lyeh"
+
+	allowed = {
+		original_tag = MLT
+	}
+	enable = {
+		original_tag = MLT
+		is_subject = no
+		NOT = { has_completed_focus = mlt_kingdom_of_mlyeh }
+	}
+	abort = {
+		OR = {
+			has_completed_focus = mlt_kingdom_of_mlyeh
+			is_subject = yes
+		}
+	}
+
+	ai_national_focuses = {
+		mlt_sanity_lost
+		mlt_sanity_found
+		mlt_the_coral_court
+		# the shared Oregon-coastal tree's factory focuses
+		lurk_aquatic_construction
+		lurk_more_conch_knives
+		lurk_import_thunder_sticks
+		lurk_oregon_weapon_trade
+		mlt_seeing_to_the_queens_needs
+		mlt_meeting_of_the_coral_prophets
+		mlt_defend_the_river
+		mlt_plant_for_the_next_harvest
+		mlt_new_spawning_pools_needed
+		# the Barrows branch, not Muttfruit (zeroed below); its egg focuses fill mlt_eggs for Black Hollows Night
+		mlt_dig_barrows_for_spawning_pools
+		mlt_arena_in_the_tunnels
+		mlt_blind_eyed_workers
+		mlt_striking_iron
+		mlt_deeper_into_the_earth
+		mlt_defend_the_spawnlings
+		mlt_deep_earth_breathing_equipment
+		mlt_striking_gold
+		ritual_of_black_hollows_night
+		# either one opens the Kingdom (one OR prerequisite); Expanding M'lulu's Domain is bypassed once the cores
+		# of TRL, CCW, RBT and DIS are all ours
+		mlt_protect_the_southern_crossing
+		mlt_expanding_mlulus_domain
+		mlt_kingdom_of_mlyeh
+		# fillers
+		lurk_consult_the_oracles
+		lurk_visions_of_strategies
+		lurk_craft_more_tools
+		lurk_coral_houses
+		lurk_freighter_fortress
+		lurk_defend_the_tribe
+		lurk_scrap_excavation
+		lurk_whale_hunting
+		lurk_rock_tossers
+		lurk_feeding_the_tribesman
+		lurk_visions_of_tactics
+		lurk_shelled_warriors
+		lurk_warrior_trials
+		lurk_aggressive_mindset
+		lurk_the_shell_games
+		lurk_in_the_swamps
+		lurk_in_the_depths
+		lurk_warriors_league
+		lurk_visions_of_designs
+		lurk_refurbish_scrap_war_machines
+		mlt_the_great_tunnels_of_mlulu
+	}
+
+	# Never: the Muttfruit trades spend the capital's water and lock the Barrows; Defensive Mindset is
+	# mutually exclusive with the listed Aggressive Mindset.
+	focus_factors = {
+		mlt_offer_muttfruit_for_the_cannibal_territories = 0
+		mlt_offer_muttfruit_for_ribbreaker_coast = 0
+		lurk_defensive_mindset = 0
+	}
+
+	# Negative values are OWB's idiom for steering away from a tree (ARR.txt:14, LNS.txt:17-18).
+	# unverified: what a negative research value does exactly; OWB uses it to suppress a category.
+	research = {
+		# factories first: scavtool, specialised industry, construction industry
+		industry = 50.0
+		production_and_construction_category = 50.0
+		industry_specialisation_category = 50.0
+		construction_category = 50.0
+		tool_tech = 25.0
+		# research speed (electronic_engineering)
+		electronics = 50.0
+		# the mirelurk line
+		creatures_tech_category = 50.0
+		amphibious_tech_category = 50.0
+		# Outsider Warfare; the four rival roots are XOR with it (tech_fallout_land_doctrine.txt:3723), and the
+		# Roman and Wasteland branches sit under terror_tactics
+		cat_outsider_warfare = 100.0
+		cat_automated_warfare = -75.0
+		cat_elite_army = -75.0
+		cat_grand_army = -75.0
+		cat_terror_tactics = -75.0
+		# MLT is a naval tag, so OWB multiplies its naval tech weights by 4-5 (tech_naval.txt:134-136); no fleet is planned
+		naval_tech_category = -100.0
+		naval_hull_tech_category = -100.0
+		naval_weapon_module_tech_category = -100.0
+		cat_naval_doctrine = -100.0
+		# no air force is planned
+		air_tech_category = -75.0
+		air_equipment_tech_category = -75.0
+		cat_air_doctrine = -75.0
+	}
+
+	ideas = {
+		MLT_tide_hunter_army_chief = 10
+		MLT_king_high_command = 8
+		MLT_mutants_theorist = 3
+	}
+}
+
+mltd_MLT_kingdom_and_books = {
+	name = "Mirelurk Tribe - Kingdom and Books"
+	desc = "Gifts from the Deep, the five Books, the Deep Ones and both rituals, the Washington Brotherhood sub-tree and the NCR's short of its war goal"
+
+	allowed = {
+		original_tag = MLT
+	}
+	enable = {
+		original_tag = MLT
+		is_subject = no
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		NOT = { has_completed_focus = mltd_the_final_ritual }
+	}
+	abort = {
+		OR = {
+			has_completed_focus = mltd_the_final_ritual
+			is_subject = yes
+		}
+	}
+
+	ai_national_focuses = {
+		mltd_gifts_from_the_deep
+		# each Book waits on control of its state (150, 235, 231, 337, 274) or, with La Resistance, a full network there
+		mltd_first_book
+		mltd_second_book
+		mltd_third_book
+		mltd_the_wet_market
+		# the centre column waits on Books read and on national population
+		mltd_call_of_the_deep_ones
+		mltd_the_spreading_cult
+		mltd_fourth_book
+		mltd_fifth_book
+		mltd_the_grand_ritual
+		mltd_the_deep_ones_walk
+		mlt_protect_the_southern_crossing
+		# the claim focuses need a peace with no war goal held (ai_has_no_other_wars_or_wargoals)
+		mlt_cascadian_current
+		mlt_sea_of_cortez
+		# the Washington Brotherhood; The Tide-Wall also needs The Warren (235) owned and controlled
+		mltd_wbh_eyes_in_the_sound
+		mltd_wbh_salt_in_the_citadel
+		mltd_wbh_the_drowned_knights
+		mltd_the_final_ritual
+		mltd_wbh_the_tide_wall
+		# the NCR, short of The Turbines Sing: its war goal would start the NCR war before or during the Final Ritual
+		# (zeroed below; the late-game plan takes it)
+		mltd_ncr_a_mole_in_shady_sands
+		mltd_ncr_drowned_delegates
+		mltd_ncr_sleepers_on_the_long_15
+		mltd_ncr_salt_on_the_caravan_roads
+		# fillers
+		lurk_consult_the_oracles
+		lurk_visions_of_strategies
+		lurk_craft_more_tools
+		lurk_coral_houses
+		lurk_freighter_fortress
+		lurk_defend_the_tribe
+		lurk_scrap_excavation
+		lurk_whale_hunting
+		lurk_rock_tossers
+		lurk_feeding_the_tribesman
+		lurk_visions_of_tactics
+		lurk_shelled_warriors
+		lurk_warrior_trials
+		lurk_aggressive_mindset
+		lurk_the_shell_games
+		lurk_in_the_swamps
+		lurk_in_the_depths
+		lurk_warriors_league
+		lurk_visions_of_designs
+		lurk_refurbish_scrap_war_machines
+		mlt_the_great_tunnels_of_mlulu
+	}
+
+	# As in the opening, and no capstone whose war goal is out of this stage: once the list runs dry the AI falls back on
+	# every conflict focus's own ai_will_do (factor 3), and OWB's DILPOMATIC_ACTION_DECLARE_WAR_WARGOAL_BASE = 500
+	# (01_defines.lua:291) would take it to war on the war goal. The WBH capstone stays listed: Cascadia is this stage.
+	focus_factors = {
+		mlt_offer_muttfruit_for_the_cannibal_territories = 0
+		mlt_offer_muttfruit_for_ribbreaker_coast = 0
+		lurk_defensive_mindset = 0
+		mltd_ncr_the_turbines_sing = 0
+		mltd_ces_the_sea_against_mars = 0
+		mltd_bos_blood_in_the_water = 0
+		mltd_tla_the_drowned_god_sleeps = 0
+		mltd_tex_black_water_rising = 0
+		mltd_hea_the_crusade_turns_south = 0
+		mltd_wht_rites_on_the_spiral_jetty = 0
+	}
+
+	# The opening's weights, with more on the second mirelurk form, its upgrades and industry.
+	research = {
+		industry = 75.0
+		production_and_construction_category = 75.0
+		industry_specialisation_category = 75.0
+		construction_category = 50.0
+		tool_tech = 25.0
+		electronics = 50.0
+		creatures_tech_category = 100.0
+		amphibious_tech_category = 100.0
+		cat_outsider_warfare = 100.0
+		cat_automated_warfare = -75.0
+		cat_elite_army = -75.0
+		cat_grand_army = -75.0
+		cat_terror_tactics = -75.0
+		naval_tech_category = -100.0
+		naval_hull_tech_category = -100.0
+		naval_weapon_module_tech_category = -100.0
+		cat_naval_doctrine = -100.0
+		air_tech_category = -75.0
+		air_equipment_tech_category = -75.0
+		cat_air_doctrine = -75.0
+	}
+
+	# Old Castro (+2 operative slots) is visible only with La Resistance and available once MLT has an agency; the AI saves
+	# political power for him (mltd_ai_save_for_castro, common/ai_strategy/mltd_MLT.txt).
+	ideas = {
+		MLT_tide_hunter_army_chief = 10
+		MLT_king_high_command = 8
+		MLT_mutants_theorist = 3
+		MLT_old_castro_cultural_advisor = 60
+	}
+}
+
+mltd_MLT_late_game = {
+	name = "Mirelurk Tribe - late game"
+	desc = "The conflict sub-trees in the order of the conquests: the NCR, the Legion, Lost Hills, Utah, Heaven's Guard, Texas, Tlaloc"
+
+	allowed = {
+		original_tag = MLT
+	}
+	enable = {
+		original_tag = MLT
+		is_subject = no
+		has_completed_focus = mltd_the_final_ritual
+	}
+	abort = {
+		is_subject = yes
+	}
+
+	ai_national_focuses = {
+		# the NCR, where the previous phase left it
+		mltd_ncr_a_mole_in_shady_sands
+		mltd_ncr_drowned_delegates
+		mltd_ncr_sleepers_on_the_long_15
+		mltd_ncr_salt_on_the_caravan_roads
+		mltd_ncr_the_turbines_sing
+		mlt_tropic_of_cancer
+		# the previous phase's claim focuses, for an AI that never had the peace they need
+		mlt_cascadian_current
+		mlt_sea_of_cortez
+		# Caesar's Legion
+		mltd_ces_what_the_river_carries
+		mltd_ces_the_drowned_frumentarius
+		mltd_ces_the_chained_are_given_to_the_tide
+		mltd_ces_salt_in_the_armouries
+		mltd_ces_the_sea_against_mars
+		# the Lost Hills Brotherhood
+		mltd_bos_the_drowned_paladin
+		mltd_bos_the_paladin_returns
+		mltd_bos_the_tide_takes_the_armoury
+		mltd_bos_the_codex_unsealed
+		mltd_bos_blood_in_the_water
+		# the Utah road war
+		mltd_wht_the_lake_god_answers
+		mltd_wht_the_drowned_shamans
+		mltd_wht_guns_for_both_sides
+		mltd_wht_sand_in_the_engines
+		mltd_wht_rites_on_the_spiral_jetty
+		# Heaven's Guard
+		mltd_hea_whispers_in_the_steam
+		mltd_hea_a_second_schism
+		mltd_hea_steam_for_the_deep
+		mltd_hea_the_crusade_turns_south
+		# Texas
+		mltd_tex_all_waters_are_one
+		mltd_tex_the_silent_partner
+		mltd_tex_wreckers_on_the_trinity
+		mltd_tex_black_water_rising
+		# Tlaloc and his heirs
+		mltd_tla_the_iron_god_dreams
+		mltd_tla_the_three_voices
+		mltd_tla_picking_the_iron_bones
+		mltd_tla_the_drowned_god_sleeps
+		# the Washington Brotherhood, if the previous phase did not finish it
+		mltd_wbh_eyes_in_the_sound
+		mltd_wbh_salt_in_the_citadel
+		mltd_wbh_the_drowned_knights
+		mltd_wbh_the_tide_wall
+		# fillers
+		lurk_consult_the_oracles
+		lurk_visions_of_strategies
+		lurk_craft_more_tools
+		lurk_coral_houses
+		lurk_freighter_fortress
+		lurk_defend_the_tribe
+		lurk_scrap_excavation
+		lurk_whale_hunting
+		lurk_rock_tossers
+		lurk_feeding_the_tribesman
+		lurk_visions_of_tactics
+		lurk_shelled_warriors
+		lurk_warrior_trials
+		lurk_aggressive_mindset
+		lurk_the_shell_games
+		lurk_in_the_swamps
+		lurk_in_the_depths
+		lurk_warriors_league
+		lurk_visions_of_designs
+		lurk_refurbish_scrap_war_machines
+		mlt_the_great_tunnels_of_mlulu
+	}
+
+	# as in the opening
+	focus_factors = {
+		mlt_offer_muttfruit_for_the_cannibal_territories = 0
+		mlt_offer_muttfruit_for_ribbreaker_coast = 0
+		lurk_defensive_mindset = 0
+	}
+
+	# The late creature forms, industry and the rest of Outsider Warfare. The king form over the armour form, which share
+	# every category, is weighted in common/ai_strategy/mltd_MLT.txt (mltd_ai_research_king_form).
+	research = {
+		industry = 75.0
+		production_and_construction_category = 75.0
+		industry_specialisation_category = 75.0
+		construction_category = 50.0
+		tool_tech = 25.0
+		electronics = 50.0
+		creatures_tech_category = 100.0
+		amphibious_tech_category = 150.0
+		cat_outsider_warfare = 100.0
+		cat_automated_warfare = -75.0
+		cat_elite_army = -75.0
+		cat_grand_army = -75.0
+		cat_terror_tactics = -75.0
+		naval_tech_category = -100.0
+		naval_hull_tech_category = -100.0
+		naval_weapon_module_tech_category = -100.0
+		cat_naval_doctrine = -100.0
+		air_tech_category = -75.0
+		air_equipment_tech_category = -75.0
+		cat_air_doctrine = -75.0
+	}
+
+	ideas = {
+		MLT_tide_hunter_army_chief = 10
+		MLT_king_high_command = 8
+		MLT_mutants_theorist = 3
+		MLT_old_castro_cultural_advisor = 60
+	}
+}

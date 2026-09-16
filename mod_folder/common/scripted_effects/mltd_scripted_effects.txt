@@ -202,19 +202,17 @@ mltd_ensure_star_spawn_template = {
 	}
 }
 
-# STATE scope; ROOT is the summoning country. The division rises in whatever state these are
-# called from: the capital for the focus grants, the state that gave up its people for the
-# summon decisions. The stockpile top-up (one division's worth: 8 x 20 / 8 x 10) is
-# belt-and-braces: the variant is unlocked by the hidden tech the ensure effect grants just before
-# this, so start_equipment_factor = 1.0 already fills the division and the stockpile is a free
-# reinforcement pool; the variant can also be produced normally from that moment on
-# (OWB Pursuant Lodge (PER).txt:461 stockpiles deathclaw_equipment_1 the same way;
-# producer = ROOT as in on_core_scripted_effects.txt:358-362).
+# STATE scope; ROOT is the summoning country. The division rises in whatever state these are called from - the capital,
+# for the focus events and both summon decisions. The variant is unlocked by the hidden tech the ensure effect grants just
+# before this, so start_equipment_factor = 1.0 fills the division itself, and the stockpile top-up is the spare: 20 % of
+# the division's need (8 x 20 x 0.2 = 32 Deep Ones, 8 x 10 x 0.2 = 16 Star Spawn), a small reinforcement pool. Until
+# round 17 it was a whole second division's worth (160 / 80). The variant can be produced normally from that moment on
+# (producer = ROOT as in OWB on_core_scripted_effects.txt:358-362). The 32 / 16 are repeated in mltd_spawn_*_tt.
 mltd_raise_deep_ones_here = {
 	ROOT = {
 		add_equipment_to_stockpile = {
 			type = mltd_deep_ones_equipment_1
-			amount = 160
+			amount = 32
 			producer = ROOT
 		}
 	}
@@ -227,7 +225,7 @@ mltd_raise_star_spawn_here = {
 	ROOT = {
 		add_equipment_to_stockpile = {
 			type = mltd_star_spawn_equipment_1
-			amount = 80
+			amount = 16
 			producer = ROOT
 		}
 	}
@@ -387,7 +385,8 @@ mltd_intel_foothold = {
 #   mltd_cult_decay             points it loses at the next weekly tick
 #   mltd_cult_threat_big/_small/_air  the war penalties in percentage points, for loc (0.25 / 0.15 / 0.5 per point)
 #   mltd_cult_*_var             the five mltd_cult_infiltration inputs, 0 unless at war with MLT
-#   mltd_cult_cd_spread/_halls/_barracks/_drown   decision cooldowns, in weeks
+# Country flag mltd_cult_sheltered (set by the root of each conflict sub-tree on its targets) halves the decay.
+# MLT keeps mltd_cult_total_strength, the sum of every cult's strength, which the Call decisions pay out on.
 
 # The last of the faithful are gone: the country is clean, and a new cult can be founded there.
 mltd_cult_dissolve = {
@@ -402,21 +401,22 @@ mltd_cult_dissolve = {
 	clear_variable = mltd_cult_org_var
 	clear_variable = mltd_cult_factory_var
 	clear_variable = mltd_cult_air_var
-	clear_variable = mltd_cult_cd_spread
-	clear_variable = mltd_cult_cd_halls
-	clear_variable = mltd_cult_cd_barracks
-	clear_variable = mltd_cult_cd_drown
 }
 
 # Recomputes the weekly decay and the war penalties from the current strength s.
 # decay = 0.5 + s * s / 2500 points a week: 1.5 at 50 %, 3.74 at 90 %, 4.5 at 100 %, so holding 90 costs
-# ~2.5x what holding 50 does. Tripled while at war with MLT: the faithful rise, and rising exposes them.
+# ~2.5x what holding 50 does. Halved in a country whose conflict sub-tree MLT has opened (mltd_cult_sheltered); tripled
+# while at war with MLT: the faithful rise, and rising exposes them.
 # s * s peaks at 10,000, far under the 2,147,483 variable ceiling.
 mltd_cult_refresh = {
 	set_variable = { mltd_cult_decay = mltd_cult_strength }
 	multiply_variable = { mltd_cult_decay = mltd_cult_strength }
 	divide_variable = { mltd_cult_decay = 2500 }
 	add_to_variable = { mltd_cult_decay = 0.5 }
+	if = {
+		limit = { has_country_flag = mltd_cult_sheltered }
+		multiply_variable = { mltd_cult_decay = 0.5 }
+	}
 	if = {
 		limit = { has_war_with = MLT }
 		multiply_variable = { mltd_cult_decay = 3 }
@@ -453,10 +453,6 @@ mltd_cult_add_strength = {
 	if = {
 		limit = { NOT = { has_variable = mltd_cult_strength } }
 		set_variable = { mltd_cult_strength = 0 }
-		set_variable = { mltd_cult_cd_spread = 0 }
-		set_variable = { mltd_cult_cd_halls = 0 }
-		set_variable = { mltd_cult_cd_barracks = 0 }
-		set_variable = { mltd_cult_cd_drown = 0 }
 	}
 	add_to_variable = { mltd_cult_strength = mltd_cult_gain }
 	clamp_variable = { var = mltd_cult_strength min = 0 max = 100 }
@@ -467,15 +463,11 @@ mltd_cult_add_strength = {
 	mltd_cult_refresh = yes
 }
 
-# Weekly (on_weekly_MLT): lose this week's decay, count the cooldowns down, dissolve below 1 %.
+# Weekly (on_weekly_MLT): lose this week's decay, and dissolve below 1 %.
 mltd_cult_weekly = {
 	mltd_cult_refresh = yes
 	subtract_from_variable = { mltd_cult_strength = mltd_cult_decay }
 	clamp_variable = { var = mltd_cult_strength min = 0 max = 100 }
-	if = { limit = { check_variable = { mltd_cult_cd_spread > 0 } } subtract_from_variable = { mltd_cult_cd_spread = 1 } }
-	if = { limit = { check_variable = { mltd_cult_cd_halls > 0 } } subtract_from_variable = { mltd_cult_cd_halls = 1 } }
-	if = { limit = { check_variable = { mltd_cult_cd_barracks > 0 } } subtract_from_variable = { mltd_cult_cd_barracks = 1 } }
-	if = { limit = { check_variable = { mltd_cult_cd_drown > 0 } } subtract_from_variable = { mltd_cult_cd_drown = 1 } }
 	if = {
 		limit = { check_variable = { mltd_cult_strength < 1 } }
 		mltd_cult_dissolve = yes
@@ -488,7 +480,8 @@ mltd_cult_weekly = {
 # mltd_cult_rebuild_list: the cults abroad, strongest first, for the Cult Infiltration category's description
 # (GetMltdCultList, common/scripted_localisation). MLT scope. Rebuilt rather than kept up piecemeal: every_country skips
 # countries that no longer exist, so annexed ones drop out. Called daily by on_daily_MLT once The Spreading Cult is done,
-# weekly after the decay loop, by every cult decision and by the focus mltd_the_spreading_cult.
+# weekly after the decay loop, by both cult operations and by the focus mltd_the_spreading_cult. It also sums
+# mltd_cult_total_strength, which the Call decisions pay out on.
 # The loc reads fixed slots on MLT - mltd_cult_row_<k> (the country) and mltd_cult_row_<k>_str (its strength), k = 1-8,
 # plus mltd_cult_count and mltd_cult_more - never an array element: stepping into var:array^i from a decision category's
 # description found nothing in game. Slots past mltd_cult_count keep stale values that the loc never shows. Selection sort
@@ -498,10 +491,12 @@ mltd_cult_rebuild_list = {
 	clear_array = mltd_cult_sort_country
 	clear_array = mltd_cult_sort_strength
 	set_variable = { mltd_cult_count = 0 }
+	set_variable = { mltd_cult_total_strength = 0 }
 	every_country = {
 		limit = { has_variable = mltd_cult_strength }
 		add_to_array = { ROOT.mltd_cult_sort_country = THIS }
 		add_to_array = { ROOT.mltd_cult_sort_strength = mltd_cult_strength }
+		add_to_variable = { ROOT.mltd_cult_total_strength = mltd_cult_strength }
 	}
 	while_loop_effect = {
 		limit = { check_variable = { mltd_cult_sort_country^num > 0 } }

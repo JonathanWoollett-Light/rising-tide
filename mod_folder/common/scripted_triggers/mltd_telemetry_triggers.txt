@@ -1,0 +1,9 @@
+# Rising Tide - MLT AI telemetry: the kill switch
+#
+# mltd_telemetry_on gates the telemetry - the MLTD lines that common/scripted_effects/mltd_telemetry_effects.txt writes to
+# game.log from MLT's daily, weekly and monthly pulses (common/on_actions/mltd_telemetry_on_actions.txt) for the AI
+# report. Set it to always = no to silence the telemetry before a release; deleting the three mltd_telemetry_* files
+# removes it altogether.
+mltd_telemetry_on = {
+	always = yes
+}

@@ -1,5 +1,5 @@
 """
-build_decision_icons.py - decision icon GFX_decision_mltd_cult_hood (the "Found a Cult" decision).
+build_decision_icons.py - decision icon GFX_decision_mltd_cult_hood (drawn for the "Found a Cult" decision; since round 17 the "Call for People" decision).
 
 Started from the "front" variant (r14/icon_front/build.py): a front-facing pointed cowl for the
 drowned faith of M'lyeh, the face opening pure shadow, symmetrical, lit from the upper left like
