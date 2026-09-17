@@ -1,0 +1,16 @@
+# Rising Tide - opinion modifiers (the Broken Coast sub-tree, round 21)
+opinion_modifiers = {
+	# mltd_brk_salt_on_the_broken_coast, both ways: replaces OWB's world_view_brk / brk_view_world between MLT and BRK
+	mltd_drowned_envoys = {
+		value = 25
+	}
+	# the Drowned Covenant (event mltd.21, accepted), both ways
+	mltd_drowned_covenant = {
+		value = 75
+	}
+	# the Drowned Covenant refused: MLT's opinion of the Broken Coast, fading a point a month
+	mltd_drowned_covenant_refused = {
+		value = -25
+		decay = 1
+	}
+}

@@ -166,15 +166,28 @@ mltd_MLT_kingdom_and_books = {
 		mltd_the_grand_ritual
 		mltd_the_deep_ones_walk
 		mlt_protect_the_southern_crossing
-		# the claim focuses need a peace with no war goal held (ai_has_no_other_wars_or_wargoals)
+		# the claim focuses need no war MLT can still fight, no war goal held and no losing war (mltd_ai_may_press_claims)
 		mlt_cascadian_current
 		mlt_sea_of_cortez
 		# the Washington Brotherhood; The Tide-Wall also needs The Warren (235) owned and controlled
 		mltd_wbh_eyes_in_the_sound
 		mltd_wbh_salt_in_the_citadel
 		mltd_wbh_the_drowned_knights
+		# the Broken Coast is courted, not conquered (mltd_ai_courting_brk): envoys, the cult when the network allows, volunteers
+		# while the population can spare them; the Covenant waits on the raiders' coast, their cult, the network and intel
+		mltd_brk_salt_on_the_broken_coast
+		mltd_brk_the_drowned_raiders
+		mltd_brk_the_deep_ones_sail_north
+		mltd_brk_star_spawn_over_the_strait
+		# the Bone Dancers: the invitation if they have crowned the Odious King, else the war
+		mltd_bdt_the_bone_shore
+		mltd_bdt_the_dancers_hear_the_tide
+		mltd_bdt_salt_on_the_bone_road
+		mltd_bdt_hail_the_drowned_king
+		mltd_bdt_drown_the_dance
 		mltd_the_final_ritual
 		mltd_wbh_the_tide_wall
+		mltd_brk_the_drowned_covenant
 		# the NCR, short of The Turbines Sing: its war goal would start the NCR war before or during the Final Ritual
 		# (zeroed below; the late-game plan takes it)
 		mltd_ncr_a_mole_in_shady_sands
@@ -272,6 +285,17 @@ mltd_MLT_late_game = {
 	}
 
 	ai_national_focuses = {
+		# the Broken Coast first: its volunteers come before the NCR's war (mltd_ai_brk_helped)
+		mltd_brk_salt_on_the_broken_coast
+		mltd_brk_the_drowned_raiders
+		mltd_brk_the_deep_ones_sail_north
+		mltd_brk_star_spawn_over_the_strait
+		mltd_brk_the_drowned_covenant
+		mltd_bdt_the_bone_shore
+		mltd_bdt_the_dancers_hear_the_tide
+		mltd_bdt_salt_on_the_bone_road
+		mltd_bdt_hail_the_drowned_king
+		mltd_bdt_drown_the_dance
 		# the NCR, where the previous phase left it
 		mltd_ncr_a_mole_in_shady_sands
 		mltd_ncr_drowned_delegates
@@ -279,7 +303,7 @@ mltd_MLT_late_game = {
 		mltd_ncr_salt_on_the_caravan_roads
 		mltd_ncr_the_turbines_sing
 		mlt_tropic_of_cancer
-		# the previous phase's claim focuses, for an AI that never had the peace they need
+		# the previous phase's claim focuses, for an AI that never met their gate (mltd_ai_may_press_claims)
 		mlt_cascadian_current
 		mlt_sea_of_cortez
 		# Caesar's Legion

@@ -454,7 +454,7 @@ def gen_market():
 
 SNAP_KEYS = ['owned', 'controlled', 'pop_k', 'mp_k', 'divs', 'mil', 'civ', 'dock', 'caps', 'pp', 'stab', 'ws', 'books',
              'cults', 'cult_pts', 'cult_target', 'subjects', 'wars', 'eq_mirelurk', 'eq_inf', 'eq_sup', 'border', 'target',
-             'north', 'ops', 'slots']
+             'north', 'frontage', 'ops', 'slots']
 
 
 def gen_snap():
@@ -870,8 +870,10 @@ mltd_tm_log_snap = {
     set_variable = { mltd_tm_border = 0 }
     set_variable = { mltd_tm_target = 0 }
     set_variable = { mltd_tm_north = 0 }
+    set_variable = { mltd_tm_frontage = 0 }
     if = {
         limit = { has_variable = mltd_ai_army_target }
+        set_variable = { mltd_tm_frontage = mltd_ai_frontage }
         set_variable = { mltd_tm_border = mltd_ai_border_states }
         set_variable = { mltd_tm_target = mltd_ai_army_target }
         set_variable = { mltd_tm_north = mltd_ai_north_owned }

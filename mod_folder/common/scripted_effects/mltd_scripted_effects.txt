@@ -681,3 +681,96 @@ mltd_indoctrinate_defector = {
 		}
 	}
 }
+
+# ---- Broken Coast (round 21; the sub-tree mltd_brk_* in common/national_focus/mltd_conflicts_focus.txt) ----
+# MLT scope. +3 to the volunteer divisions MLT may send (send_volunteer_size), from The Deep Ones Sail North and Star Spawn
+# over the Strait: the dynamic modifier mltd_brk_volunteers reads mltd_brk_volunteer_size_var (OWB's Brotherhood does the
+# same with BOS_expeditionary_departments, bos_dynamic_modifiers.txt:46-47). The +3 is repeated in
+# mltd_brk_volunteer_size_tt. The engine's own limit (a share of MLT's divisions and of the target's provinces) comes on top.
+mltd_brk_add_volunteer_size = {
+	custom_effect_tooltip = mltd_brk_volunteer_size_tt
+	hidden_effect = {
+		add_to_variable = { mltd_brk_volunteer_size_var = 3 }
+		if = {
+			limit = { NOT = { has_dynamic_modifier = { modifier = mltd_brk_volunteers } } }
+			add_dynamic_modifier = { modifier = mltd_brk_volunteers }
+		}
+		force_update_dynamic_modifier = yes
+	}
+}
+
+# MLT scope, from the Broken Coast's acceptance in event mltd.21: MLT founds the Drowned Covenant if it leads no faction
+# (a template needs No Compromise, No Surrender, as in OWB's faction_tracking_scripted_effects.txt:6-16), takes the
+# raiders in, and both sides gain the Covenant's goodwill. MLT in someone else's faction founds nothing and takes no one.
+# MLT scope, from the Bone Dancers' acceptance in event mltd.24: the same Covenant the Broken Coast is invited into.
+mltd_bdt_join_the_covenant = {
+	if = {
+		limit = { is_in_faction = no }
+		if = {
+			limit = { has_dlc = "No Compromise, No Surrender" }
+			create_faction_from_template = {
+				template = mltd_drowned_covenant_template
+				name = mltd_drowned_covenant
+				icon = GFX_faction_logo_cascadia_pirates
+			}
+		}
+		else = {
+			create_faction = mltd_drowned_covenant
+		}
+	}
+	if = {
+		limit = {
+			is_faction_leader = yes
+			country_exists = BDT
+			BDT = {
+				is_in_faction = no
+				is_subject = no
+			}
+		}
+		add_to_faction = BDT
+	}
+	add_opinion_modifier = {
+		target = BDT
+		modifier = mltd_drowned_covenant
+	}
+	reverse_add_opinion_modifier = {
+		target = BDT
+		modifier = mltd_drowned_covenant
+	}
+}
+
+mltd_brk_join_the_covenant = {
+	if = {
+		limit = { is_in_faction = no }
+		if = {
+			limit = { has_dlc = "No Compromise, No Surrender" }
+			create_faction_from_template = {
+				template = mltd_drowned_covenant_template
+				name = mltd_drowned_covenant
+				icon = GFX_faction_logo_cascadia_pirates
+			}
+		}
+		else = {
+			create_faction = mltd_drowned_covenant
+		}
+	}
+	if = {
+		limit = {
+			is_faction_leader = yes
+			country_exists = BRK
+			BRK = {
+				is_in_faction = no
+				is_subject = no
+			}
+		}
+		add_to_faction = BRK
+	}
+	add_opinion_modifier = {
+		target = BRK
+		modifier = mltd_drowned_covenant
+	}
+	reverse_add_opinion_modifier = {
+		target = BRK
+		modifier = mltd_drowned_covenant
+	}
+}

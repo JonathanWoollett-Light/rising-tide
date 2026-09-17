@@ -76,6 +76,17 @@ on_actions = {
 				mltd_ai_survey = yes
 			}
 
+			# AI only: infantry weapons and support equipment from OWB's sellers, the player's own purchase
+			# (mltd_ai_buy_line_equipment, common/scripted_effects/mltd_ai_survey_effects.txt)
+			if = {
+				limit = {
+					is_ai = yes
+					has_global_flag = caps_enabled_global_flag
+					has_variable = caps_number_display
+				}
+				mltd_ai_buy_line_equipment = yes
+			}
+
 			# AI only: the target of the cult operations, read by their strategies' enable (common/ai_strategy). The same
 			# weekly pick as OWB's update_operation_ai (scripted_effects/operation_strat_effects.txt:5-24): drop a target that
 			# is gone, capitulated or allied, then re-score with mltd_ai_cult_target_scorer (common/scorers/country).
@@ -106,9 +117,34 @@ on_actions = {
 					scorer = mltd_ai_cult_target_scorer
 					var = mltd_ai_cult_target
 				}
+				# the Broken Coast while MLT courts it (round 21): the Drowned Covenant waits on a cult there at 50 %, and the
+				# scorer's arrays (neighbours, enemies, majors) seldom hold it. Not over the NCR's cult before the NCR's war.
+				if = {
+					limit = {
+						mltd_ai_courting_brk = yes
+						network_national_coverage = { target = BRK value > 0 }
+						BRK = {
+							OR = {
+								NOT = { has_variable = mltd_cult_strength }
+								check_variable = { mltd_cult_strength < 60 }
+							}
+						}
+						OR = {
+							NOT = { has_completed_focus = mltd_the_deep_ones_walk }
+							NOT = { country_exists = NCR }
+							has_war_with = NCR
+							NCR = {
+								has_variable = mltd_cult_strength
+								check_variable = { mltd_cult_strength > 39.9 }
+							}
+						}
+					}
+					set_variable = { mltd_ai_cult_target = BRK }
+				}
 			}
 
-			# AI only: The Wet Market's GUI is is_ai = no, so an AI Mirelurk Tribe buys here, exactly as the buy button does
+			# AI only, once its army turns to mirelurks (mltd_ai_late_army; until then its caps go on the line's infantry weapons):
+			# The Wet Market's GUI is is_ai = no, so an AI Mirelurk Tribe buys here, exactly as the buy button does
 			# (common/scripted_guis/mltd_wet_market_gui.txt, whose prices these repeat). One lot of the best variant it has
 			# the tech for, while its stockpile holds under a lot, with over 300 caps in hand and 150 left after paying. OWB's
 			# own AI floor (organization_scripted_effects.txt:654-655) also asks for positive caps income, which a large army's
@@ -117,6 +153,7 @@ on_actions = {
 			if = {
 				limit = {
 					is_ai = yes
+					mltd_ai_late_army = yes
 					has_global_flag = mltd_wet_market_open
 					NOT = { has_country_flag = caps_market_prevented }
 					NOT = { has_country_flag = mltd_wet_market_recent_trade }

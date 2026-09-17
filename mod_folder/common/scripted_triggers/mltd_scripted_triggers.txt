@@ -166,3 +166,17 @@ mltd_wet_market_can_sell = {
 		NOT = { has_country_flag = mltd_wet_market_recent_trade }
 	}
 }
+
+# The Brotherhood in Washington, for the mltd_wbh_* sub-tree: the Washington Brotherhood, or The Cause once it has taken
+# Seattle (84) and formed the Northwestern Brotherhood (OWB's formable, common/decisions/formable_nations.txt; it also claims
+# every Washington state, The Warren included). Both fly OWB's shared Brotherhood focus tree, so both can purge the mutants
+# and march on The Warren. While their own war runs, both answer. Country scope.
+mltd_wbh_brotherhood = {
+	OR = {
+		tag = WBH
+		AND = {
+			tag = TCA
+			has_cosmetic_tag = TCA_northwestern_brotherhood
+		}
+	}
+}

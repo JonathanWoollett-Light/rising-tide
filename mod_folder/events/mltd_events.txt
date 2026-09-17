@@ -679,6 +679,71 @@ country_event = {
 	}
 }
 
+# ---- Round 21: the Drowned Covenant. mltd.21 goes to the Broken Coast from MLT's focus mltd_brk_the_drowned_covenant
+# (FROM = MLT); its answer reaches MLT as mltd.22 (accepted) or mltd.23 (refused), where FROM = BRK.
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.21" }
+	id = mltd.21
+	title = mltd.21.t
+	desc = mltd.21.d
+	picture = GFX_event_BRK_raider_port
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.21.a
+		# an AI Broken Coast always swears: the cult, the volunteers and the intel have done the work by the time this arrives
+		ai_chance = { base = 100 }
+		FROM = { mltd_brk_join_the_covenant = yes }
+		hidden_effect = {
+			FROM = { country_event = { id = mltd.22 days = 1 } }
+		}
+	}
+	option = {
+		name = mltd.21.b
+		# only a human Broken Coast refuses
+		ai_chance = { base = 0 }
+		FROM = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = mltd_drowned_covenant_refused
+			}
+		}
+		hidden_effect = {
+			set_global_flag = mltd_brk_refused_covenant
+			FROM = { country_event = { id = mltd.23 days = 1 } }
+		}
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.22" }
+	id = mltd.22
+	title = mltd.22.t
+	desc = mltd.22.d
+	picture = GFX_event_BRK_ship_shacks3
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.22.a
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.23" }
+	id = mltd.23
+	title = mltd.23.t
+	desc = mltd.23.d
+	picture = GFX_event_BRK_shipwreck
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.23.a
+	}
+}
+
 # ---- Books of M'lyeh expeditions: each Book focus fires the chain's first event; the last event reads the Book
 # (set_country_flag = mltd_<n>_book_found, mltd_books_read + 1), which is what unlocks the gift decision.
 country_event = {
@@ -1151,5 +1216,70 @@ country_event = {
 		custom_effect_tooltip = mltd_abyss_gift_unlocked_tt
 		set_temp_variable = { mltd_tt = 0.20 tooltip = mltd_stability_factor_tt }
 		custom_effect_tooltip = mltd_book_found_read_tt
+	}
+}
+
+# ---- Round 22: the Bone Dancers. mltd.24 goes to the Bone Dancers from MLT's focus mltd_bdt_hail_the_drowned_king
+# (FROM = MLT); their answer reaches MLT as mltd.25 (accepted) or mltd.26 (refused).
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.24" }
+	id = mltd.24
+	title = mltd.24.t
+	desc = mltd.24.d
+	picture = GFX_event_BDT_odious_king
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.24.a
+		# an AI Bone Dancer always swears: the cult and the Order have done the work by the time this arrives
+		ai_chance = { base = 100 }
+		FROM = { mltd_bdt_join_the_covenant = yes }
+		hidden_effect = {
+			FROM = { country_event = { id = mltd.25 days = 1 } }
+		}
+	}
+	option = {
+		name = mltd.24.b
+		# only a human Bone Dancer refuses
+		ai_chance = { base = 0 }
+		FROM = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = mltd_drowned_covenant_refused
+			}
+		}
+		hidden_effect = {
+			set_global_flag = mltd_bdt_refused_covenant
+			FROM = { country_event = { id = mltd.26 days = 1 } }
+		}
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.25" }
+	id = mltd.25
+	title = mltd.25.t
+	desc = mltd.25.d
+	picture = GFX_event_BDT_great_northern_hotel
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.25.a
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.26" }
+	id = mltd.26
+	title = mltd.26.t
+	desc = mltd.26.d
+	picture = GFX_event_BDT_crimson_forest
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.26.a
 	}
 }

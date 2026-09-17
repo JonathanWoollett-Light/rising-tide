@@ -5,7 +5,11 @@
 # be blocked for it without overriding OWB's files; role_ratio decides between them and these.
 # Every target fits OWB's designer: 5 columns x 3 rows (01_defines.lua:445-447), one sub-unit group per column -
 # amphibious_beast_creature, mltd_deep_ones and mltd_star_spawn are mutant_group, infantry and militia are infantry.
-# No support companies: MLT starts with none unlocked, and the scripted Deep Ones / Star Spawn templates carry none.
+# Support companies: MLT starts with none unlocked, but it holds support_tech_level_tribal from game start (OWB's history),
+# so anti_tank_equipment_tech_1 (2276, OWB tech_support.txt:2773) is within reach and the AI is made to take it
+# (mltd_ai_research_anti_tank). Every line role therefore has an anti-tank variant behind `enable = has_tech`: OWB's power
+# armour (WBH's Paladins, the NCR's rangers) is armoured, and militia and infantry have no piercing of their own. The
+# scripted Deep Ones / Star Spawn templates carry no support company, so their roles match them exactly.
 # Target templates are named apart from the role and sub-unit tokens (no precedent in vanilla or OWB shares one).
 # OWB replace_paths common/ai_templates, so this file only loads after OWB (dependencies in descriptor.mod).
 
@@ -45,6 +49,35 @@ mltd_coral_host_templates = {
 			}
 		}
 		replace_at_match = 1.5
+		replace_with = mltd_coral_host_at
+		target_min_match = 0.0
+	}
+
+	# the same division with an anti-tank company, once the tech is in (piercing for OWB's power armour)
+	mltd_coral_host_at = {
+		reinforce_prio = 1
+		enable = { has_tech = anti_tank_equipment_tech_1 }
+		upgrade_prio = {
+			factor = 3
+			modifier = {
+				factor = 0
+				mltd_ai_late_army = yes
+			}
+		}
+		can_upgrade_in_field = {
+			mltd_ai_late_army = yes
+			has_equipment = { amphibious_beast_equipment > 1000 }
+		}
+		target_template = {
+			support = {
+				anti_tank_company = 1
+			}
+			regiments = {
+				amphibious_beast_creature = 4
+				infantry = 5
+			}
+		}
+		replace_at_match = 1.5
 		replace_with = mltd_coral_host_late
 		target_min_match = 0.0
 	}
@@ -60,6 +93,9 @@ mltd_coral_host_templates = {
 			}
 		}
 		target_template = {
+			support = {
+				anti_tank_company = 1
+			}
 			regiments = {
 				amphibious_beast_creature = 8
 			}
@@ -82,6 +118,29 @@ mltd_shell_levy_templates = {
 		}
 	}
 
+	# Round 22: with no mirelurks to spare the levy is pure militia - run 5 sat on 4,000 infantry weapons and 9,000 manpower
+	# without raising a division, because every target template asked for a mirelurk. It upgrades into the mirelurk levy once
+	# the stock allows (replace_with, as the late templates do).
+	mltd_shell_levy_militia = {
+		reinforce_prio = 0
+		enable = { NOT = { has_equipment = { amphibious_beast_equipment > 200 } } }
+		upgrade_prio = {
+			factor = 3
+			modifier = {
+				factor = 0
+				has_equipment = { amphibious_beast_equipment > 200 }
+			}
+		}
+		target_template = {
+			regiments = {
+				militia = 12
+			}
+		}
+		replace_at_match = 1.5
+		replace_with = mltd_shell_levy_target
+		target_min_match = 0.0
+	}
+
 	mltd_shell_levy_target = {
 		reinforce_prio = 0
 		upgrade_prio = {
@@ -96,6 +155,34 @@ mltd_shell_levy_templates = {
 			has_equipment = { amphibious_beast_equipment > 1000 }
 		}
 		target_template = {
+			regiments = {
+				amphibious_beast_creature = 1
+				militia = 11
+			}
+		}
+		replace_at_match = 1.5
+		replace_with = mltd_shell_levy_at
+		target_min_match = 0.0
+	}
+
+	mltd_shell_levy_at = {
+		reinforce_prio = 0
+		enable = { has_tech = anti_tank_equipment_tech_1 }
+		upgrade_prio = {
+			factor = 3
+			modifier = {
+				factor = 0
+				mltd_ai_late_army = yes
+			}
+		}
+		can_upgrade_in_field = {
+			mltd_ai_late_army = yes
+			has_equipment = { amphibious_beast_equipment > 1000 }
+		}
+		target_template = {
+			support = {
+				anti_tank_company = 1
+			}
 			regiments = {
 				amphibious_beast_creature = 1
 				militia = 11
@@ -117,6 +204,9 @@ mltd_shell_levy_templates = {
 			}
 		}
 		target_template = {
+			support = {
+				anti_tank_company = 1
+			}
 			regiments = {
 				amphibious_beast_creature = 8
 			}
@@ -168,6 +258,9 @@ mltd_tide_wall_templates = {
 			}
 		}
 		target_template = {
+			support = {
+				anti_tank_company = 1
+			}
 			regiments = {
 				amphibious_beast_creature = 8
 			}

@@ -648,7 +648,7 @@ mltd_tm_poll_focuses = {
 		set_country_flag = mltd_tm_f_lurk_the_shell_games
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_the_shell_games"
 	}
-	# the conflict sub-trees, common/national_focus/mltd_conflicts_focus.txt (36)
+	# the conflict sub-trees, common/national_focus/mltd_conflicts_focus.txt (46)
 	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ncr_a_mole_in_shady_sands } has_completed_focus = mltd_ncr_a_mole_in_shady_sands }
 		set_country_flag = mltd_tm_f_mltd_ncr_a_mole_in_shady_sands
@@ -829,6 +829,56 @@ mltd_tm_poll_focuses = {
 		set_country_flag = mltd_tm_f_mltd_wht_rites_on_the_spiral_jetty
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_rites_on_the_spiral_jetty"
 	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_salt_on_the_broken_coast } has_completed_focus = mltd_brk_salt_on_the_broken_coast }
+		set_country_flag = mltd_tm_f_mltd_brk_salt_on_the_broken_coast
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_salt_on_the_broken_coast"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_the_deep_ones_sail_north } has_completed_focus = mltd_brk_the_deep_ones_sail_north }
+		set_country_flag = mltd_tm_f_mltd_brk_the_deep_ones_sail_north
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_the_deep_ones_sail_north"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_the_drowned_raiders } has_completed_focus = mltd_brk_the_drowned_raiders }
+		set_country_flag = mltd_tm_f_mltd_brk_the_drowned_raiders
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_the_drowned_raiders"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_star_spawn_over_the_strait } has_completed_focus = mltd_brk_star_spawn_over_the_strait }
+		set_country_flag = mltd_tm_f_mltd_brk_star_spawn_over_the_strait
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_star_spawn_over_the_strait"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_the_drowned_covenant } has_completed_focus = mltd_brk_the_drowned_covenant }
+		set_country_flag = mltd_tm_f_mltd_brk_the_drowned_covenant
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_the_drowned_covenant"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_the_bone_shore } has_completed_focus = mltd_bdt_the_bone_shore }
+		set_country_flag = mltd_tm_f_mltd_bdt_the_bone_shore
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_the_bone_shore"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_the_dancers_hear_the_tide } has_completed_focus = mltd_bdt_the_dancers_hear_the_tide }
+		set_country_flag = mltd_tm_f_mltd_bdt_the_dancers_hear_the_tide
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_the_dancers_hear_the_tide"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_salt_on_the_bone_road } has_completed_focus = mltd_bdt_salt_on_the_bone_road }
+		set_country_flag = mltd_tm_f_mltd_bdt_salt_on_the_bone_road
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_salt_on_the_bone_road"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_hail_the_drowned_king } has_completed_focus = mltd_bdt_hail_the_drowned_king }
+		set_country_flag = mltd_tm_f_mltd_bdt_hail_the_drowned_king
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_hail_the_drowned_king"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_drown_the_dance } has_completed_focus = mltd_bdt_drown_the_dance }
+		set_country_flag = mltd_tm_f_mltd_bdt_drown_the_dance
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_drown_the_dance"
+	}
 }
 
 # TECH: the techs CONQUEST_PLAN.txt researches, those MLT's AI forces (research_tech, common/ai_strategy/mltd_MLT.txt),
@@ -874,6 +924,16 @@ mltd_tm_poll_techs = {
 		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_1 } has_tech = amphibious_beast_upgrade_tech_1 }
 		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_1
 		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_1"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_anti_tank_equipment_tech_1 } has_tech = anti_tank_equipment_tech_1 }
+		set_country_flag = mltd_tm_t_anti_tank_equipment_tech_1
+		log = "MLTD [?mltd_tm_day|0] TECH id=anti_tank_equipment_tech_1"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_anti_tank_tech_1 } has_tech = anti_tank_tech_1 }
+		set_country_flag = mltd_tm_t_anti_tank_tech_1
+		log = "MLTD [?mltd_tm_day|0] TECH id=anti_tank_tech_1"
 	}
 	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_t_construction_industry_tech_2 } has_tech = construction_industry_tech_2 }
@@ -3930,8 +3990,10 @@ mltd_tm_log_snap = {
 	set_variable = { mltd_tm_border = 0 }
 	set_variable = { mltd_tm_target = 0 }
 	set_variable = { mltd_tm_north = 0 }
+	set_variable = { mltd_tm_frontage = 0 }
 	if = {
 		limit = { has_variable = mltd_ai_army_target }
+		set_variable = { mltd_tm_frontage = mltd_ai_frontage }
 		set_variable = { mltd_tm_border = mltd_ai_border_states }
 		set_variable = { mltd_tm_target = mltd_ai_army_target }
 		set_variable = { mltd_tm_north = mltd_ai_north_owned }
@@ -3945,19 +4007,19 @@ mltd_tm_log_snap = {
 		}
 		if = {
 			limit = { has_global_flag = caps_enabled_global_flag }
-			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] caps=[?mltd_tm_caps|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=[?ROOT.mltd_ai_cult_target.GetTag] subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
+			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] caps=[?mltd_tm_caps|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=[?ROOT.mltd_ai_cult_target.GetTag] subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] frontage=[?mltd_tm_frontage|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
 		}
 		else = {
-			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=[?ROOT.mltd_ai_cult_target.GetTag] subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
+			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=[?ROOT.mltd_ai_cult_target.GetTag] subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] frontage=[?mltd_tm_frontage|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
 		}
 	}
 	else = {
 		if = {
 			limit = { has_global_flag = caps_enabled_global_flag }
-			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] caps=[?mltd_tm_caps|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=none subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
+			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] caps=[?mltd_tm_caps|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=none subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] frontage=[?mltd_tm_frontage|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
 		}
 		else = {
-			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=none subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
+			log = "MLTD [?mltd_tm_day|0] SNAP owned=[?mltd_tm_owned|0] controlled=[?mltd_tm_controlled|0] pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] divs=[?mltd_tm_divs|0] mil=[?mltd_tm_mil|0] civ=[?mltd_tm_civ|0] dock=[?mltd_tm_dock|0] pp=[?mltd_tm_pp|0] stab=[?mltd_tm_stab|0] ws=[?mltd_tm_ws|0] books=[?mltd_tm_books|0] cults=[?mltd_tm_cults|0] cult_pts=[?mltd_tm_cult_pts|0] cult_target=none subjects=[?mltd_tm_subjects|0] wars=[?mltd_tm_wars|0] eq_mirelurk=[?mltd_tm_eq_mirelurk|0] eq_inf=[?mltd_tm_eq_inf|0] eq_sup=[?mltd_tm_eq_sup|0] border=[?mltd_tm_border|0] target=[?mltd_tm_target|0] north=[?mltd_tm_north|0] frontage=[?mltd_tm_frontage|0] ops=[?mltd_tm_ops|0] slots=[?mltd_tm_slots|0] date=[GetDateText]"
 		}
 	}
 }

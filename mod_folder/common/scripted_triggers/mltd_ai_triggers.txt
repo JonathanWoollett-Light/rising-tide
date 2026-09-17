@@ -145,8 +145,22 @@ mltd_ai_legion_beaten = {
 
 # A country MLT can attack without starting a war it cannot win, as a player would judge it: on the NCR's side only once the
 # NCR's own stage is open (then that whole side is the target), and otherwise with no ally - faction member, overlord or
-# subject - at half MLT's estimated army strength or more (strength_ratio, vanilla ai_strategy/ENG.txt:1368). Country scope.
+# subject - at half MLT's estimated army strength or more (strength_ratio, vanilla ai_strategy/ENG.txt:1368), and, after the
+# Kingdom, no stronger than MLT. Country scope.
 mltd_ai_safe_target = {
+	# never the Broken Coast or the Bone Dancers while MLT courts them
+	NOT = {
+		AND = {
+			tag = BRK
+			ROOT = { mltd_ai_courting_brk = yes }
+		}
+	}
+	NOT = {
+		AND = {
+			tag = BDT
+			ROOT = { mltd_ai_courting_bdt = yes }
+		}
+	}
 	if = {
 		limit = { mltd_ai_in_ncr_bloc = yes }
 		ROOT = { mltd_ai_stage_ncr = yes }
@@ -156,6 +170,12 @@ mltd_ai_safe_target = {
 			any_allied_country = {
 				strength_ratio = { tag = ROOT ratio > 0.5 }
 			}
+		}
+		# nor, after the Kingdom, a country stronger than MLT itself (run 3 declared on Broken Coast, 47 states, and lost);
+		# the Oregon opening is exempt, because mirelurk armour beats Oregon's weapons in a way estimated strength misses
+		OR = {
+			ROOT = { NOT = { has_completed_focus = mlt_kingdom_of_mlyeh } }
+			NOT = { strength_ratio = { tag = ROOT ratio > 1 } }
 		}
 	}
 }
@@ -244,6 +264,43 @@ mltd_ai_new_reno_first = {
 	}
 }
 
+# May an AI MLT take a claim focus (Expanding M'lulu's Domain, Cascadian Current, Sea of Cortez, Tropic of Cancer)?
+# They replace OWB's ai_has_no_other_wars_or_wargoals (wargoal_triggers.txt:37-49) in our focus override, which lets an AI
+# take them only at peace with no war goal held - a handicap a human never has, and one that kept run 2's MLT from its
+# claims for the two years its NCR war could not end. Narrower than removing it: while MLT is not losing (surrender
+# progress at 15 %, mltd_ai_no_new_wars_when_losing's line), holds no war goal against a country it is not yet at war with,
+# and has no enemy it can still fight - every enemy has capitulated or is cut off (none touches land MLT controls). A
+# human always passes, and the hidden_trigger keeps the tooltip as OWB's was. MLT scope.
+mltd_ai_may_press_claims = {
+	hidden_trigger = {
+		if = {
+			limit = { is_ai = yes }
+			NOT = { surrender_progress > 0.15 }
+			NOT = {
+				any_other_country = {
+					NOT = { has_war_with = ROOT }
+					ROOT = { has_wargoal_against = PREV }
+				}
+			}
+			NOT = {
+				any_enemy_country = {
+					has_capitulated = no
+					is_neighbor_of = ROOT
+				}
+			}
+		}
+	}
+}
+
+# MLT can pay a marketplace lot and keep 150 caps (OWB's own AI floor): caps_cost_trigger on caps_diff, as the player's
+# button checks it (mltd_ai_buy_line_equipment). MLT scope.
+mltd_ai_org_can_pay = {
+	caps_cost_trigger = yes
+	set_temp_variable = { mltd_org_left = caps_number_display }
+	add_to_temp_variable = { mltd_org_left = caps_diff }
+	check_variable = { mltd_org_left > 149 }
+}
+
 # The late army: the king or armour form of the mirelurk, and the NCR beaten (or 2285). The Shell Levies and Coral Hosts then
 # become all-mirelurk divisions in the field (common/ai_templates/mltd_MLT.txt). MLT scope.
 mltd_ai_late_army = {
@@ -255,6 +312,56 @@ mltd_ai_late_army = {
 		mltd_ai_ncr_beaten = yes
 		date > 2285.1.1
 	}
+}
+
+# Courting the Broken Coast (round 21): from the Kingdom on (the sub-tree mltd_brk_* opens there, and the Broken Coast's stage
+# would open before the AI reaches the sub-tree), while BRK is not at war with MLT, is not yet in its faction and has not
+# refused the Drowned Covenant (global flag, event mltd.21), MLT helps BRK win its coast instead of conquering it. MLT scope.
+mltd_ai_courting_brk = {
+	has_completed_focus = mlt_kingdom_of_mlyeh
+	country_exists = BRK
+	NOT = { has_war_with = BRK }
+	NOT = { is_in_faction_with = BRK }
+	NOT = { has_global_flag = mltd_brk_refused_covenant }
+}
+
+# Broken Coast helped before the NCR (round 21): once Cascadia is taken and The Final Ritual is done, the AI sends the Broken
+# Coast volunteers before it turns on the NCR - at least four divisions there for 26 weeks (mltd_ai_brk_volunteer_weeks, counted
+# by the weekly survey; volunteers go home while MLT is at war, so this is peace-time help) - or it is no longer needed: no
+# courtship, Broken Coast at peace, capitulated or holding its coast, the Covenant taken, or 2283. MLT scope.
+mltd_ai_brk_helped = {
+	OR = {
+		NOT = { mltd_ai_courting_brk = yes }
+		BRK = {
+			OR = {
+				has_war = no
+				has_capitulated = yes
+				has_completed_focus = brk_nf_pirate_coast
+			}
+		}
+		has_completed_focus = mltd_brk_the_drowned_covenant
+		check_variable = { mltd_ai_brk_volunteer_weeks > 25 }
+		date > 2283.1.1
+	}
+}
+
+# Courting the Bone Dancers (round 22): while they have crowned the Odious King (bdt_hail_to_the_king, the invitation's own
+# gate), have not refused the Covenant, are not at war with MLT and MLT has not chosen Drown the Dance instead, the AI takes
+# the sub-tree's invitation branch and leaves them alone. MLT scope.
+mltd_ai_courting_bdt = {
+	has_completed_focus = mltd_bdt_the_bone_shore
+	country_exists = BDT
+	BDT = { has_completed_focus = bdt_hail_to_the_king }
+	NOT = { has_completed_focus = mltd_bdt_drown_the_dance }
+	NOT = { has_war_with = BDT }
+	NOT = { is_in_faction_with = BDT }
+	NOT = { has_global_flag = mltd_bdt_refused_covenant }
+}
+
+# The army is ready for a new war: at least half the frontage target (mltd_ai_army_ready_at, the weekly survey). MLT scope.
+mltd_ai_army_ready = {
+	has_variable = mltd_ai_army_ready_at
+	check_variable = { num_divisions > mltd_ai_army_ready_at }
 }
 
 # ---- B1. Oregon, 2275: CCW, then TRL, then RBT (CONQUEST_PLAN.txt, 2275) --------------------------------------------------
@@ -497,6 +604,7 @@ mltd_ai_stage_ncr = {
 			mltd_ai_north_done = yes
 			mltd_ai_ncr_cult_ready = yes
 			NOT = { mltd_ai_new_reno_first = yes }
+			mltd_ai_brk_helped = yes
 		}
 		date > 2284.1.1
 	}

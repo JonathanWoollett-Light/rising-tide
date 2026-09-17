@@ -7,6 +7,8 @@
 
 *A submod for [Old World Blues](https://steamcommunity.com/sharedfiles/filedetails/?id=2265420196), for the Mirelurk Tribe (`MLT`).*
 
+[![thumbnail](mod_folder/thumbnail.gif)](https://steamcommunity.com/sharedfiles/filedetails/?id=3798403425)
+
 Most submods try to be expansions. This one adds **about a year of focuses** to a single nation and
 spends its effort on making that year feel finished: the Books of M'lyeh, two creature units you
 summon rather than build, two rituals that are paid for in your own population, and a main menu of

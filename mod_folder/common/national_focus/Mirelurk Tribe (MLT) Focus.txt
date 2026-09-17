@@ -26,6 +26,8 @@ focus_tree = {
 	shared_focus = mltd_tla_the_iron_god_dreams
 	shared_focus = mltd_hea_whispers_in_the_steam
 	shared_focus = mltd_wht_the_lake_god_answers
+	shared_focus = mltd_brk_salt_on_the_broken_coast
+	shared_focus = mltd_bdt_the_bone_shore
 
 	focus = {
 		id = mlt_sanity_lost
@@ -1052,7 +1054,7 @@ focus_tree = {
 			focus = ritual_of_black_hollows_night
 		}
 		available = {
-			ai_has_no_other_wars_or_wargoals = yes
+			mltd_ai_may_press_claims = yes	# Rising Tide: was OWB's ai_has_no_other_wars_or_wargoals
 			is_subject = no
 		}
 		x = -1
@@ -1194,7 +1196,7 @@ focus_tree = {
 			focus = mlt_kingdom_of_mlyeh
 		}
 		available = {
-			ai_has_no_other_wars_or_wargoals = yes
+			mltd_ai_may_press_claims = yes	# Rising Tide: was OWB's ai_has_no_other_wars_or_wargoals
 			is_subject = no
 		}
 		x = -2
@@ -1221,7 +1223,7 @@ focus_tree = {
 			focus = mlt_kingdom_of_mlyeh
 		}
 		available = {
-			ai_has_no_other_wars_or_wargoals = yes
+			mltd_ai_may_press_claims = yes	# Rising Tide: was OWB's ai_has_no_other_wars_or_wargoals
 			num_of_controlled_states > 30
 		}
 		x = 0
@@ -1248,7 +1250,7 @@ focus_tree = {
 			focus = mlt_kingdom_of_mlyeh
 		}
 		available = {
-			ai_has_no_other_wars_or_wargoals = yes
+			mltd_ai_may_press_claims = yes	# Rising Tide: was OWB's ai_has_no_other_wars_or_wargoals
 			num_of_controlled_states > 60
 		}
 		x = 2

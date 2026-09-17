@@ -35,6 +35,7 @@ mltd_ai_conquer_ano = {
 	ai_strategy = { type = conquer id = "ANO" value = 150 }
 	ai_strategy = { type = antagonize id = "ANO" value = 75 }
 	ai_strategy = { type = consider_weak id = "ANO" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "ANO" value = 300 }
 	ai_strategy = { type = declare_war id = "ANO" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ANO } value = 100 }
 }
@@ -56,6 +57,7 @@ mltd_ai_conquer_asf = {
 	ai_strategy = { type = conquer id = "ASF" value = 150 }
 	ai_strategy = { type = antagonize id = "ASF" value = 75 }
 	ai_strategy = { type = consider_weak id = "ASF" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "ASF" value = 300 }
 	ai_strategy = { type = declare_war id = "ASF" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ASF } value = 100 }
 }
@@ -77,6 +79,7 @@ mltd_ai_conquer_bag = {
 	ai_strategy = { type = conquer id = "BAG" value = 150 }
 	ai_strategy = { type = antagonize id = "BAG" value = 75 }
 	ai_strategy = { type = consider_weak id = "BAG" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "BAG" value = 300 }
 	ai_strategy = { type = declare_war id = "BAG" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BAG } value = 100 }
 }
@@ -98,6 +101,7 @@ mltd_ai_conquer_bdt = {
 	ai_strategy = { type = conquer id = "BDT" value = 150 }
 	ai_strategy = { type = antagonize id = "BDT" value = 75 }
 	ai_strategy = { type = consider_weak id = "BDT" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "BDT" value = 300 }
 	ai_strategy = { type = declare_war id = "BDT" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BDT } value = 100 }
 }
@@ -119,6 +123,7 @@ mltd_ai_conquer_bel = {
 	ai_strategy = { type = conquer id = "BEL" value = 150 }
 	ai_strategy = { type = antagonize id = "BEL" value = 75 }
 	ai_strategy = { type = consider_weak id = "BEL" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "BEL" value = 300 }
 	ai_strategy = { type = declare_war id = "BEL" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BEL } value = 100 }
 }
@@ -140,6 +145,7 @@ mltd_ai_conquer_bjs = {
 	ai_strategy = { type = conquer id = "BJS" value = 150 }
 	ai_strategy = { type = antagonize id = "BJS" value = 75 }
 	ai_strategy = { type = consider_weak id = "BJS" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "BJS" value = 300 }
 	ai_strategy = { type = declare_war id = "BJS" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BJS } value = 100 }
 }
@@ -161,6 +167,7 @@ mltd_ai_conquer_bvc = {
 	ai_strategy = { type = conquer id = "BVC" value = 150 }
 	ai_strategy = { type = antagonize id = "BVC" value = 75 }
 	ai_strategy = { type = consider_weak id = "BVC" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "BVC" value = 300 }
 	ai_strategy = { type = declare_war id = "BVC" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = BVC } value = 100 }
 }
@@ -182,6 +189,7 @@ mltd_ai_conquer_che = {
 	ai_strategy = { type = conquer id = "CHE" value = 150 }
 	ai_strategy = { type = antagonize id = "CHE" value = 75 }
 	ai_strategy = { type = consider_weak id = "CHE" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "CHE" value = 300 }
 	ai_strategy = { type = declare_war id = "CHE" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CHE } value = 100 }
 }
@@ -203,6 +211,7 @@ mltd_ai_conquer_clj = {
 	ai_strategy = { type = conquer id = "CLJ" value = 150 }
 	ai_strategy = { type = antagonize id = "CLJ" value = 75 }
 	ai_strategy = { type = consider_weak id = "CLJ" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "CLJ" value = 300 }
 	ai_strategy = { type = declare_war id = "CLJ" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CLJ } value = 100 }
 }
@@ -224,6 +233,7 @@ mltd_ai_conquer_cow = {
 	ai_strategy = { type = conquer id = "COW" value = 150 }
 	ai_strategy = { type = antagonize id = "COW" value = 75 }
 	ai_strategy = { type = consider_weak id = "COW" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "COW" value = 300 }
 	ai_strategy = { type = declare_war id = "COW" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = COW } value = 100 }
 }
@@ -245,6 +255,7 @@ mltd_ai_conquer_crz = {
 	ai_strategy = { type = conquer id = "CRZ" value = 150 }
 	ai_strategy = { type = antagonize id = "CRZ" value = 75 }
 	ai_strategy = { type = consider_weak id = "CRZ" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "CRZ" value = 300 }
 	ai_strategy = { type = declare_war id = "CRZ" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CRZ } value = 100 }
 }
@@ -266,6 +277,7 @@ mltd_ai_conquer_cwb = {
 	ai_strategy = { type = conquer id = "CWB" value = 150 }
 	ai_strategy = { type = antagonize id = "CWB" value = 75 }
 	ai_strategy = { type = consider_weak id = "CWB" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "CWB" value = 300 }
 	ai_strategy = { type = declare_war id = "CWB" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CWB } value = 100 }
 }
@@ -287,6 +299,7 @@ mltd_ai_conquer_cyc = {
 	ai_strategy = { type = conquer id = "CYC" value = 150 }
 	ai_strategy = { type = antagonize id = "CYC" value = 75 }
 	ai_strategy = { type = consider_weak id = "CYC" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "CYC" value = 300 }
 	ai_strategy = { type = declare_war id = "CYC" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CYC } value = 100 }
 }
@@ -308,6 +321,7 @@ mltd_ai_conquer_des = {
 	ai_strategy = { type = conquer id = "DES" value = 150 }
 	ai_strategy = { type = antagonize id = "DES" value = 75 }
 	ai_strategy = { type = consider_weak id = "DES" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "DES" value = 300 }
 	ai_strategy = { type = declare_war id = "DES" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = DES } value = 100 }
 }
@@ -329,6 +343,7 @@ mltd_ai_conquer_dre = {
 	ai_strategy = { type = conquer id = "DRE" value = 150 }
 	ai_strategy = { type = antagonize id = "DRE" value = 75 }
 	ai_strategy = { type = consider_weak id = "DRE" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "DRE" value = 300 }
 	ai_strategy = { type = declare_war id = "DRE" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = DRE } value = 100 }
 }
@@ -350,6 +365,7 @@ mltd_ai_conquer_eag = {
 	ai_strategy = { type = conquer id = "EAG" value = 150 }
 	ai_strategy = { type = antagonize id = "EAG" value = 75 }
 	ai_strategy = { type = consider_weak id = "EAG" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "EAG" value = 300 }
 	ai_strategy = { type = declare_war id = "EAG" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = EAG } value = 100 }
 }
@@ -371,6 +387,7 @@ mltd_ai_conquer_eas = {
 	ai_strategy = { type = conquer id = "EAS" value = 150 }
 	ai_strategy = { type = antagonize id = "EAS" value = 75 }
 	ai_strategy = { type = consider_weak id = "EAS" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "EAS" value = 300 }
 	ai_strategy = { type = declare_war id = "EAS" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = EAS } value = 100 }
 }
@@ -392,6 +409,7 @@ mltd_ai_conquer_eur = {
 	ai_strategy = { type = conquer id = "EUR" value = 150 }
 	ai_strategy = { type = antagonize id = "EUR" value = 75 }
 	ai_strategy = { type = consider_weak id = "EUR" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "EUR" value = 300 }
 	ai_strategy = { type = declare_war id = "EUR" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = EUR } value = 100 }
 }
@@ -413,6 +431,7 @@ mltd_ai_conquer_exe = {
 	ai_strategy = { type = conquer id = "EXE" value = 150 }
 	ai_strategy = { type = antagonize id = "EXE" value = 75 }
 	ai_strategy = { type = consider_weak id = "EXE" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "EXE" value = 300 }
 	ai_strategy = { type = declare_war id = "EXE" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = EXE } value = 100 }
 }
@@ -434,6 +453,7 @@ mltd_ai_conquer_glw = {
 	ai_strategy = { type = conquer id = "GLW" value = 150 }
 	ai_strategy = { type = antagonize id = "GLW" value = 75 }
 	ai_strategy = { type = consider_weak id = "GLW" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "GLW" value = 300 }
 	ai_strategy = { type = declare_war id = "GLW" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = GLW } value = 100 }
 }
@@ -455,6 +475,7 @@ mltd_ai_conquer_jac = {
 	ai_strategy = { type = conquer id = "JAC" value = 150 }
 	ai_strategy = { type = antagonize id = "JAC" value = 75 }
 	ai_strategy = { type = consider_weak id = "JAC" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "JAC" value = 300 }
 	ai_strategy = { type = declare_war id = "JAC" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = JAC } value = 100 }
 }
@@ -476,6 +497,7 @@ mltd_ai_conquer_lon = {
 	ai_strategy = { type = conquer id = "LON" value = 150 }
 	ai_strategy = { type = antagonize id = "LON" value = 75 }
 	ai_strategy = { type = consider_weak id = "LON" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "LON" value = 300 }
 	ai_strategy = { type = declare_war id = "LON" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = LON } value = 100 }
 }
@@ -497,6 +519,7 @@ mltd_ai_conquer_lub = {
 	ai_strategy = { type = conquer id = "LUB" value = 150 }
 	ai_strategy = { type = antagonize id = "LUB" value = 75 }
 	ai_strategy = { type = consider_weak id = "LUB" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "LUB" value = 300 }
 	ai_strategy = { type = declare_war id = "LUB" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = LUB } value = 100 }
 }
@@ -518,6 +541,7 @@ mltd_ai_conquer_lum = {
 	ai_strategy = { type = conquer id = "LUM" value = 150 }
 	ai_strategy = { type = antagonize id = "LUM" value = 75 }
 	ai_strategy = { type = consider_weak id = "LUM" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "LUM" value = 300 }
 	ai_strategy = { type = declare_war id = "LUM" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = LUM } value = 100 }
 }
@@ -539,6 +563,7 @@ mltd_ai_conquer_mod = {
 	ai_strategy = { type = conquer id = "MOD" value = 150 }
 	ai_strategy = { type = antagonize id = "MOD" value = 75 }
 	ai_strategy = { type = consider_weak id = "MOD" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "MOD" value = 300 }
 	ai_strategy = { type = declare_war id = "MOD" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MOD } value = 100 }
 }
@@ -560,6 +585,7 @@ mltd_ai_conquer_moj = {
 	ai_strategy = { type = conquer id = "MOJ" value = 150 }
 	ai_strategy = { type = antagonize id = "MOJ" value = 75 }
 	ai_strategy = { type = consider_weak id = "MOJ" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "MOJ" value = 300 }
 	ai_strategy = { type = declare_war id = "MOJ" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MOJ } value = 100 }
 }
@@ -581,6 +607,7 @@ mltd_ai_conquer_mos = {
 	ai_strategy = { type = conquer id = "MOS" value = 150 }
 	ai_strategy = { type = antagonize id = "MOS" value = 75 }
 	ai_strategy = { type = consider_weak id = "MOS" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "MOS" value = 300 }
 	ai_strategy = { type = declare_war id = "MOS" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = MOS } value = 100 }
 }
@@ -602,6 +629,7 @@ mltd_ai_conquer_pac = {
 	ai_strategy = { type = conquer id = "PAC" value = 150 }
 	ai_strategy = { type = antagonize id = "PAC" value = 75 }
 	ai_strategy = { type = consider_weak id = "PAC" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "PAC" value = 300 }
 	ai_strategy = { type = declare_war id = "PAC" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = PAC } value = 100 }
 }
@@ -623,6 +651,7 @@ mltd_ai_conquer_pal = {
 	ai_strategy = { type = conquer id = "PAL" value = 150 }
 	ai_strategy = { type = antagonize id = "PAL" value = 75 }
 	ai_strategy = { type = consider_weak id = "PAL" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "PAL" value = 300 }
 	ai_strategy = { type = declare_war id = "PAL" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = PAL } value = 100 }
 }
@@ -644,6 +673,7 @@ mltd_ai_conquer_rap = {
 	ai_strategy = { type = conquer id = "RAP" value = 150 }
 	ai_strategy = { type = antagonize id = "RAP" value = 75 }
 	ai_strategy = { type = consider_weak id = "RAP" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "RAP" value = 300 }
 	ai_strategy = { type = declare_war id = "RAP" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = RAP } value = 100 }
 }
@@ -665,6 +695,7 @@ mltd_ai_conquer_rip = {
 	ai_strategy = { type = conquer id = "RIP" value = 150 }
 	ai_strategy = { type = antagonize id = "RIP" value = 75 }
 	ai_strategy = { type = consider_weak id = "RIP" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "RIP" value = 300 }
 	ai_strategy = { type = declare_war id = "RIP" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = RIP } value = 100 }
 }
@@ -686,6 +717,7 @@ mltd_ai_conquer_rot = {
 	ai_strategy = { type = conquer id = "ROT" value = 150 }
 	ai_strategy = { type = antagonize id = "ROT" value = 75 }
 	ai_strategy = { type = consider_weak id = "ROT" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "ROT" value = 300 }
 	ai_strategy = { type = declare_war id = "ROT" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = ROT } value = 100 }
 }
@@ -707,6 +739,7 @@ mltd_ai_conquer_rub = {
 	ai_strategy = { type = conquer id = "RUB" value = 150 }
 	ai_strategy = { type = antagonize id = "RUB" value = 75 }
 	ai_strategy = { type = consider_weak id = "RUB" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "RUB" value = 300 }
 	ai_strategy = { type = declare_war id = "RUB" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = RUB } value = 100 }
 }
@@ -728,6 +761,7 @@ mltd_ai_conquer_sho = {
 	ai_strategy = { type = conquer id = "SHO" value = 150 }
 	ai_strategy = { type = antagonize id = "SHO" value = 75 }
 	ai_strategy = { type = consider_weak id = "SHO" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "SHO" value = 300 }
 	ai_strategy = { type = declare_war id = "SHO" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SHO } value = 100 }
 }
@@ -749,6 +783,7 @@ mltd_ai_conquer_sie = {
 	ai_strategy = { type = conquer id = "SIE" value = 150 }
 	ai_strategy = { type = antagonize id = "SIE" value = 75 }
 	ai_strategy = { type = consider_weak id = "SIE" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "SIE" value = 300 }
 	ai_strategy = { type = declare_war id = "SIE" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SIE } value = 100 }
 }
@@ -770,6 +805,7 @@ mltd_ai_conquer_sky = {
 	ai_strategy = { type = conquer id = "SKY" value = 150 }
 	ai_strategy = { type = antagonize id = "SKY" value = 75 }
 	ai_strategy = { type = consider_weak id = "SKY" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "SKY" value = 300 }
 	ai_strategy = { type = declare_war id = "SKY" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SKY } value = 100 }
 }
@@ -791,6 +827,7 @@ mltd_ai_conquer_sla = {
 	ai_strategy = { type = conquer id = "SLA" value = 150 }
 	ai_strategy = { type = antagonize id = "SLA" value = 75 }
 	ai_strategy = { type = consider_weak id = "SLA" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "SLA" value = 300 }
 	ai_strategy = { type = declare_war id = "SLA" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SLA } value = 100 }
 }
@@ -812,6 +849,7 @@ mltd_ai_conquer_sle = {
 	ai_strategy = { type = conquer id = "SLE" value = 150 }
 	ai_strategy = { type = antagonize id = "SLE" value = 75 }
 	ai_strategy = { type = consider_weak id = "SLE" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "SLE" value = 300 }
 	ai_strategy = { type = declare_war id = "SLE" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SLE } value = 100 }
 }
@@ -833,6 +871,7 @@ mltd_ai_conquer_sln = {
 	ai_strategy = { type = conquer id = "SLN" value = 150 }
 	ai_strategy = { type = antagonize id = "SLN" value = 75 }
 	ai_strategy = { type = consider_weak id = "SLN" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "SLN" value = 300 }
 	ai_strategy = { type = declare_war id = "SLN" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SLN } value = 100 }
 }
@@ -854,6 +893,7 @@ mltd_ai_conquer_sok = {
 	ai_strategy = { type = conquer id = "SOK" value = 150 }
 	ai_strategy = { type = antagonize id = "SOK" value = 75 }
 	ai_strategy = { type = consider_weak id = "SOK" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "SOK" value = 300 }
 	ai_strategy = { type = declare_war id = "SOK" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SOK } value = 100 }
 }
@@ -875,6 +915,7 @@ mltd_ai_conquer_suf = {
 	ai_strategy = { type = conquer id = "SUF" value = 150 }
 	ai_strategy = { type = antagonize id = "SUF" value = 75 }
 	ai_strategy = { type = consider_weak id = "SUF" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "SUF" value = 300 }
 	ai_strategy = { type = declare_war id = "SUF" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SUF } value = 100 }
 }
@@ -896,6 +937,7 @@ mltd_ai_conquer_sun = {
 	ai_strategy = { type = conquer id = "SUN" value = 150 }
 	ai_strategy = { type = antagonize id = "SUN" value = 75 }
 	ai_strategy = { type = consider_weak id = "SUN" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "SUN" value = 300 }
 	ai_strategy = { type = declare_war id = "SUN" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SUN } value = 100 }
 }
@@ -917,6 +959,7 @@ mltd_ai_conquer_syn = {
 	ai_strategy = { type = conquer id = "SYN" value = 150 }
 	ai_strategy = { type = antagonize id = "SYN" value = 75 }
 	ai_strategy = { type = consider_weak id = "SYN" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "SYN" value = 300 }
 	ai_strategy = { type = declare_war id = "SYN" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = SYN } value = 100 }
 }
@@ -938,6 +981,7 @@ mltd_ai_conquer_tob = {
 	ai_strategy = { type = conquer id = "TOB" value = 150 }
 	ai_strategy = { type = antagonize id = "TOB" value = 75 }
 	ai_strategy = { type = consider_weak id = "TOB" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "TOB" value = 300 }
 	ai_strategy = { type = declare_war id = "TOB" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TOB } value = 100 }
 }
@@ -959,6 +1003,7 @@ mltd_ai_conquer_tof = {
 	ai_strategy = { type = conquer id = "TOF" value = 150 }
 	ai_strategy = { type = antagonize id = "TOF" value = 75 }
 	ai_strategy = { type = consider_weak id = "TOF" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "TOF" value = 300 }
 	ai_strategy = { type = declare_war id = "TOF" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TOF } value = 100 }
 }
@@ -980,6 +1025,7 @@ mltd_ai_conquer_ton = {
 	ai_strategy = { type = conquer id = "TON" value = 150 }
 	ai_strategy = { type = antagonize id = "TON" value = 75 }
 	ai_strategy = { type = consider_weak id = "TON" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "TON" value = 300 }
 	ai_strategy = { type = declare_war id = "TON" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TON } value = 100 }
 }
@@ -1001,6 +1047,7 @@ mltd_ai_conquer_two = {
 	ai_strategy = { type = conquer id = "TWO" value = 150 }
 	ai_strategy = { type = antagonize id = "TWO" value = 75 }
 	ai_strategy = { type = consider_weak id = "TWO" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "TWO" value = 300 }
 	ai_strategy = { type = declare_war id = "TWO" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TWO } value = 100 }
 }
@@ -1022,6 +1069,7 @@ mltd_ai_conquer_uin = {
 	ai_strategy = { type = conquer id = "UIN" value = 150 }
 	ai_strategy = { type = antagonize id = "UIN" value = 75 }
 	ai_strategy = { type = consider_weak id = "UIN" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "UIN" value = 300 }
 	ai_strategy = { type = declare_war id = "UIN" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = UIN } value = 100 }
 }
@@ -1043,6 +1091,7 @@ mltd_ai_conquer_umb = {
 	ai_strategy = { type = conquer id = "UMB" value = 150 }
 	ai_strategy = { type = antagonize id = "UMB" value = 75 }
 	ai_strategy = { type = consider_weak id = "UMB" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "UMB" value = 300 }
 	ai_strategy = { type = declare_war id = "UMB" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = UMB } value = 100 }
 }
@@ -1064,6 +1113,7 @@ mltd_ai_conquer_vip = {
 	ai_strategy = { type = conquer id = "VIP" value = 150 }
 	ai_strategy = { type = antagonize id = "VIP" value = 75 }
 	ai_strategy = { type = consider_weak id = "VIP" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "VIP" value = 300 }
 	ai_strategy = { type = declare_war id = "VIP" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = VIP } value = 100 }
 }
@@ -1085,6 +1135,7 @@ mltd_ai_conquer_vlt = {
 	ai_strategy = { type = conquer id = "VLT" value = 150 }
 	ai_strategy = { type = antagonize id = "VLT" value = 75 }
 	ai_strategy = { type = consider_weak id = "VLT" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "VLT" value = 300 }
 	ai_strategy = { type = declare_war id = "VLT" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = VLT } value = 100 }
 }
@@ -1106,6 +1157,7 @@ mltd_ai_conquer_whd = {
 	ai_strategy = { type = conquer id = "WHD" value = 150 }
 	ai_strategy = { type = antagonize id = "WHD" value = 75 }
 	ai_strategy = { type = consider_weak id = "WHD" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "WHD" value = 300 }
 	ai_strategy = { type = declare_war id = "WHD" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WHD } value = 100 }
 }
@@ -1127,6 +1179,7 @@ mltd_ai_conquer_whi = {
 	ai_strategy = { type = conquer id = "WHI" value = 150 }
 	ai_strategy = { type = antagonize id = "WHI" value = 75 }
 	ai_strategy = { type = consider_weak id = "WHI" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "WHI" value = 300 }
 	ai_strategy = { type = declare_war id = "WHI" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WHI } value = 100 }
 }
@@ -1148,6 +1201,7 @@ mltd_ai_conquer_woo = {
 	ai_strategy = { type = conquer id = "WOO" value = 150 }
 	ai_strategy = { type = antagonize id = "WOO" value = 75 }
 	ai_strategy = { type = consider_weak id = "WOO" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "WOO" value = 300 }
 	ai_strategy = { type = declare_war id = "WOO" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WOO } value = 100 }
 }
@@ -1169,6 +1223,7 @@ mltd_ai_conquer_ykz = {
 	ai_strategy = { type = conquer id = "YKZ" value = 150 }
 	ai_strategy = { type = antagonize id = "YKZ" value = 75 }
 	ai_strategy = { type = consider_weak id = "YKZ" value = 200 }
+	ai_strategy = { type = prepare_for_war id = "YKZ" value = 300 }
 	ai_strategy = { type = declare_war id = "YKZ" value = 250 }
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = YKZ } value = 100 }
 }

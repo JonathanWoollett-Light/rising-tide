@@ -38,6 +38,29 @@ mltd_ai_unit_mix = {
 	ai_strategy = { type = role_ratio id = amphibious_beast value = -30 }
 	ai_strategy = { type = role_ratio id = mltd_coral_host value = 60 }
 	ai_strategy = { type = equipment_production_factor id = infantry value = 15 }
+}
+
+# The line first: until the late army (mltd_ai_late_army) the factories make infantry weapons and the new divisions are
+# Shell Levies and Coral Hosts - militia and infantry are cheap, and OWB's marketplace sells their weapons
+# (mltd_ai_buy_line_equipment) - while mirelurks go only into those templates and the summons still raise Deep Ones and
+# Star Spawn from the population. OWB's generic amphibious_beast role is cancelled until then (+60 -30 -130 = -100).
+mltd_ai_unit_mix_line = {
+	allowed = { original_tag = MLT }
+	enable = { NOT = { mltd_ai_late_army = yes } }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = role_ratio id = amphibious_beast value = -130 }
+	ai_strategy = { type = equipment_variant_production_factor id = infantry_equipment value = 50 }
+}
+
+# The late army: the line becomes mirelurks - Tide Walls, and the Shell Levies and Coral Hosts upgraded in the field
+# (common/ai_templates/mltd_MLT.txt) - and the factories and the Wet Market's caps go on mirelurk equipment.
+mltd_ai_unit_mix_late = {
+	allowed = { original_tag = MLT }
+	enable = { mltd_ai_late_army = yes }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = role_ratio id = mltd_tide_wall value = 140 }
 	ai_strategy = { type = equipment_variant_production_factor id = amphibious_beast_equipment value = 50 }
 }
 
@@ -47,7 +70,23 @@ mltd_ai_unit_mix_levies = {
 	enable = { has_completed_focus = ritual_of_black_hollows_night }
 	abort_when_not_enabled = yes
 
-	ai_strategy = { type = role_ratio id = mltd_shell_levy value = 80 }
+	ai_strategy = { type = role_ratio id = mltd_shell_levy value = 200 }
+}
+
+# Militia first while the line is short (round 22): the cheapest division that fills combat width is the Shell Levy, and run 4
+# was training infantry-heavy Coral Hosts while its border stood at 45 % of the frontage target.
+mltd_ai_unit_mix_fill = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_completed_focus = ritual_of_black_hollows_night
+		NOT = { mltd_ai_late_army = yes }
+		has_variable = mltd_ai_army_target
+		check_variable = { num_divisions < mltd_ai_army_target }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = role_ratio id = mltd_shell_levy value = 150 }
+	ai_strategy = { type = role_ratio id = mltd_coral_host value = -30 }
 }
 
 # The Deep Ones become trainable with The Deep Ones Walk (mltd.8 grants warbike_unlock_tech).
@@ -56,7 +95,6 @@ mltd_ai_unit_mix_deep = {
 	enable = { has_tech = warbike_unlock_tech }
 	abort_when_not_enabled = yes
 
-	ai_strategy = { type = role_ratio id = mltd_tide_wall value = 40 }
 	ai_strategy = { type = role_ratio id = mltd_deep_ones value = 25 }
 	ai_strategy = { type = equipment_variant_production_factor id = mltd_deep_ones_equipment value = 30 }
 }
@@ -87,6 +125,19 @@ mltd_ai_research = {
 	ai_strategy = { type = research_tech id = outsider_warfare_doctrine value = 100 }
 	ai_strategy = { type = research_tech id = we_are_different_doctrine value = 100 }
 	ai_strategy = { type = research_tech id = we_are_special_doctrine value = 100 }
+}
+
+# Anti-tank (round 23): MLT starts with support_tech_level_tribal, so the support company that pierces OWB's power armour is
+# two cheap techs away (anti_tank_equipment_tech_1 opens in 2276, anti_tank_tech_1 adds its piercing). Without them militia,
+# infantry and even mirelurks bounce off WBH's Paladins and the NCR's rangers. The line roles carry the company from the
+# moment the first tech lands (common/ai_templates/mltd_MLT.txt).
+mltd_ai_research_anti_tank = {
+	allowed = { original_tag = MLT }
+	enable = { date > 2276.1.1 }
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = research_tech id = anti_tank_equipment_tech_1 value = 100 }
+	ai_strategy = { type = research_tech id = anti_tank_tech_1 value = 100 }
 }
 
 # The mirelurk line, each tech from about when the plan starts it (CONQUEST_PLAN.txt's research lines; start years 2277,
@@ -175,6 +226,24 @@ mltd_ai_stay_on_plan = {
 	ai_strategy = { type = avoid_starting_wars value = -150 }
 }
 
+# No new war before the army can fight one (round 22). A capstone's war goal or a frontier claim is enough for OWB's AI to
+# declare at once: run 4 took The Tide-Wall's war goal on the Washington Brotherhood and declared seven days later with 35
+# divisions of a target of 78, none of them on that border. Below the readiness line (mltd_ai_army_ready: half the frontage
+# target, at most 20 divisions) a new war is discouraged rather than forbidden - -200 against OWB's war-goal base of 500 and
+# each conquest's own declare_war - so a weak neighbour at war with someone else is still fair game; prepare_for_war keeps
+# moving the army to the border meanwhile. The Oregon opening is exempt - it is fought with what MLT starts with - so this
+# begins at the Kingdom.
+mltd_ai_not_ready_for_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		NOT = { mltd_ai_army_ready = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = avoid_starting_wars value = -200 }
+}
+
 # No new war while losing one (CES.txt:132 aborts its invasion at surrender_progress > 0.5).
 mltd_ai_no_new_wars_when_losing = {
 	allowed = { original_tag = MLT }
@@ -185,8 +254,8 @@ mltd_ai_no_new_wars_when_losing = {
 }
 
 # ---- A2. The army: cover the borders, then upgrade ------------------------------------------------------------------------
-# mltd_ai_survey (on_weekly_MLT) sets mltd_ai_army_target: two divisions a border state, three at war, at least 12, and
-# mltd_ai_army_cap a quarter above it. Below the target the AI wants more divisions; above the cap it wants fewer, trains no
+# mltd_ai_survey (on_weekly_MLT) sets mltd_ai_army_target from the frontage: two divisions an 80-wide border province, three
+# at war, at least 12, and mltd_ai_army_cap a quarter above it. Below the target the AI wants more divisions; above the cap it wants fewer, trains no
 # more of its line roles and spends army experience on its templates instead (the upgrades). The Deep Ones and Star Spawn, capped by special_forces_min, keep training. unverified:
 # ai_wanted_divisions_factor's unit - read as a percentage change, as HUN.txt:788-791 (240) and CHI.txt:1133-1151 use it.
 mltd_ai_army_short = {
@@ -198,6 +267,19 @@ mltd_ai_army_short = {
 	abort_when_not_enabled = yes
 
 	ai_strategy = { type = ai_wanted_divisions_factor value = 50 }
+}
+
+# Under half the target the army is the priority (round 22): run 4 sat at 0.31-0.47 of its target for a year.
+mltd_ai_army_very_short = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_variable = mltd_ai_army_ready_at
+		check_variable = { num_divisions < mltd_ai_army_ready_at }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ai_wanted_divisions_factor value = 100 }
+	ai_strategy = { type = equipment_production_factor id = infantry value = 15 }
 }
 
 mltd_ai_army_full = {
@@ -297,6 +379,200 @@ mltd_ai_book_network_pmr = {
 	abort_when_not_enabled = yes
 
 	ai_strategy = { type = operative_mission mission = build_intel_network mission_target = PMR state = 274 priority = 100 value = 900 }
+}
+
+
+# ---- B0. The opening's order and the enemy's other wars (round 23) -----------------------------------------------------------
+# Strike a target that is already fighting someone else. OWB's AI weighs relative force heavily
+# (DECLARE_WAR_RELATIVE_FORCE_FACTOR = 500), but it counts the whole army, not what is free: run 6 held a war goal on The
+# Warren from day 630 while TRL fought Medford, and declared on Medford first. While a target of ours is at war with a third
+# country, is not at war with us and we already hold the war goal, its war is the moment to use it. One block per opening
+# target; the later stages have their own conquest weights.
+mltd_ai_strike_ccw_at_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = CCW
+		NOT = { has_war_with = CCW }
+		has_wargoal_against = CCW
+		CCW = { has_war = yes }
+		CCW = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "CCW" value = 600 }
+	ai_strategy = { type = consider_weak id = "CCW" value = 300 }
+	ai_strategy = { type = prepare_for_war id = "CCW" value = 200 }
+}
+mltd_ai_strike_trl_at_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TRL
+		NOT = { has_war_with = TRL }
+		has_wargoal_against = TRL
+		TRL = { has_war = yes }
+		TRL = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "TRL" value = 600 }
+	ai_strategy = { type = consider_weak id = "TRL" value = 300 }
+	ai_strategy = { type = prepare_for_war id = "TRL" value = 200 }
+}
+mltd_ai_strike_rbt_at_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = RBT
+		NOT = { has_war_with = RBT }
+		has_wargoal_against = RBT
+		RBT = { has_war = yes }
+		RBT = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "RBT" value = 600 }
+	ai_strategy = { type = consider_weak id = "RBT" value = 300 }
+	ai_strategy = { type = prepare_for_war id = "RBT" value = 200 }
+}
+mltd_ai_strike_mdt_at_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = MDT
+		NOT = { has_war_with = MDT }
+		has_wargoal_against = MDT
+		MDT = { has_war = yes }
+		MDT = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "MDT" value = 600 }
+	ai_strategy = { type = consider_weak id = "MDT" value = 300 }
+	ai_strategy = { type = prepare_for_war id = "MDT" value = 200 }
+}
+mltd_ai_strike_pmr_at_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = PMR
+		NOT = { has_war_with = PMR }
+		has_wargoal_against = PMR
+		PMR = { has_war = yes }
+		PMR = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "PMR" value = 600 }
+	ai_strategy = { type = consider_weak id = "PMR" value = 300 }
+	ai_strategy = { type = prepare_for_war id = "PMR" value = 200 }
+}
+mltd_ai_strike_arr_at_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = ARR
+		NOT = { has_war_with = ARR }
+		has_wargoal_against = ARR
+		ARR = { has_war = yes }
+		ARR = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "ARR" value = 600 }
+	ai_strategy = { type = consider_weak id = "ARR" value = 300 }
+	ai_strategy = { type = prepare_for_war id = "ARR" value = 200 }
+}
+mltd_ai_strike_tim_at_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TIM
+		NOT = { has_war_with = TIM }
+		has_wargoal_against = TIM
+		TIM = { has_war = yes }
+		TIM = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "TIM" value = 600 }
+	ai_strategy = { type = consider_weak id = "TIM" value = 300 }
+	ai_strategy = { type = prepare_for_war id = "TIM" value = 200 }
+}
+mltd_ai_strike_kla_at_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = KLA
+		NOT = { has_war_with = KLA }
+		has_wargoal_against = KLA
+		KLA = { has_war = yes }
+		KLA = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "KLA" value = 600 }
+	ai_strategy = { type = consider_weak id = "KLA" value = 300 }
+	ai_strategy = { type = prepare_for_war id = "KLA" value = 200 }
+}
+mltd_ai_strike_tca_at_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TCA
+		NOT = { has_war_with = TCA }
+		has_wargoal_against = TCA
+		TCA = { has_war = yes }
+		TCA = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "TCA" value = 600 }
+	ai_strategy = { type = consider_weak id = "TCA" value = 300 }
+	ai_strategy = { type = prepare_for_war id = "TCA" value = 200 }
+}
+mltd_ai_strike_wbh_at_war = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = WBH
+		NOT = { has_war_with = WBH }
+		has_wargoal_against = WBH
+		WBH = { has_war = yes }
+		WBH = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "WBH" value = 600 }
+	ai_strategy = { type = consider_weak id = "WBH" value = 300 }
+	ai_strategy = { type = prepare_for_war id = "WBH" value = 200 }
+}
+# The Warren before Medford, and Medford last: while TRL stands unfought and its stage is open, the AI is kept from
+# fabricating on RBT and MDT at all (antagonize below OWB's MIN_ANTAGONIZE_FOR_WARGOAL_JUSTIFICATION of -1000, counting each
+# conquest block's own +100/+150), so the opening keeps the plan's order instead of opening a second front first.
+mltd_ai_opening_order_trl = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = TRL
+		NOT = { has_war_with = TRL }
+		mltd_ai_stage_trl = yes
+		TRL = { mltd_ai_safe_target = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = antagonize id = "RBT" value = -1200 }
+	ai_strategy = { type = antagonize id = "MDT" value = -1200 }
+	ai_strategy = { type = declare_war id = "RBT" value = -500 }
+	ai_strategy = { type = declare_war id = "MDT" value = -500 }
+}
+
+mltd_ai_opening_order_rbt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		country_exists = RBT
+		NOT = { has_war_with = RBT }
+		mltd_ai_stage_rbt = yes
+		RBT = { mltd_ai_safe_target = yes }
+		OR = {
+			NOT = { country_exists = TRL }
+			has_war_with = TRL
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = antagonize id = "MDT" value = -1200 }
+	ai_strategy = { type = declare_war id = "MDT" value = -500 }
 }
 
 # ---- B. Conquest ------------------------------------------------------------------------------------------------------------
@@ -2279,6 +2555,72 @@ mltd_ai_guard_the_warren = {
 	abort_when_not_enabled = yes
 
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = WBH } value = 150 }
+}
+
+# ---- C2. The Broken Coast, courted (round 21) -----------------------------------------------------------------------------
+# While MLT courts the Broken Coast (mltd_ai_courting_brk: the sub-tree mltd_brk_*), no war on it and no claim pressed, and
+# better relations: the Drowned Covenant is worth more than its 47 states, which run 3 declared on and lost to. A BRK war on
+# MLT, a refusal of the Covenant or the end of the courtship turns the conquest block back on (mltd_ai_safe_target).
+mltd_ai_court_brk = {
+	allowed = { original_tag = MLT }
+	enable = {
+		mltd_ai_courting_brk = yes
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "BRK" value = 200 }
+	ai_strategy = { type = declare_war id = "BRK" value = -1000 }
+	ai_strategy = { type = befriend id = "BRK" value = 100 }
+}
+
+# Volunteers for the Broken Coast while it fights and MLT is at peace (volunteers go home when their sender is at war), once a
+# volunteer focus has raised the limit; mltd_ai_brk_helped holds the NCR's stage until they have served. Which divisions go is
+# the engine's choice. unverified: send_volunteers_desire's weight against OWB's distance and major-power terms
+# (SEND_VOLUNTEER_EVAL_BASE_DISTANCE, 00_defines.lua).
+mltd_ai_help_brk = {
+	allowed = { original_tag = MLT }
+	enable = {
+		mltd_ai_courting_brk = yes
+		has_dynamic_modifier = { modifier = mltd_brk_volunteers }
+		has_war = no
+		BRK = {
+			has_war = yes
+			has_capitulated = no
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = send_volunteers_desire id = "BRK" value = 300 }
+}
+
+# The Bone Dancers while the invitation stands (round 22): no war, no claim pressed, better relations. Drown the Dance, a
+# refusal or a war of theirs ends it and the conquest block takes over again.
+mltd_ai_court_bdt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		mltd_ai_courting_bdt = yes
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = ignore_claim id = "BDT" value = 200 }
+	ai_strategy = { type = declare_war id = "BDT" value = -1000 }
+	ai_strategy = { type = befriend id = "BDT" value = 100 }
+}
+
+# The Covenant also asks for a network over 30 % of the raiders' land and a civilian infiltration token (La Resistance): an
+# operative builds the network there while MLT courts them, below the Book networks (900).
+mltd_ai_network_brk = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_dlc = "La Resistance"
+		has_intelligence_agency = yes
+		mltd_ai_courting_brk = yes
+		NOT = { has_completed_focus = mltd_brk_the_drowned_covenant }
+		NOT = { network_national_coverage = { target = BRK value > 0.4 } }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = operative_mission mission = build_intel_network mission_target = BRK priority = 100 value = 800 }
 }
 
 # ---- D. Cult operations (La Resistance) -------------------------------------------------------------------------------------

@@ -20,7 +20,15 @@ shared_focus = {
 	continue_if_invalid = yes
 	x = 2
 	y = 13
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { has_completed_focus = mltd_the_deep_ones_walk }
+		}
+	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
@@ -74,7 +82,15 @@ shared_focus = {
 	x = -2
 	y = 1
 	relative_position_id = mltd_ncr_a_mole_in_shady_sands
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { has_completed_focus = mltd_the_deep_ones_walk }
+		}
+	}
 	completion_reward = {
 		add_political_power = 40
 		if = {
@@ -147,7 +163,15 @@ shared_focus = {
 	x = 0
 	y = 1
 	relative_position_id = mltd_ncr_a_mole_in_shady_sands
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { has_completed_focus = mltd_the_deep_ones_walk }
+		}
+	}
 	completion_reward = {
 		army_experience = 30
 		if = {
@@ -209,7 +233,15 @@ shared_focus = {
 	x = 2
 	y = 1
 	relative_position_id = mltd_ncr_a_mole_in_shady_sands
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { has_completed_focus = mltd_the_deep_ones_walk }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = {
@@ -302,17 +334,30 @@ shared_focus = {
 	x = 0
 	y = 2
 	relative_position_id = mltd_ncr_a_mole_in_shady_sands
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 22: the capstone is the declaration, so an AI takes it only when its stage has come and the army is ready
+		modifier = {
+			factor = 0
+			is_ai = yes
+			OR = {
+				NOT = { mltd_ai_stage_ncr = yes }
+				NOT = { mltd_ai_army_ready = yes }
+			}
+		}
+	}
 	will_lead_to_war_with = NCR
 	completion_reward = {
-		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		# round 22: the sub-tree ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = NCR
 				NOT = { has_war_with = NCR }
 				NCR = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = NCR
 			}
@@ -403,7 +448,15 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_ncr_beaten = yes }
+		}
+	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
@@ -467,7 +520,15 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_ncr_beaten = yes }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = { has_dlc = "La Resistance" }
@@ -540,7 +601,15 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_ncr_beaten = yes }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = {
@@ -608,18 +677,31 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 22: the capstone is the declaration, so an AI takes it only when its stage has come and the army is ready
+		modifier = {
+			factor = 0
+			is_ai = yes
+			OR = {
+				NOT = { mltd_ai_legion_beaten = yes }
+				NOT = { mltd_ai_army_ready = yes }
+			}
+		}
+	}
 	will_lead_to_war_with = TBH
 	will_lead_to_war_with = LNS
 	completion_reward = {
-		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		# round 22: the sub-tree ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = TBH
 				NOT = { has_war_with = TBH }
 				TBH = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = TBH
 			}
@@ -630,7 +712,7 @@ shared_focus = {
 				NOT = { has_war_with = LNS }
 				LNS = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = LNS
 			}
@@ -686,31 +768,49 @@ shared_focus = {
 
 ############ the Washington Brotherhood ############
 
-# Washington Brotherhood sub-tree: watch, infiltrate and rob the Seattle crusade before it turns on The Warren
+# Washington Brotherhood sub-tree: watch, infiltrate and rob the Seattle crusade before it turns on The Warren. Round 22: the
+# target is whichever Brotherhood holds Washington - WBH, or TCA once it has taken Seattle and become the Northwestern
+# Brotherhood (OWB's formable, formable_nations.txt:735-790; both fly the shared Brotherhood focus tree, and TCA's formable
+# claims every Washington state, The Warren included). Every focus reads mltd_wbh_brotherhood, so it works for either, and
+# for both while their own war runs.
 shared_focus = {
 	id = mltd_wbh_eyes_in_the_sound
 	icon = GFX_goal_generic_esp_cam
 	cost = 35
 	available = {
 		has_completed_focus = mlt_kingdom_of_mlyeh
-		country_exists = WBH
+		custom_trigger_tooltip = {
+			tooltip = mltd_wbh_brotherhood_exists_tt
+			any_country = { mltd_wbh_brotherhood = yes }
+		}
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = 22
 	y = 13
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_wbh = yes }
+		}
+	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
 		custom_effect_tooltip = mltd_wbh_cult_sheltered_tt
 		hidden_effect = {
-			WBH = { set_country_flag = mltd_cult_sheltered }
+			every_country = {
+				limit = { mltd_wbh_brotherhood = yes }
+				set_country_flag = mltd_cult_sheltered
+			}
 		}
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
-				country_exists = WBH
+				WBH = { mltd_wbh_brotherhood = yes }
 			}
 			add_intel = {
 				target = WBH
@@ -718,7 +818,19 @@ shared_focus = {
 				army_intel = 15
 			}
 		}
-		else = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				TCA = { mltd_wbh_brotherhood = yes }
+			}
+			add_intel = {
+				target = TCA
+				civilian_intel = 10
+				army_intel = 15
+			}
+		}
+		if = {
+			limit = { NOT = { has_dlc = "La Resistance" } }
 			add_political_power = 25
 		}
 	}
@@ -733,9 +845,21 @@ shared_focus = {
 		if = {
 			limit = { has_dlc = "La Resistance" }
 			OR = {
-				has_operation_token = { tag = WBH token = token_civilian }
-				network_national_coverage = { target = WBH value > 0.2 }
-				NOT = { country_exists = WBH }
+				AND = {
+					WBH = { mltd_wbh_brotherhood = yes }
+					OR = {
+						has_operation_token = { tag = WBH token = token_civilian }
+						network_national_coverage = { target = WBH value > 0.2 }
+					}
+				}
+				AND = {
+					TCA = { mltd_wbh_brotherhood = yes }
+					OR = {
+						has_operation_token = { tag = TCA token = token_civilian }
+						network_national_coverage = { target = TCA value > 0.2 }
+					}
+				}
+				NOT = { any_country = { mltd_wbh_brotherhood = yes } }
 			}
 		}
 	}
@@ -744,19 +868,25 @@ shared_focus = {
 	x = -1
 	y = 1
 	relative_position_id = mltd_wbh_eyes_in_the_sound
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_wbh = yes }
+		}
+	}
 	completion_reward = {
-		if = {
-			limit = { country_exists = WBH }
-			WBH = {
-				add_political_power = -40
-				add_stability = -0.06
-			}
+		every_country = {
+			limit = { mltd_wbh_brotherhood = yes }
+			add_political_power = -40
+			add_stability = -0.06
 		}
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
-				country_exists = WBH
+				WBH = { mltd_wbh_brotherhood = yes }
 			}
 			add_intel = {
 				target = WBH
@@ -767,7 +897,22 @@ shared_focus = {
 				token = token_army
 			}
 		}
-		else = {
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				TCA = { mltd_wbh_brotherhood = yes }
+			}
+			add_intel = {
+				target = TCA
+				civilian_intel = 15
+			}
+			add_operation_token = {
+				tag = TCA
+				token = token_army
+			}
+		}
+		if = {
+			limit = { NOT = { has_dlc = "La Resistance" } }
 			add_political_power = 25
 		}
 	}
@@ -782,9 +927,21 @@ shared_focus = {
 		if = {
 			limit = { has_dlc = "La Resistance" }
 			OR = {
-				has_operation_token = { tag = WBH token = token_army }
-				network_national_coverage = { target = WBH value > 0.25 }
-				NOT = { country_exists = WBH }
+				AND = {
+					WBH = { mltd_wbh_brotherhood = yes }
+					OR = {
+						has_operation_token = { tag = WBH token = token_army }
+						network_national_coverage = { target = WBH value > 0.25 }
+					}
+				}
+				AND = {
+					TCA = { mltd_wbh_brotherhood = yes }
+					OR = {
+						has_operation_token = { tag = TCA token = token_army }
+						network_national_coverage = { target = TCA value > 0.25 }
+					}
+				}
+				NOT = { any_country = { mltd_wbh_brotherhood = yes } }
 			}
 		}
 	}
@@ -793,11 +950,21 @@ shared_focus = {
 	x = 1
 	y = 1
 	relative_position_id = mltd_wbh_eyes_in_the_sound
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_wbh = yes }
+		}
+	}
 	completion_reward = {
+		# the theft is taken from whichever Brotherhood holds the stock (round 17's pair: the victim loses it from every
+		# producer, ROOT gains it under the victim's name)
 		if = {
 			limit = {
-				country_exists = WBH
+				WBH = { mltd_wbh_brotherhood = yes }
 				WBH = { has_equipment = { infantry_equipment > 1200 } }
 			}
 			WBH = {
@@ -812,9 +979,26 @@ shared_focus = {
 				producer = WBH
 			}
 		}
+		else_if = {
+			limit = {
+				TCA = { mltd_wbh_brotherhood = yes }
+				TCA = { has_equipment = { infantry_equipment > 1200 } }
+			}
+			TCA = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -600
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 600
+				producer = TCA
+			}
+		}
 		if = {
 			limit = {
-				country_exists = WBH
+				WBH = { mltd_wbh_brotherhood = yes }
 				WBH = { has_equipment = { power_armor_equipment > 120 } }
 			}
 			WBH = {
@@ -827,6 +1011,23 @@ shared_focus = {
 				type = power_armor_equipment
 				amount = 60
 				producer = WBH
+			}
+		}
+		else_if = {
+			limit = {
+				TCA = { mltd_wbh_brotherhood = yes }
+				TCA = { has_equipment = { power_armor_equipment > 120 } }
+			}
+			TCA = {
+				add_equipment_to_stockpile = {
+					type = power_armor_equipment
+					amount = -60
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = power_armor_equipment
+				amount = 60
+				producer = TCA
 			}
 		}
 		army_experience = 30
@@ -843,9 +1044,14 @@ shared_focus = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_wbh_crusade_turns_tt
 			OR = {
-				NOT = { country_exists = WBH }
-				WBH = { has_completed_focus = WBH_eradicate_the_mutants }
-				WBH = { has_war_with = ROOT }
+				NOT = { any_country = { mltd_wbh_brotherhood = yes } }
+				any_country = {
+					mltd_wbh_brotherhood = yes
+					OR = {
+						has_completed_focus = WBH_eradicate_the_mutants
+						has_war_with = ROOT
+					}
+				}
 				date > 2280.1.1
 			}
 		}
@@ -856,19 +1062,34 @@ shared_focus = {
 	x = 0
 	y = 2
 	relative_position_id = mltd_wbh_eyes_in_the_sound
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 22: the capstone is the declaration, so an AI takes it only when its stage has come and the army is ready
+		modifier = {
+			factor = 0
+			is_ai = yes
+			OR = {
+				NOT = { mltd_ai_stage_wbh = yes }
+				NOT = { mltd_ai_army_ready = yes }
+			}
+		}
+	}
 	will_lead_to_war_with = WBH
 	completion_reward = {
-		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
-		if = {
+		# round 22: the sub-tree ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
+		every_country = {
 			limit = {
-				country_exists = WBH
-				NOT = { has_war_with = WBH }
-				WBH = { NOT = { is_subject_of = ROOT } }
+				mltd_wbh_brotherhood = yes
+				NOT = { has_war_with = ROOT }
+				NOT = { is_subject_of = ROOT }
 			}
-			create_wargoal = {
-				type = annex_everything
-				target = WBH
+			ROOT = {
+				declare_war_on = {
+					type = annex_everything
+					target = PREV
+				}
 			}
 		}
 		if = {
@@ -901,14 +1122,23 @@ shared_focus = {
 			}
 		}
 		if = {
-			limit = { country_exists = WBH }
+			limit = { any_country = { mltd_wbh_brotherhood = yes } }
+			# the Brotherhood's claim on The Warren: WBH gets it when TRL dies (Shared Brotherhood Focus.txt:2113), TCA when
+			# it forms the Northwestern Brotherhood (every Washington state, formable_nations.txt)
 			235 = {
 				if = {
 					limit = { is_claimed_by = WBH }
 					remove_claim_by = WBH
 				}
+				if = {
+					limit = { is_claimed_by = TCA }
+					remove_claim_by = TCA
+				}
 			}
-			WBH = { add_war_support = -0.03 }
+			every_country = {
+				limit = { mltd_wbh_brotherhood = yes }
+				add_war_support = -0.03
+			}
 			add_timed_idea = {
 				idea = mltd_wbh_tide_wall
 				days = 180
@@ -935,7 +1165,15 @@ shared_focus = {
 	continue_if_invalid = yes
 	x = 28
 	y = 13
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
@@ -983,7 +1221,15 @@ shared_focus = {
 	x = -2
 	y = 1
 	relative_position_id = mltd_ces_what_the_river_carries
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = { has_dlc = "La Resistance" }
@@ -1031,7 +1277,15 @@ shared_focus = {
 	x = 2
 	y = 1
 	relative_position_id = mltd_ces_what_the_river_carries
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		# state-scope add_manpower is population (mltd_scripted_effects.txt:349); the numbers are repeated as literals in the three _tt keys
 		custom_effect_tooltip = mltd_ces_chained_faithful_tt
@@ -1086,7 +1340,15 @@ shared_focus = {
 	x = -2
 	y = 2
 	relative_position_id = mltd_ces_what_the_river_carries
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = {
@@ -1140,17 +1402,30 @@ shared_focus = {
 	x = 0
 	y = 2
 	relative_position_id = mltd_ces_what_the_river_carries
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 22: the capstone is the declaration, so an AI takes it only when its stage has come and the army is ready
+		modifier = {
+			factor = 0
+			is_ai = yes
+			OR = {
+				NOT = { mltd_ai_ncr_beaten = yes }
+				NOT = { mltd_ai_army_ready = yes }
+			}
+		}
+	}
 	will_lead_to_war_with = CES
 	completion_reward = {
-		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		# round 22: the sub-tree ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = CES
 				NOT = { has_war_with = CES }
 				CES = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = CES
 			}
@@ -1222,7 +1497,15 @@ shared_focus = {
 	continue_if_invalid = yes
 	x = 2
 	y = 17
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
@@ -1274,7 +1557,15 @@ shared_focus = {
 	x = -1
 	y = 1
 	relative_position_id = mltd_bos_the_drowned_paladin
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = {
@@ -1325,7 +1616,15 @@ shared_focus = {
 	x = 1
 	y = 1
 	relative_position_id = mltd_bos_the_drowned_paladin
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		# Paired transfers: Lost Hills loses exactly what we gain, best stock first (tiers as in OWB operations_bos.txt:307-404)
 		if = {
@@ -1429,7 +1728,15 @@ shared_focus = {
 	x = -1
 	y = 2
 	relative_position_id = mltd_bos_the_drowned_paladin
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = {
@@ -1474,17 +1781,30 @@ shared_focus = {
 	x = 1
 	y = 2
 	relative_position_id = mltd_bos_the_drowned_paladin
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 22: the capstone is the declaration, so an AI takes it only when its stage has come and the army is ready
+		modifier = {
+			factor = 0
+			is_ai = yes
+			OR = {
+				NOT = { mltd_ai_ncr_beaten = yes }
+				NOT = { mltd_ai_army_ready = yes }
+			}
+		}
+	}
 	will_lead_to_war_with = BOS
 	completion_reward = {
-		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		# round 22: the sub-tree ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = BOS
 				NOT = { has_war_with = BOS }
 				BOS = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = BOS
 			}
@@ -1571,7 +1891,15 @@ shared_focus = {
 	continue_if_invalid = yes
 	x = 22
 	y = 17
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_ncr_beaten = yes }
+		}
+	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
@@ -1697,7 +2025,15 @@ shared_focus = {
 	x = -1
 	y = 1
 	relative_position_id = mltd_tla_the_iron_god_dreams
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_ncr_beaten = yes }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = { country_exists = TLA }
@@ -1853,7 +2189,15 @@ shared_focus = {
 	x = 1
 	y = 1
 	relative_position_id = mltd_tla_the_iron_god_dreams
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_ncr_beaten = yes }
+		}
+	}
 	completion_reward = {
 		# the transfers are spelled out once, in the tooltip; listing them as well would print every line twice
 		custom_effect_tooltip = mltd_tla_iron_bones_theft_tt
@@ -1918,20 +2262,33 @@ shared_focus = {
 	x = 0
 	y = 2
 	relative_position_id = mltd_tla_the_iron_god_dreams
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 22: the capstone is the declaration, so an AI takes it only when its stage has come and the army is ready
+		modifier = {
+			factor = 0
+			is_ai = yes
+			OR = {
+				NOT = { mltd_ai_legion_beaten = yes }
+				NOT = { mltd_ai_army_ready = yes }
+			}
+		}
+	}
 	will_lead_to_war_with = TLA
 	will_lead_to_war_with = MAX
 	will_lead_to_war_with = MOC
 	will_lead_to_war_with = ZAP
 	completion_reward = {
-		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		# round 22: the sub-tree ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = TLA
 				NOT = { has_war_with = TLA }
 				TLA = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = TLA
 			}
@@ -1942,7 +2299,7 @@ shared_focus = {
 				NOT = { has_war_with = MAX }
 				MAX = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = MAX
 			}
@@ -1953,7 +2310,7 @@ shared_focus = {
 				NOT = { has_war_with = MOC }
 				MOC = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = MOC
 			}
@@ -1964,7 +2321,7 @@ shared_focus = {
 				NOT = { has_war_with = ZAP }
 				ZAP = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = ZAP
 			}
@@ -2106,7 +2463,15 @@ shared_focus = {
 	continue_if_invalid = yes
 	x = 8
 	y = 17
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
@@ -2159,7 +2524,15 @@ shared_focus = {
 	x = -1
 	y = 1
 	relative_position_id = mltd_hea_whispers_in_the_steam
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		add_political_power = 40
 		if = {
@@ -2227,7 +2600,15 @@ shared_focus = {
 	x = 1
 	y = 1
 	relative_position_id = mltd_hea_whispers_in_the_steam
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = {
@@ -2303,17 +2684,30 @@ shared_focus = {
 	x = 0
 	y = 2
 	relative_position_id = mltd_hea_whispers_in_the_steam
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 22: the capstone is the declaration, so an AI takes it only when its stage has come and the army is ready
+		modifier = {
+			factor = 0
+			is_ai = yes
+			OR = {
+				NOT = { mltd_ai_ncr_beaten = yes }
+				NOT = { mltd_ai_army_ready = yes }
+			}
+		}
+	}
 	will_lead_to_war_with = HEA
 	completion_reward = {
-		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		# round 22: the sub-tree ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = HEA
 				NOT = { has_war_with = HEA }
 				HEA = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = HEA
 			}
@@ -2362,7 +2756,15 @@ shared_focus = {
 	continue_if_invalid = yes
 	x = 28
 	y = 17
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this sub-tree's countries wither half as fast (mltd_cult_refresh)
@@ -2422,7 +2824,15 @@ shared_focus = {
 	x = -2
 	y = 1
 	relative_position_id = mltd_wht_the_lake_god_answers
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		add_political_power = 40
 		if = {
@@ -2481,7 +2891,15 @@ shared_focus = {
 	x = 0
 	y = 1
 	relative_position_id = mltd_wht_the_lake_god_answers
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = { has_equipment = { infantry_equipment > 399 } }
@@ -2555,7 +2973,15 @@ shared_focus = {
 	x = 2
 	y = 1
 	relative_position_id = mltd_wht_the_lake_god_answers
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 23: an AI works a sub-tree only when its war is the next one on the plan
+		modifier = {
+			factor = 0
+			is_ai = yes
+			NOT = { mltd_ai_stage_ncr = yes }
+		}
+	}
 	completion_reward = {
 		if = {
 			limit = { country_exists = EHT }
@@ -2630,18 +3056,31 @@ shared_focus = {
 	x = 0
 	y = 2
 	relative_position_id = mltd_wht_the_lake_god_answers
-	ai_will_do = { factor = 3 }
+	ai_will_do = {
+		factor = 3
+		# round 22: the capstone is the declaration, so an AI takes it only when its stage has come and the army is ready
+		modifier = {
+			factor = 0
+			is_ai = yes
+			OR = {
+				NOT = { mltd_ai_ncr_beaten = yes }
+				NOT = { mltd_ai_army_ready = yes }
+			}
+		}
+	}
 	will_lead_to_war_with = WHT
 	will_lead_to_war_with = EHT
 	completion_reward = {
-		# round 17: the sub-tree ends in a war goal on each living target that is not already at war with us or our subject
+		# round 22: the sub-tree ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = WHT
 				NOT = { has_war_with = WHT }
 				WHT = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = WHT
 			}
@@ -2652,7 +3091,7 @@ shared_focus = {
 				NOT = { has_war_with = EHT }
 				EHT = { NOT = { is_subject_of = ROOT } }
 			}
-			create_wargoal = {
+			declare_war_on = {
 				type = annex_everything
 				target = EHT
 			}
@@ -2678,5 +3117,497 @@ shared_focus = {
 		else = {
 			add_political_power = 30
 		}
+	}
+}
+
+############ the Broken Coast ############
+
+# Broken Coast (BRK) sub-tree (round 21): the tribe courts the raiders of the Broken Coast instead of fighting them. Envoys
+# end the world's scorn between the two, MLT may send more volunteers to fight in the raiders' wars (+3 each from the Deep
+# Ones' and the Star Spawn's focuses, through the diplomacy screen's own Send Volunteers), the Esoteric
+# Order grows a cult among their crews, and once the raiders hold the coast their own focus brk_nf_pirate_coast asks for
+# (every core of VIC and DRE owned by their sphere) and the cult, the network and the Order's intel run deep, the raiders
+# are invited into the Drowned Covenant, a faction led by MLT (event mltd.21, which BRK may refuse).
+shared_focus = {
+	id = mltd_brk_salt_on_the_broken_coast
+	icon = GFX_goal_BRK_naval_raiders
+	cost = 35
+	available = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		country_exists = BRK
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 21
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		# the cult of M'lyeh among the raiders withers half as fast (mltd_cult_refresh)
+		custom_effect_tooltip = mltd_brk_cult_sheltered_tt
+		hidden_effect = {
+			BRK = { set_country_flag = mltd_cult_sheltered }
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BRK
+			}
+			add_intel = {
+				target = BRK
+				civilian_intel = 10
+				army_intel = 10
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		# OWB's start-of-game scorn between the Broken Coast and the world (on_startup, amfo_opinion_modifiers.txt:72-73),
+		# lifted the way OWB lifts it, and replaced by our envoys' goodwill both ways
+		if = {
+			limit = { country_exists = BRK }
+			remove_opinion_modifier = {
+				target = BRK
+				modifier = world_view_brk
+			}
+			BRK = {
+				remove_opinion_modifier = {
+					target = ROOT
+					modifier = brk_view_world
+				}
+			}
+			add_opinion_modifier = {
+				target = BRK
+				modifier = mltd_drowned_envoys
+			}
+			reverse_add_opinion_modifier = {
+				target = BRK
+				modifier = mltd_drowned_envoys
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_brk_the_deep_ones_sail_north
+	icon = GFX_goal_BRK_masters_of_the_waves
+	cost = 42
+	prerequisite = { focus = mltd_brk_salt_on_the_broken_coast }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_brk_deep_ones_answer_tt
+			has_country_flag = mltd_deep_ones_summon_unlocked
+		}
+		if = {
+			limit = { country_exists = BRK }
+			BRK = { NOT = { has_war_with = ROOT } }
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 1
+	relative_position_id = mltd_brk_salt_on_the_broken_coast
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		# +3 volunteer divisions MLT may send (send_volunteer_size, the dynamic modifier mltd_brk_volunteers): the player
+		# sends them through the diplomacy screen's Send Volunteers, whichever divisions they choose
+		mltd_brk_add_volunteer_size = yes
+	}
+}
+
+shared_focus = {
+	id = mltd_brk_the_drowned_raiders
+	icon = GFX_goal_BRK_frozen_cabal
+	cost = 35
+	prerequisite = { focus = mltd_brk_salt_on_the_broken_coast }
+	available = {
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			OR = {
+				has_operation_token = { tag = BRK token = token_civilian }
+				network_national_coverage = { target = BRK value > 0.2 }
+				NOT = { country_exists = BRK }
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 1
+	relative_position_id = mltd_brk_salt_on_the_broken_coast
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { country_exists = BRK }
+			# +10 to the raiders' cult, founding it if they have none (mltd_cult_add_strength)
+			set_temp_variable = { mltd_cult_gain = 10 }
+			custom_effect_tooltip = mltd_brk_raiders_cult_tt
+			hidden_effect = {
+				BRK = { mltd_cult_add_strength = yes }
+				mltd_cult_rebuild_list = yes
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BRK
+			}
+			add_intel = {
+				target = BRK
+				civilian_intel = 15
+			}
+			add_operation_token = {
+				tag = BRK
+				token = token_army
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_brk_star_spawn_over_the_strait
+	icon = GFX_goal_BRK_great_beyond
+	cost = 49
+	prerequisite = { focus = mltd_brk_salt_on_the_broken_coast }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_brk_star_spawn_answer_tt
+			has_country_flag = mltd_star_spawn_summon_unlocked
+		}
+		if = {
+			limit = { country_exists = BRK }
+			BRK = { NOT = { has_war_with = ROOT } }
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 1
+	relative_position_id = mltd_brk_salt_on_the_broken_coast
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		# +3 volunteer divisions MLT may send (send_volunteer_size, the dynamic modifier mltd_brk_volunteers): the player
+		# sends them through the diplomacy screen's Send Volunteers, whichever divisions they choose
+		mltd_brk_add_volunteer_size = yes
+	}
+}
+
+shared_focus = {
+	id = mltd_brk_the_drowned_covenant
+	icon = GFX_goal_BRK_black_flag_fleets
+	cost = 49
+	prerequisite = { focus = mltd_brk_the_deep_ones_sail_north }
+	prerequisite = { focus = mltd_brk_the_drowned_raiders }
+	available = {
+		country_exists = BRK
+		NOT = { has_war_with = BRK }
+		BRK = {
+			is_subject = no
+			is_in_faction = no
+		}
+		OR = {
+			is_in_faction = no
+			is_faction_leader = yes
+		}
+		# the raiders hold the coast their own Dawn of a New Age asks for (brk_nf_pirate_coast: every core of VIC and DRE
+		# owned by their sphere), or have already taken that focus
+		custom_trigger_tooltip = {
+			tooltip = mltd_brk_pirate_coast_tt
+			OR = {
+				BRK = { has_completed_focus = brk_nf_pirate_coast }
+				BRK = {
+					VIC = { all_core_land_owned_by_prev_sphere = yes }
+					DRE = { all_core_land_owned_by_prev_sphere = yes }
+				}
+			}
+		}
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			custom_trigger_tooltip = {
+				tooltip = mltd_brk_strong_cult_tt
+				BRK = { check_variable = { mltd_cult_strength > 49.9 } }
+			}
+			has_operation_token = { tag = BRK token = token_civilian }
+			custom_trigger_tooltip = {
+				tooltip = mltd_brk_network_tt
+				network_national_coverage = { target = BRK value > 0.3 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_brk_intel_tt
+				intel_level_over = {
+					target = BRK
+					civilian_intel > 0.5
+				}
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 2
+	relative_position_id = mltd_brk_salt_on_the_broken_coast
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		custom_effect_tooltip = mltd_brk_covenant_offer_tt
+		custom_effect_tooltip = mltd_newline_tt
+		custom_effect_tooltip = mltd_brk_covenant_if_accepted_tt
+		hidden_effect = {
+			BRK = { country_event = { id = mltd.21 days = 1 } }
+		}
+	}
+}
+
+############ the Bone Dancers ############
+
+# Bone Dancers (BDT) sub-tree (round 22): the raiders who dance for the Odious King are a neighbour the tribe can take either
+# way. The root sends envoys and opens the Order's work among them; the two middle focuses grow the cult and rob the bone
+# road; and the two capstones are mutually exclusive - crown the Odious King as a brother of the drowned and invite the Bone
+# Dancers into the Drowned Covenant (they must have taken bdt_hail_to_the_king; event mltd.24), or drown the dance and take
+# their land (an annex_everything war goal).
+shared_focus = {
+	id = mltd_bdt_the_bone_shore
+	icon = GFX_goal_BDT_holy_skull
+	cost = 35
+	available = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		country_exists = BDT
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 8
+	y = 21
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		custom_effect_tooltip = mltd_bdt_cult_sheltered_tt
+		hidden_effect = {
+			BDT = { set_country_flag = mltd_cult_sheltered }
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BDT
+			}
+			add_intel = {
+				target = BDT
+				civilian_intel = 10
+				army_intel = 10
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		if = {
+			limit = { country_exists = BDT }
+			add_opinion_modifier = {
+				target = BDT
+				modifier = mltd_drowned_envoys
+			}
+			reverse_add_opinion_modifier = {
+				target = BDT
+				modifier = mltd_drowned_envoys
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_bdt_the_dancers_hear_the_tide
+	icon = GFX_goal_BDT_skeleton_king
+	cost = 35
+	prerequisite = { focus = mltd_bdt_the_bone_shore }
+	available = {
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			OR = {
+				has_operation_token = { tag = BDT token = token_civilian }
+				network_national_coverage = { target = BDT value > 0.2 }
+				NOT = { country_exists = BDT }
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -1
+	y = 1
+	relative_position_id = mltd_bdt_the_bone_shore
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { country_exists = BDT }
+			# +10 to the Bone Dancers' cult, founding it if they have none (mltd_cult_add_strength)
+			set_temp_variable = { mltd_cult_gain = 10 }
+			custom_effect_tooltip = mltd_bdt_dancers_cult_tt
+			hidden_effect = {
+				BDT = { mltd_cult_add_strength = yes }
+				mltd_cult_rebuild_list = yes
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BDT
+			}
+			add_intel = {
+				target = BDT
+				civilian_intel = 15
+			}
+			add_operation_token = {
+				tag = BDT
+				token = token_army
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_bdt_salt_on_the_bone_road
+	icon = GFX_goal_BDT_war_with_tim
+	cost = 42
+	prerequisite = { focus = mltd_bdt_the_bone_shore }
+	available = {
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			OR = {
+				has_operation_token = { tag = BDT token = token_army }
+				network_national_coverage = { target = BDT value > 0.25 }
+				NOT = { country_exists = BDT }
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 1
+	y = 1
+	relative_position_id = mltd_bdt_the_bone_shore
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = {
+				country_exists = BDT
+				BDT = { has_equipment = { infantry_equipment > 1200 } }
+			}
+			BDT = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -600
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 600
+				producer = BDT
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		army_experience = 30
+	}
+}
+
+shared_focus = {
+	id = mltd_bdt_hail_the_drowned_king
+	icon = GFX_goal_BDT_odious_king
+	cost = 49
+	prerequisite = { focus = mltd_bdt_the_dancers_hear_the_tide }
+	prerequisite = { focus = mltd_bdt_salt_on_the_bone_road }
+	mutually_exclusive = { focus = mltd_bdt_drown_the_dance }
+	available = {
+		country_exists = BDT
+		NOT = { has_war_with = BDT }
+		BDT = {
+			is_subject = no
+			is_in_faction = no
+			has_completed_focus = bdt_hail_to_the_king
+		}
+		OR = {
+			is_in_faction = no
+			is_faction_leader = yes
+		}
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			custom_trigger_tooltip = {
+				tooltip = mltd_bdt_strong_cult_tt
+				BDT = { check_variable = { mltd_cult_strength > 39.9 } }
+			}
+			has_operation_token = { tag = BDT token = token_civilian }
+			custom_trigger_tooltip = {
+				tooltip = mltd_bdt_network_tt
+				network_national_coverage = { target = BDT value > 0.25 }
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -1
+	y = 2
+	relative_position_id = mltd_bdt_the_bone_shore
+	ai_will_do = { factor = 4 }
+	completion_reward = {
+		custom_effect_tooltip = mltd_bdt_covenant_offer_tt
+		custom_effect_tooltip = mltd_newline_tt
+		custom_effect_tooltip = mltd_brk_covenant_if_accepted_tt
+		hidden_effect = {
+			BDT = { country_event = { id = mltd.24 days = 1 } }
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_bdt_drown_the_dance
+	icon = GFX_goal_BDT_bloody_skull
+	cost = 49
+	prerequisite = { focus = mltd_bdt_the_dancers_hear_the_tide }
+	prerequisite = { focus = mltd_bdt_salt_on_the_bone_road }
+	mutually_exclusive = { focus = mltd_bdt_hail_the_drowned_king }
+	available = {
+		country_exists = BDT
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 1
+	y = 2
+	relative_position_id = mltd_bdt_the_bone_shore
+	ai_will_do = {
+		factor = 3
+		# round 22: the capstone is the declaration, so an AI takes it only when its stage has come and the army is ready
+		modifier = {
+			factor = 0
+			is_ai = yes
+			OR = {
+				mltd_ai_courting_bdt = yes
+				NOT = { mltd_ai_army_ready = yes }
+			}
+		}
+	}
+	will_lead_to_war_with = BDT
+	completion_reward = {
+		if = {
+			limit = {
+				country_exists = BDT
+				NOT = { has_war_with = BDT }
+				BDT = { NOT = { is_subject_of = ROOT } }
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = BDT
+			}
+		}
+		if = {
+			limit = { country_exists = BDT }
+			BDT = {
+				add_stability = -0.06
+				add_war_support = -0.03
+			}
+		}
+		army_experience = 40
 	}
 }

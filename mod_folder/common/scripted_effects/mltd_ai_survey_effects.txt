@@ -6,9 +6,20 @@
 # game for MLT or anyone else - no resource, claim, war goal or unit - and a human MLT never runs it.
 # The tests it calls live in common/scripted_triggers/mltd_ai_triggers.txt (section H).
 mltd_ai_survey = {
-	# Border states: states MLT controls that touch, by land, a passable state someone else controls (OWB's own tests:
-	# is_impassable, 00_scripted_triggers.txt:152-154, and a state with an owner, :156-162).
+	# Once a game: each state's frontage, measured from OWB's map (mltd_ai_frontage_effects.txt, build_ai_frontage.py).
+	if = {
+		limit = { NOT = { has_global_flag = mltd_ai_state_edges } }
+		set_global_flag = mltd_ai_state_edges
+		mltd_ai_set_state_edges = yes
+	}
+
+	# Border states - states MLT controls that touch, by land, a passable state someone else controls (OWB's own tests:
+	# is_impassable, 00_scripted_triggers.txt:152-154, and a state with an owner, :156-162) - and the frontage they hold:
+	# the divisions of 20 width that would fill the combat width of every border province. Script sees no provinces, so a
+	# border state counts its provinces that touch another state (mltd_ai_edge) in the share of its neighbours held by
+	# someone else (mltd_ai_foreign / mltd_ai_nbs). Against run 3's save the estimate read 343 where the provinces read 400.
 	set_variable = { mltd_ai_border_states = 0 }
+	set_variable = { mltd_ai_frontage = 0 }
 	every_controlled_state = {
 		limit = {
 			any_neighbor_state = {
@@ -18,15 +29,33 @@ mltd_ai_survey = {
 			}
 		}
 		add_to_variable = { ROOT.mltd_ai_border_states = 1 }
+		set_variable = { ROOT.mltd_ai_foreign = 0 }
+		every_neighbor_state = {
+			limit = {
+				NOT = { is_controlled_by = ROOT }
+				impassable = no
+				NOT = { check_variable = { owner = 0 } }
+			}
+			add_to_variable = { ROOT.mltd_ai_foreign = 1 }
+		}
+		if = {
+			limit = {
+				has_variable = mltd_ai_edge
+				check_variable = { mltd_ai_nbs > 0 }
+			}
+			set_temp_variable = { mltd_ai_share = mltd_ai_edge }
+			multiply_temp_variable = { mltd_ai_share = ROOT.mltd_ai_foreign }
+			divide_temp_variable = { mltd_ai_share = mltd_ai_nbs }
+			add_to_variable = { ROOT.mltd_ai_frontage = mltd_ai_share }
+		}
 	}
 
-	# The army MLT aims for: two divisions a border state, three at war, never under 12, and its cap a quarter higher (read
-	# by mltd_ai_army_short and mltd_ai_army_full, common/ai_strategy/mltd_MLT.txt). Run 2's AI, left to the engine's count -
-	# which weighs military factories at 0.45 (vanilla WANTED_UNITS_WEIGHT_FACTORIES) - kept 402 divisions on 57 border states
-	# on the occupied NCR's factories. CONQUEST_PLAN.txt's snapshots (60-80 divisions for 75-170 states) sit near two a border
-	# state.
-	set_variable = { mltd_ai_army_target = mltd_ai_border_states }
-	multiply_variable = { mltd_ai_army_target = 2 }
+	# The army MLT aims for: the line filled to half the frontage's combat width at peace - two divisions an 80-wide border
+	# province - and three quarters at war (three), never under 12, and its cap a quarter higher (read by mltd_ai_army_short
+	# and mltd_ai_army_full, common/ai_strategy/mltd_MLT.txt). Run 3's target of two divisions a border state read 57 on a
+	# 400-division frontage, and the AI stopped training at 51; it lost to Broken Coast.
+	set_variable = { mltd_ai_army_target = mltd_ai_frontage }
+	multiply_variable = { mltd_ai_army_target = 0.5 }
 	if = {
 		limit = { has_war = yes }
 		multiply_variable = { mltd_ai_army_target = 1.5 }
@@ -35,6 +64,14 @@ mltd_ai_survey = {
 	# a quarter over the target before the AI holds back, so it does not swing between building and disbanding
 	set_variable = { mltd_ai_army_cap = mltd_ai_army_target }
 	multiply_variable = { mltd_ai_army_cap = 1.25 }
+	# What a new war needs (mltd_ai_army_ready, read by mltd_ai_not_ready_for_war): half the target, but never more than 20
+	# divisions - run 4 declared on the Washington Brotherhood with 35 divisions against a target of 78 and its armies on the
+	# far side of the country, while run 5 sat on war goals against The Warren and Arago in 1276 because half of a frontage
+	# target it could not yet reach was out of the question. The ceiling keeps the early wars, which the plan fights with a
+	# dozen divisions, out of the gate's way.
+	set_variable = { mltd_ai_army_ready_at = mltd_ai_army_target }
+	multiply_variable = { mltd_ai_army_ready_at = 0.5 }
+	clamp_variable = { var = mltd_ai_army_ready_at min = 6 max = 20 }
 
 	# The north: how many of its 79 states MLT owns, and whether it is consolidated - more than 70 owned, or none left to a
 	# country MLT could safely attack (mltd_ai_north_done, read by the NCR's and New Reno's stages).
@@ -62,6 +99,15 @@ mltd_ai_survey = {
 		clr_country_flag = mltd_ai_north_done
 	}
 
+	# The Broken Coast's volunteers: weeks with at least four of MLT's divisions fighting for it (mltd_ai_brk_helped)
+	if = {
+		limit = {
+			country_exists = BRK
+			BRK = { has_volunteers_amount_from = { tag = ROOT count > 3 } }
+		}
+		add_to_variable = { mltd_ai_brk_volunteer_weeks = 1 }
+	}
+
 	# A pocket: an enemy MLT's land does not touch (mltd_ai_enemy_cut_off). The flag keeps the day it was first set, so the
 	# frontier can wait 90 days of military-access requests before it treats the country in between as a target.
 	if = {
@@ -76,4 +122,191 @@ mltd_ai_survey = {
 	else = {
 		clr_country_flag = mltd_ai_pocket
 	}
+}
+
+# ---- The line's equipment from OWB's Organization Marketplace ----------------------------------------------------------------
+# An AI MLT buys infantry weapons and support equipment from OWB's sellers exactly as the player's buy button does
+# (OWB common/scripted_guis/__trade_ledger_gui.txt: item_cost_click_enabled :56-105, item_cost_click :150-217): the price
+# after the influence discount (calculate_deal_percentage), the item's opinion tier (get_minimum_organization_opinion), the
+# seller's stock over 249, the 40-day cooldown flag, 250 pieces from producer USA, the caps through transaction_caps, the
+# stock lowered and influence raised by a ninth of the price. OWB's own AI buyer (organization_scripted_effects.txt:652-656)
+# never buys for a country whose caps income is negative, which army upkeep makes MLT's. The best tier the influence opens,
+# while MLT holds under 2,000 infantry weapons (or 300 support equipment), with 150 caps left after paying. Called from
+# on_weekly_MLT (AI, caps rule on).
+mltd_ai_buy_line_equipment = {
+	# Butcher Pete's (4): melee_equipment_4 .. _1, indices 3 .. 0
+	if = {
+		limit = {
+			NOT = { has_country_flag = recent_transaction_with_4 }
+			check_variable = { global.melee_runner_inventory > 249 }
+			has_equipment = { infantry_equipment < 2000 }
+		}
+		set_temp_variable = { org_selector = 4 }
+		if = { limit = { get_minimum_organization_opinion = yes } }
+		set_temp_variable = { mltd_org_tier = -1 }
+		if = {
+			limit = { check_variable = { var = current_minimum_organization_opinion value = global.organization_opinion_arary_4^3 compare = greater_than_or_equals } }
+			set_temp_variable = { mltd_org_tier = 3 }
+			set_temp_variable = { mltd_org_price = global.organization_market_arary_4^3 }
+		}
+		else_if = {
+			limit = { check_variable = { var = current_minimum_organization_opinion value = global.organization_opinion_arary_4^2 compare = greater_than_or_equals } }
+			set_temp_variable = { mltd_org_tier = 2 }
+			set_temp_variable = { mltd_org_price = global.organization_market_arary_4^2 }
+		}
+		else_if = {
+			limit = { check_variable = { var = current_minimum_organization_opinion value = global.organization_opinion_arary_4^1 compare = greater_than_or_equals } }
+			set_temp_variable = { mltd_org_tier = 1 }
+			set_temp_variable = { mltd_org_price = global.organization_market_arary_4^1 }
+		}
+		else_if = {
+			limit = { check_variable = { var = current_minimum_organization_opinion value = global.organization_opinion_arary_4^0 compare = greater_than_or_equals } }
+			set_temp_variable = { mltd_org_tier = 0 }
+			set_temp_variable = { mltd_org_price = global.organization_market_arary_4^0 }
+		}
+		if = {
+			limit = { check_variable = { mltd_org_tier > -1 } }
+			mltd_ai_org_price = yes
+			if = {
+				limit = { mltd_ai_org_can_pay = yes }
+				if = {
+					limit = { check_variable = { mltd_org_tier = 3 } }
+					add_equipment_to_stockpile = { type = melee_equipment_4 amount = 250 producer = USA }
+				}
+				else_if = {
+					limit = { check_variable = { mltd_org_tier = 2 } }
+					add_equipment_to_stockpile = { type = melee_equipment_3 amount = 250 producer = USA }
+				}
+				else_if = {
+					limit = { check_variable = { mltd_org_tier = 1 } }
+					add_equipment_to_stockpile = { type = melee_equipment_2 amount = 250 producer = USA }
+				}
+				else = {
+					add_equipment_to_stockpile = { type = melee_equipment_1 amount = 250 producer = USA }
+				}
+				mltd_ai_org_pay = yes
+				add_to_variable = { global.melee_runner_inventory = -250 }
+				set_country_flag = { flag = recent_transaction_with_4 days = 40 value = 1 }
+				if = {
+					limit = { has_game_rule = { rule = org_cooldown_reminder_toggle option = ENABLED } }
+					add_timed_idea = { idea = caps_organization_4_cooldown days = 40 }
+				}
+				set_temp_variable = { org_selector = 4 }
+				mltd_ai_org_influence = yes
+			}
+		}
+	}
+	# Gun Runners (1): support equipment (index 4) when it runs short, else the best ballistic weapon (indices 3 .. 1) or
+	# pipe guns (index 0)
+	if = {
+		limit = {
+			NOT = { has_country_flag = recent_transaction_with_1 }
+			check_variable = { global.gun_runner_inventory > 249 }
+			OR = {
+				has_equipment = { infantry_equipment < 2000 }
+				has_equipment = { support_equipment < 300 }
+			}
+		}
+		set_temp_variable = { org_selector = 1 }
+		if = { limit = { get_minimum_organization_opinion = yes } }
+		set_temp_variable = { mltd_org_tier = -1 }
+		if = {
+			limit = {
+				has_equipment = { support_equipment < 300 }
+				check_variable = { var = current_minimum_organization_opinion value = global.organization_opinion_arary_1^4 compare = greater_than_or_equals }
+			}
+			set_temp_variable = { mltd_org_tier = 4 }
+			set_temp_variable = { mltd_org_price = global.organization_market_arary_1^4 }
+		}
+		else_if = {
+			limit = {
+				has_equipment = { infantry_equipment < 2000 }
+				check_variable = { var = current_minimum_organization_opinion value = global.organization_opinion_arary_1^3 compare = greater_than_or_equals }
+			}
+			set_temp_variable = { mltd_org_tier = 3 }
+			set_temp_variable = { mltd_org_price = global.organization_market_arary_1^3 }
+		}
+		else_if = {
+			limit = {
+				has_equipment = { infantry_equipment < 2000 }
+				check_variable = { var = current_minimum_organization_opinion value = global.organization_opinion_arary_1^2 compare = greater_than_or_equals }
+			}
+			set_temp_variable = { mltd_org_tier = 2 }
+			set_temp_variable = { mltd_org_price = global.organization_market_arary_1^2 }
+		}
+		else_if = {
+			limit = {
+				has_equipment = { infantry_equipment < 2000 }
+				check_variable = { var = current_minimum_organization_opinion value = global.organization_opinion_arary_1^1 compare = greater_than_or_equals }
+			}
+			set_temp_variable = { mltd_org_tier = 1 }
+			set_temp_variable = { mltd_org_price = global.organization_market_arary_1^1 }
+		}
+		else_if = {
+			limit = {
+				has_equipment = { infantry_equipment < 2000 }
+				check_variable = { var = current_minimum_organization_opinion value = global.organization_opinion_arary_1^0 compare = greater_than_or_equals }
+			}
+			set_temp_variable = { mltd_org_tier = 0 }
+			set_temp_variable = { mltd_org_price = global.organization_market_arary_1^0 }
+		}
+		if = {
+			limit = { check_variable = { mltd_org_tier > -1 } }
+			mltd_ai_org_price = yes
+			if = {
+				limit = { mltd_ai_org_can_pay = yes }
+				if = {
+					limit = { check_variable = { mltd_org_tier = 4 } }
+					add_equipment_to_stockpile = { type = support_equipment_1 amount = 250 producer = USA }
+				}
+				else_if = {
+					limit = { check_variable = { mltd_org_tier = 3 } }
+					add_equipment_to_stockpile = { type = ballistic_equipment_3 amount = 250 producer = USA }
+				}
+				else_if = {
+					limit = { check_variable = { mltd_org_tier = 2 } }
+					add_equipment_to_stockpile = { type = ballistic_equipment_2 amount = 250 producer = USA }
+				}
+				else_if = {
+					limit = { check_variable = { mltd_org_tier = 1 } }
+					add_equipment_to_stockpile = { type = ballistic_equipment_1 amount = 250 producer = USA }
+				}
+				else = {
+					add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 250 producer = USA }
+				}
+				mltd_ai_org_pay = yes
+				add_to_variable = { global.gun_runner_inventory = -250 }
+				set_country_flag = { flag = recent_transaction_with_1 days = 40 value = 1 }
+				if = {
+					limit = { has_game_rule = { rule = org_cooldown_reminder_toggle option = ENABLED } }
+					add_timed_idea = { idea = caps_organization_1_cooldown days = 40 }
+				}
+				set_temp_variable = { org_selector = 1 }
+				mltd_ai_org_influence = yes
+			}
+		}
+	}
+}
+
+# The price after the seller's influence discount, into caps_diff (negative), as item_cost_click_enabled computes it. Reads
+# org_selector and mltd_org_price.
+mltd_ai_org_price = {
+	if = { limit = { calculate_deal_percentage = yes } }
+	set_temp_variable = { caps_diff = mltd_org_price }
+	multiply_temp_variable = { caps_diff = -1 }
+	multiply_temp_variable = { caps_diff = temp_org_discount }
+}
+
+# Pay caps_diff through OWB's transaction_caps, as item_cost_click does.
+mltd_ai_org_pay = {
+	set_temp_variable = { caps_to_add = caps_diff }
+	transaction_caps = yes
+}
+
+# A ninth of the undiscounted price in influence with org_selector, as item_cost_click does.
+mltd_ai_org_influence = {
+	set_temp_variable = { org_influence_amount = mltd_org_price }
+	divide_temp_variable = { org_influence_amount = 9 }
+	round_temp_variable = org_influence_amount
+	organization_add_influence = yes
 }

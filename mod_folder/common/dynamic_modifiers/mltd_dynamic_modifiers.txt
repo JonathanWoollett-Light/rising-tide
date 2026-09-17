@@ -15,6 +15,16 @@ mltd_gifts_from_the_deep = {
 	weekly_manpower = mltd_gift_manpower_var
 }
 
+# Rising Tide - the Broken Coast's volunteers (round 21)
+# Added by mltd_brk_add_volunteer_size (The Deep Ones Sail North, Star Spawn over the Strait): +3 volunteer divisions each, and
+# no world-tension requirement to send them (OWB's economic laws can add one, gov_economic.txt:38), as OWB's Brotherhood
+# expeditionary departments do (bos_dynamic_modifiers.txt:46-47).
+mltd_brk_volunteers = {
+	icon = GFX_idea_brk_master_of_sea
+	send_volunteer_size = mltd_brk_volunteer_size_var
+	send_volunteers_tension = -1
+}
+
 # Rising Tide - Cult Infiltration
 # Added to a foreign country by mltd_cult_add_strength when MLT founds a cult there; removed by
 # mltd_cult_dissolve. It bites only while that country is at war with MLT (enable), and its five inputs
