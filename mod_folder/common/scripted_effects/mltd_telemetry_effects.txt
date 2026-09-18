@@ -3790,6 +3790,25 @@ mltd_tm_poll_decisions = {
 			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_summon_the_star_spawn pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0]"
 		}
 	}
+	# mltd_summon_the_leviathan: mltd_leviathan_summon_cooldown, 180 days
+	if = {
+		limit = {
+			has_country_flag = mltd_leviathan_summon_cooldown
+			OR = {
+				NOT = { has_country_flag = mltd_tm_d_summon_the_leviathan }
+				has_country_flag = { flag = mltd_leviathan_summon_cooldown days < 7 }
+			}
+		}
+		set_country_flag = { flag = mltd_tm_d_summon_the_leviathan value = 1 days = 180 }
+		mltd_tm_update_economy = yes
+		if = {
+			limit = { has_global_flag = caps_enabled_global_flag }
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_summon_the_leviathan pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0] caps=[?mltd_tm_caps|0]"
+		}
+		else = {
+			log = "MLTD [?mltd_tm_day|0] DECISION id=mltd_summon_the_leviathan pop_k=[?mltd_tm_pop_k|0] mp_k=[?mltd_tm_mp_k|0]"
+		}
+	}
 	# mltd_offering_of_the_drowned: mltd_offering_drowned_cooldown, 60 days
 	if = {
 		limit = {

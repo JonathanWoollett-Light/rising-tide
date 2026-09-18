@@ -133,6 +133,10 @@ recruit_character = MLT_OLD_CASTRO # Rising Tide: the Esoteric Order's spymaster
 
 set_variable = { mlt_eggs = 500 }
 set_variable = { dont_return_stolen_territory@TRL = 1 }
+# Rising Tide: OWB's own tag-agnostic opt-out from return_stolen_territory (common/decisions/territory_disputes.txt:466-467).
+# The line above only vetoes TRL as the demander; once TRL is annexed a survivor inherits its claims and an AI MLT
+# hands the whole conquest back at peace (run 20260917-212152: 15 states/98k pop on day 1095, 5/31k on day 1126).
+set_variable = { never_return_stolen_territory = 1 }
 
 add_opinion_modifier = { target = DIS modifier = heretics }
 

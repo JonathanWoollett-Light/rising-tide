@@ -19,6 +19,63 @@ on_actions = {
 				limit = { has_completed_focus = mltd_the_spreading_cult }
 				mltd_cult_rebuild_list = yes
 			}
+
+			# Round 25: the Broken Coast's landings on Haida Gwaii (event mltd.27). BRK's own OWB focus
+			# brk_nf_lessons_of_war sends it against the Haida Confederation, whose whole country is one island: nine
+			# land provinces, every one coastal, only two with a port (mltd_brk_on_haida_gwaii). BRK's AI lands wherever
+			# its planner picks - usually a portless beach - and the landing starves and is thrown back; it lands again,
+			# and MLT's volunteers go down with each landing. The engine chooses the landing province, so nothing in
+			# script can aim it at a port. Instead, while MLT is engaged with the Broken Coast and both sides are AIs,
+			# watch for a foothold - daily, so a landing thrown back within the week is not missed - and make peace the day
+			# BRK loses its last one. "Pushed off" means landed, then lost: BRK holds no Haida province before its first
+			# landing either, so a plain control test would end the war the day it began.
+			# The flag is cleared whenever that war is not running, so a later war starts clean.
+			if = {
+				limit = {
+					has_global_flag = mltd_brk_landed_on_haida
+					NOT = {
+						country_exists = BRK
+						country_exists = HAI
+						BRK = { has_war_with = HAI }
+					}
+				}
+				clr_global_flag = mltd_brk_landed_on_haida
+			}
+			if = {
+				limit = {
+					has_completed_focus = mltd_brk_salt_on_the_broken_coast
+					country_exists = BRK
+					country_exists = HAI
+					BRK = {
+						is_ai = yes
+						has_war_with = HAI
+					}
+					HAI = { is_ai = yes }
+				}
+				if = {
+					limit = {
+						NOT = { has_global_flag = mltd_brk_landed_on_haida }
+						BRK = { mltd_brk_on_haida_gwaii = yes }
+					}
+					set_global_flag = mltd_brk_landed_on_haida
+					if = {
+						limit = { mltd_telemetry_on = yes }
+						log = "MLTD [?mltd_tm_day|0] HAIDA state=landed"
+					}
+				}
+				else_if = {
+					limit = {
+						has_global_flag = mltd_brk_landed_on_haida
+						BRK = { NOT = { mltd_brk_on_haida_gwaii = yes } }
+					}
+					clr_global_flag = mltd_brk_landed_on_haida
+					if = {
+						limit = { mltd_telemetry_on = yes }
+						log = "MLTD [?mltd_tm_day|0] HAIDA state=pushed_off"
+					}
+					HAI = { country_event = { id = mltd.27 } }
+				}
+			}
 		}
 	}
 

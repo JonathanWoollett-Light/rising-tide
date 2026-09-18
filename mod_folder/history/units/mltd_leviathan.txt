@@ -1,0 +1,14 @@
+# Rising Tide (MLT): a summoned Leviathan (decision mltd_summon_the_leviathan, through mltd_spawn_leviathan). As
+# mltd_leviathan_first.txt, but not the pride of the fleet. Every summon loads this file again, so each Leviathan
+# comes in a task force of its own, at Mireport (7064), under the same name.
+units = {
+	fleet = {
+		name = "Leviathan"
+		naval_base = 7064
+		task_force = {
+			name = "Leviathan"
+			location = 7064
+			ship = { name = "Leviathan" definition = mltd_leviathan equipment = { mltd_leviathan_1 = { amount = 1 owner = MLT } } }
+		}
+	}
+}

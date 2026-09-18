@@ -172,6 +172,11 @@ mltd_wet_market_can_sell = {
 # every Washington state, The Warren included). Both fly OWB's shared Brotherhood focus tree, so both can purge the mutants
 # and march on The Warren. While their own war runs, both answer. Country scope.
 mltd_wbh_brotherhood = {
+	# Round 24: a living Brotherhood. Without this the trigger is a bare tag test, which an annexed country still passes -
+	# the sub-tree's twelve `WBH = { mltd_wbh_brotherhood = yes }` / `TCA = { ... }` guards then went on paying add_intel
+	# and advertising it against a dead nation. any_country/every_country only ever iterate living countries, so this is a
+	# no-op for the five `any_country` gates and the capstone's `NOT = { any_country = ... }` ("none is left") test.
+	exists = yes
 	OR = {
 		tag = WBH
 		AND = {
@@ -179,4 +184,30 @@ mltd_wbh_brotherhood = {
 			has_cosmetic_tag = TCA_northwestern_brotherhood
 		}
 	}
+}
+
+# mltd_brk_on_haida_gwaii (round 25): the Broken Coast holds a foothold on Haida Gwaii - any of the nine land provinces of
+# the Haida Confederation, whose whole country is that one island (states 9 Gramshar and 398 Mores, a landmass of their own,
+# measured from OWB's map/provinces.bmp). Every one of the nine is coastal, so each is a valid beach for a naval invasion,
+# but only 5123 (state 9) and 5130 (state 398) have a port - a landing on the other seven has no supply. Province-level, not
+# state-level: a landing takes one beach, not a state. Country scope: BRK. Read by on_daily_MLT (event mltd.27).
+mltd_brk_on_haida_gwaii = {
+	OR = {
+		controls_province = 5116
+		controls_province = 5121
+		controls_province = 5123
+		controls_province = 5125
+		controls_province = 5126
+		controls_province = 5128
+		controls_province = 5129
+		controls_province = 5130
+		controls_province = 5136
+	}
+}
+
+# The Leviathan surfaces at Mireport (province 7064, in the capital state 358), MLT's one naval base at game start:
+# its OOBs name that base, and load_oob would place the fleet there even under an enemy's flag. Focus
+# mltd_the_grand_ritual (for its first Leviathan), decision mltd_summon_the_leviathan and mltd_spawn_leviathan all test it.
+mltd_leviathan_can_surface = {
+	controls_province = 7064
 }

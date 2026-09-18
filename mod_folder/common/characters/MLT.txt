@@ -434,9 +434,12 @@ characters = {
 				mltd_keeper_of_the_order
 			}
 			cost = 150
-			# the agency's two extra operatives carry the Books' networks and the cults: an AI hires him early (run 2 never did)
+			# the agency's two extra operatives carry the Books' networks and the cults: an AI hires him early (run 2 never
+			# did, nor run 8 with 853 political power banked). He is the only candidate for MLT's one cultural-advisor slot,
+			# so the factor is not choosing between advisors - it is choosing to spend at all. OWB's own norm is 10 and its
+			# ceiling 10003; round 24 raised ours from 50.
 			ai_will_do = {
-				factor = 50
+				factor = 100
 			}
 		}
 	}

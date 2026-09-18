@@ -325,12 +325,21 @@ mltd_children_of_the_deep_cat = {
 				factor = 0
 				check_variable = { mltd_controlled_population < 24000 }
 			}
-			# keeps the nation over the Grand Ritual's 100,000 gate until the ritual has begun
+			# keeps the nation over the next ritual's gate (100,000, then 200,000) until that ritual has begun, as the two
+			# offerings do - round 24 added the second: a summon costs 8,000 people, and between the Grand Ritual and the
+			# Final one there was nothing stopping the AI summoning the nation back under the 200,000 gate
 			modifier = {
 				factor = 0
 				NOT = { has_completed_focus = mltd_the_grand_ritual }
 				NOT = { has_idea = mltd_the_grand_ritual }
 				check_variable = { mltd_national_population < 115000 }
+			}
+			modifier = {
+				factor = 0
+				has_completed_focus = mltd_the_grand_ritual
+				NOT = { has_completed_focus = mltd_the_final_ritual }
+				NOT = { has_idea = mltd_the_final_ritual }
+				check_variable = { mltd_national_population < 215000 }
 			}
 		}
 		complete_effect = {
@@ -391,6 +400,69 @@ mltd_children_of_the_deep_cat = {
 			custom_effect_tooltip = mltd_star_spawn_summon_cooldown_after_tt
 			hidden_effect = {
 				set_country_flag = { flag = mltd_star_spawn_summon_cooldown value = 1 days = 120 }
+			}
+		}
+	}
+	# The Leviathan: only ever summoned, never built (its equipment cannot be produced), so unlike the two summons above
+	# this one never retires. Opened by focus mltd_the_grand_ritual. The toll falls on every land, as
+	# the summons' does; the ship surfaces at Mireport (mltd_spawn_leviathan), so Mireport must be ours. The 24 (thousand
+	# people), the 48,000 gate and the 180-day cooldown are repeated in mltd_leviathan_toll_tt,
+	# mltd_summon_state_pop_leviathan_tt, mltd_summon_the_leviathan_desc and mltd_leviathan_summon_cooldown_after_tt.
+	mltd_summon_the_leviathan = {
+		icon = GFX_decision_nor_horror_eye
+		allowed = {
+			original_tag = MLT
+		}
+		visible = {
+			has_country_flag = mltd_leviathan_summon_unlocked
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = mltd_leviathan_mireport_tt
+				mltd_leviathan_can_surface = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_summon_state_pop_leviathan_tt
+				check_variable = { mltd_controlled_population > 47999 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = mltd_leviathan_summon_cooldown_tt
+				NOT = { has_country_flag = mltd_leviathan_summon_cooldown }
+			}
+		}
+		cost = 100
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 0
+				check_variable = { mltd_controlled_population < 72000 }
+			}
+			# keeps the nation over the Final Ritual's 200,000 gate until the ritual has begun, as the other summons do
+			modifier = {
+				factor = 0
+				NOT = { has_completed_focus = mltd_the_final_ritual }
+				NOT = { has_idea = mltd_the_final_ritual }
+				check_variable = { mltd_national_population < 230000 }
+			}
+			# after the Final Ritual the people matter more than one more ship: only with a large nation to draw on, as the
+			# Offering of the Tides
+			modifier = {
+				factor = 0
+				has_completed_focus = mltd_the_final_ritual
+				check_variable = { mltd_national_population < 300000 }
+			}
+		}
+		complete_effect = {
+			# Every land pays, in proportion to what it holds; the Leviathan surfaces at Mireport.
+			custom_effect_tooltip = mltd_leviathan_toll_tt
+			hidden_effect = {
+				set_variable = { mltd_toll_target_k = 24 }
+				mltd_take_population_everywhere = yes
+			}
+			mltd_spawn_leviathan = yes
+			custom_effect_tooltip = mltd_leviathan_summon_cooldown_after_tt
+			hidden_effect = {
+				set_country_flag = { flag = mltd_leviathan_summon_cooldown value = 1 days = 180 }
 			}
 		}
 	}

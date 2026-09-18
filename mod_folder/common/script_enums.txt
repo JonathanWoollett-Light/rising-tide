@@ -456,11 +456,13 @@ script_enum_equipment_bonus_type = {
 	explosive_ammo_equipment
 	explosive_ammo_equipment_1
 
-	# Rising Tide (MLT): Deep Ones / Star Spawn equipment (common/units/equipment/mltd_equipment.txt)
+	# Rising Tide (MLT): Deep Ones / Star Spawn / Leviathan equipment (common/units/equipment/mltd_equipment.txt)
 	mltd_deep_ones_equipment
 	mltd_deep_ones_equipment_1
 	mltd_star_spawn_equipment
 	mltd_star_spawn_equipment_1
+	mltd_leviathan_hull
+	mltd_leviathan_1
 }
 
 script_enum_equipment_stat = {

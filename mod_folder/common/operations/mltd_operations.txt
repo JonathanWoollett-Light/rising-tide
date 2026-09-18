@@ -576,6 +576,11 @@ mltd_op_nurture_the_cult = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_cult_not_full_tt
 			FROM = {
+				# Round 24: the cult must still exist. visible tests this, but visible is not re-checked once an operation
+				# is under way, and mltd_cult_dissolve clears the variable (mltd_scripted_effects.txt:394) - a missing
+				# variable reads 0, so a cult that withered away mid-operation passed "< 100" and was re-founded at the
+				# nurture price instead of the founding one.
+				has_variable = mltd_cult_strength
 				check_variable = { mltd_cult_strength < 100 }
 			}
 		}

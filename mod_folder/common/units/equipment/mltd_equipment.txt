@@ -107,3 +107,84 @@ equipments = {
 		}
 	}
 }
+
+# The Leviathan: a capital ship with no module slots, so no ship part can be fitted, swapped or researched for it.
+# Non-modular exactly as vanilla's repair ship is (common/units/equipment/repair_ships.txt: an archetype with no
+# module_slots block, a variant with module_slots = inherit), so the designer offers nothing to customise and every
+# stat below is the ship's own. It is never produced - can_be_produced is always false, so no dockyard can queue it
+# even after mltd_leviathan_tech unlocks it - and is raised only by script: focus mltd_the_grand_ritual and the
+# decision mltd_summon_the_leviathan (load_oob, as OWB spawns Broken Coast's Personal Floating Palace).
+#
+# Sized against OWB's Heavy Floating Fortress (ship_hull_heavy_5, 340 HP, detection 36, visibility 18, range 2000)
+# fitted the way a late navy fits it - five ship_heavy_weapon_module_4, heavy_ship_armour_module_5, two hydrojets,
+# heavy_ship_subsurface_module_3, detection, communications and command modules at level 5 - which works out at
+# about 120 light / 280 heavy attack, 18 armour, 300-340 HP, 35 torpedo, speed ~21, visibility ~25 and range ~2,400.
+# The Leviathan lands a little under it on firepower and a little over it on HP and armour, and differs where a
+# thing of the deep should:
+#   surface_visibility 8 (a third of the Fortress's): it is very hard to spot. Hit profile is visibility x the
+#     sub-unit's hit_profile_mult (vanilla 00_defines.lua NNavy HIT_PROFILE_SPEED_FACTOR comment), so
+#     mltd_leviathan's hit_profile_mult = 2.5 keeps it about as easy to hit as a Fortress once battle is joined -
+#     hidden, not untouchable;
+#   fuel_consumption 0: it burns no energy cells;
+#   naval_speed 18: middling - a fitted Fortress makes ~21, a light hull 30 and more;
+#   naval_range 6000: three times a Fortress's reach;
+#   the weather: navy_weather_penalty is a country modifier, not a ship stat, so mltd_leviathan_tech carries it.
+equipments = {
+
+	mltd_leviathan_hull = {
+		year = 1922
+
+		is_archetype = yes
+		is_buildable = no
+		type = capital_ship
+		interface_category = interface_category_capital_ships
+		priority = 2000
+
+		can_be_produced = {
+			always = no
+		}
+
+		lg_armor_piercing = 12
+		lg_attack = 100
+
+		hg_armor_piercing = 16
+		hg_attack = 240
+
+		torpedo_attack = 30
+		sub_attack = 8
+
+		anti_air_attack = 6
+
+		armor_value = 20
+
+		surface_detection = 60
+		sub_detection = 10
+		surface_visibility = 8
+		naval_speed = 18
+		reliability = 0.95
+
+		naval_range = 6000
+
+		max_strength = 400
+
+		fuel_consumption = 0
+
+		build_cost_ic = 6400
+		resources = {
+			water = 4
+		}
+
+		manpower = 60
+		naval_dominance_factor = 300
+	}
+
+	mltd_leviathan_1 = {
+		year = 1922
+
+		archetype = mltd_leviathan_hull
+		priority = 2000
+
+		module_slots = inherit
+		naval_dominance_factor = 300
+	}
+}

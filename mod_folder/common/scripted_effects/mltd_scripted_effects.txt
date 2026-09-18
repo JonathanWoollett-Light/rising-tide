@@ -255,6 +255,37 @@ mltd_spawn_star_spawn_division = {
 	}
 }
 
+# The Leviathan (country scope; focus mltd_the_grand_ritual and decision mltd_summon_the_leviathan). A ship cannot be raised with
+# create_unit, so this loads an OOB, the way OWB raises Broken Coast's Personal Floating Palace
+# (_BRK_decisions.txt:44-48: set_technology, then load_oob): the tech first, since a ship's equipment must be
+# unlocked, then one bare hull at Mireport (province 7064) - history/units/mltd_leviathan_first.txt for the first,
+# which is the pride of the fleet, and history/units/mltd_leviathan.txt for every one after. load_oob places the
+# fleet at the file's naval base whoever holds it, so nothing loads unless MLT controls Mireport: the focus and the
+# decision both gate on mltd_leviathan_can_surface and the check is repeated here, because the focus's event can be
+# answered a day later.
+mltd_spawn_leviathan = {
+	hidden_effect = {
+		if = {
+			limit = { NOT = { has_tech = mltd_leviathan_tech } }
+			set_technology = { popup = no mltd_leviathan_tech = 1 }
+		}
+	}
+	custom_effect_tooltip = mltd_spawn_leviathan_tt
+	hidden_effect = {
+		if = {
+			limit = { mltd_leviathan_can_surface = yes }
+			if = {
+				limit = { NOT = { has_country_flag = mltd_leviathan_raised } }
+				set_country_flag = mltd_leviathan_raised
+				load_oob = "mltd_leviathan_first"
+			}
+			else = {
+				load_oob = "mltd_leviathan"
+			}
+		}
+	}
+}
+
 # National population (country scope), recomputed every day by on_daily_MLT: the sum of
 # state_population over every owned state. The ritual focuses gate on it with check_variable
 # and print it with [?mltd_national_population|0]. PREV inside the state loop is the country

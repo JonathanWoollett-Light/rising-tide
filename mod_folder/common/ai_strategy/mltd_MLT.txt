@@ -339,7 +339,18 @@ mltd_ai_save_for_castro = {
 	}
 	abort_when_not_enabled = yes
 
+	# Hold political power back from our decisions until he is in post: cancel mltd_ai_pp_decisions' +30 priority and share.
 	ai_strategy = { type = pp_spend_priority id = decision value = -30 }
+	ai_strategy = { type = pp_spend_amount id = decision value = -30 }
+	# Round 25: and spend it on his slot. Each advisor slot is a pp_spend category of its own, named after the slot - vanilla
+	# hires a navy chief with `pp_spend_priority id = navy_chief value = 200` (JAP.txt:2697-2701, USA.txt:1674-1678), and
+	# navy_chief is declared exactly as cultural_advisor is, a character_slot in common/idea_tags (OWB 00_idea.txt:18, :62-64).
+	# Round 24 boosted `idea` instead, which is not his category: run 20260918-170847 then spent its political power on other
+	# ideas and a military advisor, holding 7-75 and never the 150 he costs. Neither run hired him - run 20260917-212246 with
+	# 853 banked, this one spending freely - because nothing ever raised the cultural_advisor category itself. He is MLT's only
+	# civilian advisor, so no run had shown that a civilian hire works for this AI at all. unverified: that cultural_advisor
+	# is accepted as a pp_spend id (no vanilla or OWB file uses it; navy_chief and supportive_scientist are the precedent).
+	ai_strategy = { type = pp_spend_priority id = cultural_advisor value = 200 }
 }
 
 # ---- A5. Book networks -----------------------------------------------------------------------------------------------------

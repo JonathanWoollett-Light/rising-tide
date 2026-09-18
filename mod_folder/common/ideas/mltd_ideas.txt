@@ -139,6 +139,14 @@ ideas = {
 				attack_bonus_against = 0.05
 				defense_bonus_against = 0.10
 			}
+
+			# Round 24: the Tide-Wall is granted against whichever Brotherhood holds Washington (mltd_wbh_brotherhood), so
+			# the bonuses have to name both - against TCA the idea used to be the flat core defence alone.
+			targeted_modifier = {
+				tag = TCA
+				attack_bonus_against = 0.05
+				defense_bonus_against = 0.10
+			}
 		}
 		# Timed, 180 days: mltd_ces_the_sea_against_mars (Caesar's Legion sub-tree, mltd_conflicts_focus.txt)
 		mltd_ces_the_drowned_bull = {

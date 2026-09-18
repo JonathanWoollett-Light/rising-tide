@@ -345,13 +345,26 @@ mltd_ai_brk_helped = {
 	}
 }
 
-# Courting the Bone Dancers (round 22): while they have crowned the Odious King (bdt_hail_to_the_king, the invitation's own
-# gate), have not refused the Covenant, are not at war with MLT and MLT has not chosen Drown the Dance instead, the AI takes
-# the sub-tree's invitation branch and leaves them alone. MLT scope.
+# Courting the Bone Dancers (round 22): while OWB's Odious King branch is still open to them, they have not refused the
+# Covenant, are not at war with MLT and MLT has not chosen Drown the Dance instead, the AI takes the sub-tree's invitation
+# branch and leaves them alone. Gated on the Kingdom rather than on mltd_bdt_the_bone_shore (round 24): the root sits ~22
+# entries into the second plan, and until it was taken the frontier could conquer BDT and close the Covenant for good -
+# mltd_ai_courting_brk gates on the Kingdom for exactly this reason. MLT scope.
 mltd_ai_courting_bdt = {
-	has_completed_focus = mltd_bdt_the_bone_shore
+	has_completed_focus = mlt_kingdom_of_mlyeh
 	country_exists = BDT
-	BDT = { has_completed_focus = bdt_hail_to_the_king }
+	# The invitation needs the Bone Dancers on OWB's Odious King branch: either they have crowned him, or they still can.
+	# bdt_hail_to_the_king is mutually exclusive with bdt_road_warriors_of_the_eighty_four and bdt_listen_to_the_pilgrims
+	# (OWB Bone Dancers (BDT) Focus.txt:1508-1513), so either of those closes the Covenant for good and frees the war branch.
+	BDT = {
+		OR = {
+			has_completed_focus = bdt_hail_to_the_king
+			AND = {
+				NOT = { has_completed_focus = bdt_road_warriors_of_the_eighty_four }
+				NOT = { has_completed_focus = bdt_listen_to_the_pilgrims }
+			}
+		}
+	}
 	NOT = { has_completed_focus = mltd_bdt_drown_the_dance }
 	NOT = { has_war_with = BDT }
 	NOT = { is_in_faction_with = BDT }

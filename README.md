@@ -9,27 +9,45 @@
 
 [![thumbnail](mod_folder/thumbnail.gif)](https://steamcommunity.com/sharedfiles/filedetails/?id=3798403425)
 
-Most submods try to be expansions. This one adds **about a year of focuses** to a single nation and
-spends its effort on making that year feel finished: the Books of M'lyeh, two creature units you
-summon rather than build, two rituals that are paid for in your own population, and a main menu of
-its own.
+Most submods try to be expansions. This one takes a single nation — one of the strangest in Old
+World Blues — and spends all of its effort on making that nation feel finished.
+
+You play the Mirelurk Tribe from the moment M'lulu is crowned. Five **Books of M'lyeh** are scattered
+across the Pacific coast; each one has to be reached, by conquest or by a spy standing in the right
+place, and each sends back an expedition that costs you something before it gives up its pages. What
+the Books open is a column of ritual: gifts from the deep that you switch on and off, two creature
+units you **summon rather than build** and pay for in your own people, and two great rituals that tax
+every province you hold for as long as they run.
+
+Around that column sit **ten branches of quiet work**. Your priesthood founds an intelligence agency,
+the Esoteric Order of M'lyeh, and turns it on Old World Blues' own great wars — the NCR and the
+Hoover Dam, Caesar's Legion, the Brotherhood in Washington and at Lost Hills, Texas, Tlaloc, Heaven's
+Guard, the Utah road war. You rob their armouries, bleed their stability and arrive late to a war
+already half-lost. Two of the ten are not wars at all: the Broken Coast and the Bone Dancers can be
+courted instead of drowned, into a faction of your own.
+
+Meanwhile **cults of M'lyeh** take root abroad — grown by your operatives, withering if you neglect
+them, and rising to sabotage their own country if it ever goes to war with you. They can be called on
+for recruits or for smuggled arms. The **Wet Market** gives you a seat of your own in OWB's trade
+ledger, selling mirelurks to anyone with caps.
+
+The tribe also gets its own main menu, an animated M'lulu, and an AI that plays the whole thing when
+you are someone else's neighbour.
 
 **[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3798403425)** —
 requires Old World Blues, loaded **above** this mod.
 
-**Status:** early release, lightly tested.
+**Status:** early release. The ritual column, the creature units and the main menu have been played;
+the conflict branches, the cults, the Wet Market and the AI are new and lightly tested. Bug reports
+are welcome.
 
 Only `mod_folder/` ships. Everything else — design notes, tunables, the build scripts, the override
 and encoding rules, the OWB update process and known conflicts — is in [`CLAUDE.md`](CLAUDE.md).
 
 ### Ideas
 
-- Add some more cult mechanics, possibly integrating with the intelligence agency where you can set
-  up cult cells in other nations.
-- Update new focus, focus icons to be unique and not just using the chain choir ones.
-- Update some of the UI so its more bluey mirky greeny purply lovecrafty for flavour, maybe could
-  just add some moss/seaweed to it.
-- Update the AI to have a systematic approach and play as intelligently as the player, this should
-  mean focus making maximum use of manpower, building militia divisions and only switching to more
-  expensive templates when manpower is low or depleted, is the AI also capable of using the OWB
-  market to buy infantry equipment? What ways can the AI be improved here?
+- Bespoke focus icons, instead of the reused Old World Blues ones.
+- Retheme some of the UI in the tribe's colours — murky green and abyssal violet, maybe moss and
+  seaweed on the frames.
+- A properly repainted M'lulu portrait; the one that ships is a colour grade of OWB's.
+- Cult-flavoured operation phases, and a decision-category banner of our own.

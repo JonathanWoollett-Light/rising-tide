@@ -281,4 +281,31 @@ spriteTypes = {
 		texturefile = "gfx/interface/operatives/agencies/mltd_agency_logo_esoteric_order.dds"
 		noOfFrames = 2
 	}
+
+	################
+	# Rising Tide - the Leviathan (mltd_leviathan_tech, equipment mltd_leviathan_1, sub-unit mltd_leviathan). All
+	# reused OWB textures, no new art: the tech takes the sea-beast goal icon (GFX_goal_VTS_tales_of_monsters), the equipment the Heavy Floating Fortress's hull icon, and every
+	# sub-unit-keyed ship icon points at the super-heavy hull's own texture, the way OWB declares them for
+	# super_heavy_ship_unit (z_fallout_subuniticons.gfx, navalcombat.gfx, z_fallout_texticons.gfx). The engine looks
+	# ship icons up by sub-unit id, so each name must exist for mltd_leviathan too.
+	################
+	spriteType = {
+		name = "GFX_mltd_leviathan_tech_medium"
+		texturefile = "gfx/interface/goals/unique/VTS/VTS_tales_of_monsters.dds"
+		alwaystransparent = yes
+	}
+
+	spriteType = {
+		name = "GFX_mltd_leviathan_1_medium"
+		texturefile = "gfx/interface/equipment/generic/heavy_hull_tech_icon_5.dds"
+		alwaystransparent = yes
+	}
+
+	spriteType = { name = "GFX_unit_mltd_leviathan_icon_medium_white"	texturefile = "gfx/interface/counters/ships_small/onmap_super_heavy_ship_unit.dds" }
+	spriteType = { name = "GFX_unit_mltd_leviathan_icon_medium_black"	texturefile = "gfx/interface/counters/ships_small/onmap_super_heavy_ship_unit_inverted.dds" }
+	spriteType = { name = "GFX_unit_mltd_leviathan_icon_medium"		texturefile = "gfx/interface/navalcombat/ships/super_heavy_ship_unit.dds" noOfFrames = 2 }
+	spriteType = { name = "GFX_unit_mltd_leviathan_1_icon_medium"		texturefile = "gfx/interface/navalcombat/ships/super_heavy_ship_unit.dds" noOfFrames = 2 }
+	spriteType = { name = "GFX_navalcombat_ship_icon_mltd_leviathan"	texturefile = "gfx/interface/navalcombat/ships/super_heavy_ship_unit.dds" noOfFrames = 2 }
+	spriteType = { name = "GFX_ship_mltd_leviathan_icon_small"		texturefile = "gfx/texticons/ship_super_heavy_ship_unit_icon_small.dds" legacy_lazy_load = no }
+	spriteType = { name = "unit_mltd_leviathan_icon_small"			texturefile = "gfx/texticons/ship_super_heavy_ship_unit_icon_small.dds" legacy_lazy_load = no }
 }

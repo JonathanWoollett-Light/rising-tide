@@ -1,0 +1,17 @@
+# Rising Tide (MLT): the first Leviathan, raised by focus mltd_the_grand_ritual through mltd_spawn_leviathan
+# (common/scripted_effects/mltd_scripted_effects.txt). Shape copied from OWB history/units/BRK_graven_boat.txt, the
+# Broken Coast's Personal Floating Palace: one bare hull, no version_name - the Leviathan has no modules to name a
+# variant by. It surfaces at Mireport (province 7064, state 358 M'lyeh), MLT's one naval base at game start
+# (OWB history/states/358); every caller checks that MLT controls it. The first one is the pride of the fleet
+# (vanilla's mechanic: losing it costs war support); mltd_leviathan.txt, for the summons, is not.
+units = {
+	fleet = {
+		name = "The Leviathan"
+		naval_base = 7064
+		task_force = {
+			name = "The Leviathan"
+			location = 7064
+			ship = { name = "Father Dagon" pride_of_the_fleet = yes definition = mltd_leviathan equipment = { mltd_leviathan_1 = { amount = 1 owner = MLT } } }
+		}
+	}
+}

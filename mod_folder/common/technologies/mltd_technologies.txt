@@ -129,4 +129,54 @@ technologies = {
 			factor = 0
 		}
 	}
+
+	# The Leviathan (common/units/equipment/mltd_equipment.txt, sub-unit mltd_leviathan). Never researched: focus
+	# mltd_the_grand_ritual grants it, just before the first Leviathan is raised, as OWB's Broken Coast decision
+	# grants brk_palace_ships_tech before loading its Personal Floating Palace (_BRK_decisions.txt:44-48). It sits
+	# beside that tech in the naval tree's unique column: position x = 6 / y = 36 is tech_naval.txt's @Row_3 / @Col_11,
+	# directly below brk_palace_ships_tech (@Row_1 / @Col_11) and free. A tech renders only inside the gridbox of its
+	# tree's root, and fallout_naval_folder has just three (nautics_tech_1, brk_black_flag_ships_tech,
+	# brk_palace_ships_tech, countrytechtreeview.gui ~line 1612) and no orphan, so this tech is a path child of
+	# brk_palace_ships_tech: our override of common/technologies/tech_naval.txt adds that one path block and nothing
+	# else. allow_branch hides it from every other country (the Palace itself stays as OWB shows it).
+	# enable_equipments makes the ship shown and spawnable, but mltd_leviathan_hull's can_be_produced is always
+	# false, so no dockyard can queue it: the Leviathan is only ever summoned.
+	# navy_weather_penalty is the Leviathan's weather resistance. It is a country modifier (vanilla navy_spirits.txt
+	# carries it, -0.4) - no ship or sub-unit stat reaches weather - so it applies to MLT's whole navy, which is a
+	# handful of river boats and whatever the sea gives up.
+	mltd_leviathan_tech = {
+		research_cost = 6.0
+
+		dependencies = {
+			blocked_unit_tech = 1
+		}
+
+		allow = {
+			always = no
+		}
+
+		allow_branch = {
+			original_tag = MLT
+		}
+
+		folder = {
+			name = fallout_naval_folder
+			position = { x = 6 y = 36 }
+		}
+
+		enable_equipments = {
+			mltd_leviathan_1
+		}
+
+		navy_weather_penalty = -0.5
+
+		categories = {
+			naval_tech_category
+			naval_hull_tech_category
+		}
+
+		ai_will_do = {
+			factor = 0
+		}
+	}
 }

@@ -296,6 +296,9 @@ wait 120 days
 
 # ---- 2277-10-19 day 1021
 # nf_mlt/mltd.3: gifts_max 2, +20 weekly manpower; the world gets news mltd.4
+# The Grand Ritual also grants mltd_leviathan_tech (-50 % navy weather penalty) and, with Mireport (7064) held, raises the first
+#   Leviathan there ("Father Dagon", pride of the fleet), and opens its summon: a capital ship with no modules - about a fitted
+#   Heavy Floating Fortress, hard to spot, no energy cells, 6,000 range - never built, only summoned
 focus mltd_the_deep_ones_walk                          # 60 days; needs all 5 Books read
 research slot 3 amphibious_beast_intermediate_form     # year 2279: start ~2278-06 to avoid the ahead-of-time penalty; until then the next doctrine step
 wait 60 days
@@ -350,6 +353,8 @@ justify take_state on OLY 424, YAK 540 and TOC 332 in turn # their capitals: the
 justify take_state on MXS, state 467 Seth Detention Center, FOU, state 369 O'Brien, and TDN, state 57 The Den # the stepping stones to the NCR's border at Redding (141) [F owners]
 declare war on WBH when its justification completes     # PMR's 221 Illwican Stretch -> OLY's 556 Kodiak Base -> WBH's 61 White Sprawl; the Tide-Wall capstone's war goal needs 2280 or WBH's purge
 # every gift has been permanent since the Final Ritual, so there are no more gift decisions to take
+decision mltd_summon_the_leviathan                     # 100 PP, 24,000 people -> another Leviathan at Mireport; every 180 days, and only above ~300k people (from ~2280) [M]
+#   The Leviathans escort the Drowned Herald's coast and the Broken Coast's landings; MLT has no other navy
 focus mltd_ncr_a_mole_in_shady_sands                    # the NCR sub-tree, 5 focuses (~177 days): the root halves cult decay in the NCR and MOT, and
 #   The Turbines Sing declares the NCR war itself when it completes (round 22): no justification needed, so take it only when ready
 research slot 3 amphibious_beast_intermediate_form     # `_2` (year 2279), then amphibious_beast_upgrade_tech_2 (2280)
@@ -359,9 +364,13 @@ production move the mirelurk lines to amphibious_beast_equipment_2 as soon as it
 #   fights, and only then turn on the NCR (the AI waits for four or more volunteers serving 26 weeks, BRK at peace or holding
 #   its coast, the Covenant, or 2283). Volunteers go home when MLT goes to war, so this is the peace between MLT's own wars
 # send volunteers to BRK through the diplomacy screen: 6+ divisions, Star Spawn and Deep Ones among them - the monsters break the raiders enemies
+#   Round 25: BRK's own war on the Haida Confederation is fought on an island with two ports in nine beaches, and between two
+#   AIs it ends in a white peace (mltd.27) the day BRK is thrown off it - so volunteers sent to that war come home rather than
+#   drown in landing after landing. The peace also satisfies mltd_ai_brk_helped (BRK at peace), which can open the NCR sooner.
 focus mltd_bdt_hail_the_drowned_king                    # 49 days; needs BDT to have crowned the Odious King (bdt_hail_to_the_king), a cult at 40 %,
-#   its civilian token and 25 % coverage. mltd.24: the Bone Dancers join the Drowned Covenant. Mutually exclusive with
-#   mltd_bdt_drown_the_dance, the war capstone - take that one instead if they never crown him, for an annex_everything war goal
+#   its civilian token and 25 % coverage. mltd.24: the Bone Dancers join the Drowned Covenant. Taking the war capstone,
+#   mltd_bdt_drown_the_dance, bars this one - take that one instead if they never crown him, for an annex_everything war goal;
+#   since round 24 a refused Covenant no longer bars the war capstone in turn
 focus mltd_brk_the_drowned_covenant                     # 49 days; once BRK's sphere owns every core of VIC and DRE (brk_nf_pirate_coast's land),
 #   its cult is at 50 %, and MLT holds its civilian token, 30 % coverage and 50 % civilian intel. mltd.21: BRK joins the Drowned
 #   Covenant (MLT's faction, +75 opinion both ways). An AI Broken Coast always accepts; a human one may refuse (MLT -25, and
@@ -372,7 +381,7 @@ focus mltd_brk_the_drowned_covenant                     # 49 days; once BRK's sp
 justify take_state on NEW, state 285 New Reno          # only if Vault City, Elko or S'Lanter has joined the NCR's faction and New Reno has not [F adjacency]
 declare war on NEW when its justification completes    # New Reno's land is the only way to those three: an ally MLT cannot reach never capitulates, so the NCR war would never end
 focus mlt_tropic_of_cancer                             # needs more than 60 controlled states: claims on every remaining Pacific-coastal state
-# snapshot 2279-09 [M]: 75-90 states, ~450k people, ~30 civ / ~35 mil (8 dock), 65-70 divisions, a cult in the NCR at 76-100 %
+# snapshot 2279-09 [M]: 75-90 states, ~450k people, ~30 civ / ~35 mil (8 dock), 65-70 divisions, a Leviathan, a cult in the NCR at 76-100 %
 
 # ---- 2279-10: the NCR, while it is tied up with the Legion at Hoover Dam (the second battle is possible from 2279-06)
 # NCR at start [F]: 62 states, 915k people, 77 civ / 27 mil / 13 dock, 28 divisions, tier-1 power armour; [M] 50-70 divisions by now
@@ -480,7 +489,9 @@ declare war on the plains and Rockies tags, then Canada (PAS, MTC, STA, STC, WPG
 #   Its frontier conquests (common/ai_strategy/mltd_MLT_frontier.txt) follow the map, not this plan: any country that holds land
 #   of the north once the Kingdom stands, or cuts MLT off from an enemy after 90 days of military-access requests, if MLT can
 #   take it on. They are the countries that border the north or the NCR's possible side at game start, or can join that side.
-#   It buys from OWB's sellers only through OWB's own AI buyer (caps over 150, positive caps income, sellers 1, 2 and 4).
+#   It buys the line's weapons from OWB's sellers through the player's own buy button (mltd_ai_buy_line_equipment), not OWB's
+#   AI buyer, which refuses to trade on negative caps income - which a large army's upkeep always gives MLT. Wet Market lots
+#   wait on mltd_ai_late_army (the king or armour form, and the NCR beaten or 2285).
 # AI deviation: operation mltd_op_indoctrinate_the_faithful_5000 - the AI never runs Indoctrinate: manpower is not its bottleneck
 # AI deviation: war ANO ASF BAG BDT BEL BJS BVC CHE CLJ COW CRZ CWB CYC DES DRE EAG EAS EUR EXE - frontier conquests 1/3: the map, not a stage, makes them targets (common/ai_strategy/mltd_MLT_frontier.txt)
 # AI deviation: war GLW JAC LON LUB LUM MOD MOJ MOS PAC PAL RAP RIP ROT RUB SHO SIE SKY SLA SLE - frontier conquests 2/3: the map, not a stage, makes them targets (common/ai_strategy/mltd_MLT_frontier.txt)
@@ -508,7 +519,7 @@ declare war on the plains and Rockies tags, then Canada (PAS, MTC, STA, STC, WPG
 #   half a man per point of it (30 men on 60 HP). The egg ritual's +8,000 comes on top, then conquest and the Brood gift's +30 %.
 #   So Indoctrinate the Faithful, the rituals' weekly manpower and Call for People add little; the Shell Levies are the one sink.
 # The focus slot is saturated from the Kingdom to ~2285: Rising Tide's column is 670 days, of which the rituals hold 300,
-#   and the 36 conflict focuses are ~1,300 days. Expect 3-5 of the 8 sub-trees in a real game.
+#   and the 46 conflict focuses are ~1740 days. Expect 3-5 of the 10 sub-trees in a real game.
 # Decimation halves every conquered state's industry, so MLT's strength stays population and focus-granted units, never factories.
 # Army size: fill half the combat width of every border province at peace (two 20-wide divisions an 80-wide tile) and three
 #   quarters at war (three); past that, spend army experience on the templates and new equipment rather than on more

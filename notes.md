@@ -1,0 +1,3 @@
+- Follow release recommendations
+- Do another playthrough
+- Update docs

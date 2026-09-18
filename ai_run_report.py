@@ -88,7 +88,7 @@ def default_log():
 
 # ---- the line contract ---------------------------------------------------------------------------------------
 KINDS = ("START", "SNAP", "FOCUS", "TECH", "LAW", "JUSTIFY", "WARGOAL", "WAR_START", "WAR_END", "GONE",
-         "RITUAL", "DECISION", "GIFT", "MARKET", "CULT", "ENEMY", "STAGE", "POCKET", "ADVISOR")
+         "RITUAL", "DECISION", "GIFT", "MARKET", "CULT", "ENEMY", "STAGE", "POCKET", "ADVISOR", "HAIDA")
 # SNAP keys the plan's snapshots are compared on: plan metric -> SNAP key
 METRIC_KEYS = (("states", "owned"), ("people", "pop_k"), ("divisions", "divs"), ("civ", "civ"),
                ("mil", "mil"), ("dock", "dock"), ("manpower", "mp_k"), ("caps", "caps"), ("books", "books"))
@@ -111,6 +111,10 @@ SOUTH = ("TBH", "LNS", "TLA", "MAX", "MOC", "ZAP")   # (f) held until the Legion
 SOUTH_UNTIL = (2286, 1, 1)                       # ... or this date (mltd_ai_hold_south_wargoals)
 CULT_TARGET_WITHIN = 14                          # (g) days after The Spreading Cult
 MARKET_GRACE = 60                                # (i) days after The Wet Market before "no trade" fails
+LATE_ARMY_TECHS = ("amphibious_beast_king_form", "amphibious_beast_armor_form")   # (i) mltd_ai_late_army
+LATE_ARMY_UNTIL = (2285, 1, 1)                   # ... the NCR beaten, or this date
+MARKET_SHORT = 250                               # (i) the buyer buys only under this many mirelurks ...
+MARKET_CAPS = 300                                # ... and with over this many caps (mltd_on_actions.txt)
 RITUAL_GATES = (("grand", 100.0, "Grand Ritual"), ("final", 200.0, "Final Ritual"))   # (j) pop_k gates
 POPULATION_DECISIONS = ("mltd_summon_the_deep_ones", "mltd_summon_the_star_spawn",
                         "mltd_offering_of_the_drowned", "mltd_offering_of_the_tides")
@@ -948,16 +952,38 @@ def check_i(an):
                                                                                      len(trades))
     if an.run.last_day - f < MARKET_GRACE:
         return NA, "the run ends %d days after The Wet Market (day %d)" % (an.run.last_day - f, f)
+    # Round 24: the AI buyer sits behind mltd_ai_late_army (mltd_on_actions.txt:156) - the king or armour form, and the
+    # NCR beaten or 2285. Before that gate opens the AI cannot buy at all, so "no trade" says nothing about the buyer;
+    # the check used to read FAIL on every run that ended with the NCR still standing, which is every run so far.
+    techs = [d for d in (an.first_day("TECH", id=t) for t in LATE_ARMY_TECHS) if d is not None]
+    beaten, limit = an.beaten_day("NCR"), day_of(*LATE_ARMY_UNTIL)
+    opens = min(beaten, limit) if beaten is not None else limit
+    if techs:
+        opens = max(opens, min(techs))
+    if not techs or opens > an.run.last_day - MARKET_GRACE:
+        return NA, "the AI buyer waits on mltd_ai_late_army (%s, and the NCR beaten or %s)" % (
+            "the king or armour form is not researched" if not techs else "researched on day %d" % min(techs),
+            iso(limit))
+    # Round 25: and the buyer only buys while it is short - under MARKET_SHORT mirelurks with over MARKET_CAPS caps in hand
+    # (mltd_on_actions.txt, the buyer's own limit). Run 20260918-170847 opened the gate on day 2499 and never held fewer than
+    # 2,274 mirelurks after it, so the buyer rightly never bought; judged only on the SNAPs where it could have.
+    after = [s for s in an.snaps if s.cal >= opens]
+    short = [s for s in after if s.num("eq_mirelurk") is not None and s.num("caps") is not None
+             and s.num("eq_mirelurk") < MARKET_SHORT and s.num("caps") > MARKET_CAPS]
+    if not short:
+        stock = [s.num("eq_mirelurk") for s in after if s.num("eq_mirelurk") is not None]
+        why = ("never under %d mirelurks with over %d caps (stock stayed %s-%s)"
+               % (MARKET_SHORT, MARKET_CAPS, fmt_num(min(stock)), fmt_num(max(stock)))) if stock else "no SNAP after it"
+        return NA, "the AI buyer never had cause to buy after mltd_ai_late_army opened (day %d): %s" % (opens, why)
     caps = [s.num("caps") for s in an.snaps if s.cal >= f and s.num("caps") is not None]
-    return FAIL, "no trade in the %d days after The Wet Market (day %d)%s; the AI buyer needs over 300 caps and " \
-                 "under 250 mirelurks in stock" % (an.run.last_day - f, f,
-                                                   "; caps peaked at %s" % fmt_num(max(caps)) if caps else "")
+    return FAIL, "no trade although the buyer could have bought on %d SNAP(s) from day %d (under %d mirelurks, over %d caps)%s" % (
+        len(short), short[0].cal, MARKET_SHORT, MARKET_CAPS, "; caps peaked at %s" % fmt_num(max(caps)) if caps else "")
 
 
 def check_j(an):
     gs, ge, fs = an.ritual("grand", "start"), an.ritual("grand", "end"), an.ritual("final", "start")
     (_, grand_gate, grand), (_, final_gate, final) = RITUAL_GATES
-    judged, bad, during, deep, after, nopop = 0, [], 0, 0, 0, 0
+    judged, bad, during, after, nopop = 0, [], 0, 0, 0
     for ln in an.by_kind.get("DECISION", ()):
         if ln.get("id") not in POPULATION_DECISIONS:
             continue
@@ -967,9 +993,8 @@ def check_j(an):
             during += 1                 # the AI guards the Final Ritual's gate only once the Grand Ritual is over
             continue
         elif fs is None or ln.cal < fs.cal:
-            if ln.get("id") == "mltd_summon_the_deep_ones":
-                deep += 1               # its AI guards only the Grand Ritual's gate; mltd.8 hides it at the Walk
-                continue
+            # round 25: judged like the rest - round 24 gave its AI the Final Ritual's gate too (215,000; run
+            # 20260918-170847 summoned at 245k, 235k, 227k and 216k and stopped there). mltd.8 hides it at the Walk.
             gate, name = final_gate, final
         else:
             after += 1
@@ -983,8 +1008,6 @@ def check_j(an):
             bad.append("%s on day %d left %sk (the %s needs %sk)" % (ln.get("id"), ln.cal, fmt_num(pop), name,
                                                                      fmt_num(gate)))
     skipped = [x for x in ("%d during the Grand Ritual" % during if during else "",
-                           "%d Deep Ones summon(s) after it (their AI guards only the Grand Ritual's gate)" % deep
-                           if deep else "",
                            "%d after the Final Ritual began" % after if after else "",
                            "%d without pop_k=" % nopop if nopop else "") if x]
     tail = "; not judged: " + ", ".join(skipped) if skipped else ""
@@ -1320,6 +1343,12 @@ def describe(ln, an):
         return {"start": "POCKET: an enemy is out of MLT's reach", "end": "POCKET closed"}.get(state, "POCKET %s" % state)
     if k == "ADVISOR":
         return "ADVISOR %s hired" % ln.get("id", "?")
+    if k == "HAIDA":
+        # round 25: the Broken Coast's landings on Haida Gwaii (on_daily_MLT, event mltd.27)
+        state = (ln.get("state") or "?").lower()
+        return {"landed": "HAIDA: the Broken Coast lands on Haida Gwaii",
+                "pushed_off": "HAIDA: the Broken Coast is thrown off Haida Gwaii - white peace with the Haida (mltd.27)"
+                }.get(state, "HAIDA %s" % state)
     if k not in KINDS:
         return "%s %s (unknown kind)" % (k, ln.text())
     return ("%s %s" % (k, ln.text())).strip()
@@ -1854,8 +1883,11 @@ def selftest():
                (930, 930, "DECISION id=mltd_summon_the_deep_ones pop_k=142"),
                (940, 940, "DECISION id=mltd_offering_of_the_drowned pop_k=190")])
     got = check_j(Analysis(jr, plan))
-    ok(got[0] == FAIL and "mltd_offering_of_the_drowned on day 940" in got[1] and "deep_ones on day" not in got[1]
-       and "1 Deep Ones summon" in got[1], "(j): the Deep Ones summon is not held to 200k: %r" % (got,))
+    # round 25: since round 24 the Deep Ones summon's AI guards the Final Ritual's gate too, so a summon that leaves the
+    # nation under 200k between the rituals is a fault like any offering's (it used to be counted and skipped)
+    ok(got[0] == FAIL and "mltd_offering_of_the_drowned on day 940" in got[1]
+       and "mltd_summon_the_deep_ones on day 930" in got[1],
+       "(j): the Deep Ones summon is held to 200k between the rituals: %r" % (got,))
     pr = mini([(0, 1, begin % "no"), (100, 100, "WAR_START tag=VLT"), (130, 130, "ENEMY tag=VLT cap=no states=8 reach=no"),
                (140, 140, "POCKET state=start"), (600, 600, "STAGE id=ncr"), (620, 620, "WAR_START tag=NCR")])
     got = check_m(Analysis(pr, plan))

@@ -1283,3 +1283,21 @@ country_event = {
 		name = mltd.26.a
 	}
 }
+
+# Round 25: the Broken Coast is driven off Haida Gwaii. on_daily_MLT fires this to HAI the day BRK loses its last foothold on
+# the island, while MLT is engaged with the Broken Coast and both sides are AIs. The Haida Confederation's whole country is one
+# island - every province coastal, only two with a port - so BRK's AI kept landing on a portless beach, starving, being thrown
+# back and landing again, and MLT's volunteers went down with every landing. The engine picks the landing province, so script
+# cannot aim it at a port; the two make peace instead. white_peace changes no ownership: HAI keeps its island, BRK its coast.
+# Fired to HAI so that it is both ROOT and the scope - the winner of the white peace (effects_documentation.md, white_peace),
+# which it is, having thrown the landing back. Hidden with immediate only, vanilla's own form for 108 of its hidden events,
+# because no human is on either side by the time it fires.
+country_event = {
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event mltd.27"
+		white_peace = BRK
+	}
+	id = mltd.27
+	hidden = yes
+	is_triggered_only = yes
+}

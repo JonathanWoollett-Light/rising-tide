@@ -1323,12 +1323,14 @@ focus_tree = {
 		relative_position_id = mlt_kingdom_of_mlyeh
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = mltd_the_wet_market
 			# The Organization Marketplace sellers are OWB's five organisations, held per country in the array
 			# country_organizations, not countries - so no country opinion reaches them. OWB's own idiom:
 			# Eagle Rock (EAG) Focus.txt:3215-3221. The array only exists with the caps rule on.
+			# The idea sits inside the guard (round 24): its +20% caps_income_modifier is inert without the caps rule, so
+			# with the rule off the focus used to pay only its consumer-goods penalty - a strictly harmful focus.
 			if = {
 				limit = { has_global_flag = caps_enabled_global_flag }
+				add_ideas = mltd_the_wet_market
 				custom_effect_tooltip = mltd_the_wet_market_orgs_tt
 				custom_effect_tooltip = mltd_the_wet_market_seller_tt
 				hidden_effect = {
@@ -1639,6 +1641,18 @@ focus_tree = {
 			set_variable = { mltd_gift_manpower_var = 20 }
 			custom_effect_tooltip = mltd_gift_manpower_grand_tt
 			hidden_effect = { force_update_dynamic_modifier = yes }
+			# the Leviathan (round 26): its tech, the first one at Mireport if we hold it, and its summon decision
+			custom_effect_tooltip = mltd_newline_tt
+			set_technology = { mltd_leviathan_tech = 1 }
+			if = {
+				limit = { mltd_leviathan_can_surface = yes }
+				mltd_spawn_leviathan = yes
+			}
+			else = {
+				custom_effect_tooltip = mltd_leviathan_no_mireport_tt
+			}
+			custom_effect_tooltip = mltd_leviathan_decision_unlocked_tt
+			set_country_flag = mltd_leviathan_summon_unlocked
 			country_event = { id = mltd.3 days = 1 }
 			hidden_effect = {
 				every_other_country = {
