@@ -1,0 +1,124 @@
+# Rising Tide (MLT) - the finale, "R'lyeh Rises" (round 27).
+# Shared focuses, pulled into mlt_nf through shared prerequisites alone: mltd_rlyeh_rises hangs off Act VI's close,
+# mltd_the_last_king_kneels (mltd_act6_focus.txt), which chains back through Acts VI-III to the listed Act III roots;
+# the three endings hang off mltd_rlyeh_rises. Nothing here is listed in the override and nothing names a national
+# focus, so every position is relative to a shared focus.
+# Layout (absolute cells, the spine is x = 15): R'lyeh Rises (15,39) under The Last King Kneels (15,38); the endings
+# on row 40 at x 13 / 15 / 17 - The Dreamer Wakes (-2,1), The Priestess Reigns (0,1), Return to the Sea (2,1).
+# Nothing is merged into the finale: its four focuses, events mltd.70-74 and the three ending ideas are all new.
+# The endings are mutually exclusive, each naming both others, so exactly one can be taken; they close the story.
+
+############ R'lyeh Rises ############
+
+# The drowned city beneath M'lyeh breaks the surface. Gated on the size of the drowned world, not on a war.
+shared_focus = {
+	id = mltd_rlyeh_rises
+	icon = GFX_goal_mlt_mlyeh
+	cost = 70
+	prerequisite = { focus = mltd_the_last_king_kneels }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_rlyeh_rises_states_tt
+			num_of_controlled_states > 299
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 1
+	relative_position_id = mltd_the_last_king_kneels
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		# M'lyeh (province 1983, capital state 358); the Kingdom already gave it +15
+		add_victory_points = { province = 1983 value = 15 }
+		custom_effect_tooltip = mltd_newline_tt
+		hidden_effect = { set_global_flag = mltd_rlyeh_risen }
+		country_event = { id = mltd.70 days = 1 }
+		hidden_effect = {
+			every_other_country = {
+				news_event = { id = mltd.71 days = 2 }
+			}
+		}
+	}
+}
+
+############ the endings (mutually exclusive) ############
+
+# War: M'lulu opens the door and the Dreamer walks.
+shared_focus = {
+	id = mltd_ending_the_dreamer_wakes
+	icon = GFX_goal_CHC_madness
+	cost = 35
+	prerequisite = { focus = mltd_rlyeh_rises }
+	mutually_exclusive = {
+		focus = mltd_ending_the_priestess_reigns
+		focus = mltd_ending_return_to_the_sea
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 1
+	relative_position_id = mltd_rlyeh_rises
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		add_ideas = mltd_the_dreamer_wakes
+		country_event = { id = mltd.72 days = 1 }
+	}
+}
+
+# Rule: M'lulu keeps the door shut and reigns awake over a world the Dreamer dreams for her.
+shared_focus = {
+	id = mltd_ending_the_priestess_reigns
+	icon = GFX_goal_CHC_relic
+	cost = 35
+	prerequisite = { focus = mltd_rlyeh_rises }
+	mutually_exclusive = {
+		focus = mltd_ending_the_dreamer_wakes
+		focus = mltd_ending_return_to_the_sea
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 1
+	relative_position_id = mltd_rlyeh_rises
+	ai_will_do = { factor = 2 }
+	completion_reward = {
+		add_ideas = mltd_the_priestess_reigns
+		country_event = { id = mltd.73 days = 1 }
+	}
+}
+
+# The deep: M'lulu leads the tribe down into the risen city's pools, and the spawning never stops. Two Leviathans
+# surface at Mireport through mltd_spawn_leviathan, which needs Mireport (mltd_leviathan_can_surface): the first call
+# brings the pride of the fleet if none has surfaced yet (flag mltd_leviathan_raised), the second an ordinary one.
+shared_focus = {
+	id = mltd_ending_return_to_the_sea
+	icon = GFX_goal_TIM_patch_oceanography
+	cost = 35
+	prerequisite = { focus = mltd_rlyeh_rises }
+	mutually_exclusive = {
+		focus = mltd_ending_the_dreamer_wakes
+		focus = mltd_ending_the_priestess_reigns
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 1
+	relative_position_id = mltd_rlyeh_rises
+	ai_will_do = { factor = 1 }
+	completion_reward = {
+		add_ideas = mltd_the_return_to_the_sea
+		if = {
+			limit = { mltd_leviathan_can_surface = yes }
+			custom_effect_tooltip = mltd_return_to_the_sea_leviathans_tt
+			hidden_effect = {
+				mltd_spawn_leviathan = yes
+				mltd_spawn_leviathan = yes
+			}
+		}
+		else = {
+			custom_effect_tooltip = mltd_return_to_the_sea_no_mireport_tt
+		}
+		country_event = { id = mltd.74 days = 1 }
+	}
+}

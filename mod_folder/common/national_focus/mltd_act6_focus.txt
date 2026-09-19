@@ -1,0 +1,874 @@
+# Rising Tide (MLT) - story act VI, "All Waters Are One" (round 27).
+# Shared focuses. None is listed in "Mirelurk Tribe (MLT) Focus.txt": the chapter hangs off Act V's close,
+# mltd_when_the_legion_breaks (common/national_focus/mltd_act5_focus.txt), and every other focus hangs off the
+# chapter, so the engine pulls the whole act in through those shared prerequisites.
+#
+# The act: the Legion is broken and the tribe turns south, to the two gulfs and the dying machine god.
+#   mltd_the_southern_deep            chapter (event mltd.60)
+#   |- mltd_tex_all_waters_are_one    Texas   -> mltd_tex_black_water_rising      (war on TBH and LNS)
+#   |- mltd_ate_the_feathered_tide    Aztlan  -> mltd_ate_the_serpent_drowns      (war on ATE; new in round 27)
+#   |- mltd_tla_the_iron_god_dreams   Tlaloc  -> mltd_tla_the_drowned_god_sleeps  (war on TLA and his heirs)
+#   mltd_the_last_king_kneels         close, after any one capstone (one OR block), once Texas is beaten
+#                                     (mltd_texas_beaten); events mltd.61 and mltd.62
+#
+# Merged away in round 27 (their distinctive effects live on in the kept focus named):
+#   The Silent Partner               -> mltd_tex_all_waters_are_one (token_army + civilian intel on each Texan
+#                                       tag - one grant per tag, civilian 10 raised to 15; +80 caps; -4 % stability
+#                                       and -25 political power on each; the no-DLC +25 PP added to the head's)
+#   Wreckers on the Trinity          -> mltd_tex_black_water_rising (800 infantry equipment from TBH, else LNS,
+#                                       victim -2 % war support, else +30 PP; 30 army experience)
+#   The Three Voices                 -> mltd_tla_the_iron_god_dreams (-6 % stability and -25 PP on Tlaloc, else his
+#                                       heirs, else ARM; token_army and civilian 15 on the same tags, folded into the
+#                                       head's single intel grant per tag; +50 PP without the DLC or with none alive)
+#   Picking the Iron Bones           -> mltd_tla_the_drowned_god_sleeps (the theft behind
+#                                       mltd_tla_iron_bones_theft_tt, 20 army experience, +100 caps)
+#
+# Rules every story focus follows (SPEC round 27): no intelligence gate in any `available`; every bead is takeable
+# once its target is gone (or our subject) and then pays a political-power fallback; cancel_if_invalid = no and
+# continue_if_invalid = yes; heads and beads ai_will_do 3, chapter and close 10; the war capstones keep their
+# readiness gate for an AI (a human is never gated) - Black Water and The Drowned God dropped their Legion term, which
+# the chapter already enforces, as Act V's wars dropped the NCR's - and The Serpent Drowns, a war no close depends on,
+# keeps its stage (mltd_ai_stage_ate) and also waits for a safe target and for the Texan war to be over. Since the
+# round-27 review each war's AI hold sits in its `available` (mltd_ai_may_start_<texas|ate|tla>_war, hidden and AI-only),
+# not in ai_will_do: an AI takes any listed focus that is available, whatever its ai_will_do reads. Each also waits while
+# MLT is losing a war, and The Drowned God Sleeps, optional like The Serpent Drowns, for every target it would declare on
+# to be a safe target.
+
+############ the chapter ############
+
+shared_focus = {
+	id = mltd_the_southern_deep
+	icon = GFX_goal_ITZ_navigate_the_gulf
+	cost = 35
+	prerequisite = { focus = mltd_when_the_legion_breaks }
+	x = 0
+	y = 1
+	relative_position_id = mltd_when_the_legion_breaks
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		add_political_power = 50
+		country_event = { id = mltd.60 days = 1 }
+	}
+}
+
+############ Texas ############
+
+# Texas: the Order's pilgrims and clerks work their way into the Texan counting-houses (Silent Partner merged in)
+shared_focus = {
+	id = mltd_tex_all_waters_are_one
+	icon = GFX_goal_CHC_Texas
+	cost = 30
+	prerequisite = { focus = mltd_the_southern_deep }
+	x = -2
+	y = 1
+	relative_position_id = mltd_the_southern_deep
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = {
+				OR = {
+					country_exists = TBH
+					country_exists = LNS
+				}
+			}
+			# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
+			custom_effect_tooltip = mltd_tex_cult_sheltered_tt
+			hidden_effect = {
+				if = {
+					limit = { country_exists = TBH }
+					TBH = { set_country_flag = mltd_cult_sheltered }
+				}
+				if = {
+					limit = { country_exists = LNS }
+					LNS = { set_country_flag = mltd_cult_sheltered }
+				}
+			}
+			# All Waters' intel and The Silent Partner's, one grant per tag: civilian 15 (Silent Partner's), army 10
+			# (All Waters'), and The Silent Partner's army token
+			if = {
+				limit = { has_dlc = "La Resistance" }
+				if = {
+					limit = { country_exists = TBH }
+					add_intel = {
+						target = TBH
+						civilian_intel = 15
+						army_intel = 10
+					}
+					add_operation_token = { tag = TBH token = token_army }
+				}
+				if = {
+					limit = { country_exists = LNS }
+					add_intel = {
+						target = LNS
+						civilian_intel = 15
+						army_intel = 10
+					}
+					add_operation_token = { tag = LNS token = token_army }
+				}
+			}
+			else = {
+				# All Waters' +25 and The Silent Partner's +25
+				add_political_power = 50
+			}
+			if = {
+				limit = { country_exists = TBH }
+				TBH = {
+					add_stability = -0.04
+					add_political_power = -25
+				}
+			}
+			if = {
+				limit = { country_exists = LNS }
+				LNS = {
+					add_stability = -0.04
+					add_political_power = -25
+				}
+			}
+		}
+		else = {
+			custom_effect_tooltip = mltd_tex_texas_gone_tt
+			add_political_power = 50
+		}
+		# The Silent Partner's skim from the Union's ledgers
+		set_temp_variable = { caps_to_add = 80 }
+		add_caps = yes
+	}
+}
+
+# the war on Texas (Wreckers on the Trinity merged in)
+shared_focus = {
+	id = mltd_tex_black_water_rising
+	icon = GFX_goal_ACH_texico_rig
+	cost = 45
+	prerequisite = { focus = mltd_tex_all_waters_are_one }
+	x = -2
+	y = 2
+	relative_position_id = mltd_the_southern_deep
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_tex_one_master_tt
+			OR = {
+				has_global_flag = texas_formed
+				NOT = { country_exists = TBH }
+				NOT = { country_exists = LNS }
+				date > 2280.1.1
+			}
+		}
+		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
+		# war. Round 27: its stage term (mltd_ai_legion_beaten) is gone, as on Act V's wars - the chapter already needs Act V's
+		# close, which asks the same thing, so the term only waited on an earlier act (spec rule 7). Since the round-27 review
+		# the hold sits here, hidden and AI-only, because an AI takes any listed focus that is available whatever its
+		# ai_will_do reads; it also waits while MLT is losing a war (mltd_ai_triggers.txt, section W)
+		mltd_ai_may_start_texas_war = yes
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = TBH
+	will_lead_to_war_with = LNS
+	completion_reward = {
+		# round 22: the branch ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
+		if = {
+			limit = {
+				country_exists = TBH
+				NOT = { has_war_with = TBH }
+				TBH = { NOT = { is_subject_of = ROOT } }
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = TBH
+			}
+		}
+		if = {
+			limit = {
+				country_exists = LNS
+				NOT = { has_war_with = LNS }
+				LNS = { NOT = { is_subject_of = ROOT } }
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = LNS
+			}
+		}
+		# Wreckers on the Trinity: the victim loses exactly what we gain (no producer on the removal: CLAUDE.md > Theft)
+		if = {
+			limit = {
+				country_exists = TBH
+				TBH = { has_equipment = { infantry_equipment > 799 } }
+			}
+			TBH = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -800
+				}
+				add_war_support = -0.02
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 800
+				producer = TBH
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = LNS
+				LNS = { has_equipment = { infantry_equipment > 799 } }
+			}
+			LNS = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -800
+				}
+				add_war_support = -0.02
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 800
+				producer = LNS
+			}
+		}
+		else = {
+			custom_effect_tooltip = mltd_tex_empty_armouries_tt
+			add_political_power = 30
+		}
+		army_experience = 30
+		capital_scope = {
+			add_resource = {
+				type = energy
+				amount = 3
+			}
+		}
+		add_timed_idea = {
+			idea = mltd_tex_black_water
+			days = 180
+		}
+		if = {
+			limit = { country_exists = TBH }
+			TBH = {
+				add_stability = -0.06
+				add_war_support = -0.03
+			}
+		}
+		if = {
+			limit = { country_exists = LNS }
+			LNS = {
+				add_stability = -0.06
+				add_war_support = -0.03
+			}
+		}
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = TBH }
+				add_intel = {
+					target = TBH
+					civilian_intel = 20
+					army_intel = 20
+				}
+			}
+			if = {
+				limit = { country_exists = LNS }
+				add_intel = {
+					target = LNS
+					civilian_intel = 20
+					army_intel = 20
+				}
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+############ Nueva Aztlan ############
+
+# Nueva Aztlan (ATE, new in round 27): the oracles reach into the blind Speaker's dreams; the Order walks in by the harbour
+shared_focus = {
+	id = mltd_ate_the_feathered_tide
+	icon = GFX_goal_ATE_empress
+	cost = 35
+	prerequisite = { focus = mltd_the_southern_deep }
+	x = 0
+	y = 1
+	relative_position_id = mltd_the_southern_deep
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = {
+				country_exists = ATE
+				ATE = { NOT = { is_subject_of = ROOT } }
+			}
+			# the cults of M'lyeh in Nueva Aztlan wither half as fast (mltd_cult_refresh), as in every other act's spying head
+			custom_effect_tooltip = mltd_ate_cult_sheltered_tt
+			hidden_effect = {
+				ATE = { set_country_flag = mltd_cult_sheltered }
+			}
+			if = {
+				limit = { has_dlc = "La Resistance" }
+				add_intel = {
+					target = ATE
+					civilian_intel = 10
+					army_intel = 10
+				}
+			}
+			else = {
+				add_political_power = 25
+			}
+			ATE = { add_stability = -0.04 }
+			# OWB's blind Speaker has dreamed for ten years of Tlaloc's death (ATE_EMPRESS_DESC, nf_ate.10); while she
+			# still rules, the oracles send her a different dream
+			if = {
+				limit = {
+					ATE = {
+						has_country_leader = {
+							character = ATE_speaker_yesenia_aztlanl
+							ruling_only = yes
+						}
+					}
+				}
+				custom_effect_tooltip = mltd_ate_speaker_dreams_tt
+				ATE = { add_war_support = -0.02 }
+			}
+		}
+		else = {
+			custom_effect_tooltip = mltd_ate_gone_tt
+			add_political_power = 25
+		}
+	}
+}
+
+# the war on Nueva Aztlan (new in round 27)
+shared_focus = {
+	id = mltd_ate_the_serpent_drowns
+	icon = GFX_goal_ATE_focus_the_serpent_rises
+	cost = 42
+	prerequisite = { focus = mltd_ate_the_feathered_tide }
+	x = 0
+	y = 2
+	relative_position_id = mltd_the_southern_deep
+	available = {
+		# the focus is the declaration, so an AI takes it only when its stage has come and the army is ready, only against a
+		# safe target, as mltd_ai_conquer_ate demands (common/ai_strategy/mltd_MLT.txt; round 21: no war on a stronger country
+		# or one with a strong ally), because the focus's own declaration skips that check, and never while a Texan war the
+		# close waits on still runs (a capitulated Texan tag counts as beaten, as in mltd_texas_beaten). A war on ATE already
+		# running, or ATE gone or our subject, leaves only the payout: no hold. It also waits while MLT is losing a war. The
+		# hold sits here, hidden and AI-only, because an AI takes any listed focus that is available whatever its ai_will_do
+		# reads (mltd_ai_triggers.txt, section W)
+		mltd_ai_may_start_ate_war = yes
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = ATE
+	completion_reward = {
+		if = {
+			limit = {
+				country_exists = ATE
+				ATE = { NOT = { is_subject_of = ROOT } }
+			}
+			if = {
+				limit = { NOT = { has_war_with = ATE } }
+				declare_war_on = {
+					type = annex_everything
+					target = ATE
+				}
+			}
+			ATE = {
+				add_stability = -0.06
+				add_war_support = -0.03
+			}
+			# OWB's Aztlan navy, "the Frogs" (nf_ate.9): once Kinkaid's fleet has put to sea (ate_serpent_rises), our
+			# Deep Ones have swum beneath its keels, and its charts come home to us
+			if = {
+				limit = { ATE = { has_completed_focus = ate_serpent_rises } }
+				custom_effect_tooltip = mltd_ate_frogs_tt
+				navy_experience = 20
+			}
+		}
+		else = {
+			custom_effect_tooltip = mltd_ate_serpent_gone_tt
+			add_political_power = 50
+		}
+		army_experience = 40
+	}
+}
+
+############ Tlaloc and his successors ############
+
+# Tlaloc: the cult listens to Mexico's dying machine god and whispers to his three voices (Three Voices merged in)
+shared_focus = {
+	id = mltd_tla_the_iron_god_dreams
+	icon = GFX_goal_generic_tlaloc_aztec
+	cost = 30
+	prerequisite = { focus = mltd_the_southern_deep }
+	x = 2
+	y = 1
+	relative_position_id = mltd_the_southern_deep
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
+		custom_effect_tooltip = mltd_tla_cult_sheltered_tt
+		hidden_effect = {
+			if = {
+				limit = { country_exists = TLA }
+				TLA = { set_country_flag = mltd_cult_sheltered }
+			}
+			if = {
+				limit = { country_exists = MAX }
+				MAX = { set_country_flag = mltd_cult_sheltered }
+			}
+			if = {
+				limit = { country_exists = MOC }
+				MOC = { set_country_flag = mltd_cult_sheltered }
+			}
+			if = {
+				limit = { country_exists = ZAP }
+				ZAP = { set_country_flag = mltd_cult_sheltered }
+			}
+			if = {
+				limit = { country_exists = ARM }
+				ARM = { set_country_flag = mltd_cult_sheltered }
+			}
+		}
+		if = {
+			limit = { country_exists = TLA }
+			custom_effect_tooltip = mltd_tla_databanks_tt
+		}
+		else = {
+			custom_effect_tooltip = mltd_tla_iron_god_dead_tt
+		}
+		# The Three Voices: Tlaloc while he lives, else each of his heirs, else ARM
+		if = {
+			limit = { country_exists = TLA }
+			TLA = {
+				add_stability = -0.06
+				add_political_power = -25
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					country_exists = MAX
+					country_exists = MOC
+					country_exists = ZAP
+				}
+			}
+			if = {
+				limit = { country_exists = MAX }
+				MAX = {
+					add_stability = -0.06
+					add_political_power = -25
+				}
+			}
+			if = {
+				limit = { country_exists = MOC }
+				MOC = {
+					add_stability = -0.06
+					add_political_power = -25
+				}
+			}
+			if = {
+				limit = { country_exists = ZAP }
+				ZAP = {
+					add_stability = -0.06
+					add_political_power = -25
+				}
+			}
+		}
+		else_if = {
+			limit = { country_exists = ARM }
+			ARM = {
+				add_stability = -0.06
+				add_political_power = -25
+			}
+		}
+		# The Iron God's intel on every living tag and The Three Voices' on the voices' own tags, one grant per tag: a
+		# voice gets civilian 15 (Three Voices') and The Three Voices' army token, every other tag The Iron God's 10 / 10
+		# (army only on ARM)
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = TLA }
+				add_intel = { target = TLA civilian_intel = 15 army_intel = 10 }
+				add_operation_token = { tag = TLA token = token_army }
+			}
+			if = {
+				limit = { country_exists = MAX }
+				if = {
+					limit = { country_exists = TLA }
+					add_intel = { target = MAX civilian_intel = 10 army_intel = 10 }
+				}
+				else = {
+					add_intel = { target = MAX civilian_intel = 15 army_intel = 10 }
+					add_operation_token = { tag = MAX token = token_army }
+				}
+			}
+			if = {
+				limit = { country_exists = MOC }
+				if = {
+					limit = { country_exists = TLA }
+					add_intel = { target = MOC civilian_intel = 10 army_intel = 10 }
+				}
+				else = {
+					add_intel = { target = MOC civilian_intel = 15 army_intel = 10 }
+					add_operation_token = { tag = MOC token = token_army }
+				}
+			}
+			if = {
+				limit = { country_exists = ZAP }
+				if = {
+					limit = { country_exists = TLA }
+					add_intel = { target = ZAP civilian_intel = 10 army_intel = 10 }
+				}
+				else = {
+					add_intel = { target = ZAP civilian_intel = 15 army_intel = 10 }
+					add_operation_token = { tag = ZAP token = token_army }
+				}
+			}
+			if = {
+				limit = { country_exists = ARM }
+				if = {
+					limit = {
+						OR = {
+							country_exists = TLA
+							country_exists = MAX
+							country_exists = MOC
+							country_exists = ZAP
+						}
+					}
+					add_intel = { target = ARM army_intel = 10 }
+				}
+				else = {
+					add_intel = { target = ARM civilian_intel = 15 army_intel = 10 }
+					add_operation_token = { tag = ARM token = token_army }
+				}
+			}
+			# none of them lives: The Iron God's electronics bonus and The Three Voices' +50
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							country_exists = TLA
+							country_exists = MAX
+							country_exists = MOC
+							country_exists = ZAP
+							country_exists = ARM
+						}
+					}
+				}
+				add_tech_bonus = { name = mltd_tla_the_iron_god_dreams bonus = 0.5 uses = 1 category = electronics }
+				add_political_power = 50
+			}
+		}
+		else = {
+			add_tech_bonus = { name = mltd_tla_the_iron_god_dreams bonus = 0.5 uses = 1 category = electronics }
+			add_political_power = 50
+		}
+	}
+}
+
+# the war on Tlaloc and his heirs (Picking the Iron Bones merged in)
+shared_focus = {
+	id = mltd_tla_the_drowned_god_sleeps
+	icon = GFX_goal_cip_memory_core
+	cost = 45
+	prerequisite = { focus = mltd_tla_the_iron_god_dreams }
+	x = 2
+	y = 2
+	relative_position_id = mltd_the_southern_deep
+	available = {
+		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
+		# war. Round 27: its stage term (mltd_ai_legion_beaten) is gone, as on Act V's wars - the chapter already needs Act V's
+		# close, which asks the same thing, so the term only waited on an earlier act (spec rule 7). Since the round-27 review
+		# the hold sits here, hidden and AI-only, because an AI takes any listed focus that is available whatever its
+		# ai_will_do reads; it also waits while MLT is losing a war and until every target it would declare on is a safe
+		# target, as the conquest blocks demand - the close opens through Black Water Rising (mltd_ai_triggers.txt, section W)
+		mltd_ai_may_start_tla_war = yes
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 3 }
+	will_lead_to_war_with = TLA
+	will_lead_to_war_with = MAX
+	will_lead_to_war_with = MOC
+	will_lead_to_war_with = ZAP
+	completion_reward = {
+		# round 22: the branch ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
+		if = {
+			limit = {
+				country_exists = TLA
+				NOT = { has_war_with = TLA }
+				TLA = { NOT = { is_subject_of = ROOT } }
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = TLA
+			}
+		}
+		if = {
+			limit = {
+				country_exists = MAX
+				NOT = { has_war_with = MAX }
+				MAX = { NOT = { is_subject_of = ROOT } }
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = MAX
+			}
+		}
+		if = {
+			limit = {
+				country_exists = MOC
+				NOT = { has_war_with = MOC }
+				MOC = { NOT = { is_subject_of = ROOT } }
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = MOC
+			}
+		}
+		if = {
+			limit = {
+				country_exists = ZAP
+				NOT = { has_war_with = ZAP }
+				ZAP = { NOT = { is_subject_of = ROOT } }
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = ZAP
+			}
+		}
+		# Picking the Iron Bones: the transfers are spelled out once, in the tooltip; listing them as well would print every
+		# line twice
+		if = {
+			limit = {
+				OR = {
+					country_exists = TLA
+					country_exists = MAX
+					country_exists = MOC
+					country_exists = ZAP
+					country_exists = ARM
+				}
+			}
+			custom_effect_tooltip = mltd_tla_iron_bones_theft_tt
+		}
+		hidden_effect = {
+			if = {
+				limit = { country_exists = TLA }
+				if = {
+					limit = { TLA = { has_equipment = { infantry_equipment > 799 } } }
+					TLA = { add_equipment_to_stockpile = { type = infantry_equipment amount = -800 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 800 producer = TLA }
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						country_exists = MAX
+						MAX = { has_equipment = { infantry_equipment > 299 } }
+					}
+					MAX = { add_equipment_to_stockpile = { type = infantry_equipment amount = -300 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 300 producer = MAX }
+				}
+				if = {
+					limit = {
+						country_exists = MOC
+						MOC = { has_equipment = { infantry_equipment > 299 } }
+					}
+					MOC = { add_equipment_to_stockpile = { type = infantry_equipment amount = -300 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 300 producer = MOC }
+				}
+				if = {
+					limit = {
+						country_exists = ZAP
+						ZAP = { has_equipment = { infantry_equipment > 299 } }
+					}
+					ZAP = { add_equipment_to_stockpile = { type = infantry_equipment amount = -300 } }
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 300 producer = ZAP }
+				}
+			}
+			if = {
+				limit = {
+					country_exists = ARM
+					ARM = { has_equipment = { support_equipment > 199 } }
+				}
+				ARM = { add_equipment_to_stockpile = { type = support_equipment amount = -200 } }
+				add_equipment_to_stockpile = { type = support_equipment amount = 200 producer = ARM }
+			}
+		}
+		army_experience = 20
+		set_temp_variable = { caps_to_add = 100 }
+		add_caps = yes
+		if = {
+			limit = { country_exists = TLA }
+			# only while OWB's own drain runs (tlaloc_on_actions.txt:276-281); OWB's daily clamp and death check still fire nf_tlaloc.100
+			if = {
+				limit = {
+					TLA = {
+						check_variable = { current_databanks > 100 }
+						NOT = { has_country_flag = stop_tlaloc_losing_memeory }
+						NOT = { has_cosmetic_tag = TLA_RRG }
+						NOT = { has_cosmetic_tag = TLA_RRG_pending }
+						NOT = { has_cosmetic_tag = TLA_RRG_wife }
+					}
+				}
+				custom_effect_tooltip = mltd_tla_drain_databanks_tt
+				hidden_effect = {
+					TLA = { subtract_from_variable = { current_databanks = 64 } }
+				}
+			}
+			else = {
+				TLA = { add_stability = -0.06 }
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					country_exists = MAX
+					country_exists = MOC
+					country_exists = ZAP
+					country_exists = ARM
+				}
+			}
+			custom_effect_tooltip = mltd_tla_heirs_haunted_tt
+			if = {
+				limit = { country_exists = MAX }
+				MAX = { add_stability = -0.04 }
+			}
+			if = {
+				limit = { country_exists = MOC }
+				MOC = { add_stability = -0.04 }
+			}
+			if = {
+				limit = { country_exists = ZAP }
+				ZAP = { add_stability = -0.04 }
+			}
+			if = {
+				limit = { country_exists = ARM }
+				ARM = { add_stability = -0.04 }
+			}
+		}
+		if = {
+			limit = { has_dlc = "La Resistance" }
+			if = {
+				limit = { country_exists = TLA }
+				steal_random_tech_bonus = {
+					folder = fallout_engineering_folder
+					folder = fallout_industry_folder
+					bonus = 1.0
+					base_bonus = 0.5
+					name = mltd_tla_the_drowned_god_sleeps
+					target = TLA
+					uses = 1
+				}
+			}
+			else_if = {
+				limit = { country_exists = MAX }
+				steal_random_tech_bonus = {
+					folder = fallout_engineering_folder
+					folder = fallout_industry_folder
+					bonus = 1.0
+					base_bonus = 0.5
+					name = mltd_tla_the_drowned_god_sleeps
+					target = MAX
+					uses = 1
+				}
+			}
+			else_if = {
+				limit = { country_exists = MOC }
+				steal_random_tech_bonus = {
+					folder = fallout_engineering_folder
+					folder = fallout_industry_folder
+					bonus = 1.0
+					base_bonus = 0.5
+					name = mltd_tla_the_drowned_god_sleeps
+					target = MOC
+					uses = 1
+				}
+			}
+			else_if = {
+				limit = { country_exists = ZAP }
+				steal_random_tech_bonus = {
+					folder = fallout_engineering_folder
+					folder = fallout_industry_folder
+					bonus = 1.0
+					base_bonus = 0.5
+					name = mltd_tla_the_drowned_god_sleeps
+					target = ZAP
+					uses = 1
+				}
+			}
+			else_if = {
+				limit = { country_exists = ARM }
+				steal_random_tech_bonus = {
+					folder = fallout_engineering_folder
+					folder = fallout_industry_folder
+					bonus = 1.0
+					base_bonus = 0.5
+					name = mltd_tla_the_drowned_god_sleeps
+					target = ARM
+					uses = 1
+				}
+			}
+			else = {
+				add_tech_bonus = { name = mltd_tla_the_drowned_god_sleeps bonus = 0.75 uses = 1 category = electronics }
+			}
+		}
+		else = {
+			add_tech_bonus = { name = mltd_tla_the_drowned_god_sleeps bonus = 0.75 uses = 1 category = electronics }
+		}
+		add_timed_idea = { idea = mltd_tla_dreams_of_wire days = 180 }
+	}
+}
+
+############ the close ############
+
+# after any one of the three wars, once Texas - the last southern power with an army in the field - is beaten
+shared_focus = {
+	id = mltd_the_last_king_kneels
+	icon = GFX_goal_MIN_fallen_kingdom
+	cost = 30
+	prerequisite = {
+		focus = mltd_tex_black_water_rising
+		focus = mltd_ate_the_serpent_drowns
+		focus = mltd_tla_the_drowned_god_sleeps
+	}
+	x = 0
+	y = 3
+	relative_position_id = mltd_the_southern_deep
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_texas_beaten_tt
+			mltd_texas_beaten = yes
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	ai_will_do = { factor = 10 }
+	completion_reward = {
+		add_research_slot = 1
+		add_ideas = mltd_the_drowned_south
+		country_event = { id = mltd.61 days = 1 }
+		hidden_effect = {
+			every_other_country = {
+				news_event = { id = mltd.62 days = 2 }
+			}
+		}
+	}
+}

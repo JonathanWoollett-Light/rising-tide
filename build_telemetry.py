@@ -137,10 +137,13 @@ for fid in pulled:
     groups.setdefault(shared[fid][1], []).append(fid)
 for fn in groups:
     groups[fn].sort(key=lambda f: shared[f][2])
-assert set(groups) == {'Shared Oregon Coastals Focus.txt', 'mltd_conflicts_focus.txt'}, groups.keys()
+# the story acts (round 27): Acts II-VI and the finale, one file each, pulled in through the roots the override lists
+STORY_FILES = ['mltd_act2_focus.txt', 'mltd_act3_focus.txt', 'mltd_act4_focus.txt', 'mltd_act5_focus.txt',
+               'mltd_act6_focus.txt', 'mltd_finale_focus.txt']
+assert set(groups) == {'Shared Oregon Coastals Focus.txt'} | set(STORY_FILES), groups.keys()
 oregon = groups['Shared Oregon Coastals Focus.txt']
-conflicts = groups['mltd_conflicts_focus.txt']
-all_focuses = national + oregon + conflicts
+story = [fid for fn in STORY_FILES for fid in groups[fn]]  # act order, then file order
+all_focuses = national + oregon + story
 assert len(set(all_focuses)) == len(all_focuses)
 
 # ------------------------------------------------------------------ techs
@@ -330,7 +333,8 @@ def gen_focus():
     for title, ids in (('mlt_nf: OWB\'s national focuses, then ours', national),
                        ('OWB\'s Shared Oregon Coastals Focus.txt, pulled in by ' + ' and '.join(
                            r for r in roots if r in oregon), oregon),
-                       ('the conflict sub-trees, common/national_focus/mltd_conflicts_focus.txt', conflicts)):
+                       ('the story acts, common/national_focus/mltd_act2_focus.txt ... mltd_act6_focus.txt and '
+                        'mltd_finale_focus.txt', story)):
         out.append('\t# %s (%d)' % (title, len(ids)))
         for fid in ids:
             out += once('mltd_tm_f_' + fid, 'has_completed_focus = ' + fid, 'MLTD %s FOCUS id=%s' % (day(), fid))
@@ -531,7 +535,7 @@ TEMPLATE = r'''# Rising Tide - MLT AI telemetry: scripted effects
 
 # pop_k: national population in thousands - state_population_k summed over every owned state into a variable on MLT
 # through PREV (the idiom of mltd_take_population_everywhere; OWB exodus_effects.txt:392-396). mltd_national_population
-# sums raw state_population instead, which wraps negative at the 2,147,483 variable ceiling past ~2.1 million people.
+# is capped at 2,147,000 people under the variable ceiling (mltd_update_national_population), so pop_k keeps its own sum.
 mltd_tm_update_pop_k = {
     set_variable = { mltd_tm_pop_k = 0 }
     every_owned_state = {
@@ -576,7 +580,7 @@ mltd_tm_poll_law = {
 # ---------------------------------------------------------------- FOCUS and TECH
 
 # FOCUS: every focus MLT can take, in three groups - mlt_nf's own, the shared lurk_ focuses its two Oregon roots pull in
-# from OWB, and the conflict sub-trees. The flag mltd_tm_f_<id> marks a focus logged.
+# from OWB, and the story acts (Acts II-VI and the finale). The flag mltd_tm_f_<id> marks a focus logged.
 mltd_tm_poll_focuses = {
 @FOCUS@
 }
@@ -995,8 +999,8 @@ def build():
 
 
 if __name__ == '__main__':
-    print('focuses: %d national + %d Oregon + %d conflicts = %d' % (len(national), len(oregon), len(conflicts),
-                                                                      len(all_focuses)))
+    print('focuses: %d national + %d Oregon + %d story acts = %d' % (len(national), len(oregon), len(story),
+                                                                       len(all_focuses)))
     print('roots:', ' '.join(roots))
     print('techs (%d): %s' % (len(techs), ' '.join(techs)))
     print('laws:', ' '.join(laws))

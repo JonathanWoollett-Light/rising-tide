@@ -167,13 +167,13 @@ mltd_wet_market_can_sell = {
 	}
 }
 
-# The Brotherhood in Washington, for the mltd_wbh_* sub-tree: the Washington Brotherhood, or The Cause once it has taken
-# Seattle (84) and formed the Northwestern Brotherhood (OWB's formable, common/decisions/formable_nations.txt; it also claims
-# every Washington state, The Warren included). Both fly OWB's shared Brotherhood focus tree, so both can purge the mutants
-# and march on The Warren. While their own war runs, both answer. Country scope.
+# The Brotherhood in Washington, for the mltd_wbh_* focuses (Acts II and III): the Washington Brotherhood, or The Cause
+# once it has taken Seattle (84) and formed the Northwestern Brotherhood (OWB's formable, common/decisions/formable_nations.txt;
+# it also claims every Washington state, The Warren included). Both fly OWB's shared Brotherhood focus tree, so both can purge
+# the mutants and march on The Warren. While their own war runs, both answer. Country scope.
 mltd_wbh_brotherhood = {
 	# Round 24: a living Brotherhood. Without this the trigger is a bare tag test, which an annexed country still passes -
-	# the sub-tree's twelve `WBH = { mltd_wbh_brotherhood = yes }` / `TCA = { ... }` guards then went on paying add_intel
+	# the Washington focuses' `WBH = { mltd_wbh_brotherhood = yes }` / `TCA = { ... }` guards then went on paying add_intel
 	# and advertising it against a dead nation. any_country/every_country only ever iterate living countries, so this is a
 	# no-op for the five `any_country` gates and the capstone's `NOT = { any_country = ... }` ("none is left") test.
 	exists = yes
@@ -210,4 +210,27 @@ mltd_brk_on_haida_gwaii = {
 # mltd_the_grand_ritual (for its first Leviathan), decision mltd_summon_the_leviathan and mltd_spawn_leviathan all test it.
 mltd_leviathan_can_surface = {
 	controls_province = 7064
+}
+
+# ---- Round 27: the story acts
+# mltd_texas_beaten: Act VI's close, mltd_the_last_king_kneels, opens once Texas is beaten - each of the two Texan tags
+# (there is no TEX tag: it is an alias for TBH or LNS in a Texan cosmetic, tag_aliases.txt:93-106) is gone, has
+# capitulated or has become MLT's subject. A capitulated country stays at war while an ally holds out, so waiting for
+# it to be gone could wait for ever (the same reasoning as mltd_ai_ncr_beaten). has_capitulated clears at the peace, so a
+# Texan rump that outlives it would never count again: on_capitulation (mltd_on_actions.txt) records a capitulation to MLT
+# on MLT as mltd_tbh_capitulated / mltd_lns_capitulated, as it does for the NCR and the Legion (Acts IV and V). MLT is named
+# by tag, so any scope works.
+mltd_texas_beaten = {
+	OR = {
+		NOT = { country_exists = TBH }
+		TBH = { has_capitulated = yes }
+		TBH = { is_subject_of = MLT }
+		MLT = { has_country_flag = mltd_tbh_capitulated }
+	}
+	OR = {
+		NOT = { country_exists = LNS }
+		LNS = { has_capitulated = yes }
+		LNS = { is_subject_of = MLT }
+		MLT = { has_country_flag = mltd_lns_capitulated }
+	}
 }

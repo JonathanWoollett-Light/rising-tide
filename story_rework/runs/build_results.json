@@ -1,0 +1,1364 @@
+{
+  "summary": "Build the six story acts of the MLT focus rework in parallel, then review and fix each act",
+  "agentCount": 18,
+  "logs": [],
+  "result": [
+    {
+      "act": "act2",
+      "built": {
+        "act": "II - The Northern Waters",
+        "files_written": [
+          "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act2_focus.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act2\\loc.yml",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act2\\notes.md"
+        ],
+        "focuses": [
+          {
+            "id": "mltd_wbh_eyes_in_the_sound",
+            "cell": "(13,22) absolute",
+            "prerequisites": "mltd_the_deep_ones_walk (national)",
+            "status": "kept - available block removed (no Brotherhood needed); cult shelter wrapped in an existence test; intel only with La Resistance and a living Brotherhood, else +25 PP; round-23 is_ai stage modifier dropped; cost 35"
+          },
+          {
+            "id": "mltd_wbh_the_drowned_knights",
+            "cell": "(13,23) = eyes (0,1)",
+            "prerequisites": "mltd_wbh_eyes_in_the_sound",
+            "status": "kept + merged Heresy in the Citadel (each Brotherhood -40 PP, -6% stability; LaR civ 15 + token_army, else +25 PP); theft + 30 XP unchanged; intel gate removed; is_ai modifier dropped; cost 42"
+          },
+          {
+            "id": "mltd_brk_salt_on_the_broken_coast",
+            "cell": "(15,22) absolute",
+            "prerequisites": "mltd_the_deep_ones_walk (national)",
+            "status": "kept + merged The Drowned Raiders (+10 BRK cult; intel folded into one grant: civ 25 / army 10 + token_army; no-DLC or BRK-gone fallback +50 PP); country_exists dropped from available; cost 35"
+          },
+          {
+            "id": "mltd_brk_the_deep_ones_sail_north",
+            "cell": "(15,23) = salt (0,1)",
+            "prerequisites": "mltd_brk_salt_on_the_broken_coast",
+            "status": "kept + merged Star Spawn over the Strait (+6 volunteer divisions: mltd_brk_add_volunteer_size twice behind mltd_brk_volunteer_size_6_tt); summon-flag gate removed; keeps no war with BRK while it exists; BRK gone: +50 PP; cost 42"
+          },
+          {
+            "id": "mltd_bdt_the_bone_shore",
+            "cell": "(17,22) absolute",
+            "prerequisites": "mltd_the_deep_ones_walk (national)",
+            "status": "kept - as today; country_exists dropped from available; shelter wrapped in existence test; fallback +25 PP; cost 35"
+          },
+          {
+            "id": "mltd_bdt_the_dancers_hear_the_tide",
+            "cell": "(17,23) = bone shore (0,1)",
+            "prerequisites": "mltd_bdt_the_bone_shore",
+            "status": "kept + merged Salt on the Bone Road (steal 600 infantry equipment when BDT > 1,200, else +25 PP; 30 army XP); intel gate removed; cost 35"
+          }
+        ],
+        "deleted_ids": [
+          {
+            "id": "mltd_wbh_salt_in_the_citadel",
+            "merged_into": "mltd_wbh_the_drowned_knights",
+            "what_moved": "every Brotherhood (mltd_wbh_brotherhood) -40 PP and -6% stability; with La Resistance, civilian intel 15 + token_army on WBH and/or TCA, else +25 PP"
+          },
+          {
+            "id": "mltd_brk_the_drowned_raiders",
+            "merged_into": "mltd_brk_salt_on_the_broken_coast",
+            "what_moved": "+10 to BRK's cult via mltd_cult_add_strength (tooltip mltd_brk_raiders_cult_tt); its civilian intel 15 folded into the root's grant (civ 25, army 10) plus token_army; its +25 PP fallback added to the root's (+50 PP)"
+          },
+          {
+            "id": "mltd_brk_star_spawn_over_the_strait",
+            "merged_into": "mltd_brk_the_deep_ones_sail_north",
+            "what_moved": "its +3 volunteer divisions (second mltd_brk_add_volunteer_size call; one tooltip mltd_brk_volunteer_size_6_tt for the +6)"
+          },
+          {
+            "id": "mltd_bdt_salt_on_the_bone_road",
+            "merged_into": "mltd_bdt_the_dancers_hear_the_tide",
+            "what_moved": "theft of 600 infantry equipment from BDT when it holds > 1,200 (else +25 PP) and 30 army experience"
+          }
+        ],
+        "loc_keys_new": [
+          "mltd_brk_volunteer_size_6_tt"
+        ],
+        "loc_keys_replaced": [
+          "mltd_wbh_the_drowned_knights_desc",
+          "mltd_brk_salt_on_the_broken_coast_desc",
+          "mltd_brk_the_deep_ones_sail_north_desc",
+          "mltd_bdt_the_dancers_hear_the_tide_desc"
+        ],
+        "events": [],
+        "ideas": [],
+        "scripted_triggers": [],
+        "scripted_effects": [],
+        "now_unused": [
+          "mltd_wbh_salt_in_the_citadel (loc)",
+          "mltd_wbh_salt_in_the_citadel_desc",
+          "mltd_brk_the_drowned_raiders (loc)",
+          "mltd_brk_the_drowned_raiders_desc",
+          "mltd_brk_star_spawn_over_the_strait (loc)",
+          "mltd_brk_star_spawn_over_the_strait_desc",
+          "mltd_bdt_salt_on_the_bone_road (loc)",
+          "mltd_bdt_salt_on_the_bone_road_desc",
+          "mltd_wbh_network_20_tt",
+          "mltd_wbh_network_25_tt",
+          "mltd_tca_network_20_tt",
+          "mltd_tca_network_25_tt",
+          "mltd_brk_network_20_tt",
+          "mltd_bdt_network_20_tt",
+          "mltd_brk_deep_ones_answer_tt",
+          "mltd_brk_star_spawn_answer_tt",
+          "mltd_wbh_brotherhood_exists_tt"
+        ],
+        "unverified": [
+          "mltd_brk_add_volunteer_size called twice in one hidden_effect is expected to add +6 to mltd_brk_volunteer_size_var (the second call finds the dynamic modifier present and only re-runs force_update_dynamic_modifier) - not seen in game",
+          "The Final Ritual's OR prerequisite over three shared beads has a vanilla precedent (belgium.txt:7907, a national focus with one OR block over three CONGO_ shared focuses), and listed shared roots with a national prerequisite have one too (belgium.txt:20 / congo_shared.txt:951); neither drawn in this tree yet"
+        ],
+        "notes": "What the integrator needs to do (full detail in act2/notes.md): (1) list the three heads in the override: shared_focus = mltd_wbh_eyes_in_the_sound / mltd_brk_salt_on_the_broken_coast / mltd_bdt_the_bone_shore. (2) Add prerequisite = { focus = mltd_wbh_the_drowned_knights focus = mltd_brk_the_deep_ones_sail_north focus = mltd_bdt_the_dancers_hear_the_tide } to mltd_the_final_ritual. It already sits at (15,24) (Walk (15,21) + (0,3)), and nothing else in the override occupies x 11-19 on rows 22-23. (3) The loc.yml lines replace the existing lines at mltd_l_english.yml 234/577/579/615; only one line is new. Focus costs stay as each kept focus had them (35/42/35/42/35/35); the spec asks to keep carried-over numbers. Behaviour changes: none of the six has an intel gate any more. Fallbacks when the target is gone: Eyes +25, Knights +25, Salt +50, Sail North +50 PP instead of volunteers (the old focuses gave volunteers even with BRK dead - drop its if/else to keep that), Bone Shore +25, Dancers +25 +25. Salt's intel is one grant (civ 10+15 = 25, army 10, plus token_army), and the shelter flag is set before the cult is founded. The round-23 is_ai modifiers on Eyes and Knights (mltd_ai_stage_wbh) are dropped per rule 7, so an AI may spy on Washington before holding 30 states; The Tide-Wall keeps its gate. The Haida watch (mltd_on_actions.txt:46) keys on Salt, so it now starts after the Walk instead of after the Kingdom. The AI plans name the deleted ids at mltd_MLT.txt lines 174/179/181/185/290/292/296/344; remove them or check_plan_sync fails. The kingdom_and_books plan lists all six Act II focuses before the Final Ritual, so the AI would now spend ~224 days on Act II before the ritual. Suggested order: Salt and Sail North, then the Final Ritual, then the rest. CONQUEST_PLAN.txt 324-336 needs the same re-cut. build_telemetry.py:140/142 hard-codes mltd_conflicts_focus.txt and needs the per-act files; then rebuild the telemetry. The comment at mltd_scripted_effects.txt:718 names Star Spawn over the Strait. CLAUDE.md's WBH/BRK/BDT rows and the volunteers paragraph (add the literal 6 in mltd_brk_volunteer_size_6_tt) need updating. The now_unused keys become unused only once mltd_conflicts_focus.txt is deleted; grep the other acts first. Still in use and to keep: mltd_bdt_network_tt (Hail King), mltd_brk_network_tt (Covenant), mltd_brk_volunteer_size_tt (inside the effect), mltd_brk_raiders_cult_tt (now Salt's). Checks run: braces balanced (depth 0), LF, no BOM; every tooltip/name/desc key resolves in the main yml or loc.yml; the nested $mltd_deep_ones$ / $mltd_star_spawn$ / $mltd_brk_volunteers$ resolve to plain text; every scripted effect, trigger and opinion modifier called exists; every icon has a _shine in OWB's interface gfx. Note: git status shows 'Mirelurk Tribe (MLT) Focus.txt' modified and act3/act4 focus files present; those changes are not mine (this agent edited nothing in mod_folder but mltd_act2_focus.txt)."
+      },
+      "review": {
+        "findings": [
+          {
+            "severity": "minor",
+            "file": "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\Mirelurk Tribe (MLT) Focus.txt",
+            "where": "mltd_the_final_ritual, the prerequisite = { focus = mltd_the_deep_ones_walk } block kept beside the new Act II OR block (~line 1692)",
+            "problem": "The Walk (15,21), Salt on the Broken Coast (15,22), The Deep Ones Sail North (15,23) and The Final Ritual (15,24) now sit in one column. The Final Ritual's AND prerequisite on the Walk therefore draws a solid line straight down column 15, under Salt and Sail North. On the last segment that solid line lies on top of Sail North's dashed OR line. The Broken Coast branch then reads as a mandatory solid chain Walk -> Salt -> Sail North -> Final Ritual, while Knights and Dancers look optional. The Walk block adds no constraint: every Act II bead requires its head, and every head requires the Walk.",
+            "fix": "Remove `prerequisite = { focus = mltd_the_deep_ones_walk }` from mltd_the_final_ritual and keep only the OR block over the three beads. The ordering is still enforced through the heads. Update the spec's 'prereq Walk AND (OR the 3 ends)' line and the plan's note to match. If the AND line must stay, move the Broken Coast branch off x = 15 instead, e.g. swap it with a side branch, so that no focus sits on the Walk-to-Ritual line."
+          },
+          {
+            "severity": "minor",
+            "file": "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act2_focus.txt",
+            "where": "cost of the merged beads: mltd_wbh_the_drowned_knights (42), mltd_brk_salt_on_the_broken_coast (35), mltd_brk_the_deep_ones_sail_north (42), mltd_bdt_the_dancers_hear_the_tide (35)",
+            "problem": "Each merge moves all of the deleted focus's reward into the kept focus but none of its length. Each branch now pays the full old sub-tree payoff in far fewer days: Washington 112 -> 77 days, Broken Coast 161 -> 77 (+6 volunteers, the +10 cult, the civ 25 intel and the army token), Bone Dancers 112 -> 70. That roughly doubles the payoff per focus-day. Spec rule 10 asks for a payoff 'about equal to or a little below' the old one. A focus's price is its length (FOCUS_POINT_DAYS = 1), so the merged branches are a clear buff, and the Broken Coast branch is the strongest pick for the Final Ritual's gate.",
+            "fix": "Add part of each deleted focus's length to the bead that absorbed it, e.g. Knights 42 -> 56 (+Heresy 35), Salt 35 -> 49 (+Raiders 35), Sail North 42 -> 63 (+Star Spawn 49), Dancers 35 -> 56 (+Bone Road 42). Update CONQUEST_PLAN.txt's day counts (notes.md already lists 324-336) to match. Alternatively, leave the costs and record the buff in notes.md as deliberate."
+          },
+          {
+            "severity": "minor",
+            "file": "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act2\\notes.md",
+            "where": "'AI and plan' list of stale references",
+            "problem": "The integrator list misses one stale mention of a deleted focus. mod_folder/common/dynamic_modifiers/mltd_dynamic_modifiers.txt:19 still says 'Added by mltd_brk_add_volunteer_size (The Deep Ones Sail North, Star Spawn over the Strait): +3 volunteer divisions each'. notes.md also gives the effect comment as mltd_scripted_effects.txt:718-720, but the text naming 'Star Spawn over the Strait' is at 717-718 (the 716 header also names mltd_conflicts_focus.txt, which is being deleted).",
+            "fix": "Add mltd_dynamic_modifiers.txt:19 to the notes: reword it to 'Added by mltd_brk_add_volunteer_size, called twice by The Deep Ones Sail North (+3 each)'. Also point the integrator at mltd_scripted_effects.txt:716-718, where the header's mltd_conflicts_focus.txt becomes mltd_act2_focus.txt."
+          }
+        ],
+        "checked": "I checked mltd_act2_focus.txt and the act2 staging folder (loc.yml, notes.md; there is no events, ideas, triggers or effects file, as the spec says) against SPEC.md, CLAUDE.md, the original blocks in mltd_conflicts_focus.txt, OWB and vanilla. Only three minor problems turned up; the file itself is clean.\n\nSyntax: braces balance (scripted, final depth 0, never negative). The file is LF, has no BOM, is tab-indented and ASCII-only, with no stray tokens. All 5 staging loc lines match `  key:0 \"...\"`, with no unescaped inner quotes, and are LF without a BOM.\n\nStructure: all 6 ids exist, and no extra focus is defined. I resolved every position with a script over the override and all the act files: the heads sit at absolute (13,22), (15,22) and (17,22) with no relative_position_id, the beads are (0,1) below their shared head, the Final Ritual lands at (15,24), and nothing in Acts II-VI or the finale overlaps. The heads' prerequisite is the Walk (precedent: vanilla congo_shared.txt:951 and belgium.txt:20), each bead's is its head, and none is mutually exclusive, as specified. The override already lists the three heads and has the OR block on the Final Ritual.\n\nNever strand: no available block anywhere has a token, coverage or intel gate. The only condition left is Sail North's 'no war with BRK while it exists', which the spec keeps and which sits in an if with no else. All 6 have cancel_if_invalid = no and continue_if_invalid = yes. Each has a political-power fallback when its target is gone: Eyes 25, Knights 25, Salt 50, Sail North 50, Bone Shore 25, Dancers 25 + 25.\n\nAI: every focus is ai_will_do factor 3, and the round-23 mltd_ai_stage_wbh modifiers are gone, per rule 7. No war capstone is in this act. Nothing is AI-only.\n\nExistence: every effect, trigger and name used exists. That covers mltd_intel_foothold, mltd_cult_add_strength, mltd_cult_rebuild_list, mltd_brk_add_volunteer_size (read: +3 per call, so two calls give 6, and its own tooltip is hidden), the mltd_wbh_brotherhood trigger (includes exists = yes), mltd_drowned_envoys, OWB's world_view_brk / brk_view_world and power_armor_equipment, and the character WBH_THE_IMMORTAL. All 6 icons and their _shine sprites are in OWB's interface gfx.\n\nLoc: every tooltip, name and desc key resolves. The nested $mltd_deep_ones$, $mltd_star_spawn$ and $mltd_brk_volunteers$ point at plain text and none is a replace/ key. Names go through [TAG.GetNameDef], [84.GetName] and [TOKEN.GetName], and 'Mirelurk Tribe' is never hard-coded. The replaced lines match mltd_l_english.yml 234, 577, 579 and 615.\n\nMerges: each deleted focus's effects are in the kept focus the spec names. The theft guards (> 1200 for 600, > 120 for 60) remove without producer and add with producer = victim. La Resistance effects sit inside has_dlc ifs with political-power elses. The cult shelter is set before the cult is founded.\n\nOther references: I grepped mod_folder, the .py tools and CONQUEST_PLAN for the deleted ids. They appear only where notes.md says (AI plan 174/179/181/185/290/292/296/344, telemetry 703-705/843-850/868-870, CONQUEST_PLAN 328-335, build_telemetry.py 140/142), plus the dynamic-modifier comment that notes.md misses (finding 3). The keys notes.md lists as becoming unused are used only in mltd_conflicts_focus.txt, and mltd_brk_network_tt and mltd_bdt_network_tt are still used by mltd_act3_focus.txt. In Act III, the Covenant and Hail the Drowned King test has_completed_focus on Salt and Bone Shore, both kept ids."
+      },
+      "fix": {
+        "applied": [
+          "Finding 1 (the Final Ritual's Walk prerequisite draws a solid line down x = 15): confirmed. The Walk (15,21), Salt (15,22), Sail North (15,23) and the Ritual (15,24) share a column, the working-copy override still has `prerequisite = { focus = mltd_the_deep_ones_walk }` beside the new OR block (~line 1691), and that block adds no constraint because every bead needs its head and every head needs the Walk. The override, SPEC.md and the plan are outside the files I may edit, so the fix is an integrator instruction in act2/notes.md > 'What the override needs' item 2: remove the Walk block, keep `relative_position_id = mltd_the_deep_ones_walk` / `y = 3`, and change SPEC row 24 to 'prereq OR the 3 ends' (plus CLAUDE.md to match). The notes also explain why moving the Broken Coast branch off x = 15 is the wrong alternative: it breaks spec rule 3 and leaves the spine empty. mltd_act2_focus.txt's header now says the Ritual takes the OR block and no Walk prerequisite, and why.",
+          "Finding 2 (merged beads kept their own lengths, so each branch paid the old payoff in about half the days): confirmed against mltd_conflicts_focus.txt's old costs (Citadel 35, Raiders 35, Star Spawn 49, Bone Road 42). In mltd_act2_focus.txt each merged bead now adds roughly 40-50 % of what it absorbed, in whole weeks: Knights 42 -> 56, Salt 35 -> 49, Sail North 42 -> 63, Dancers 35 -> 56. The branches are now Washington 91 days (old 112), Broken Coast 112 (old 161) and Bone Dancers 91 (old 112). The header comment explains the rule. notes.md has a new Costs section (table, branch totals, 294 days for all six against 385) and updated figures for the AI order (shortest route to the ritual is 91 days, 112 through the Broken Coast) and for the CONQUEST_PLAN re-cut (Salt 49, Sail North 63, Dancers 56, Eyes + Knights 91). It also flags that Acts V and VI kept their kept focuses' own costs through larger merges: the integrator should pick one rule for all acts, and to use the other rule, restore 42/35/42/35 here.",
+          "Finding 3 (stale references missing from the notes): confirmed. mltd_dynamic_modifiers.txt:19 still names 'Star Spawn over the Strait'. The effect comment is at mltd_scripted_effects.txt:716-718, not 718-720: the header at 716 names mltd_conflicts_focus.txt and 717-718 name the deleted focus. notes.md now has a 'Stale comments' section with both locations and their rewording, plus mltd_scripted_effects.txt:382 (mltd_intel_foothold's header names the deleted file). notes.md also now says that Salt sums the root's and the Raiders' intel (civ 25) where spec rule 10 would drop the second grant as a duplicate. I kept the sum and priced it into Salt's 49 days, and the notes say how to cut it back if the integrator wants the rule followed exactly."
+        ],
+        "rejected": [],
+        "final_checks": "Checked C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act2_focus.txt after the edits: no BOM, LF only (0 CR), braces balanced (final depth 0, never negative, comments ignored). Costs are now 35 / 56 / 49 / 63 / 35 / 56. Every loc key the file uses resolves in mltd_l_english.yml or act2/loc.yml: the 6 focus names, their 6 _desc keys and 6 tooltips (mltd_wbh_cult_sheltered_tt, mltd_brk_cult_sheltered_tt, mltd_brk_raiders_cult_tt, mltd_brk_volunteer_size_6_tt, mltd_bdt_cult_sheltered_tt, mltd_bdt_dancers_cult_tt). The nested $mltd_deep_ones$, $mltd_star_spawn$ and $mltd_brk_volunteers$ in the staging loc each resolve to plain text. There are no new or newly unused loc keys, effects or triggers, and none of the descriptions quotes a focus length. The one action outside my files is the integrator's: remove the Final Ritual's Walk prerequisite block in the override, which notes.md records. Updated notes: C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act2\\notes.md."
+      }
+    },
+    {
+      "act": "act3",
+      "built": {
+        "act": "III - The Stars Are Right",
+        "files_written": [
+          "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act3_focus.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act3\\events.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act3\\loc.yml",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act3\\ideas.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act3\\notes.md"
+        ],
+        "focuses": [
+          {
+            "id": "mltd_wbh_the_tide_wall",
+            "cell": "(12,25) absolute",
+            "prerequisites": "mltd_the_final_ritual (national); old prerequisites (salt_in_the_citadel AND drowned_knights) dropped; gates kept (crusade turns / war / none left / 2280, and 235 owned+controlled)",
+            "status": "kept"
+          },
+          {
+            "id": "mltd_brk_the_drowned_covenant",
+            "cell": "(14,25) absolute",
+            "prerequisites": "mltd_the_final_ritual (national); available now starts with has_completed_focus = mltd_brk_salt_on_the_broken_coast; courtship gates kept inside if country_exists = BRK; +50 PP instead of mltd.21 when BRK is gone",
+            "status": "kept"
+          },
+          {
+            "id": "mltd_bdt_hail_the_drowned_king",
+            "cell": "(16,25) absolute",
+            "prerequisites": "mltd_the_final_ritual (national); available now starts with has_completed_focus = mltd_bdt_the_bone_shore; courtship gates and country_exists = BDT kept; mutually_exclusive with mltd_bdt_drown_the_dance (one-sided, as before); ai_will_do 4 kept",
+            "status": "kept"
+          },
+          {
+            "id": "mltd_bdt_drown_the_dance",
+            "cell": "(18,25) absolute",
+            "prerequisites": "mltd_the_final_ritual (national); available = NOT in faction with BDT only while BDT exists; with BDT gone +50 PP instead of the war and the 40 XP",
+            "status": "kept"
+          },
+          {
+            "id": "mltd_the_tide_turns_south",
+            "cell": "(15,26) absolute",
+            "prerequisites": "OR(mltd_wbh_the_tide_wall, mltd_brk_the_drowned_covenant, mltd_bdt_hail_the_drowned_king, mltd_bdt_drown_the_dance); available num_of_controlled_states > 49 (mltd_tide_turns_south_states_tt); 30 days; ai_will_do 10; icon GFX_goal_BRK_drums_of_war; reward idea mltd_the_northern_waters, event mltd.30, news mltd.31",
+            "status": "new"
+          }
+        ],
+        "deleted_ids": [],
+        "loc_keys_new": [
+          "mltd_the_tide_turns_south",
+          "mltd_the_tide_turns_south_desc",
+          "mltd_tide_turns_south_states_tt",
+          "mltd_the_northern_waters",
+          "mltd_the_northern_waters_desc",
+          "mltd.30.t",
+          "mltd.30.d",
+          "mltd.30.a",
+          "mltd.30.b",
+          "mltd.31.t",
+          "mltd.31.d",
+          "mltd.31.a"
+        ],
+        "loc_keys_replaced": [],
+        "events": [
+          "mltd.30 - country_event to MLT, The Tide Turns South (picture GFX_event_sub_generic_wasteland_river), two flavour options without effects, fired by mltd_the_tide_turns_south with days = 1",
+          "mltd.31 - news_event Drums in the North (picture GFX_event_NCR_night), one option, delivered by the same focus through hidden_effect every_other_country days = 2"
+        ],
+        "ideas": [
+          "mltd_the_northern_waters - permanent (original_tag = MLT, removal_cost = -1, picture brk_master_of_sea): stability_factor +0.05, war_support_factor +0.05, justify_war_goal_time -0.25 (the act table's figure; outside rule 11's 5-10 % band on purpose, see notes.md)"
+        ],
+        "scripted_triggers": [],
+        "scripted_effects": [],
+        "now_unused": [],
+        "unverified": [
+          "A listed shared focus whose only prerequisite is a national focus (mltd_the_final_ritual). Vanilla's precedent is CONGO_congo_investments, listed at belgium.txt:20. OWB has none.",
+          "A trigger `if` nested inside another trigger `if` in the Covenant's available (country_exists = BRK, then has_dlc = \"La Resistance\"), and how its tooltip renders. The house idiom only ever uses one level.",
+          "will_lead_to_war_with = BDT / WBH / TCA on a focus whose target no longer exists. This is unchanged from before, and no error has been seen.",
+          "How justify_war_goal_time = -0.25 displays in the idea tooltip; the documentation says it is shown to 1 decimal place.",
+          "The mutually-exclusive marker between Hail (16,25) and Drown the Dance (18,25) on one row, two columns apart. The old slot j did the same at (-1,2) and (1,2)."
+        ],
+        "notes": "Act III merges nothing and deletes nothing, so no key, effect or trigger became unused.\n\nWhat changed from the old conflict sub-trees:\n- **Prerequisites.** All four kept focuses now hang off mltd_the_final_ritual at absolute cells. The override already lists them at Mirelurk Tribe (MLT) Focus.txt:26-29. mltd_act4_focus.txt already points at mltd_the_tide_turns_south.\n- **Fallbacks.** The Covenant (BRK gone) and Drown the Dance (BDT gone) now each pay +50 PP instead. The war branch's 40 XP now only comes while BDT exists.\n- **AI modifiers narrowed.** The Tide-Wall's and Drown the Dance's AI stage and readiness modifiers are kept, but now apply only while the focus would actually declare a war. The Tide-Wall's applies while a Brotherhood exists that is not already at war with MLT or its subject; Drown the Dance's applies while BDT exists. An AI is therefore not held off a free fallback.\n- **Hail's AI weight.** Hail keeps ai_will_do 4, above the war capstone's 3, so the AI takes the invitation first. This is deliberate, even though the spec says heads and beads use 3.\n- **No stranding.** Drown the Dance is takeable unless BDT is in MLT's faction. Only Hail puts BDT there, and Hail then satisfies the OR by itself.\n\nFollow-up for the integrator (details in notes.md):\n1. **Move the four focuses to the late plan.** In ai_strategy_plans/mltd_MLT.txt, the second plan (aborted by the Final Ritual) still lists Hail and Drown (~186-187), and the Tide-Wall and Covenant (~189-190). Move all four into the late plan ahead of Act IV, and add mltd_the_tide_turns_south. Suggested order: Covenant, Hail, Drown, Tide-Wall, the close.\n2. **The WBH war.** The Tide-Wall can no longer start the WBH war before the Final Ritual. Before the ritual that war now needs mltd_ai_conquer_wbh's own justification. Re-cut CONQUEST_PLAN.txt to match: its Cascadia war, and lines 370-374 for Hail and the Covenant.\n3. **The 50-state gate.** The close's 50-controlled-state gate (a literal in the trigger and in mltd_tide_turns_south_states_tt) now sits in front of Act IV. mltd_ai_stage_ncr already demands more than 70 of the north's 79 states.\n4. **Tooling.** Run build_telemetry.py and check_plan_sync.py for the new focus.\n5. **CLAUDE.md.** Update the Conflict sub-trees slots, the capstone text, the events list (mltd.30/31) and the ideas row.\n\nChecks run: brace balance is 0 and never negative in all three script files. Every loc key referenced resolves, as does the one nested $mltd_the_tide_turns_south$. Every sprite exists: icon, _shine, both event pictures and GFX_idea_brk_master_of_sea. The triggers mltd_wbh_brotherhood, mltd_ai_stage_wbh, mltd_ai_army_ready and mltd_ai_courting_bdt exist, as do OWB's all_core_land_owned_by_prev_sphere, events mltd.21 and mltd.24, and OWB focuses WBH_eradicate_the_mutants, brk_nf_pirate_coast and bdt_hail_to_the_king. mltd.30/31 and the new ids were unused before. The focus file is LF with no BOM, and all five focuses carry cancel_if_invalid = no and continue_if_invalid = yes. No existing _desc needed rewriting."
+      },
+      "review": {
+        "findings": [
+          {
+            "severity": "minor",
+            "file": "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act3\\ideas.txt",
+            "where": "mltd_the_northern_waters: picture = brk_master_of_sea (and notes.md, 'never by one MLT holds')",
+            "problem": "MLT already shows GFX_idea_brk_master_of_sea. It is the icon of the dynamic modifier mltd_brk_volunteers ('The Tide Sails North', mod_folder/common/dynamic_modifiers/mltd_dynamic_modifiers.txt:23), which Act II's mltd_brk_the_deep_ones_sail_north adds and never removes. An MLT that took the Broken Coast branch would show two identical anchor icons side by side among its national spirits. The notes' claim that no idea MLT holds uses this picture is wrong.",
+            "fix": "Use a picture MLT does not already show. For example, `picture = generic_coast_guard` (GFX_idea_generic_coast_guard, OWB z_fallout_ideas.gfx, unused in mod_folder). Then correct the sentence in notes.md."
+          },
+          {
+            "severity": "minor",
+            "file": "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act3_focus.txt",
+            "where": "mltd_brk_the_drowned_covenant available/completion_reward (the `if = { limit = { country_exists = BRK } ... }` blocks); mltd_bdt_drown_the_dance completion_reward (the `if = { limit = { country_exists = BDT } ... }` penalty/XP branch)",
+            "problem": "Spec rule 5 wants each fan bead takeable, with its fallback reward, when the target is gone *or is MLT's subject*. Both focuses test only country_exists. (1) If BRK is MLT's subject, the Covenant's courtship gate `BRK = { is_subject = no }` fails, so the focus is simply untakeable instead of paying its +50 PP. (2) If BDT is MLT's subject and MLT leads no faction, Drown the Dance skips the declaration correctly, but still hits MLT's own subject with -6 % stability and -3 % war support and pays 40 army XP instead of the fallback.",
+            "fix": "Covenant: in both `available` and `completion_reward`, change the limit to `country_exists = BRK  BRK = { NOT = { is_subject_of = ROOT } }`, so a subject Broken Coast skips the courtship gates and pays the +50 PP else-branch. Drown the Dance: change the second `if`'s limit to `country_exists = BDT  BDT = { NOT = { is_subject_of = ROOT } }`, so a subject BDT gets the +50 PP else instead of the penalties and XP. Optionally add the same guard to the AI modifier's `country_exists = BDT`."
+          }
+        ],
+        "checked": "I found no blocker or major problem in Act III. There are two minor findings: the new idea reuses an icon MLT already shows, and the Covenant and Drown the Dance do not handle a target that is MLT's subject.\n\nWhat I checked:\n\n**Files.**\n- mod_folder/common/national_focus/mltd_act3_focus.txt: LF, no BOM, tab-indented, braces balance at 0 and never go negative, ASCII only.\n- The staging events.txt and ideas.txt are balanced, LF and tab-indented.\n- Every staging loc.yml line is `  key:0 \"...\"`, with no inner quotes and § as the only non-ASCII character.\n\n**Structure.**\n- There are exactly five focuses with the spec's ids and cells: Tide-Wall (12,25), Covenant (14,25), Hail (16,25), Drown (18,25) and The Tide Turns South (15,26). All use absolute x/y and no relative_position_id.\n- The four fan focuses each have `prerequisite = { focus = mltd_the_final_ritual }`, and the close has one OR block over the four.\n- Hail is mutually exclusive with Drown, one-sided as before.\n- The override lists the four fan focuses (Mirelurk Tribe (MLT) Focus.txt:26-29).\n- I resolved the whole tree: the Final Ritual is at (15,24), Act IV's chapter at (15,27), and no cell overlaps across the override and acts II-VI.\n\n**Changes against the originals.** I diffed each kept block against mltd_conflicts_focus.txt. The only changes are the ones the spec asks for or the builder reported:\n- the Covenant's gates now sit inside `if country_exists = BRK`, with a +50 PP fallback when BRK is gone;\n- Drown the Dance is takeable when BDT is gone, and pays +50 PP instead of 40 XP;\n- the AI modifiers on the Tide-Wall and Drown now apply only while the focus would start a war. The stage and readiness triggers are kept.\n\n**Rules 5-7.**\n- No intel gate sits in any `available` except the Covenant's and Hail's courtship gates.\n- All five focuses have `cancel_if_invalid = no` and `continue_if_invalid = yes`.\n- ai_will_do is 3, 3, 4 (Hail, kept on purpose) and 3, and 10 on the close.\n- No round-23 \"wait for an earlier act\" modifier remains.\n\n**Everything referenced exists:**\n- the sprites and their textures: GFX_goal_BRK_drums_of_war and its _shine, GFX_event_sub_generic_wasteland_river, GFX_event_NCR_night, GFX_idea_brk_master_of_sea, and the four kept icons with their shines;\n- the triggers mltd_wbh_brotherhood, mltd_ai_stage_wbh (true again after the Final Ritual), mltd_ai_army_ready and mltd_ai_courting_bdt;\n- `justify_war_goal_time` is a valid modifier;\n- events mltd.30/31 do not collide with any other id.\n\n**Loc.** Every key the file references resolves in the main loc file or the staging file. `$mltd_the_tide_turns_south$` is one level deep to a plain-text key. Event .d text uses only §o and §c, and option text has no colour codes. Names go through [MLT.GetNameDef], [235.GetName] and [MLT_MLULU.GetName], and nothing hard-codes \"Mirelurk Tribe\".\n\n**Events.** mltd.30 matches the mltd.5 pattern: is_triggered_only, fire_only_once and the log line. mltd.31 is a plain news event delivered through hidden_effect every_other_country with days = 2.\n\n**Unverified points I settled.** The builder's worry about an `if` nested inside another `if` in `available` has an OWB precedent: Lost Hills (BOS) Focus.txt nests exactly that.\n\n**Reviewed and accepted, not findings:**\n- The -25 % justification time is the spec table's own example figure.\n- Hail keeps ai_will_do 4, as it had before.\n- Moving the four focuses in the AI plan, re-cutting CONQUEST_PLAN.txt and rebuilding the telemetry are integrator tasks, and the notes list them.\n- The AI can wait in Act III, but only until the Tide-Wall's 2280 date fallback, and the notes document it."
+      },
+      "fix": {
+        "applied": [
+          "Finding 1 (the idea picture) is real. mod_folder/common/dynamic_modifiers/mltd_dynamic_modifiers.txt:23 gives mltd_brk_volunteers the icon GFX_idea_brk_master_of_sea. mltd_brk_add_volunteer_size (mltd_scripted_effects.txt:726-727) adds that modifier and nothing removes it, so the same anchor would have shown twice. In scratchpad/story/act3/ideas.txt, mltd_the_northern_waters now uses `picture = generic_coast_guard`, with a comment saying why. That sprite is GFX_idea_generic_coast_guard (OWB interface/z_fallout_ideas.gfx:3637), and its texture gfx/interface/ideas/generic/coast_guard.dds exists (a sailor's cap). In OWB only puppet, minor-nation (TVR, SHO) and settler ideas use it, and it is used nowhere in mod_folder or in the other acts' staging. notes.md now names the new picture and drops the wrong 'never by one MLT holds' claim.",
+          "Finding 2 (the subject case) is real. SPEC.md rule 5 (lines 60-63) says a fan bead must stay takeable, with its fallback, when its target is MLT's subject. In mod_folder/common/national_focus/mltd_act3_focus.txt, the Drowned Covenant's `available` if and its reward if now both use the limit `country_exists = BRK  BRK = { NOT = { is_subject_of = ROOT } }`. A subject Broken Coast therefore skips the courtship gates and pays the +50 PP else. A Broken Coast that is another country's subject still fails `is_subject = no`, as before.",
+          "Finding 2, Drown the Dance: the penalty/XP branch now uses the limit `country_exists = BDT  BDT = { NOT = { is_subject_of = ROOT } }`. A subject BDT now gets the +50 PP fallback instead of -6 % stability, -3 % war support and 40 XP. Beyond the reviewer's fix, the same guard also goes on the `available` if and on the AI modifier. A subject BDT sits in MLT's faction whenever MLT leads one, so `NOT is_in_faction_with = BDT` would otherwise leave the focus untakeable. mltd_ai_courting_bdt does not test subjects, so without the guard it would hold an AI off the free fallback.",
+          "Finding 2 had the same defect in the third fan bead, mltd_wbh_the_tide_wall, which the reviewer did not flag. It hit a subject Brotherhood with -3 % war support and gave MLT an idea aimed at its own subject. The claim removal on The Warren stays under the old 'any Brotherhood alive' if. The war-support hit and the mltd_wbh_tide_wall timed idea now go in a separate if that needs a Brotherhood that is not MLT's subject (both the if limit and the every_country limit). The else still pays 30 army XP. The declaration already skipped subjects, as did its AI modifier.",
+          "Updated the focus file's header 'Never strand' comment and notes.md: the Tide-Wall, Covenant and Drown the Dance sections, the never-strand paragraph and the idea picture paragraph. Added two unverified lines: will_lead_to_war_with still warns a subject target, and whether a subject counts as is_in_faction_with its overlord (harmless either way). No loc key was added, removed or left unused."
+        ],
+        "rejected": [],
+        "final_checks": "I re-ran a Python check (scratchpad/act3_check.py) over mltd_act3_focus.txt, act3/events.txt and act3/ideas.txt. In all three the braces balance to 0 and the depth never goes below 0; all are LF with no BOM. Every tooltip key the focus file references resolves against mod_folder/localisation plus act3/loc.yml: mltd_wbh_crusade_turns_tt, mltd_brk_pirate_coast_tt, mltd_brk_strong_cult_tt, mltd_brk_network_tt, mltd_brk_intel_tt, mltd_brk_covenant_offer_tt, mltd_brk_covenant_if_accepted_tt, mltd_bdt_strong_cult_tt, mltd_bdt_network_tt, mltd_bdt_covenant_offer_tt, mltd_newline_tt and mltd_tide_turns_south_states_tt. The rest also resolve: all five focus ids and their _desc, mltd_the_northern_waters and its _desc, mltd.30.t/.d/.a/.b, mltd.31.t/.d/.a, and the one nested $mltd_the_tide_turns_south$. mltd_wbh_tide_wall is defined (mltd_l_english.yml:238). GFX_idea_generic_coast_guard and its texture exist in OWB. For the integrator: nothing new is needed, and no key or effect became unused. The idea's picture changed and the subject fallbacks were widened; both are in notes.md."
+      }
+    },
+    {
+      "act": "act4",
+      "built": {
+        "act": "IV - The Drowned Republic",
+        "files_written": [
+          "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act4_focus.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act4\\events.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act4\\loc.yml",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act4\\ideas.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act4\\notes.md"
+        ],
+        "focuses": [
+          {
+            "id": "mltd_ncr_a_mole_in_shady_sands",
+            "cell": "(15,27) = mltd_the_tide_turns_south (0,1)",
+            "prerequisites": "mltd_the_tide_turns_south",
+            "status": "kept (now the chapter): no available block, ai_will_do 10, round-23 is_ai modifier dropped, shelter flags guarded by country_exists; rewards unchanged (foothold, shelter NCR/MOT cults, LaR civ 10/army 5 else +25 PP)"
+          },
+          {
+            "id": "mltd_ncr_drowned_delegates",
+            "cell": "(13,28) = chapter (-2,1)",
+            "prerequisites": "mltd_ncr_a_mole_in_shady_sands",
+            "status": "kept: intel gate removed, is_ai modifier dropped; rewards unchanged (+40 PP, NCR hits; LaR token_army + civ 10, else infantry tech bonus 50% - also the fallback when the NCR is gone)"
+          },
+          {
+            "id": "mltd_ncr_sleepers_on_the_long_15",
+            "cell": "(15,28) = chapter (0,1)",
+            "prerequisites": "mltd_ncr_a_mole_in_shady_sands",
+            "status": "kept: intel gate removed, is_ai modifier dropped; rewards unchanged (30 XP, MOT/NCR -3% WS, LaR army intel else +25 PP - also the fallback)"
+          },
+          {
+            "id": "mltd_ncr_salt_on_the_caravan_roads",
+            "cell": "(17,28) = chapter (2,1)",
+            "prerequisites": "mltd_ncr_a_mole_in_shady_sands",
+            "status": "kept: intel gate removed, is_ai modifier dropped; thefts unchanged (800/400 infantry, 200 support) inside country_exists NCR, NEW else +25 PP when the NCR is gone; +100 caps always"
+          },
+          {
+            "id": "mltd_ncr_the_turbines_sing",
+            "cell": "(15,29) = chapter (0,2)",
+            "prerequisites": "OR(mltd_ncr_drowned_delegates, mltd_ncr_sleepers_on_the_long_15, mltd_ncr_salt_on_the_caravan_roads)",
+            "status": "kept (the war): Hoover gate, declaration, will_lead_to_war_with and rewards unchanged; the stage/readiness AI hold is kept but lifts once has_war_with = NCR or mltd_ai_ncr_beaten (it is now a spine node the close needs)"
+          },
+          {
+            "id": "mltd_when_shady_sands_falls",
+            "cell": "(15,30) = chapter (0,3)",
+            "prerequisites": "mltd_ncr_the_turbines_sing",
+            "status": "new (the close): 30 days, ai_will_do 10, icon GFX_goal_NCR_FO2_Tattered_Flag; available custom_trigger_tooltip mltd_ncr_beaten_tt { mltd_ai_ncr_beaten OR NCR is_subject_of ROOT }; previews both options via effect_tooltip, fires mltd.40 (days 1) and news mltd.41 to every other country (days 2)"
+          }
+        ],
+        "deleted_ids": [],
+        "loc_keys_new": [
+          "mltd_when_shady_sands_falls",
+          "mltd_when_shady_sands_falls_desc",
+          "mltd_ncr_beaten_tt",
+          "mltd_shady_sands_falls_choice_tt",
+          "mltd_shady_sands_falls_scholars_tt",
+          "mltd_shady_sands_falls_rangers_tt",
+          "mltd.40.t",
+          "mltd.40.d",
+          "mltd.40.a",
+          "mltd.40.b",
+          "mltd.41.t",
+          "mltd.41.d",
+          "mltd.41.a",
+          "mltd_the_drowned_rangers",
+          "mltd_the_drowned_rangers_desc"
+        ],
+        "loc_keys_replaced": [],
+        "events": [
+          "mltd.40 (country_event, MLT: When Shady Sands Falls; picture GFX_event_shady_sands; option a add_research_slot = 1, ai_chance base 3; option b add_ideas = mltd_the_drowned_rangers + army_experience = 50, ai_chance base 1)",
+          "mltd.41 (news_event, world: The Bear Lies Down; picture GFX_event_NCR_congress; one option)"
+        ],
+        "ideas": [
+          "mltd_the_drowned_rangers (permanent, picture generic_ranger_helm = OWB GFX_idea_generic_ranger_helm; army_attack_factor 0.05, army_defence_factor 0.05, army_org_factor 0.05)"
+        ],
+        "scripted_triggers": [],
+        "scripted_effects": [],
+        "now_unused": [
+          "mltd_ncr_network_15_tt (loc; only referenced by mltd_conflicts_focus.txt)",
+          "mltd_ncr_network_20_tt (loc; only referenced by mltd_conflicts_focus.txt)",
+          "mltd_ncr_network_25_tt (loc; only referenced by mltd_conflicts_focus.txt)"
+        ],
+        "unverified": [
+          "effect_tooltip = { add_research_slot = 1 } and effect_tooltip = { add_ideas = mltd_the_drowned_rangers army_experience = 50 } in a focus completion_reward to preview mltd.40's options (vanilla-documented, used in OWB April Fools Focus (GIM).txt:541, not yet used in this mod)",
+          "relative_position_id / prerequisite onto mltd_the_tide_turns_south, a shared focus defined in another file (Act III's mltd_act3_focus.txt)",
+          "[253.GetName] inside an event option name (mltd.40.a) - the focus name mltd_ncr_a_mole_in_shady_sands already uses it",
+          "NCR = { is_subject_of = ROOT } inside an OR whose first branch covers a non-existent NCR (the close's gate)"
+        ],
+        "notes": "I built Act IV and checked it: braces balance in all three script files (143/143, 8/8, 4/4), every loc key referenced is defined in the main yml or loc.yml, and every cell and prerequisite matches the spec table (computed from mltd_the_tide_turns_south at (15,26)). I have not launched the game.\n\nNothing is merged into Act IV and no id is deleted. The five NCR focuses keep their ids, costs, icons and numbers; the only new focus is the close. None of the kept descriptions needed rewriting, so no existing loc key is replaced.\n\nThree places where I went beyond the spec:\n1. **The war's AI hold now lifts.** The Turbines keeps its round-22 hold (0 for an AI while mltd_ai_stage_ncr or mltd_ai_army_ready fails), but the hold no longer applies once the NCR is at war with MLT or beaten. The focus is now a spine node the close requires. Without this, an AI whose conquest block declared first, or whose NCR fell some other way, would be held off the focus until 2284, and with it Acts V, VI and the finale. The Act V and VI war capstones have the same hazard.\n2. **A subject NCR counts as beaten.** The close's gate also accepts `NCR = { is_subject_of = ROOT }`. A human who puppets the NCR at the peace leaves it existing and not capitulated, so the close would otherwise never open (rule 5). The tooltip reads: \"has capitulated, is no more, or is our subject\".\n3. **Caravan Roads has a fallback.** It gains `else = +25 PP` when the NCR no longer exists; its +100 caps is still paid either way.\n\nFor the integrator (details in notes.md; I edited none of these files):\n- **Delete mltd_conflicts_focus.txt before any launch.** Until then the five NCR ids are defined twice.\n- **ai_strategy_plans/mltd_MLT.txt:** move the four non-war NCR focuses out of the Kingdom-and-Books plan (they now sit behind mltd_the_tide_turns_south) into the late plan, and add mltd_when_shady_sands_falls after the Turbines. The Turbines' `focus_factors = 0` in the second plan becomes redundant.\n- **CONQUEST_PLAN.txt:** re-cut the NCR line as the Act IV chapter after mltd_the_tide_turns_south, and add the close with its mltd.40 pick. The AI takes the research slot 3 times in 4.\n- **build_telemetry.py:140-142** asserts the pulled shared focuses come only from Shared Oregon Coastals and mltd_conflicts_focus.txt. It has to learn the act files and be re-run, or check_plan_sync.py will fail.\n- **Stall risk, by design:** the close has no date fallback. If the NCR is never beaten, the spine stops at row 30.\n\nFiles are in C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act4\\:\n- events.txt\n- loc.yml\n- ideas.txt\n- notes.md\n\nThe focus file is C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act4_focus.txt."
+      },
+      "review": {
+        "findings": [
+          {
+            "severity": "major",
+            "file": "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act4_focus.txt",
+            "where": "mltd_when_shady_sands_falls, available (lines 411-419)",
+            "problem": "The close only opens while the NCR has capitulated, is gone, or is MLT's subject. has_capitulated clears when the peace ends, so an NCR that survives the peace as an independent rump fails all three branches for good, although MLT won the war. That happens when a human takes only some states or releases nations, and when the Covenant allies (BRK/BDT) or the NCR's faction (MOT, NAT) share the peace points. The human window is often zero days: if the NCR is the last enemy standing, its capitulation starts the peace conference at once. The whole spine then stops at row 30 (Acts V, VI and the finale) until MLT fights and wins a second NCR war. That breaks spec rule 5 (never strand) for a won war, not only for a lost one.",
+            "fix": "Record the win so the gate outlives the peace. Stage an on_action for the integrator: vanilla on_capitulation (ROOT = the capitulating country, FROM = the winner, 00_on_actions.txt:931-932) sets it with `if = { limit = { tag = NCR has_war_with = MLT } MLT = { set_country_flag = mltd_ncr_capitulated } }`. Add `has_country_flag = mltd_ncr_capitulated` to the close's OR. If no new hook is wanted, add `AND = { NOT = { has_war_with = NCR } NOT = { NCR = { owns_state = 253 } } }` to the OR instead (the war is over and Shady Sands is no longer the NCR's). Either way, extend mltd_ncr_beaten_tt to match (e.g. \"...has capitulated to us, is no more, or is our subject\")."
+          },
+          {
+            "severity": "minor",
+            "file": "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act4_focus.txt",
+            "where": "mltd_when_shady_sands_falls completion_reward (lines 429-439) vs staging act4/events.txt mltd.40 options",
+            "problem": "The trophy's numbers now live in two script places: the focus's effect_tooltip preview (add_research_slot = 1; add_ideas = mltd_the_drowned_rangers + army_experience = 50) and mltd.40's options. Neither file nor notes.md says to change them together. CLAUDE.md requires every such duplicate to be written down (its 'Numbers in several places' notes), and Act V's builder did this for the same pattern.",
+            "fix": "Add a comment above the preview, e.g. `# the same effects as mltd.40's options a and b (events/mltd_events.txt) - change both`, add the matching comment above mltd.40 in events.txt, and add a line to act4/notes.md so that the integrator records the duplicate in CLAUDE.md."
+          }
+        ],
+        "checked": "mltd_act4_focus.txt (LF, no BOM, ASCII, tab indents) and staging act4/{events.txt, loc.yml, ideas.txt, notes.md}, against SPEC.md, CLAUDE.md, the old NCR sub-tree in mltd_conflicts_focus.txt, OWB and vanilla. Brace balance was scripted with comments and strings stripped: 0/0 in all three script files. I computed every cell from mltd_the_tide_turns_south, which Act III places at absolute (15,26): chapter (15,27), fan (13,28) (15,28) (17,28), war (15,29), close (15,30). All match the spec, and Act V anchors on the close. The prerequisites are right (the war takes one OR block over the three beads). There are exactly six focuses, the five kept ids are unchanged, and every focus has cancel_if_invalid = no and continue_if_invalid = yes. No has_operation_token, network_national_coverage or intel_level_over is left in any available. Every bead has a fallback reward when the NCR is gone. ai_will_do is 10 on the chapter and close and 3 on the beads and the war, the round-23 Walk modifiers are gone, and the war keeps its mltd_ai_stage_ncr and mltd_ai_army_ready hold. The builder's two exemptions, at war with the NCR or the NCR beaten, are sound. The override lists only the seven Act II and Act III roots, so Act IV is pulled in through mltd_the_tide_turns_south. Checked against OWB and vanilla: all six focus icons and their _shine sprites; GFX_event_shady_sands, GFX_event_NCR_congress and GFX_idea_generic_ranger_helm; state 253 is Shady Sands, the NCR's capital; mltd_ai_ncr_beaten, mltd_ai_stage_ncr, mltd_ai_army_ready and mltd_intel_foothold; the army_attack_factor, army_defence_factor and army_org_factor keys; effect_tooltip (vanilla docs, OWB precedent); and add_research_slot. The thefts keep the pair without a producer on the removal, with guards at or above each amount. Loc: every referenced key is defined (in the main yml or staging) and none collides. The staging lines use the '  key:0 \\\"...\\\"' form with no unescaped inner quotes. Event .d text uses only §o and §c, options carry no codes, and names go through functions ([NCR.GetNameDef], [253.GetName], [MLT_MLULU.GetName]). There is no 'Mirelurk Tribe' and no $key$ nesting. Events: mltd.40 and mltd.41 match the allocation. mltd.40 is is_triggered_only + fire_only_once with the log line and ai_chance 3/1, and mltd.41 is delivered through every_other_country. The idea follows house style and the spec's 5 % range. Nothing is AI-only. The builder's integrator notes (AI plans, CONQUEST_PLAN, build_telemetry.py, deleting mltd_conflicts_focus.txt, the three unused mltd_ncr_network_*_tt keys) are accurate and not builder defects. The only files I wrote were the check script lc4.py and a temporary copy of it, both in the scratchpad."
+      },
+      "fix": {
+        "applied": [
+          "MAJOR (confirmed): the close could strand after a won war. Vanilla documents that capitulation ends: days_since_capitulated counts 'even if it is no longer capitulated' (triggers_documentation.md:2505). So once the peace is signed, an NCR that survives as a rump fails all three old branches. When the NCR is the last enemy, the window to select the close is about zero days, and an AI busy on another focus misses it anyway. Fix: the close's available OR (mltd_act4_focus.txt) gains `has_country_flag = mltd_ncr_capitulated`. A new staging file, act4/on_actions.txt, holds an on_capitulation block that sets that flag on MLT when `tag = NCR` and OR { has_war_with = MLT, FROM = { tag = MLT } }. ROOT is the capitulated country and FROM the winner (vanilla 00_on_actions.txt:931), and vanilla tests has_war_with on the capitulated country inside this on_action (:937-938). The integrator puts the block inside the on_actions = { } of mod_folder/common/on_actions/mltd_on_actions.txt, which has no on_capitulation yet. The mltd_ncr_beaten_tt value in act4/loc.yml now reads 'has capitulated to us, is no more, or is our subject'. The header comment and the close's comment in the focus file explain the flag.",
+          "MINOR (confirmed): the trophy's numbers live in two places, mltd.40's options and the focus's effect_tooltip previews. Added a 'change both together' comment above the focus preview (naming mltd.40's options a and b, events/mltd_events.txt) and above mltd.40 in act4/events.txt. Added a 'Numbers in two places' line to act4/notes.md so that the integrator records the pair in CLAUDE.md.",
+          "act4/notes.md updated in five places. The close's gate is rewritten with both new branches. A section explains the new staging file on_actions.txt: where to merge it, the CLAUDE.md row to update, and that Act V's close (CES) and Act VI's (TBH/LNS) test has_capitulated too, so they have the same hazard and the same on_capitulation can carry a branch for each. The stall-risk note now says that a won war no longer stalls the spine once on_capitulation is merged. A 'Numbers in two places' line was added. A new unverified construct was added: has_war_with = MLT holding when on_capitulation fires, with FROM = MLT as a fallback."
+        ],
+        "rejected": [],
+        "final_checks": "Braces balance after the edits, with comments and strings stripped and depth never negative: mltd_act4_focus.txt 143/143, act4/events.txt 8/8, act4/ideas.txt 4/4, the new act4/on_actions.txt 7/7. Loc keys: 34 are referenced by the focus file (tooltips, custom_effect_tooltips, focus ids and their _desc), the staged events (title/desc/option names) and the idea (mltd_the_drowned_rangers(_desc)). Every one is defined in mod_folder/localisation/english/MLT/mltd_l_english.yml or act4/loc.yml. The check's only 'misses', 'mltd' and 'mltd_desc', are my regex matching the event id `mltd.40` in `country_event = { id = mltd.40 }`, not loc keys. The staged loc has no nested $key$. The flag name mltd_ncr_capitulated was grepped and collides with nothing in mod_folder or the staging tree. All touched files stay LF, no BOM (no CR bytes). No other file in mod_folder was edited. Changed files: C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_folder\\\\common\\\\national_focus\\\\mltd_act4_focus.txt, and in ...\\\\scratchpad\\\\story\\\\act4\\\\: events.txt, loc.yml, notes.md, plus the new on_actions.txt. The integrator must merge on_actions.txt; without it the close falls back to the old behaviour, which strands on a rump NCR. Not launched in game."
+      }
+    },
+    {
+      "act": "act5",
+      "built": {
+        "act": "V - The Sea Against Mars",
+        "files_written": [
+          "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act5_focus.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act5\\events.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act5\\ideas.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act5\\loc.yml",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act5\\notes.md"
+        ],
+        "focuses": [
+          {
+            "id": "mltd_mars_in_the_water",
+            "cell": "(0,1) of mltd_when_shady_sands_falls = (15,31)",
+            "prerequisites": "mltd_when_shady_sands_falls",
+            "status": "new (chapter; 35 days; +30 army XP; event mltd.50; icon GFX_goal_CES_The_Rubicon; ai factor 10)"
+          },
+          {
+            "id": "mltd_ces_what_the_river_carries",
+            "cell": "(-3,1) of chapter = (12,32)",
+            "prerequisites": "mltd_mars_in_the_water",
+            "status": "kept (absorbs mltd_ces_the_drowned_frumentarius; no Kingdom or CES gate; fallback PP when CES is gone)"
+          },
+          {
+            "id": "mltd_ces_the_sea_against_mars",
+            "cell": "(-3,2) of chapter = (12,33)",
+            "prerequisites": "mltd_ces_what_the_river_carries",
+            "status": "kept (war on CES; absorbs mltd_ces_salt_in_the_armouries; AI modifiers kept)"
+          },
+          {
+            "id": "mltd_bos_the_drowned_paladin",
+            "cell": "(-1,1) of chapter = (14,32)",
+            "prerequisites": "mltd_mars_in_the_water",
+            "status": "kept (absorbs mltd_bos_the_paladin_returns and mltd_bos_the_codex_unsealed; fallback when BOS is gone)"
+          },
+          {
+            "id": "mltd_bos_blood_in_the_water",
+            "cell": "(-1,2) of chapter = (14,33)",
+            "prerequisites": "mltd_bos_the_drowned_paladin",
+            "status": "kept (war on BOS; absorbs mltd_bos_the_tide_takes_the_armoury; AI modifiers kept)"
+          },
+          {
+            "id": "mltd_wht_the_lake_god_answers",
+            "cell": "(1,1) of chapter = (16,32)",
+            "prerequisites": "mltd_mars_in_the_water",
+            "status": "kept (absorbs mltd_wht_the_drowned_shamans and mltd_wht_guns_for_both_sides with the per-buyer fix; fallback when both are gone)"
+          },
+          {
+            "id": "mltd_wht_rites_on_the_spiral_jetty",
+            "cell": "(1,2) of chapter = (16,33)",
+            "prerequisites": "mltd_wht_the_lake_god_answers",
+            "status": "kept (war on WHT and EHT; road-war-or-2280 gate kept; absorbs mltd_wht_sand_in_the_engines; AI modifiers kept)"
+          },
+          {
+            "id": "mltd_hea_whispers_in_the_steam",
+            "cell": "(3,1) of chapter = (18,32)",
+            "prerequisites": "mltd_mars_in_the_water",
+            "status": "kept (absorbs mltd_hea_a_second_schism; fallback when HEA is gone)"
+          },
+          {
+            "id": "mltd_hea_the_crusade_turns_south",
+            "cell": "(3,2) of chapter = (18,33)",
+            "prerequisites": "mltd_hea_whispers_in_the_steam",
+            "status": "kept (war on HEA; holy-wars-or-2280 gate kept; absorbs mltd_hea_steam_for_the_deep; AI modifiers kept)"
+          },
+          {
+            "id": "mltd_when_the_legion_breaks",
+            "cell": "(0,3) of chapter = (15,34)",
+            "prerequisites": "OR(mltd_ces_the_sea_against_mars, mltd_bos_blood_in_the_water, mltd_wht_rites_on_the_spiral_jetty, mltd_hea_the_crusade_turns_south)",
+            "status": "new (close; 30 days; available: Legion capitulated, gone or our subject (mltd_legion_beaten_tt); permanent idea mltd_mars_beneath_the_waves; event mltd.51; news mltd.52; icon GFX_goal_CES_Free_Slaves; ai factor 10)"
+          }
+        ],
+        "deleted_ids": [
+          {
+            "id": "mltd_ces_the_drowned_frumentarius",
+            "merged_into": "mltd_ces_what_the_river_carries",
+            "what_moved": "operative Silanus the Drowned when an agency exists (otherwise +50 PP), CES token_army, civ intel (folded into one add_intel: civ 15 / army 10), CES -6% stability; no-DLC fallback summed to +75 PP"
+          },
+          {
+            "id": "mltd_ces_salt_in_the_armouries",
+            "merged_into": "mltd_ces_the_sea_against_mars",
+            "what_moved": "steals 800 infantry equipment (CES > 1,599, else +100 caps) and 200 support equipment (CES > 399), after the declaration"
+          },
+          {
+            "id": "mltd_ces_the_chained_are_given_to_the_tide",
+            "merged_into": "event mltd.51 option a (mltd_when_the_legion_breaks)",
+            "what_moved": "freeing the chained into the tide: the spec's +5,000 capital population (add_state_population) and +5% stability replace the old 1,000/+500/+500; the pens-full and Nipton extras are dropped"
+          },
+          {
+            "id": "mltd_bos_the_paladin_returns",
+            "merged_into": "mltd_bos_the_drowned_paladin",
+            "what_moved": "BOS token_army, civ intel (folded into one add_intel: civ 15 / army 10), BOS -35 PP; no-DLC +35 PP folded into +60 PP"
+          },
+          {
+            "id": "mltd_bos_the_codex_unsealed",
+            "merged_into": "mltd_bos_the_drowned_paladin",
+            "what_moved": "LaR stolen engineering/industry tech bonus from BOS, otherwise electronics tech bonus 75% (bonus now named mltd_bos_the_drowned_paladin), BOS -4% stability"
+          },
+          {
+            "id": "mltd_bos_the_tide_takes_the_armoury",
+            "merged_into": "mltd_bos_blood_in_the_water",
+            "what_moved": "the tiered energy_equipment_2 / _1 / infantry theft of 600 (else 100 caps + mltd_bos_armoury_bare_tt) and 80 power armour (BOS > 300)"
+          },
+          {
+            "id": "mltd_wht_the_drowned_shamans",
+            "merged_into": "mltd_wht_the_lake_god_answers",
+            "what_moved": "+40 PP, WHT -6% stability, wht_god_lake/wht_god_old converts (+4% stability, +2% war support), WHT token_army (its civ 10 duplicate dropped), infantry-weapons 50% fallback (now named mltd_wht_the_lake_god_answers)"
+          },
+          {
+            "id": "mltd_wht_guns_for_both_sides",
+            "merged_into": "mltd_wht_the_lake_god_answers",
+            "what_moved": "per-buyer sale (round 24's fix): 200 rifles and 100 caps per living buyer, 80 caps if neither; +30 army XP if WHT is at war with EHT; the both-exist gate is gone"
+          },
+          {
+            "id": "mltd_wht_sand_in_the_engines",
+            "merged_into": "mltd_wht_rites_on_the_spiral_jetty",
+            "what_moved": "EHT -3% war support, 600 infantry equipment stolen (EHT > 599, else +25 PP); its duplicate EHT army intel and its +20 fallback were dropped"
+          },
+          {
+            "id": "mltd_hea_a_second_schism",
+            "merged_into": "mltd_hea_whispers_in_the_steam",
+            "what_moved": "+40 PP, HEA -35 PP and -6% stability, -2% war support under hea_war_in_heaven, HEA token_army (its civ 10 duplicate dropped), electronics 50% fallback (now named mltd_hea_whispers_in_the_steam)"
+          },
+          {
+            "id": "mltd_hea_steam_for_the_deep",
+            "merged_into": "mltd_hea_the_crusade_turns_south",
+            "what_moved": "600 infantry equipment stolen (HEA > 599, else +25 PP); LaR stolen industry tech bonus, otherwise industry 50% (now named mltd_hea_the_crusade_turns_south)"
+          }
+        ],
+        "loc_keys_new": [
+          "mltd_mars_in_the_water",
+          "mltd_mars_in_the_water_desc",
+          "mltd_when_the_legion_breaks",
+          "mltd_when_the_legion_breaks_desc",
+          "mltd_legion_beaten_tt",
+          "mltd_legion_breaks_choice_tt",
+          "mltd_legion_breaks_freed_tt",
+          "mltd_legion_breaks_pens_tt",
+          "mltd.50.t",
+          "mltd.50.d",
+          "mltd.50.a",
+          "mltd.51.t",
+          "mltd.51.d",
+          "mltd.51.a",
+          "mltd.51.b",
+          "mltd.52.t",
+          "mltd.52.d",
+          "mltd.52.a",
+          "mltd_mars_beneath_the_waves",
+          "mltd_mars_beneath_the_waves_desc"
+        ],
+        "loc_keys_replaced": [
+          "mltd_ces_what_the_river_carries_desc",
+          "mltd_ces_the_sea_against_mars_desc",
+          "mltd_bos_the_drowned_paladin_desc",
+          "mltd_bos_blood_in_the_water_desc",
+          "mltd_wht_the_lake_god_answers_desc",
+          "mltd_wht_rites_on_the_spiral_jetty_desc",
+          "mltd_hea_whispers_in_the_steam_desc",
+          "mltd_hea_the_crusade_turns_south_desc"
+        ],
+        "events": [
+          "mltd.50 (country_event, MLT; The River Runs Salt; one option; picture GFX_event_CES_camp_2; fired by mltd_mars_in_the_water)",
+          "mltd.51 (country_event, MLT; The Pens of Flagstaff; option a +5,000 capital population and +5% stability, ai_chance base 2; option b +20,000 manpower, ai_chance base 1; picture GFX_event_legion_slaves; fired by mltd_when_the_legion_breaks)",
+          "mltd.52 (news_event, world; The Bull Goes Down to the Sea; picture GFX_event_CES_burning; delivered by every_other_country from mltd_when_the_legion_breaks)"
+        ],
+        "ideas": [
+          "mltd_mars_beneath_the_waves (permanent; army_attack_factor +0.05, war_support_factor +0.05, conscription_factor +0.05; picture generic_legion; granted by mltd_when_the_legion_breaks)"
+        ],
+        "scripted_triggers": [],
+        "scripted_effects": [],
+        "now_unused": [
+          "mltd_ces_the_drowned_frumentarius",
+          "mltd_ces_the_drowned_frumentarius_desc",
+          "mltd_ces_the_chained_are_given_to_the_tide",
+          "mltd_ces_the_chained_are_given_to_the_tide_desc",
+          "mltd_ces_salt_in_the_armouries",
+          "mltd_ces_salt_in_the_armouries_desc",
+          "mltd_bos_the_paladin_returns",
+          "mltd_bos_the_paladin_returns_desc",
+          "mltd_bos_the_tide_takes_the_armoury",
+          "mltd_bos_the_tide_takes_the_armoury_desc",
+          "mltd_bos_the_codex_unsealed",
+          "mltd_bos_the_codex_unsealed_desc",
+          "mltd_wht_the_drowned_shamans",
+          "mltd_wht_the_drowned_shamans_desc",
+          "mltd_wht_guns_for_both_sides",
+          "mltd_wht_guns_for_both_sides_desc",
+          "mltd_wht_sand_in_the_engines",
+          "mltd_wht_sand_in_the_engines_desc",
+          "mltd_hea_a_second_schism",
+          "mltd_hea_a_second_schism_desc",
+          "mltd_hea_steam_for_the_deep",
+          "mltd_hea_steam_for_the_deep_desc",
+          "mltd_ces_chained_faithful_tt",
+          "mltd_ces_chained_pens_full_tt",
+          "mltd_ces_chained_nipton_tt",
+          "mltd_ces_network_10_tt",
+          "mltd_ces_network_15_tt",
+          "mltd_bos_paladin_gate_tt",
+          "mltd_bos_codex_gate_tt",
+          "mltd_bos_armoury_gate_tt",
+          "mltd_hea_network_20_tt",
+          "mltd_hea_network_25_tt",
+          "mltd_wht_network_20_tt",
+          "mltd_eht_network_15_tt"
+        ],
+        "unverified": [
+          "Whether effect_tooltip = { capital_scope = { set_temp_variable = { pop_add = 5000 } add_state_population = yes } } in the close's preview prints +5,000 or +0. OWB's add_state_population_tt reads [?pop_add|0+=], and temp variables are known to be set while tooltips are built but have not been seen inside effect_tooltip. If it prints +0, use a literal custom tooltip instead.",
+          "Scale of mltd.51 option b's add_manpower = 20000 (the spec's number) against OWB's small populations: MLT's pool was about 9,000 in run 5.",
+          "Whether the chosen OWB sprites read well in game: GFX_goal_CES_The_Rubicon and GFX_goal_CES_Free_Slaves (both have _shine), GFX_event_CES_camp_2, GFX_event_legion_slaves, GFX_event_CES_burning and GFX_idea_generic_legion. All are confirmed to exist.",
+          "A capstone taken while its target is MLT's subject still steals from and weakens that subject (unchanged from the old code; the declaration is guarded, the theft is not)."
+        ],
+        "notes": "I built Act V to the spec: 10 shared focuses in mltd_act5_focus.txt. The chapter hangs off Act IV's mltd_when_shady_sands_falls, which exists in mltd_act4_focus.txt. The fan has four 2-bead branches. The close is where Act VI's chapter already attaches in mltd_act6_focus.txt. All braces balance. The files are LF with no BOM. Every loc key, sprite, scripted effect and scripted trigger I reference exists. No loc keys collide with the other acts' staging.\n\nChoices you may want to review:\n(1) The close treats a Legion that is MLT's subject as beaten, the same way Act IV treats the NCR. Without that, a human who puppets the Legion at the peace would be stuck on this focus for good.\n(2) The permanent idea comes from the focus, so both event options get it. The focus previews both options with native effect_tooltip lines, as Act IV does, so the 5,000 / 5% / 20,000 appear in both the event and the focus tooltip. Change them together.\n(3) Where two merged focuses gave intel to the same country, I kept one add_intel at the larger values. Operation tokens all stay.\n(4) The no-DLC fallbacks are added together: River +75 PP, Paladin +60 PP plus the electronics 75% bonus.\n(5) Four tech bonuses were named after deleted focuses; each now carries the name of the focus that grants it.\n(6) The kept focuses keep their original costs. Each branch is now 2 focuses of 72-80 days instead of 142-192 days across 4-5 focuses. If the merged heads feel too rich for their length, raise their cost.\n(7) The cult-shelter flags are now set only on targets that still exist.\n\nFor the integrator:\n- The AI late-game plan (mltd_MLT_late_game) still lists the 11 deleted ids. notes.md gives the replacement list.\n- The 2283 fallback in mltd_ai_stage_ces/bos/wht/eht/hea has no counterpart in the tree any more, because Act V needs the NCR beaten first. The plan needs a deviation line or a change.\n- build_telemetry.py must be rerun, and CONQUEST_PLAN.txt must name the two new focuses for check_plan_sync.py to pass.\n- CLAUDE.md needs updating: the Conflict sub-trees rows, the Events list and the reserved event ids.\n\nThe now_unused list only includes keys that nothing in mod_folder references apart from the doomed conflicts file and the loc file (checked with grep)."
+      },
+      "review": {
+        "findings": [
+          {
+            "severity": "minor",
+            "file": "mod_folder/common/national_focus/mltd_act5_focus.txt",
+            "where": "mltd_wht_the_lake_god_answers, completion_reward, the two Guns for Both Sides sale blocks (lines ~614-653)",
+            "problem": "Guns for Both Sides used to be an optional side focus. It is now part of an ungated head that the AI always takes (factor 3), and that head opens at the same moment as the AI's WHT/EHT conquest stages (mltd_ai_stage_wht/eht: Final Ritual plus NCR beaten). Each sale block checks only country_exists and MLT's stock, so if MLT is already at war with the White Legs or the Eighties when the head completes, it hands that enemy 200 of its own rifles and books 100 caps as a 'sale'.",
+            "fix": "In each sale's limit add `NOT = { has_war_with = WHT }` (and `NOT = { has_war_with = EHT }` in the EHT block), so a buyer MLT is fighting is skipped. When neither buyer qualifies, mltd_wht_sold stays 0 and the existing 80-caps fallback pays."
+          },
+          {
+            "severity": "minor",
+            "file": "mod_folder/common/national_focus/mltd_act5_focus.txt",
+            "where": "ai_will_do of mltd_ces_the_sea_against_mars, mltd_bos_blood_in_the_water, mltd_wht_rites_on_the_spiral_jetty, mltd_hea_the_crusade_turns_south (lines ~148-155, 355-362, 707-714, 896-903)",
+            "problem": "The four capstones keep `NOT = { mltd_ai_ncr_beaten = yes }` (NCR gone or capitulated). The act's chapter already requires Act IV's close, so the term no longer orders anything. It can only hold the AI back. has_capitulated resets at peace, and Act IV's close can complete while the NCR is merely capitulated. If the NCR then survives, for example as a co-belligerent's (the Legion's) puppet after the peace or re-released later, all four capstones read 0 for an AI. The close needs one of them, so Act V, Act VI and the finale wait until the AI fights and beats the NCR a second time. Spec rule 7 lists mltd_ai_ncr_beaten among the modifiers to keep, but rule 7 also drops modifiers that only wait on an earlier act, and this term is now exactly that.",
+            "fix": "Reduce each modifier to `modifier = { factor = 0 is_ai = yes NOT = { mltd_ai_army_ready = yes } }`, keeping the readiness gate and dropping the NCR term, which the tree now enforces through mltd_when_shady_sands_falls. Alternatively, have the orchestrator confirm that rule 7 deliberately keeps it for Act V."
+          },
+          {
+            "severity": "minor",
+            "file": "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act5\\loc.yml",
+            "where": "mltd_mars_in_the_water_desc, mltd.50.d, mltd_mars_beneath_the_waves_desc",
+            "problem": "Three lore and loc errors in player-facing text. (1) Horses: 'the scouts ... lead their horses down to drink, and the horses will not' (desc) and 'water their horses, and the horses would not drink' (mltd.50.d). Horses are extinct in Fallout, and OWB's own text jokes 'And find out what horses were!'. (2) 'For a century [CES.GetNameDef] has taught the wasteland that its god is war': OWB's CES loc dates the Legion from 2247, only about 30 years before this act. (3) mltd_mars_beneath_the_waves_desc says 'march in the host of §YM'lyeh§!', which uses M'lyeh as the nation. CLAUDE.md keeps the literal M'lyeh only for the drowned city or the faith; a country is named through [MLT.GetNameDef].",
+            "fix": "Replace the horses with brahmin: 'lead their pack-brahmin down to drink, and the brahmin will not' and 'water their brahmin, and the beasts would not drink'. Replace 'For a century' with 'For a generation'. Write 'march in the host of §Y[MLT.GetNameDef]§!'."
+          },
+          {
+            "severity": "minor",
+            "file": "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act5\\events.txt",
+            "where": "mltd.51 option b (add_manpower = 20000); the same number in mltd_act5_focus.txt's effect_tooltip preview in mltd_when_the_legion_breaks",
+            "problem": "Option b is out of scale with option a and with OWB. 20,000 manpower sits in OWB's top ~0.5 % of add_manpower grants (median 500, 90th percentile 2,000 across 1,025 focus and event grants) and is about twice MLT's whole pool in run 5. Option a's 5,000 people in the capital turn into only a few hundred recruitable manpower plus +5 % stability, so 'free the chained' is dominated by roughly two orders of magnitude, yet the AI is weighted to pick it two times in three. The spec gave the number and the builder flagged it as unverified.",
+            "fix": "Make the two choices the same people: option b `add_manpower = 5000` (the 5,000 who would have been freed go to the pools instead). Change the focus's `effect_tooltip = { add_manpower = ... }` to match. If a bigger war trophy is wanted, cap it at 10,000 and raise option a's population to match."
+          }
+        ],
+        "checked": "Read SPEC.md in full, all of mltd_act5_focus.txt, and the whole act5 staging folder (events.txt, ideas.txt, loc.yml, notes.md). Compared every kept focus against its original and against all 11 deleted focuses in mltd_conflicts_focus.txt, block by block.\n\nSyntax:\n- A Python parser confirmed that braces balance in the focus file, events and ideas, with 10 top-level shared_focus blocks.\n- All three files are LF, no BOM, tab-indented, with no stray tokens.\n- Every staging loc line matches `  key:0 \"...\"`, with no unescaped inner quotes.\n\nStructure:\n- Resolved absolute cells across the override and all act files. The chapter sits at (15,31), the heads at (12..18,32), the capstones at (12..18,33) and the close at (15,34). No overlaps.\n- Every focus uses relative_position_id to a shared focus. The chapter chains to the listed Act III roots through Act IV, and Act VI's chapter hangs off mltd_when_the_legion_breaks.\n- The close takes one OR block over the four capstones. Kept ids, costs and icons are unchanged, and there are no extra focuses.\n- The override already lists only the seven Act II and Act III roots.\n\nNever strand:\n- No intel gates remain in any available block, and no round-23 is_ai modifiers are left.\n- Every focus has cancel_if_invalid = no and continue_if_invalid = yes.\n- Every head and capstone pays a fallback when its target is gone. The road-war and holy-war gates keep their target-gone and 2280 branches.\n\nReferences:\n- Every sprite exists in OWB with its _shine: GFX_goal_CES_The_Rubicon, GFX_goal_CES_Free_Slaves and the eight kept icons.\n- The event pictures GFX_event_CES_camp_2, legion_slaves and CES_burning exist, as do GFX_idea_generic_legion and GFX_Portrait_CES_Operator_3.\n- The OWB focuses, ideas, equipment and bos_change_tension exist. States 520 (Flagstaff), 478 (Wendover) and 358 (Crowlands) exist, as do the tags HGH and NCN.\n- add_state_population is a state-scope effect reading the temp variable pop_add.\n- The triggers mltd_ai_legion_beaten, mltd_ai_ncr_beaten and mltd_ai_army_ready exist, as does the effect mltd_intel_foothold.\n- Every tooltip key the focus file uses is defined in the main loc file or the staging loc. The one nested $mltd_deep_ones$ resolves to plain text.\n- Event .d text uses only §o and §c, and option text carries no colour codes.\n- There are no key or event-id collisions with the other acts' staging.\n\nMerges:\n- Checked every merged effect, the theft pairs (no producer on the removal, guards at or above the amount taken) and the has_dlc wrappers with their no-DLC fallbacks.\n\nEvents and ideas:\n- The events have the right ids, is_triggered_only, fire_only_once, the log line, ai_chance 2/1, and news delivered through every_other_country.\n- The idea has three modifiers at +5 % each.\n\nUnused keys:\n- The now-unused tooltip keys are referenced nowhere else. The 11 deleted focus ids are still named in ai_strategy_plans/mltd_MLT.txt and mltd_telemetry_effects.txt, which the builder's notes hand to the integrator.\n\nNot flagged: the builder's documented choices (the subject-counts-as-beaten close, the idea granted by the focus, the summed fallbacks, the renamed tech bonuses) are sound."
+      },
+      "fix": {
+        "applied": [
+          "Finding 1 (minor, Guns for Both Sides can arm an enemy) - CONFIRMED and fixed. In OWB the old mltd_wht_guns_for_both_sides was held for the AI until the NCR's stage (round 23), so it ran before the Utah wars. Now it sits in mltd_wht_the_lake_god_answers, an ungated head that opens after Act IV's close. That is the same moment the AI's mltd_ai_stage_wht / _eht open (mltd_ai_triggers.txt:684-705), and a human can be at war with either side at any time. Each sale's limit in mltd_act5_focus.txt now also has `NOT = { has_war_with = WHT }` or `NOT = { has_war_with = EHT }`. When neither buyer qualifies, mltd_wht_sold stays 0 and the existing 80-caps fallback pays. The comment above the sale is updated.",
+          "Finding 2 (minor, the NCR term in the four capstones' AI hold) - CONFIRMED and fixed. The chapter needs mltd_when_shady_sands_falls, so `NOT = { mltd_ai_ncr_beaten = yes }` no longer orders anything; it can only block. The block is concrete: Act IV's close now also opens on the flag mltd_ncr_capitulated, which records an NCR that survives the peace as a rump, while mltd_ai_ncr_beaten only reads 'gone or has_capitulated' (mltd_ai_triggers.txt:132-137). The four capstones (Sea Against Mars, Blood in the Water, Rites on the Spiral Jetty, Crusade Turns South) each now read `modifier = { factor = 0 is_ai = yes NOT = { mltd_ai_army_ready = yes } }`. The file header and the per-block comments are updated. notes.md records this as a deliberate departure from rule 7's list, using that rule's own second sentence. It also flags that Act VI (mltd_act6_focus.txt ~167 and ~625) holds two capstones on `NOT = { mltd_ai_legion_beaten = yes }` in the same way.",
+          "Finding 3 (minor, lore and loc errors) - CONFIRMED and fixed in act5/loc.yml. (1) Horses: OWB treats them as extinct (ces_the_frontier_desc: 'And find out what horses were!'; spec_ops_cavalry_desc; nf_event_fp.205.d). The chapter description now reads 'lead their pack-brahmin down to drink, and the brahmin will not'. mltd.50.d reads 'went down to the river at dawn to water their brahmin, and the beasts would not drink'; 'rode' also implied horses. (2) OWB's nf_legion.3.d dates the Legion to 2247, so 'For a century' became 'For a generation'. (3) mltd_mars_beneath_the_waves_desc now reads 'march in the host of §Y[MLT.GetNameDef]§!', which gives 'M'lyeh' after the Kingdom through OWB's MLT_cosmetic_tag_*_DEF. 'The faithful of M'lyeh' elsewhere means the faith and is kept.",
+          "Finding 4 (minor, 20,000 manpower is out of scale) - CONFIRMED and fixed. I measured 982 positive add_manpower grants across OWB's focuses and events: median 500, 90th percentile 2,000, 99th percentile 15,000. In every saved AI run MLT's pool (SNAP mp_k) stays at 1-10k, so 20,000 is 2-20 times the whole pool. mltd.51 option b in act5/events.txt is now `add_manpower = 5000`, the same people as option a. The close's `effect_tooltip` preview matches it, and the comments in the event, the focus header and the close are updated. So the texts no longer promise more than the options give, 'tens of thousands' of the chained became 'thousands' in mltd_when_the_legion_breaks_desc and mltd.51.d. mltd.51.d's 'the tribe's host will be greater than the Legion's ever was' became 'what crawls out of them will march in the tribe's host'.",
+          "Beyond the review, the same stranding hazard as finding 2, in the close itself: mltd_when_the_legion_breaks gated only on mltd_ai_legion_beaten (gone or has_capitulated) or a subject Legion. has_capitulated clears when the country leaves its last war, so a Legion that survives the peace as a non-subject rump would strand the spine for a human and for the AI. Act IV's notes flagged exactly this for Act V ('tag = CES -> mltd_ces_capitulated'). I mirrored Act IV's fix. The close's OR now also accepts `has_country_flag = mltd_ces_capitulated`. A new staging file, act5/on_actions.txt, holds an on_capitulation branch (tag = CES, has_war_with = MLT or FROM = MLT) that sets the flag on MLT; it merges beside Act IV's NCR branch. The close's comment and notes.md explain it. mltd_legion_beaten_tt ('has capitulated, is no more, or is our subject') still reads correctly, so no loc key changed."
+        ],
+        "rejected": [],
+        "final_checks": "Brace balance, ignoring comments and strings: mltd_act5_focus.txt 347/347 (it was 353: -8 from the four OR blocks reduced to a single NOT, +2 from the two new has_war_with NOTs), events.txt 13/13, ideas.txt 4/4, on_actions.txt 7/7. No point in any file drops below depth 0. All are LF, no BOM, tab-indented. act5/loc.yml has no BOM and LF endings, and all 30 lines are either comments or match `  key:0 \"...\"` with balanced quotes.\n\nLoc check: 73 keys are referenced by the focus file, events and ideas (focus ids and _desc, custom_effect_tooltip and tooltip keys, event title/desc/option keys, operative and tech-bonus names, idea names and _desc). All resolve: 28 in act5/loc.yml, 39 in the mod's loc, 4 in OWB. The checker flagged two 'missing' keys, cultofmars_principes_desc and cultofmars_triplex_desc. These are false positives: `has_idea = cultofmars_*` matched my idea regex, which appended _desc; the ideas' own names resolve in OWB. Every $key$ nesting in act5/loc.yml resolves to a plain-text key that is not a replace/ key. Tags and characters used in the loc (358 Crowlands, 478 Wendover, 520 Flagstaff, BOS, CES, CES_caesar, EHT, HEA, HGH, MLT, MLT_MLULU, NCN, NCR, WHT) all exist in OWB.\n\nNo loc keys were added or removed; only values changed (5 keys, listed in notes.md). The new flag mltd_ces_capitulated collides with nothing in mod_folder or the other acts' staging. notes.md is updated with: the new on_actions.txt staging file and where to merge it; the changes to the close's gate, the 5,000/5,000 option pair, the Guns for Both Sides guard, and the readiness-only capstone hold; the matching Act VI hazard (mltd_ai_legion_beaten on two Act VI capstones); CLAUDE.md rows to update (Guns for Both Sides, mltd_on_actions.txt, Numbers in several places); and revised unverified items (the 5,000 trade-off, and the on_capitulation has_war_with scope, as in Act IV). Only mltd_act5_focus.txt and files in the act5 staging folder were edited."
+      }
+    },
+    {
+      "act": "act6",
+      "built": {
+        "act": "VI - All Waters Are One",
+        "files_written": [
+          "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act6_focus.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act6\\events.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act6\\loc.yml",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act6\\ideas.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act6\\triggers.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\act6\\notes.md"
+        ],
+        "focuses": [
+          {
+            "id": "mltd_the_southern_deep",
+            "cell": "relative to mltd_when_the_legion_breaks (0,1) = (15,35)",
+            "prerequisites": "mltd_when_the_legion_breaks",
+            "status": "new (chapter): 35 days, +50 PP, event mltd.60, ai_will_do 10"
+          },
+          {
+            "id": "mltd_tex_all_waters_are_one",
+            "cell": "relative to mltd_the_southern_deep (-2,1) = (13,36)",
+            "prerequisites": "mltd_the_southern_deep",
+            "status": "kept (merged mltd_tex_the_silent_partner); no existence gate, +50 PP fallback if TBH and LNS are both gone"
+          },
+          {
+            "id": "mltd_tex_black_water_rising",
+            "cell": "relative to mltd_the_southern_deep (-2,2) = (13,37)",
+            "prerequisites": "mltd_tex_all_waters_are_one",
+            "status": "kept, war (merged mltd_tex_wreckers_on_the_trinity); Texas gate and AI legion_beaten/army_ready modifier kept"
+          },
+          {
+            "id": "mltd_ate_the_feathered_tide",
+            "cell": "relative to mltd_the_southern_deep (0,1) = (15,36)",
+            "prerequisites": "mltd_the_southern_deep",
+            "status": "new: 35 days, foothold, ATE cult shelter, LaR civ/army 10 else +25 PP, ATE -4% stability (-2% war support more while the blind Speaker rules), +25 PP fallback if ATE is gone or is our subject"
+          },
+          {
+            "id": "mltd_ate_the_serpent_drowns",
+            "cell": "relative to mltd_the_southern_deep (0,2) = (15,37)",
+            "prerequisites": "mltd_ate_the_feathered_tide",
+            "status": "new, war: 42 days, declares annex_everything on ATE, ATE -6% stability -3% war support, 40 army XP, +20 navy XP if ATE took ate_serpent_rises, +50 PP fallback; AI gated on mltd_ai_stage_ate + mltd_ai_army_ready"
+          },
+          {
+            "id": "mltd_tla_the_iron_god_dreams",
+            "cell": "relative to mltd_the_southern_deep (2,1) = (17,36)",
+            "prerequisites": "mltd_the_southern_deep",
+            "status": "kept (merged mltd_tla_the_three_voices); ChicoNet existence gate dropped"
+          },
+          {
+            "id": "mltd_tla_the_drowned_god_sleeps",
+            "cell": "relative to mltd_the_southern_deep (2,2) = (17,37)",
+            "prerequisites": "mltd_tla_the_iron_god_dreams",
+            "status": "kept, war (merged mltd_tla_picking_the_iron_bones); AI legion_beaten/army_ready modifier kept"
+          },
+          {
+            "id": "mltd_the_last_king_kneels",
+            "cell": "relative to mltd_the_southern_deep (0,3) = (15,38)",
+            "prerequisites": "OR(mltd_tex_black_water_rising, mltd_ate_the_serpent_drowns, mltd_tla_the_drowned_god_sleeps)",
+            "status": "new (close): 30 days, available mltd_texas_beaten (tooltip mltd_texas_beaten_tt), add_research_slot 1, idea mltd_the_drowned_south, event mltd.61, news mltd.62, ai_will_do 10"
+          }
+        ],
+        "deleted_ids": [
+          {
+            "id": "mltd_tex_the_silent_partner",
+            "merged_into": "mltd_tex_all_waters_are_one",
+            "what_moved": "LaR token_army and civilian 15 on each living Texan tag, folded into one add_intel per tag (civ 15 / army 10); +80 caps; TBH and LNS each -4% stability and -25 PP; its no-DLC +25 PP added to the head's, so +50 PP without La Resistance"
+          },
+          {
+            "id": "mltd_tex_wreckers_on_the_trinity",
+            "merged_into": "mltd_tex_black_water_rising",
+            "what_moved": "800 infantry equipment from TBH (> 799), else LNS, victim -2% war support, else mltd_tex_empty_armouries_tt + 30 PP; 30 army XP"
+          },
+          {
+            "id": "mltd_tla_the_three_voices",
+            "merged_into": "mltd_tla_the_iron_god_dreams",
+            "what_moved": "-6% stability and -25 PP on TLA, else each of MAX/MOC/ZAP, else ARM; LaR token_army + civilian 15 on those same voice tags (one add_intel per tag at civ 15 / army 10, other living tags keep 10/10); +50 PP without the DLC or with none of the five alive"
+          },
+          {
+            "id": "mltd_tla_picking_the_iron_bones",
+            "merged_into": "mltd_tla_the_drowned_god_sleeps",
+            "what_moved": "the hidden theft behind mltd_tla_iron_bones_theft_tt (800 from TLA, else 300 from each heir, plus 200 support from ARM; tooltip shown only while one of the five exists), 20 army XP, +100 caps"
+          }
+        ],
+        "loc_keys_new": [
+          "mltd_the_southern_deep",
+          "mltd_the_southern_deep_desc",
+          "mltd_ate_the_feathered_tide",
+          "mltd_ate_the_feathered_tide_desc",
+          "mltd_ate_the_serpent_drowns",
+          "mltd_ate_the_serpent_drowns_desc",
+          "mltd_the_last_king_kneels",
+          "mltd_the_last_king_kneels_desc",
+          "mltd_tex_texas_gone_tt",
+          "mltd_ate_cult_sheltered_tt",
+          "mltd_ate_speaker_dreams_tt",
+          "mltd_ate_gone_tt",
+          "mltd_ate_frogs_tt",
+          "mltd_ate_serpent_gone_tt",
+          "mltd_texas_beaten_tt",
+          "mltd_the_drowned_south",
+          "mltd_the_drowned_south_desc",
+          "mltd.60.t",
+          "mltd.60.d",
+          "mltd.60.a",
+          "mltd.61.t",
+          "mltd.61.d",
+          "mltd.61.a",
+          "mltd.62.t",
+          "mltd.62.d",
+          "mltd.62.a"
+        ],
+        "loc_keys_replaced": [
+          "mltd_tex_all_waters_are_one_desc",
+          "mltd_tex_black_water_rising_desc",
+          "mltd_tla_the_iron_god_dreams_desc",
+          "mltd_tla_the_drowned_god_sleeps_desc"
+        ],
+        "events": [
+          "mltd.60 - country_event, The Southern Deep (chapter; one option; GFX_event_mecha_aztec_calendar)",
+          "mltd.61 - country_event, The Last King Kneels (close; one option; GFX_event_texas_capitol)",
+          "mltd.62 - news_event, The South Has Drowned (world news from the close via every_other_country; GFX_event_fall_alamo)"
+        ],
+        "ideas": [
+          "mltd_the_drowned_south - permanent, from mltd_the_last_king_kneels: industrial_capacity_factory +0.10, stability_factor +0.05; picture generic_gulf_treaty"
+        ],
+        "scripted_triggers": [
+          "mltd_texas_beaten - TBH and LNS each gone, capitulated or MLT's subject (the subject case is an addition to the SPEC so a human who puppets Texas is not stranded)"
+        ],
+        "scripted_effects": [],
+        "now_unused": [
+          "mltd_tex_the_silent_partner (loc)",
+          "mltd_tex_the_silent_partner_desc (loc)",
+          "mltd_tex_wreckers_on_the_trinity (loc)",
+          "mltd_tex_wreckers_on_the_trinity_desc (loc)",
+          "mltd_tex_civilian_network_tt (loc)",
+          "mltd_tex_army_network_tt (loc)",
+          "mltd_tla_the_three_voices (loc)",
+          "mltd_tla_the_three_voices_desc (loc)",
+          "mltd_tla_picking_the_iron_bones (loc)",
+          "mltd_tla_picking_the_iron_bones_desc (loc)",
+          "mltd_tla_three_voices_network_tt (loc)",
+          "mltd_tla_iron_bones_network_tt (loc)",
+          "mltd_tla_chiconet_alive_tt (loc)"
+        ],
+        "unverified": [
+          "has_country_leader = { character = ATE_speaker_yesenia_aztlanl ruling_only = yes } inside an effect limit in ATE's scope (the Feathered Tide's Speaker conditional); vanilla documents the syntax and OWB uses it in triggers/achievements",
+          "navy_experience = 20 for MLT (the Serpent Drowns' Frogs conditional): only a pool, but MLT has next to no navy",
+          "That the ATE cult shelter behaves like the other sub-trees' (it only sets mltd_cult_sheltered, which mltd_cult_refresh reads by flag)",
+          "In-game layout of the act: cells are computed from the SPEC's Act V close at (15,34), not seen",
+          "Whether an AI that takes The Serpent Drowns or The Drowned God Sleeps first reaches Texas in time for the close (it should, through mltd_ai_stage_tbh / _lns, which open at the same time)"
+        ],
+        "notes": "I built Act VI in full. The focus file is mod_folder/common/national_focus/mltd_act6_focus.txt, and I made no other change in mod_folder. My checks passed: every file's braces balance to depth 0; the focus file is LF with no BOM; every loc key the focus file and events reference is defined (in the main yml or in loc.yml); every nested $key$ resolves to a plain key, none from replace/; every icon has its _shine sprite in OWB; the event pictures and idea picture exist in OWB; and every cell and prerequisite matches the SPEC table. No story focus has an intelligence gate. The chapter hangs off mltd_when_the_legion_breaks, which exists in Act V's file, and the finale already refers to mltd_the_last_king_kneels by this id.\n\nDecisions to review:\n(1) Intel duplicates. Rule 10 drops \"a second intel grant to the same tag\", but the table asks for civ 15. I did both: one add_intel per tag at civ 15 / army 10, plus the merged token_army. Each branch therefore pays a little less than the old sub-tree.\n(2) Two small conditionals built on OWB's ATE story, which go beyond the table. The Feathered Tide takes another 2% war support from ATE while the blind Speaker still rules. The Serpent Drowns gives +20 navy experience if ATE has taken ate_serpent_rises (Kinkaid's navy, \"the Frogs\").\n(3) mltd_texas_beaten also counts a Texan tag that is MLT's subject, so a human who puppets Texas is not stuck before the close.\n(4) Black Water and The Drowned God keep their existing AI gate (mltd_ai_legion_beaten + mltd_ai_army_ready), per rule 7. They do not switch to mltd_ai_stage_tbh / _tla.\n\nAlso note that OWB's ATE is named \"Nuevo Aztlán\" in game; \"Aztec Empire\" is only its history filename.\n\nIntegrator follow-ups, detailed in notes.md:\n- The late plan in common/ai_strategy_plans/mltd_MLT.txt still lists the four deleted ids and needs the new ones, and the second plan's focus_factors should add mltd_ate_the_serpent_drowns = 0.\n- Rebuild the telemetry with build_telemetry.py.\n- CONQUEST_PLAN.txt needs lines for the ATE focuses and war and for the close, or check_plan_sync.py will fail.\n- CLAUDE.md needs updating: the conflict-subtree table, the event ids and the ideas list.\n\nloc.yml ends with the four replacement _desc lines under their own header. Replace the old lines in place rather than appending duplicates."
+      },
+      "review": {
+        "findings": [
+          {
+            "severity": "major",
+            "file": "mod_folder/common/national_focus/mltd_act6_focus.txt",
+            "where": "mltd_ate_the_serpent_drowns, ai_will_do modifier",
+            "problem": "This is a new war capstone, and its AI gate only reads mltd_ai_stage_ate and mltd_ai_army_ready. mltd_ai_stage_ate opens exactly when the Texas and Tlaloc stages do (legion beaten or 2286). mltd_ai_army_ready only compares MLT's division count with the frontage line (at most 20 divisions), so late in the game it is almost always true. The close, mltd_the_last_king_kneels, needs only Texas beaten, so while an AI MLT waits for Texas to fall, The Serpent Drowns is the one Act VI focus left for it to take. It will then declare an optional war on Nuevo Aztlan (686k people and 38 divisions at start, per CONQUEST_PLAN.txt:419) while it is still fighting Texas and Tlaloc's heirs, whatever ATE's strength. The AI's own conquest block for this target, mltd_ai_conquer_ate (common/ai_strategy/mltd_MLT.txt:1813-1826), refuses to start that war unless `ATE = { mltd_ai_safe_target = yes }`: the round-21 rule of no war on a stronger country or one with a strong ally, which exists because run 3 lost to the Broken Coast. A focus declaration skips that check. This is not an AI-only advantage, but it is an AI regression that the new focus introduces.",
+            "fix": "Add a second modifier to its ai_will_do: `modifier = { factor = 0 is_ai = yes country_exists = ATE NOT = { has_war_with = ATE } OR = { NOT = { ATE = { mltd_ai_safe_target = yes } } has_war_with = TBH has_war_with = LNS } }`. The AI then takes this war only against a safe target, and only once the Texas war the close depends on is over. Record it in CONQUEST_PLAN.txt's notes if the plan orders it differently."
+          },
+          {
+            "severity": "minor",
+            "file": "C:/Users/jonat/AppData/Local/Temp/claude/c--Users-jonat-Documents-rising-tide/71877056-fecf-418a-a4f4-50b7c28bba62/scratchpad/story/act6/notes.md",
+            "where": "AI, plan and telemetry: 'rebuild it with python build_telemetry.py'",
+            "problem": "Following this integration step as written will fail. build_telemetry.py:140 asserts that the shared-focus groups pulled into mlt_nf are exactly {'Shared Oregon Coastals Focus.txt', 'mltd_conflicts_focus.txt'}, and :142 reads the conflict ids from that one file. It also asserts that no shared focus id is defined twice (:121), and the kept Act VI ids are defined in both mltd_act6_focus.txt and mltd_conflicts_focus.txt until the integrator deletes the latter. So neither the Act VI focuses nor mltd_ate_* can reach the telemetry by 'just rebuilding', and check_plan_sync.py's telemetry check will keep failing. This problem is shared by every act, but this note presents the rebuild as enough.",
+            "fix": "In the integration notes, say that build_telemetry.py must be changed first: replace the two-file assertion and the `conflicts = groups['mltd_conflicts_focus.txt']` lookup with the union of the groups from mltd_act2..6_focus.txt and mltd_finale_focus.txt, and delete mltd_conflicts_focus.txt before running it. Then rebuild and run check_plan_sync.py."
+          }
+        ],
+        "checked": "Read SPEC.md in full, the Act VI focus file, and all six staging files. I compared them against the original Texas and Tlaloc blocks in mltd_conflicts_focus.txt (lines 440-800 and 1895-2560).\n1. Syntax: a script over the focus file, events, ideas and triggers found braces balanced to depth 0, never negative; LF, no BOM, tab indent. Every staging loc line matches `  key:0 \"...\"` with no inner quotes.\n2. Structure: exactly 8 shared_focus blocks, all with the spec's ids. I resolved every relative position across all act files: the cells are (15,35), (13/15/17,36), (13/15/17,37) and (15,38), with no overlaps anywhere in the Act II-finale tree. Every relative_position_id points at a shared focus. Prerequisites match the spec: the close has one OR block over the three capstones. The finale refers to mltd_the_last_king_kneels.\n3. Never strand: no has_operation_token, network_national_coverage or intel_level_over test anywhere; the country_exists and ChicoNet available gates are gone; every head and bead has a target-gone fallback in PP. The Black Water story gate is kept. All 8 focuses have cancel_if_invalid = no and continue_if_invalid = yes.\n4. AI: heads 3, chapter and close 10. Black Water and Drowned God keep legion_beaten + army_ready; Serpent reads stage_ate + army_ready. No round-23 modifiers are left.\n5. Existence: every focus icon and its _shine is in OWB's z_fallout_national_focuses(_shine).gfx. The three event pictures and GFX_idea_generic_gulf_treaty exist. Characters ATE_speaker_yesenia_aztlanl (country leader), ATE_gail_kinkaid and TLA_tlaloc exist, as do focus ate_serpent_rises and tags ATE, TBH, LNS, TLA, MAX, MOC, ZAP and ARM. Triggers mltd_ai_stage_ate/_tbh/_lns, mltd_ai_army_ready and mltd_ai_legion_beaten exist, as do effect mltd_intel_foothold and ideas mltd_tex_black_water and mltd_tla_dreams_of_wire. The has_country_leader syntax matches vanilla's triggers_documentation.md, and navy_experience is used by OWB itself. Event ids mltd.60-62 are unused in mod_folder and in the other staging folders.\n6. Loc: every referenced key is defined, in the main yml or in the staging loc.yml; the four _desc replacements collide intentionally. Nesting is one level deep, to plain keys; ate_serpent_rises and texan_economic_union are in english/, not replace/. Event .d text uses only §o and §c, and options carry no codes. No hard-coded 'Mirelurk Tribe'. States 892 and 921 already appeared in the old description.\n7. Merges: Silent Partner, Wreckers, Three Voices and Iron Bones are each folded into the right kept focus. Theft guards are at or above the amounts taken (>799/800, >299/300, >199/200), and no removal names a producer. La Resistance rewards sit inside has_dlc ifs with non-DLC PP or tech fallbacks. Branch totals are equal or slightly below the old sub-trees.\n8. Events: country events are is_triggered_only + fire_only_once and carry the log line; the news event is delivered through every_other_country. The format matches the existing mltd_events.txt.\n9. Balance and fair play: the chapter gives +50 PP; the idea has 2 modifiers within the band; nothing is AI-only.\nAlso checked: which files still reference the deleted ids (the AI plans, telemetry, CLAUDE.md and loc, all listed in the notes), and build_telemetry.py's handling of the focus files."
+      },
+      "fix": {
+        "applied": [
+          "MAJOR, confirmed and fixed. I checked the claim against the code. mltd_ai_stage_ate (mltd_ai_triggers.txt:937) opens under the same condition as the TBH, LNS and TLA stages: The Final Ritual done, and the Legion beaten or the date past 2286. mltd_ai_army_ready (:375) only compares the division count with the survey's line. mltd_ai_conquer_ate (ai_strategy/mltd_MLT.txt:1813-1826) goes to war only if ATE passes mltd_ai_safe_target, and the focus's declare_war_on skipped that check. The fix is a second is_ai modifier in mltd_ate_the_serpent_drowns's ai_will_do (mod_folder/common/national_focus/mltd_act6_focus.txt). It sets factor 0 when all of these hold: ATE exists, is not our subject and is not at war with us; and either ATE fails mltd_ai_safe_target or MLT is at war with a Texan tag (TBH or LNS) that has not capitulated. I changed one thing from the reviewer's version. A capitulated Texan tag counts as beaten, to match mltd_texas_beaten, so a war that stays open only because an ally holds out does not block the focus. I also added the not-our-subject test. Without it, an ATE that is our subject would fail the safe-target check (its overlord counts as an ally), and the AI would never take a focus that then only pays political power. strength_ratio is already used in OWB's and vanilla's focus files, so it is valid in this scope. I also updated the header comment, and notes.md now explains the gate. It also records that CONQUEST_PLAN.txt already puts ATE after the Texas and Tlaloc sub-trees (lines 416-419), so the order needs no deviation line.",
+          "MINOR, confirmed and fixed in notes.md. build_telemetry.py:121 fails on a shared focus id defined twice, and the four kept Act VI ids are defined in both mltd_act6_focus.txt and mltd_conflicts_focus.txt. :140 asserts the groups are exactly {Shared Oregon Coastals, mltd_conflicts_focus.txt}, and :142 and :333 read the conflict ids from that one file. The integration note now gives the order: delete mltd_conflicts_focus.txt; change build_telemetry.py to use the union of the pulled groups from mltd_act2..6_focus.txt and mltd_finale_focus.txt, replacing the two-file assertion and the conflicts lookup and retitling the section at :333; then run build_telemetry.py and check_plan_sync.py."
+        ],
+        "rejected": [],
+        "final_checks": "Braces balance to depth 0, never going negative, in mltd_act6_focus.txt and in the scratch files events.txt, ideas.txt and triggers.txt. The focus file is still LF with no BOM. I collected every loc key the focus file and the events reference: tooltips, focus ids with their _desc, ideas, and event title, desc and option keys, 44 in all. Each one is defined in mltd_l_english.yml, the act's loc.yml or OWB's localisation, and every nested $key$ in loc.yml resolves. The fix adds no loc key, event, idea or scripted trigger; mltd_ai_safe_target and mltd_ai_stage_ate already exist in common/scripted_triggers/mltd_ai_triggers.txt. I edited only mod_folder/common/national_focus/mltd_act6_focus.txt and scratchpad/story/act6/notes.md. notes.md now covers the Serpent Drowns' new AI gate, the plan order (no deviation line needed) and the build_telemetry.py prerequisite step. No construct was added to the unverified list."
+      }
+    },
+    {
+      "act": "finale",
+      "built": {
+        "act": "FINALE - \"R'lyeh Rises\"",
+        "files_written": [
+          "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_finale_focus.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\finale\\events.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\finale\\ideas.txt",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\finale\\loc.yml",
+          "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\finale\\notes.md"
+        ],
+        "focuses": [
+          {
+            "id": "mltd_rlyeh_rises",
+            "cell": "(15,39) = mltd_the_last_king_kneels (0,1)",
+            "prerequisites": "mltd_the_last_king_kneels",
+            "status": "new"
+          },
+          {
+            "id": "mltd_ending_the_dreamer_wakes",
+            "cell": "(13,40) = mltd_rlyeh_rises (-2,1)",
+            "prerequisites": "mltd_rlyeh_rises; mutually_exclusive with mltd_ending_the_priestess_reigns and mltd_ending_return_to_the_sea",
+            "status": "new"
+          },
+          {
+            "id": "mltd_ending_the_priestess_reigns",
+            "cell": "(15,40) = mltd_rlyeh_rises (0,1)",
+            "prerequisites": "mltd_rlyeh_rises; mutually_exclusive with mltd_ending_the_dreamer_wakes and mltd_ending_return_to_the_sea",
+            "status": "new"
+          },
+          {
+            "id": "mltd_ending_return_to_the_sea",
+            "cell": "(17,40) = mltd_rlyeh_rises (2,1)",
+            "prerequisites": "mltd_rlyeh_rises; mutually_exclusive with mltd_ending_the_dreamer_wakes and mltd_ending_the_priestess_reigns",
+            "status": "new"
+          }
+        ],
+        "deleted_ids": [],
+        "loc_keys_new": [
+          "mltd_rlyeh_rises",
+          "mltd_rlyeh_rises_desc",
+          "mltd_rlyeh_rises_states_tt",
+          "mltd_ending_the_dreamer_wakes",
+          "mltd_ending_the_dreamer_wakes_desc",
+          "mltd_ending_the_priestess_reigns",
+          "mltd_ending_the_priestess_reigns_desc",
+          "mltd_ending_return_to_the_sea",
+          "mltd_ending_return_to_the_sea_desc",
+          "mltd_return_to_the_sea_leviathans_tt",
+          "mltd_return_to_the_sea_no_mireport_tt",
+          "mltd_the_dreamer_wakes",
+          "mltd_the_dreamer_wakes_desc",
+          "mltd_the_priestess_reigns",
+          "mltd_the_priestess_reigns_desc",
+          "mltd_the_return_to_the_sea",
+          "mltd_the_return_to_the_sea_desc",
+          "mltd.70.t",
+          "mltd.70.d",
+          "mltd.70.a",
+          "mltd.71.t",
+          "mltd.71.d",
+          "mltd.71.a",
+          "mltd.72.t",
+          "mltd.72.d",
+          "mltd.72.a",
+          "mltd.73.t",
+          "mltd.73.d",
+          "mltd.73.a",
+          "mltd.74.t",
+          "mltd.74.d",
+          "mltd.74.a"
+        ],
+        "loc_keys_replaced": [],
+        "events": [
+          "mltd.70 - country_event, R'lyeh Rises: the drowned city beneath M'lyeh breaks the surface and is named R'lyeh; one option (the chant), no effects; picture GFX_event_night_tower",
+          "mltd.71 - news_event, A City Out of the Sea (world news, delivered to every other country by the focus); picture GFX_event_foggy_flooded_boston_city",
+          "mltd.72 - country_event, ending The Dreamer Wakes: M'lulu opens the door and speaks with the Dreamer's voice; one option; picture GFX_mltd_event_final_ritual",
+          "mltd.73 - country_event, ending The Priestess Reigns: M'lulu sings the Dreamer back to sleep and rules; prints [?ROOT.mltd_national_population|0]; one option; picture GFX_mltd_event_kingdom",
+          "mltd.74 - country_event, ending Return to the Sea: M'lulu leads the tribe into the deep and stays there; one option; picture GFX_mltd_event_grand_ritual"
+        ],
+        "ideas": [
+          "mltd_the_dreamer_wakes (permanent, picture apocalypse_now): army_attack_factor +0.15, army_defence_factor +0.10, war_support_factor +0.10, stability_factor -0.05",
+          "mltd_the_priestess_reigns (permanent, picture IRN_throne): stability_factor +0.20, political_power_factor +0.20, consumer_goods_factor -0.10",
+          "mltd_the_return_to_the_sea (permanent, picture TIM_patch_oceanography): monthly_population +0.2, conscription_factor +0.10 (the focus also raises two Leviathans at Mireport when it is held)"
+        ],
+        "scripted_triggers": [],
+        "scripted_effects": [],
+        "now_unused": [],
+        "unverified": [
+          "[?ROOT.mltd_national_population|0] inside an event description (mltd.73.d): the formatter works in focus tooltips, and whether it groups thousands is unknown",
+          "Two load_oob calls in one effect on the same day (mltd_spawn_leviathan called twice in mltd_ending_return_to_the_sea): should give two task forces named Leviathan at Mireport; the first is the pride of the fleet if none has surfaced yet",
+          "add_victory_points on province 1983 when MLT no longer controls M'lyeh at completion",
+          "How the AI chooses among three mutually exclusive focuses weighted 3 / 2 / 1 (a weighted pick, or always the highest)",
+          "Whether the event-option font renders the a-umlaut in 'Iä!' (mltd.72.a); OWB and vanilla fonts carry Latin-1",
+          "Whether consumer_goods_factor -0.10 reads as a cut under OWB's economy laws. mltd_the_wet_market uses the same key at +0.04 as a penalty"
+        ],
+        "notes": "The finale is complete: 4 shared focuses in mod_folder/common/national_focus/mltd_finale_focus.txt, with staging for events mltd.70-74, 3 permanent ending ideas and 32 new loc keys. It merges nothing, deletes nothing and replaces no existing key.\n\n**Structure**\n- mltd_rlyeh_rises (70 days, factor 10) sits at (15,39). It is relative to Act VI's close, mltd_the_last_king_kneels, and takes it as prerequisite. So the finale is pulled in through shared prerequisites and nothing needs to be listed in the override. If Act VI renames its close, update both the prerequisite and the relative_position_id here.\n- The three endings (35 days each; ai_will_do 3 / 2 / 1) sit at (13,40), (15,40) and (17,40). Each names both of the others in mutually_exclusive.\n- Every finale focus has cancel_if_invalid = no and continue_if_invalid = yes. None has an intel gate.\n\n**R'lyeh Rises**\n- It needs num_of_controlled_states > 299, shown through mltd_rlyeh_rises_states_tt. The literal 300 lives in that key too, so change both together.\n- It gives +15 VP in province 1983, followed by mltd_newline_tt.\n- It sets the global flag mltd_rlyeh_risen (hidden). Nothing reads the flag yet; it is a hook for later content.\n- It fires mltd.70 to MLT and delivers the news event mltd.71 to every other country.\n\n**Rewards live in the focuses.** The endings add their idea and fire their event. Return to the Sea also calls mltd_spawn_leviathan twice, hidden behind mltd_return_to_the_sea_leviathans_tt, when mltd_leviathan_can_surface is true. Otherwise it shows mltd_return_to_the_sea_no_mireport_tt. The events carry no effects, and mltd.74's text does not depend on the Leviathans.\n\n**Art and lore**\n- All art is existing, and every sprite and texture was checked. Focus icons: GFX_goal_mlt_mlyeh, CHC_madness, CHC_relic, TIM_patch_oceanography, each with a _shine.\n- Idea pictures: apocalypse_now, IRN_throne and TIM_patch_oceanography. I did not use lurker_land_of_coral, because MLT can already hold lurk_land_of_coral.\n- The lore follows the mod's arc: M'lulu is the priestess-queen and the Dreamer is 'that which sleeps below'. The Final Ritual's promise ('the drowned city will rise with its priestess upon its highest tower') is fulfilled. The loc calls the city R'lyeh as the older name, while the country keeps OWB's cosmetic name M'lyeh through [MLT.GetNameDef].\n- Lovecraft is quoted only from pre-1930 stories (The Call of Cthulhu 1928, The Dunwich Horror 1929); Innsmouth is only alluded to.\n- Event text uses only §o/§c, and option text has no colour codes.\n\n**Checks run**\n- Braces balance in all three script files; all are LF with no BOM.\n- Every referenced loc key is defined, and every nested $key$ resolves one level deep to plain text that is not a replace/ key.\n- mltd_spawn_leviathan, mltd_leviathan_can_surface and mltd_newline_tt all exist.\n\n**For the integrator** (details in notes.md)\n- Add mltd_rlyeh_rises plus the chosen ending to CONQUEST_PLAN.txt and to the late ai_national_focuses, or write an '# AI deviation:' line.\n- Rebuild the telemetry with build_telemetry.py, then run check_plan_sync.py.\n- Update CLAUDE.md: event ids 70-74 are taken, and the new focus file goes in the layout table.\n- Optional, not done: rename state 358 / province 1983 to R'lyeh on completion. It would need two new loc keys."
+      },
+      "review": {
+        "findings": [
+          {
+            "severity": "major",
+            "file": "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\finale\\loc.yml",
+            "where": "mltd.73.d: \"its census-takers count §c[?ROOT.mltd_national_population|0]§! souls\"",
+            "problem": "This event prints mltd_national_population, and at this point in the game that number will almost certainly be garbage. mltd_update_national_population adds up raw state_population with no scaling. Script variables are 32-bit fixed point and wrap negative above 2,147,483.647 (CLAUDE.md > Gotchas). The Priestess ending is only reachable after R'lyeh Rises, which needs 300 controlled states. CONQUEST_PLAN.txt's 2285-12 snapshot puts MLT at \"300-400 states, 3-4M people\". I also summed OWB's history/states: the 300 most populous states hold 8.1M, and the median state holds 4,256. So by the time the ending fires, the variable has most likely wrapped, and the ending event reads something like \"-1294967 souls\". This is also the only place the finale reads the variable. The builder listed only the thousands grouping as unverified, not this overflow.",
+            "fix": "Drop the live number from mltd.73.d. For example: \"...and its census-takers have long since stopped counting the souls beneath the tide.\" If the integrator wants a figure, add a _k counter instead: in mltd_update_national_population, add `add_to_variable = { PREV.mltd_national_population_k = state_population_k }` next to the existing sum, then print `[?ROOT.mltd_national_population_k|0] thousand`. Integrator note, outside the finale: the same overflow breaks the late readers of mltd_national_population. These are the Leviathan summon's AI guard and the Offering of the Tides guard, both at \"over 300,000\" after The Final Ritual. They should move to the _k variable (a guard of > 300) as well."
+          },
+          {
+            "severity": "minor",
+            "file": "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\finale\\notes.md",
+            "where": "'Plan and AI' section: \"The telemetry must be rebuilt (python build_telemetry.py) so the four new focuses get first-seen FOCUS lines\"",
+            "problem": "Running the script as it stands will not work. build_telemetry.py:140 asserts `set(groups) == {'Shared Oregon Coastals Focus.txt', 'mltd_conflicts_focus.txt'}`, and :142 and :333 read groups['mltd_conflicts_focus.txt'] directly. Once the finale and act files pull shared focuses in from mltd_act2..6_focus.txt and mltd_finale_focus.txt, the assertion fails and the script aborts. No FOCUS lines are written for mltd_rlyeh_rises or the endings, and check_plan_sync.py then fails with 'telemetry: focus ... is not polled'. The note makes this sound like a plain rerun, which will mislead the integrator.",
+            "fix": "Change the notes to say that build_telemetry.py needs editing first. The assertion at line 140 should accept the new files: Shared Oregon Coastals, plus mltd_act2_focus.txt through mltd_act6_focus.txt and mltd_finale_focus.txt, with mltd_conflicts_focus.txt gone. The `conflicts` list (lines 142-143) should become the concatenation of the per-act groups, in act order, and the label at line 333 should be updated. After that, run the script, then check_plan_sync.py."
+          }
+        ],
+        "checked": "I checked:\n- **Syntax and encoding.** Braces balance in the focus file, events.txt and ideas.txt (scripted count, depth 0, never negative). All three are LF, no BOM, tab-indented. All 32 loc lines match `  key:0 \"...\"` with no unescaped inner quotes. The ä in mltd.72.a is valid UTF-8 (c3 a4), and OWB's English loc already uses Latin-1 accents.\n- **Structure.** The four focuses have exactly the spec's ids, and there are no extras. `mltd_rlyeh_rises` is relative to the shared `mltd_the_last_king_kneels` at (0,1). I verified in mltd_act6_focus.txt that the id exists and resolves to (15,38) through the act chain, so R'lyeh Rises lands on (15,39). The endings sit at (-2,1), (0,1) and (2,1) relative to R'lyeh Rises, so (13,40), (15,40) and (17,40). Each ending lists both others in `mutually_exclusive`. Prerequisites are single, and nothing is relative to or requires a national focus. All four have `cancel_if_invalid = no` and `continue_if_invalid = yes`. There are no intel gates, and `ai_will_do` is 10 / 3 / 2 / 1 as the spec asks.\n- **Definitions exist.**\n  - `num_of_controlled_states`, `add_victory_points` and the idea modifier keys are in the vanilla docs: `monthly_population` and `conscription_factor` in modifiers_documentation.md, and conscription_factor is also the Gift of the Brood key.\n  - `mltd_spawn_leviathan` and `mltd_leviathan_can_surface` exist. The effect grants the tech and tests Mireport itself, so calling it twice is safe.\n  - Province 1983 is the same one the Kingdom already uses.\n- **Sprites.** Every sprite name and texture file exists:\n  - Focus icons, each with its `_shine`: GFX_goal_mlt_mlyeh, CHC_madness, CHC_relic and TIM_patch_oceanography.\n  - Event pictures: GFX_event_night_tower, GFX_event_foggy_flooded_boston_city and our three GFX_mltd_event_* sprites.\n  - Idea pictures: apocalypse_now, IRN_throne and TIM_patch_oceanography.\n  - Using a GFX_mltd_ picture on a news event matches the existing mltd.2/4/6.\n- **Localisation.** Every referenced key is defined. Every nested $key$ resolves one level deep to plain text: mltd_the_final_ritual, mltd_the_grand_ritual, mltd_leviathan and mltd_ending_*, plus VICTORY_POINTS_7064, which is in OWB's english/ folder, not replace/. There is no clash with the existing loc or with the other acts' staging loc. Event .d text uses only §o and §c, options carry no codes, and nothing hard-codes 'Mirelurk Tribe'.\n- **Events.** mltd.70-74 are not used anywhere else. The country events have is_triggered_only, fire_only_once and the log line, matching the house style of mltd.3. The news event mltd.71 is delivered through every_other_country.\n- **Ideas and balance.** The idea blocks match the existing structure (allowed original_tag MLT, allowed_civil_war, removal_cost -1). Every modifier is within ±20 %, and nothing is AI-only.\n\nFindings not reported: the reuse of the Kingdom's icon on R'lyeh Rises, and the unused `mltd_rlyeh_risen` flag, which the spec asks for."
+      },
+      "fix": {
+        "applied": [
+          "MAJOR, confirmed: mltd.73.d printed [?ROOT.mltd_national_population|0]. mltd_update_national_population (mltd_scripted_effects.txt:293-309) sums raw state_population, and script variables wrap negative above 2,147,483.647. The ending needs 300 controlled states, and CONQUEST_PLAN.txt:414 puts MLT at 3-4M people at that point. mltd_telemetry_effects.txt:41-42 already notes the same wrap, which is why the telemetry keeps its own mltd_tm_pop_k. Fix, in scratchpad/story/finale/loc.yml: the clause now reads 'and its census-takers have run out of numbers for the souls beneath the tide.' The finale no longer reads any population variable. The _k counter the review suggested was not added, because it would mean editing mltd_scripted_effects.txt, which is outside this act's files. It is written up for the integrator in notes.md instead.",
+          "Integrator note (notes.md, new section 'The population variables overflow by the finale'): the same wrap breaks late readers outside the finale. mltd_decisions.txt:452 and :584 are the Leviathan summon's and the Offering of the Tides' AI guards, both 'mltd_national_population < 300000' after The Final Ritual, and they switch the AI off for good. Also confirmed and not mentioned in the review: mltd_decisions.txt:426 is the Leviathan summon's own `available` gate (mltd_controlled_population > 47999), so the decision greys out for a HUMAN once controlled population passes ~2.1M, and :438 blocks the AI. The note suggests a fix: _k sums beside the raw ones, with the late tests moved to them.",
+          "MINOR, confirmed: build_telemetry.py:140 asserts set(groups) == {'Shared Oregon Coastals Focus.txt', 'mltd_conflicts_focus.txt'}, and :142-143 and :333 hard-code the conflicts group. Once the act and finale files pull in shared focuses, the script aborts, so a plain rerun writes no FOCUS lines and check_plan_sync.py fails. notes.md now says the script must be edited first, and lists where: line 140 must accept Shared Oregon Coastals plus mltd_act2..6_focus.txt and mltd_finale_focus.txt; the per-act groups must be joined in act order, finale last (lines 142-143); the labels must change at lines 333, 578 and 998. Then run build_telemetry.py, then check_plan_sync.py.",
+          "Removed the now-moot unverified item about the thousands grouping of [?ROOT.mltd_national_population|0] from notes.md."
+        ],
+        "rejected": [],
+        "final_checks": "Checks re-run after the fixes, all passing:\n- **Braces balance** (the depth never goes negative):\n  - mod_folder/common/national_focus/mltd_finale_focus.txt: 34/34\n  - scratchpad/story/finale/events.txt: 14/14\n  - ideas.txt: 12/12\n- **Encoding:** all three are LF with no BOM.\n- **Loc keys:**\n  - All 33 referenced keys are defined: 32 in the staging loc.yml, plus mltd_newline_tt in the main mltd_l_english.yml. They cover every focus id and _desc, every tooltip, the event t/d/a keys and the three ideas' name and _desc.\n  - No staging key clashes with the main loc file or with OWB.\n  - Every nested $key$ resolves, one level deep, to plain text that is not a replace/ key.\n  - The only bracket functions left are [MLT.GetNameDef] and [MLT_MLULU.GetName].\n  - No staging key is unreferenced.\n- **Population variable:** no finale file mentions national_population any more.\n\nThe temporary check script was deleted from the staging folder, so it holds only events.txt, ideas.txt, loc.yml and notes.md. Of these, only loc.yml and notes.md changed; the focus file, events.txt and ideas.txt are unchanged, so the builder's lists of focuses, events and ideas still stand. No loc key was added or removed; one value changed (mltd.73.d)."
+      }
+    }
+  ],
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Build"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Review"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 3,
+      "title": "Fix"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "build:act2",
+      "phaseIndex": 1,
+      "phaseTitle": "Build",
+      "agentId": "a47dbae53acb1525f",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789770879196,
+      "queuedAt": 1789770879173,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "II - The Northern Waters",
+      "promptPreview": "You are implementing ACT II - \"The Northern Waters\" of a focus-tree rework for the HOI4 submod \"OWB - Rising Tide\" (repo C:\\Users\\jonat\\Documents\\rising-tide).\n\nRead the whole build spec first: C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. It defines the new story structure, the architecture rules every …",
+      "promptFramed": true,
+      "lastProgressAt": 1789771320220,
+      "tokens": 224414,
+      "toolCalls": 34,
+      "durationMs": 441020,
+      "resultPreview": "{\"act\":\"II - The Northern Waters\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_folder\\\\common\\\\national_focus\\\\mltd_act2_focus.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\71877056-fecf-418a-a4f4-50b7c28bba62\\\\scratchpad\\\\story\\\\act2\\\\loc.yml\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\718…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "build:act3",
+      "phaseIndex": 1,
+      "phaseTitle": "Build",
+      "agentId": "a007a1c2cd04545c5",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789770879197,
+      "queuedAt": 1789770879173,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "III - The Stars Are Right",
+      "promptPreview": "You are implementing ACT III - \"The Stars Are Right\" of a focus-tree rework for the HOI4 submod \"OWB - Rising Tide\" (repo C:\\Users\\jonat\\Documents\\rising-tide).\n\nRead the whole build spec first: C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. It defines the new story structure, the architecture rules every…",
+      "promptFramed": true,
+      "lastProgressAt": 1789771420235,
+      "tokens": 240231,
+      "toolCalls": 52,
+      "durationMs": 538950,
+      "resultPreview": "{\"act\":\"III - The Stars Are Right\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_folder\\\\common\\\\national_focus\\\\mltd_act3_focus.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\71877056-fecf-418a-a4f4-50b7c28bba62\\\\scratchpad\\\\story\\\\act3\\\\events.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "build:act4",
+      "phaseIndex": 1,
+      "phaseTitle": "Build",
+      "agentId": "a7acafb4374b051e4",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789770879198,
+      "queuedAt": 1789770879173,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "IV - The Drowned Republic",
+      "promptPreview": "You are implementing ACT IV - \"The Drowned Republic\" of a focus-tree rework for the HOI4 submod \"OWB - Rising Tide\" (repo C:\\Users\\jonat\\Documents\\rising-tide).\n\nRead the whole build spec first: C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. It defines the new story structure, the architecture rules every…",
+      "promptFramed": true,
+      "lastProgressAt": 1789771457695,
+      "tokens": 239405,
+      "toolCalls": 56,
+      "durationMs": 576409,
+      "resultPreview": "{\"act\":\"IV - The Drowned Republic\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_folder\\\\common\\\\national_focus\\\\mltd_act4_focus.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\71877056-fecf-418a-a4f4-50b7c28bba62\\\\scratchpad\\\\story\\\\act4\\\\events.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "build:act5",
+      "phaseIndex": 1,
+      "phaseTitle": "Build",
+      "agentId": "a5d6a23410b0135ef",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789770879199,
+      "queuedAt": 1789770879173,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "V - The Sea Against Mars",
+      "promptPreview": "You are implementing ACT V - \"The Sea Against Mars\" of a focus-tree rework for the HOI4 submod \"OWB - Rising Tide\" (repo C:\\Users\\jonat\\Documents\\rising-tide).\n\nRead the whole build spec first: C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. It defines the new story structure, the architecture rules every …",
+      "promptFramed": true,
+      "lastProgressAt": 1789771725524,
+      "tokens": 304169,
+      "toolCalls": 57,
+      "durationMs": 844238,
+      "resultPreview": "{\"act\":\"V - The Sea Against Mars\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_folder\\\\common\\\\national_focus\\\\mltd_act5_focus.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\71877056-fecf-418a-a4f4-50b7c28bba62\\\\scratchpad\\\\story\\\\act5\\\\events.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "build:act6",
+      "phaseIndex": 1,
+      "phaseTitle": "Build",
+      "agentId": "ad9569666b2cd3743",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789770879199,
+      "queuedAt": 1789770879174,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "VI - All Waters Are One",
+      "promptPreview": "You are implementing ACT VI - \"All Waters Are One\" of a focus-tree rework for the HOI4 submod \"OWB - Rising Tide\" (repo C:\\Users\\jonat\\Documents\\rising-tide).\n\nRead the whole build spec first: C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. It defines the new story structure, the architecture rules every a…",
+      "promptFramed": true,
+      "lastProgressAt": 1789771672092,
+      "tokens": 306996,
+      "toolCalls": 65,
+      "durationMs": 790806,
+      "resultPreview": "{\"act\":\"VI - All Waters Are One\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_folder\\\\common\\\\national_focus\\\\mltd_act6_focus.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\71877056-fecf-418a-a4f4-50b7c28bba62\\\\scratchpad\\\\story\\\\act6\\\\events.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\7…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "build:finale",
+      "phaseIndex": 1,
+      "phaseTitle": "Build",
+      "agentId": "ada0660680828c4c4",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789770879200,
+      "queuedAt": 1789770879174,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "FINALE - \"R'lyeh Rises\"",
+      "promptPreview": "You are implementing FINALE - \"R'lyeh Rises\" of a focus-tree rework for the HOI4 submod \"OWB - Rising Tide\" (repo C:\\Users\\jonat\\Documents\\rising-tide).\n\nRead the whole build spec first: C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. It defines the new story structure, the architecture rules every act fol…",
+      "promptFramed": true,
+      "lastProgressAt": 1789771645136,
+      "tokens": 281683,
+      "toolCalls": 69,
+      "durationMs": 763849,
+      "resultPreview": "{\"act\":\"FINALE - \\\"R'lyeh Rises\\\"\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_folder\\\\common\\\\national_focus\\\\mltd_finale_focus.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\71877056-fecf-418a-a4f4-50b7c28bba62\\\\scratchpad\\\\story\\\\finale\\\\events.txt\",\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-t…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "review:act2",
+      "phaseIndex": 2,
+      "phaseTitle": "Review",
+      "agentId": "a3ab2e0bebcf7d7ed",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789771320242,
+      "queuedAt": 1789771320223,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "I checked mltd_act2_focus.txt and the act2 staging folder (…",
+      "promptPreview": "You are an adversarial reviewer of ACT II - \"The Northern Waters\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). Assume it is wrong until you have checked it. The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md - read it fully. The builder's report: {\"act\":\"II - The …",
+      "promptFramed": true,
+      "lastProgressAt": 1789771720802,
+      "tokens": 222900,
+      "toolCalls": 33,
+      "durationMs": 400560,
+      "resultPreview": "{\"findings\":[{\"severity\":\"minor\",\"file\":\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_folder\\\\common\\\\national_focus\\\\Mirelurk Tribe (MLT) Focus.txt\",\"where\":\"mltd_the_final_ritual, the prerequisite = { focus = mltd_the_deep_ones_walk } block kept beside the new Act II OR block (~line 1692)\",\"problem\":\"The Walk (15,21), Salt on the Broken Coast (15,22), The Deep Ones Sail North (15,23) and The Fi…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "review:act3",
+      "phaseIndex": 2,
+      "phaseTitle": "Review",
+      "agentId": "a673e64b5c266b098",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789771420240,
+      "queuedAt": 1789771420237,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "I found no blocker or major problem in Act III. There are t…",
+      "promptPreview": "You are an adversarial reviewer of ACT III - \"The Stars Are Right\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). Assume it is wrong until you have checked it. The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md - read it fully. The builder's report: {\"act\":\"III - Th…",
+      "promptFramed": true,
+      "lastProgressAt": 1789771923552,
+      "tokens": 233987,
+      "toolCalls": 39,
+      "durationMs": 503311,
+      "resultPreview": "{\"findings\":[{\"severity\":\"minor\",\"file\":\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\71877056-fecf-418a-a4f4-50b7c28bba62\\\\scratchpad\\\\story\\\\act3\\\\ideas.txt\",\"where\":\"mltd_the_northern_waters: picture = brk_master_of_sea (and notes.md, 'never by one MLT holds')\",\"problem\":\"MLT already shows GFX_idea_brk_master_of_sea. It is the icon of the dynamic modifie…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "review:act4",
+      "phaseIndex": 2,
+      "phaseTitle": "Review",
+      "agentId": "a9da1beb1a3c40711",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789771457699,
+      "queuedAt": 1789771457697,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "mltd_act4_focus.txt (LF, no BOM, ASCII, tab indents) and st…",
+      "promptPreview": "You are an adversarial reviewer of ACT IV - \"The Drowned Republic\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). Assume it is wrong until you have checked it. The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md - read it fully. The builder's report: {\"act\":\"IV - The…",
+      "promptFramed": true,
+      "lastProgressAt": 1789771943628,
+      "tokens": 224746,
+      "toolCalls": 29,
+      "durationMs": 485929,
+      "resultPreview": "{\"findings\":[{\"severity\":\"major\",\"file\":\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_folder\\\\common\\\\national_focus\\\\mltd_act4_focus.txt\",\"where\":\"mltd_when_shady_sands_falls, available (lines 411-419)\",\"problem\":\"The close only opens while the NCR has capitulated, is gone, or is MLT's subject. has_capitulated clears when the peace ends, so an NCR that survives the peace as an independent rump f…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "review:finale",
+      "phaseIndex": 2,
+      "phaseTitle": "Review",
+      "agentId": "acb9651396cdea8ad",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789771645141,
+      "queuedAt": 1789771645138,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "I checked: - **Syntax and encoding.** Braces balance in the…",
+      "promptPreview": "You are an adversarial reviewer of FINALE - \"R'lyeh Rises\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). Assume it is wrong until you have checked it. The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md - read it fully. The builder's report: {\"act\":\"FINALE - \\\"R'lye…",
+      "promptFramed": true,
+      "lastProgressAt": 1789772016772,
+      "tokens": 199188,
+      "toolCalls": 31,
+      "durationMs": 371631,
+      "resultPreview": "{\"findings\":[{\"severity\":\"major\",\"file\":\"C:\\\\Users\\\\jonat\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jonat-Documents-rising-tide\\\\71877056-fecf-418a-a4f4-50b7c28bba62\\\\scratchpad\\\\story\\\\finale\\\\loc.yml\",\"where\":\"mltd.73.d: \\\"its census-takers count §c[?ROOT.mltd_national_population|0]§! souls\\\"\",\"problem\":\"This event prints mltd_national_population, and at this point in the game that number will alm…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 11,
+      "label": "review:act6",
+      "phaseIndex": 2,
+      "phaseTitle": "Review",
+      "agentId": "a093b18bda7213fa8",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789771672096,
+      "queuedAt": 1789771672094,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Read SPEC.md in full, the Act VI focus file, and all six st…",
+      "promptPreview": "You are an adversarial reviewer of ACT VI - \"All Waters Are One\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). Assume it is wrong until you have checked it. The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md - read it fully. The builder's report: {\"act\":\"VI - All W…",
+      "promptFramed": true,
+      "lastProgressAt": 1789772110692,
+      "tokens": 234281,
+      "toolCalls": 32,
+      "durationMs": 438595,
+      "resultPreview": "{\"findings\":[{\"severity\":\"major\",\"file\":\"mod_folder/common/national_focus/mltd_act6_focus.txt\",\"where\":\"mltd_ate_the_serpent_drowns, ai_will_do modifier\",\"problem\":\"This is a new war capstone, and its AI gate only reads mltd_ai_stage_ate and mltd_ai_army_ready. mltd_ai_stage_ate opens exactly when the Texas and Tlaloc stages do (legion beaten or 2286). mltd_ai_army_ready only compares MLT's divisi…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 12,
+      "label": "fix:act2",
+      "phaseIndex": 3,
+      "phaseTitle": "Fix",
+      "agentId": "a50628db28795184c",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789771720823,
+      "queuedAt": 1789771720804,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Checked C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\com…",
+      "promptPreview": "You are fixing ACT II - \"The Northern Waters\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. The builder's report: {\"act\":\"II - The Northern Waters\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_f…",
+      "promptFramed": true,
+      "lastProgressAt": 1789771955767,
+      "tokens": 192106,
+      "toolCalls": 19,
+      "durationMs": 234944,
+      "resultPreview": "{\"applied\":[\"Finding 1 (the Final Ritual's Walk prerequisite draws a solid line down x = 15): confirmed. The Walk (15,21), Salt (15,22), Sail North (15,23) and the Ritual (15,24) share a column, the working-copy override still has `prerequisite = { focus = mltd_the_deep_ones_walk }` beside the new OR block (~line 1691), and that block adds no constraint because every bead needs its head and every …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 13,
+      "label": "review:act5",
+      "phaseIndex": 2,
+      "phaseTitle": "Review",
+      "agentId": "a8b9cae95fe9924b8",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789771725528,
+      "queuedAt": 1789771725527,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Read SPEC.md in full, all of mltd_act5_focus.txt, and the w…",
+      "promptPreview": "You are an adversarial reviewer of ACT V - \"The Sea Against Mars\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). Assume it is wrong until you have checked it. The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md - read it fully. The builder's report: {\"act\":\"V - The S…",
+      "promptFramed": true,
+      "lastProgressAt": 1789772280274,
+      "tokens": 264847,
+      "toolCalls": 42,
+      "durationMs": 554746,
+      "resultPreview": "{\"findings\":[{\"severity\":\"minor\",\"file\":\"mod_folder/common/national_focus/mltd_act5_focus.txt\",\"where\":\"mltd_wht_the_lake_god_answers, completion_reward, the two Guns for Both Sides sale blocks (lines ~614-653)\",\"problem\":\"Guns for Both Sides used to be an optional side focus. It is now part of an ungated head that the AI always takes (factor 3), and that head opens at the same moment as the AI's …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 14,
+      "label": "fix:act3",
+      "phaseIndex": 3,
+      "phaseTitle": "Fix",
+      "agentId": "ac3db8f13e137a8ef",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789771923556,
+      "queuedAt": 1789771923553,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "I re-ran a Python check (scratchpad/act3_check.py) over mlt…",
+      "promptPreview": "You are fixing ACT III - \"The Stars Are Right\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. The builder's report: {\"act\":\"III - The Stars Are Right\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod…",
+      "promptFramed": true,
+      "lastProgressAt": 1789772143482,
+      "tokens": 177410,
+      "toolCalls": 32,
+      "durationMs": 219925,
+      "resultPreview": "{\"applied\":[\"Finding 1 (the idea picture) is real. mod_folder/common/dynamic_modifiers/mltd_dynamic_modifiers.txt:23 gives mltd_brk_volunteers the icon GFX_idea_brk_master_of_sea. mltd_brk_add_volunteer_size (mltd_scripted_effects.txt:726-727) adds that modifier and nothing removes it, so the same anchor would have shown twice. In scratchpad/story/act3/ideas.txt, mltd_the_northern_waters now uses …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 15,
+      "label": "fix:act4",
+      "phaseIndex": 3,
+      "phaseTitle": "Fix",
+      "agentId": "ac747f18ab982ca0d",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789771943631,
+      "queuedAt": 1789771943629,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Braces balance after the edits, with comments and strings s…",
+      "promptPreview": "You are fixing ACT IV - \"The Drowned Republic\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. The builder's report: {\"act\":\"IV - The Drowned Republic\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod…",
+      "promptFramed": true,
+      "lastProgressAt": 1789772188579,
+      "tokens": 189446,
+      "toolCalls": 25,
+      "durationMs": 244948,
+      "resultPreview": "{\"applied\":[\"MAJOR (confirmed): the close could strand after a won war. Vanilla documents that capitulation ends: days_since_capitulated counts 'even if it is no longer capitulated' (triggers_documentation.md:2505). So once the peace is signed, an NCR that survives as a rump fails all three old branches. When the NCR is the last enemy, the window to select the close is about zero days, and an AI b…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 16,
+      "label": "fix:finale",
+      "phaseIndex": 3,
+      "phaseTitle": "Fix",
+      "agentId": "a8914d88107c36499",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789772016775,
+      "queuedAt": 1789772016773,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Checks re-run after the fixes, all passing: - **Braces bala…",
+      "promptPreview": "You are fixing FINALE - \"R'lyeh Rises\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. The builder's report: {\"act\":\"FINALE - \\\"R'lyeh Rises\\\"\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_folder\\…",
+      "promptFramed": true,
+      "lastProgressAt": 1789772151985,
+      "tokens": 162600,
+      "toolCalls": 21,
+      "durationMs": 135209,
+      "resultPreview": "{\"applied\":[\"MAJOR, confirmed: mltd.73.d printed [?ROOT.mltd_national_population|0]. mltd_update_national_population (mltd_scripted_effects.txt:293-309) sums raw state_population, and script variables wrap negative above 2,147,483.647. The ending needs 300 controlled states, and CONQUEST_PLAN.txt:414 puts MLT at 3-4M people at that point. mltd_telemetry_effects.txt:41-42 already notes the same wra…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 17,
+      "label": "fix:act6",
+      "phaseIndex": 3,
+      "phaseTitle": "Fix",
+      "agentId": "ab1498079b69bd5cb",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789772110695,
+      "queuedAt": 1789772110693,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Braces balance to depth 0, never going negative, in mltd_ac…",
+      "promptPreview": "You are fixing ACT VI - \"All Waters Are One\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. The builder's report: {\"act\":\"VI - All Waters Are One\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_fol…",
+      "promptFramed": true,
+      "lastProgressAt": 1789772243864,
+      "tokens": 164960,
+      "toolCalls": 15,
+      "durationMs": 133168,
+      "resultPreview": "{\"applied\":[\"MAJOR, confirmed and fixed. I checked the claim against the code. mltd_ai_stage_ate (mltd_ai_triggers.txt:937) opens under the same condition as the TBH, LNS and TLA stages: The Final Ritual done, and the Legion beaten or the date past 2286. mltd_ai_army_ready (:375) only compares the division count with the survey's line. mltd_ai_conquer_ate (ai_strategy/mltd_MLT.txt:1813-1826) goes …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 18,
+      "label": "fix:act5",
+      "phaseIndex": 3,
+      "phaseTitle": "Fix",
+      "agentId": "a15752161b8090608",
+      "model": "claude-opus-5[1m]",
+      "state": "done",
+      "startedAt": 1789772280279,
+      "queuedAt": 1789772280276,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Brace balance, ignoring comments and strings: mltd_act5_foc…",
+      "promptPreview": "You are fixing ACT V - \"The Sea Against Mars\" of the MLT focus-tree rework (repo C:\\Users\\jonat\\Documents\\rising-tide). The build spec is C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\story\\SPEC.md. The builder's report: {\"act\":\"V - The Sea Against Mars\",\"files_written\":[\"C:\\\\Users\\\\jonat\\\\Documents\\\\rising-tide\\\\mod_f…",
+      "promptFramed": true,
+      "lastProgressAt": 1789772808272,
+      "tokens": 252999,
+      "toolCalls": 48,
+      "durationMs": 527993,
+      "resultPreview": "{\"applied\":[\"Finding 1 (minor, Guns for Both Sides can arm an enemy) - CONFIRMED and fixed. In OWB the old mltd_wht_guns_for_both_sides was held for the AI until the NCR's stage (round 23), so it ran before the Utah wars. Now it sits in mltd_wht_the_lake_god_answers, an ungated head that opens after Act IV's close. That is the same moment the AI's mltd_ai_stage_wht / _eht open (mltd_ai_triggers.tx…"
+    }
+  ],
+  "totalTokens": 4116368,
+  "totalToolCalls": 699
+}

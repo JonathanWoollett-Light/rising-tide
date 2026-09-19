@@ -226,13 +226,13 @@ mltd_ai_stay_on_plan = {
 	ai_strategy = { type = avoid_starting_wars value = -150 }
 }
 
-# No new war before the army can fight one (round 22). A capstone's war goal or a frontier claim is enough for OWB's AI to
-# declare at once: run 4 took The Tide-Wall's war goal on the Washington Brotherhood and declared seven days later with 35
-# divisions of a target of 78, none of them on that border. Below the readiness line (mltd_ai_army_ready: half the frontage
-# target, at most 20 divisions) a new war is discouraged rather than forbidden - -200 against OWB's war-goal base of 500 and
-# each conquest's own declare_war - so a weak neighbour at war with someone else is still fair game; prepare_for_war keeps
-# moving the army to the border meanwhile. The Oregon opening is exempt - it is fought with what MLT starts with - so this
-# begins at the Kingdom.
+# No new war before the army can fight one (round 22). A war goal - a justification, a frontier claim, until round 22 a
+# capstone's - is enough for OWB's AI to declare at once: run 4 took The Tide-Wall's war goal on the Washington Brotherhood
+# and declared seven days later with 35 divisions of a target of 78, none of them on that border. Below the readiness line
+# (mltd_ai_army_ready: half the frontage target, at most 20 divisions) a new war is discouraged rather than forbidden - -200
+# against OWB's war-goal base of 500 and each conquest's own declare_war - so a weak neighbour at war with someone else is
+# still fair game; prepare_for_war keeps moving the army to the border meanwhile. The Oregon opening is exempt - it is fought
+# with what MLT starts with - so this begins at the Kingdom.
 mltd_ai_not_ready_for_war = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -597,7 +597,8 @@ mltd_ai_opening_order_rbt = {
 # - antagonize: lowers the tension bar for a war goal (GENERATE_WARGOAL_ANTAGONIZE_SCALE, vanilla 00_defines.lua:2629).
 # - consider_weak: large, because OWB's DECLARE_WAR_RELATIVE_FORCE_FACTOR = 500 (01_defines.lua:292) lets relative force
 #   dominate the decision to declare.
-# - declare_war: only acts once a war goal exists - a justification, or a conflict capstone's create_wargoal.
+# - declare_war: only acts once a war goal exists - a justification (the story acts' war focuses declare their wars
+#   themselves; until round 22 each granted a war goal instead).
 # - prepare_for_war: moves troops to the border; the primary target of each stage only.
 # - front_unit_request: takes a country_trigger, not an id (TRL.txt:65-71).
 
@@ -2099,10 +2100,11 @@ mltd_ai_conquer_mdm = {
 }
 
 # ---- B11. Holds on early war goals ------------------------------------------------------------------------------------------
-# Every conflict capstone creates an annex_everything war goal, and OWB's DILPOMATIC_ACTION_DECLARE_WAR_WARGOAL_BASE = 500
-# (01_defines.lua:291) sends an AI to war on any war goal it holds. The late-game plan takes the Legion's, Lost Hills', Utah's
-# and Heaven's Guard's capstones during the NCR war, and Texas's and Tlaloc's while the Legion stands (the Kingdom-and-Books
-# plan zeroes them), so those war goals wait for B9 (the NCR beaten or 2283) and B10 (the Legion beaten or 2286). A negative
+# OWB's DILPOMATIC_ACTION_DECLARE_WAR_WARGOAL_BASE = 500 (01_defines.lua:291) sends an AI to war on any war goal it holds.
+# The story acts' war focuses no longer grant war goals - they declare, and each sits behind its act's chapter: Act V's
+# (the Legion, Lost Hills, Utah, Heaven's Guard) behind the NCR's close, Act VI's (Texas, Tlaloc) behind the Legion's. These
+# holds stay for war goals from anywhere else (a justification the conquest blocks start, an OWB event), so a war on the
+# interior still waits for B9 (the NCR beaten or 2283) and one on the south for B10 (the Legion beaten or 2286). A negative
 # declare_war vetoes a declaration (vanilla GER.txt:2175-2189; OWB NEW.txt:78-82). unverified: that -1000 outweighs OWB's
 # war-goal base of 500 and its relative-force term (DECLARE_WAR_RELATIVE_FORCE_FACTOR = 500, 01_defines.lua:292).
 mltd_ai_hold_late_wargoals = {
@@ -2569,9 +2571,10 @@ mltd_ai_guard_the_warren = {
 }
 
 # ---- C2. The Broken Coast, courted (round 21) -----------------------------------------------------------------------------
-# While MLT courts the Broken Coast (mltd_ai_courting_brk: the sub-tree mltd_brk_*), no war on it and no claim pressed, and
-# better relations: the Drowned Covenant is worth more than its 47 states, which run 3 declared on and lost to. A BRK war on
-# MLT, a refusal of the Covenant or the end of the courtship turns the conquest block back on (mltd_ai_safe_target).
+# While MLT courts the Broken Coast (mltd_ai_courting_brk: Act II's mltd_brk_* branch, then the Covenant in Act III), no war
+# on it, no claim pressed, and better relations: the Drowned Covenant is worth more than its 47 states, which run 3 declared
+# on and lost to. A BRK war on MLT, a refusal of the Covenant or the end of the courtship turns the conquest block back on
+# (mltd_ai_safe_target).
 mltd_ai_court_brk = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2584,8 +2587,9 @@ mltd_ai_court_brk = {
 	ai_strategy = { type = befriend id = "BRK" value = 100 }
 }
 
-# Volunteers for the Broken Coast while it fights and MLT is at peace (volunteers go home when their sender is at war), once a
-# volunteer focus has raised the limit; mltd_ai_brk_helped holds the NCR's stage until they have served. Which divisions go is
+# Volunteers for the Broken Coast while it fights and MLT is at peace (volunteers go home when their sender is at war), once
+# The Deep Ones Sail North (Act II) has raised the limit by six (the dynamic modifier mltd_brk_volunteers);
+# mltd_ai_brk_helped holds the NCR's stage until they have served. Which divisions go is
 # the engine's choice. unverified: send_volunteers_desire's weight against OWB's distance and major-power terms
 # (SEND_VOLUNTEER_EVAL_BASE_DISTANCE, 00_defines.lua).
 mltd_ai_help_brk = {
@@ -2619,7 +2623,8 @@ mltd_ai_court_bdt = {
 }
 
 # The Covenant also asks for a network over 30 % of the raiders' land and a civilian infiltration token (La Resistance): an
-# operative builds the network there while MLT courts them, below the Book networks (900).
+# operative builds the network there while MLT courts them, below the Book networks (900), and mltd_ai_infiltrate_brk below
+# takes the token.
 mltd_ai_network_brk = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2632,6 +2637,68 @@ mltd_ai_network_brk = {
 	abort_when_not_enabled = yes
 
 	ai_strategy = { type = operative_mission mission = build_intel_network mission_target = BRK priority = 100 value = 800 }
+}
+
+# The Covenant's civilian infiltration token (round-27 review): OWB's own operation_infiltrate_civilian (00_operations.txt:
+# 90 days, two operatives, network strength 35) at the player's price, once Salt on the Broken Coast (Act II) has opened the
+# branch and a network reaches the raiders. Nothing else takes it for an AI: OWB's generic operation picker
+# (operation_strat_effects.txt) seldom names a courted Broken Coast at peace, and Hail M'lyeh draws a random country. Above
+# the cult operations (950 / 940), so that the one-off operation is not starved behind them; below OWB's operative rescue.
+mltd_ai_infiltrate_brk = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_dlc = "La Resistance"
+		has_intelligence_agency = yes
+		mltd_ai_courting_brk = yes
+		has_completed_focus = mltd_brk_salt_on_the_broken_coast
+		NOT = { has_completed_focus = mltd_brk_the_drowned_covenant }
+		network_national_coverage = { target = BRK value > 0 }
+		NOT = { has_operation_token = { tag = BRK token = token_civilian } }
+		num_of_operatives > 1
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = operative_operation operation = operation_infiltrate_civilian operation_target = BRK value = 960 }
+}
+
+# The Bone Dancers' invitation, Hail the Drowned King (Act III), asks for the same with La Resistance: their cult at 40 %, a
+# network over 25 % of their land and a civilian infiltration token. Once they have crowned the Odious King
+# (bdt_hail_to_the_king) and The Bone Shore (Act II) has opened the branch, an operative builds the network, as for the
+# Broken Coast, and the agency takes the token; the weekly on_action points the cult operations at them
+# (common/on_actions/mltd_on_actions.txt). Until round 27's review no AI strategy did any of this, so Drown the Dance's hold
+# still gives up waiting in 2281 (mltd_ai_may_drown_the_dance).
+mltd_ai_network_bdt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_dlc = "La Resistance"
+		has_intelligence_agency = yes
+		mltd_ai_courting_bdt = yes
+		has_completed_focus = mltd_bdt_the_bone_shore
+		NOT = { has_completed_focus = mltd_bdt_hail_the_drowned_king }
+		BDT = { has_completed_focus = bdt_hail_to_the_king }
+		NOT = { network_national_coverage = { target = BDT value > 0.3 } }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = operative_mission mission = build_intel_network mission_target = BDT priority = 100 value = 800 }
+}
+
+mltd_ai_infiltrate_bdt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_dlc = "La Resistance"
+		has_intelligence_agency = yes
+		mltd_ai_courting_bdt = yes
+		has_completed_focus = mltd_bdt_the_bone_shore
+		NOT = { has_completed_focus = mltd_bdt_hail_the_drowned_king }
+		BDT = { has_completed_focus = bdt_hail_to_the_king }
+		network_national_coverage = { target = BDT value > 0 }
+		NOT = { has_operation_token = { tag = BDT token = token_civilian } }
+		num_of_operatives > 1
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = operative_operation operation = operation_infiltrate_civilian operation_target = BDT value = 960 }
 }
 
 # ---- D. Cult operations (La Resistance) -------------------------------------------------------------------------------------

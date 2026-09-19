@@ -1,0 +1,451 @@
+# Rising Tide (MLT) - Act IV, "The Drowned Republic" (round 27, the story acts).
+# Shared focuses, pulled into mlt_nf through their prerequisites: the chapter, mltd_ncr_a_mole_in_shady_sands, hangs off
+# Act III's close, mltd_the_tide_turns_south (mltd_act3_focus.txt), which reaches the four Act III roots the override lists;
+# everything else here hangs off the chapter. No focus in this file is listed in the override.
+#
+# The act is the old NCR sub-tree (round 13) turned into one chapter of the spine (x = 15):
+#   row 27  the chapter        A Mole in Shady Sands       (0,1) of mltd_the_tide_turns_south
+#   row 28  the fan            Drowned Delegates (-2,1), Sleepers on the Long 15 (0,1), Salt on the Caravan Roads (2,1)
+#   row 29  the war            The Turbines Sing (0,2) - any one of the three beads opens it (one OR block)
+#   row 30  the close          When Shady Sands Falls (0,3) - opens once the NCR has capitulated (now, to anyone, or to
+#                              us in a war that has since ended: flag mltd_ncr_capitulated, set by on_capitulation), is
+#                              gone, or is our subject; event mltd.40 (the trophy: a research slot, or the Drowned Rangers) and world
+#                              news mltd.41
+# Nothing was merged into this act: its five kept focuses keep their ids, costs, icons and rewards. What changed (rules in
+# the round-27 build spec): the root is now the chapter (no Kingdom or NCR gate, ai_will_do 10); the three beads lost their
+# intelligence gates (the intel rewards stay, inside has_dlc = "La Resistance") and pay a fallback when the NCR is gone;
+# the war's prerequisite is any bead instead of the Sleepers alone; the round-23 is_ai modifiers that waited on The Deep Ones
+# Walk are gone, because the tree now enforces the order. The war keeps its Hoover gate and its AI stage and readiness
+# hold (mltd_ai_stage_ncr, mltd_ai_army_ready; since the round-27 review in `available`, mltd_ai_may_start_ncr_war), which
+# now lifts once the focus can no longer start our war early - the NCR gone, our subject, at war with us, or capitulated to
+# us (flag mltd_ncr_capitulated): the close needs the war focus, so an AI must not be held off it after our war has
+# happened. A capitulation to anyone else does not lift it. Every focus is cancel_if_invalid = no + continue_if_invalid = yes.
+
+############ Act IV - the chapter ############
+
+# The Esoteric Order opens its first eye in the Republic's capital
+shared_focus = {
+	id = mltd_ncr_a_mole_in_shady_sands
+	icon = GFX_goal_NCR_Shady_Sands
+	cost = 30
+	prerequisite = { focus = mltd_the_tide_turns_south }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 1
+	relative_position_id = mltd_the_tide_turns_south
+	ai_will_do = {
+		factor = 10
+	}
+	completion_reward = {
+		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in the Republic and the Mojave wither half as fast (mltd_cult_refresh)
+		if = {
+			limit = {
+				OR = {
+					country_exists = NCR
+					country_exists = MOT
+				}
+			}
+			custom_effect_tooltip = mltd_ncr_cult_sheltered_tt
+			hidden_effect = {
+				if = {
+					limit = { country_exists = NCR }
+					NCR = { set_country_flag = mltd_cult_sheltered }
+				}
+				if = {
+					limit = { country_exists = MOT }
+					MOT = { set_country_flag = mltd_cult_sheltered }
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			add_intel = {
+				target = NCR
+				civilian_intel = 10
+				army_intel = 5
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+############ Act IV - the fan ############
+
+shared_focus = {
+	id = mltd_ncr_drowned_delegates
+	icon = GFX_goal_NCR_Council_Hill
+	cost = 35
+	prerequisite = { focus = mltd_ncr_a_mole_in_shady_sands }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 1
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	ai_will_do = {
+		factor = 3
+	}
+	completion_reward = {
+		add_political_power = 40
+		if = {
+			limit = { country_exists = NCR }
+			NCR = {
+				add_political_power = -35
+				add_stability = -0.06
+			}
+			if = {
+				limit = {
+					OR = {
+						NCR = { has_country_flag = ncr_crisis }
+						has_global_flag = ncr_emergency
+					}
+				}
+				custom_effect_tooltip = mltd_ncr_delegates_crisis_tt
+				NCR = { add_stability = -0.04 }
+			}
+		}
+		# the NCR gone (or no La Resistance): the tech bonus stands in for the token and the intel
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			add_operation_token = {
+				tag = NCR
+				token = token_army
+			}
+			add_intel = {
+				target = NCR
+				civilian_intel = 10
+			}
+		}
+		else = {
+			add_tech_bonus = {
+				name = mltd_ncr_drowned_delegates
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons_tech_category
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_ncr_sleepers_on_the_long_15
+	icon = GFX_goal_NCR_Long15
+	cost = 35
+	prerequisite = { focus = mltd_ncr_a_mole_in_shady_sands }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 1
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	ai_will_do = {
+		factor = 3
+	}
+	completion_reward = {
+		army_experience = 30
+		if = {
+			limit = { country_exists = MOT }
+			MOT = { add_war_support = -0.03 }
+		}
+		else_if = {
+			limit = { country_exists = NCR }
+			NCR = { add_war_support = -0.03 }
+		}
+		# the NCR gone (or no La Resistance): +25 political power stands in for the intel
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			add_intel = {
+				target = NCR
+				army_intel = 10
+			}
+			if = {
+				limit = { country_exists = MOT }
+				add_intel = {
+					target = MOT
+					army_intel = 10
+				}
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = mltd_ncr_salt_on_the_caravan_roads
+	icon = GFX_goal_NCR_Caravan
+	cost = 35
+	prerequisite = { focus = mltd_ncr_a_mole_in_shady_sands }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 1
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	ai_will_do = {
+		factor = 3
+	}
+	completion_reward = {
+		# theft without producer: the NCR loses the rifles whoever made them, and we gain them as NCR-made (CLAUDE.md > The story
+		# acts > Theft without producer)
+		if = {
+			limit = { country_exists = NCR }
+			if = {
+				limit = {
+					NCR = { has_equipment = { infantry_equipment > 799 } }
+				}
+				NCR = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = -800
+					}
+				}
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 800
+					producer = NCR
+				}
+			}
+			else_if = {
+				limit = {
+					NCR = { has_equipment = { infantry_equipment > 399 } }
+				}
+				NCR = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = -400
+					}
+				}
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 400
+					producer = NCR
+				}
+			}
+			if = {
+				limit = {
+					NCR = { has_equipment = { support_equipment > 199 } }
+				}
+				NCR = {
+					add_equipment_to_stockpile = {
+						type = support_equipment
+						amount = -200
+					}
+				}
+				add_equipment_to_stockpile = {
+					type = support_equipment
+					amount = 200
+					producer = NCR
+				}
+			}
+		}
+		# round 27: the NCR gone, there are no caravans left to lose
+		else = {
+			add_political_power = 25
+		}
+		set_temp_variable = { caps_to_add = 100 }
+		add_caps = yes
+	}
+}
+
+############ Act IV - the war ############
+
+shared_focus = {
+	id = mltd_ncr_the_turbines_sing
+	icon = GFX_goal_generic_dam
+	cost = 42
+	# round 27: any bead of the fan opens the war (one OR block); it used to hang off the Sleepers alone
+	prerequisite = {
+		focus = mltd_ncr_drowned_delegates
+		focus = mltd_ncr_sleepers_on_the_long_15
+		focus = mltd_ncr_salt_on_the_caravan_roads
+	}
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_ncr_hoover_contested_tt
+			OR = {
+				has_global_flag = fbhd_legion_overall_vic
+				has_global_flag = fbhd_boulder_city_miracle_flag
+				has_global_flag = fbhd_mot_hold_dam
+				NOT = { country_exists = CES }
+				AND = {
+					country_exists = CES
+					CES = {
+						OR = {
+							has_completed_focus = ces_hoover_dam_battle
+							has_completed_focus = ces_attack_ncr
+						}
+					}
+				}
+				AND = {
+					country_exists = NCR
+					NCR = { has_war_with = CES }
+				}
+				date > 2279.06.01
+			}
+		}
+		# round 22: the focus is the declaration, so an AI takes it only when its stage has come and the army is ready. Round
+		# 27: the war is now a node of the spine, and the close needs it, so the hold lifts once there is no war left to start
+		# early - the NCR already at war with us (the conquest block got there first), gone, our subject or capitulated to us
+		# (not to anyone else: a capitulated NCR whose allies fight on would still be declared on). Since the round-27 review
+		# the hold sits here, hidden and AI-only, because an AI takes any listed focus that is available whatever its
+		# ai_will_do reads (mltd_ai_triggers.txt, section W)
+		mltd_ai_may_start_ncr_war = yes
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 2
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	ai_will_do = {
+		factor = 3
+	}
+	will_lead_to_war_with = NCR
+	completion_reward = {
+		# round 22: the branch ends in the war itself - the focus declares on each living target that is not already at war
+		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
+		# goal the AI could sit on for years)
+		if = {
+			limit = {
+				country_exists = NCR
+				NOT = { has_war_with = NCR }
+				NCR = { NOT = { is_subject_of = ROOT } }
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = NCR
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = NCR
+			}
+			steal_random_tech_bonus = {
+				folder = fallout_industry_folder
+				ahead_reduction = 1
+				bonus = 1.0
+				base_bonus = 0.5
+				name = mltd_ncr_the_turbines_sing
+				target = NCR
+				uses = 1
+			}
+		}
+		else = {
+			add_tech_bonus = {
+				name = mltd_ncr_the_turbines_sing
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+		if = {
+			limit = { has_global_flag = fbhd_legion_overall_vic }
+			custom_effect_tooltip = mltd_ncr_turbines_rout_tt
+			if = {
+				limit = {
+					country_exists = NCR
+					NCR = { has_equipment = { infantry_equipment > 599 } }
+				}
+				NCR = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = -600
+					}
+				}
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 600
+					producer = NCR
+				}
+			}
+			else = {
+				army_experience = 30
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_global_flag = fbhd_boulder_city_miracle_flag
+					has_global_flag = fbhd_mot_hold_dam
+				}
+			}
+			custom_effect_tooltip = mltd_ncr_turbines_wall_tt
+			army_experience = 30
+		}
+		if = {
+			limit = {
+				country_exists = NCR
+				NCR = { has_war_with = CES }
+			}
+			custom_effect_tooltip = mltd_ncr_turbines_second_battle_tt
+			NCR = { add_war_support = -0.03 }
+		}
+	}
+}
+
+############ Act IV - the close ############
+
+# The Republic is broken: the trophy (event mltd.40 - a research slot, or the Drowned Rangers and 50 army experience) and the
+# world news (mltd.41). mltd_ai_ncr_beaten (common/scripted_triggers/mltd_ai_triggers.txt) is the NCR gone or capitulated
+# now. has_capitulated clears when the country leaves its last war, so an NCR that survives the peace as a rump (a human
+# who takes only some states, or allies who share the peace) would fail it for good although we won; the country flag
+# mltd_ncr_capitulated, set on MLT by on_capitulation (common/on_actions/mltd_on_actions.txt) when the NCR capitulates while
+# at war with MLT, keeps the win. A subject NCR counts as beaten too: a human who puppets it at the peace would otherwise
+# wait for ever.
+shared_focus = {
+	id = mltd_when_shady_sands_falls
+	icon = GFX_goal_NCR_FO2_Tattered_Flag
+	cost = 30
+	prerequisite = { focus = mltd_ncr_the_turbines_sing }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_ncr_beaten_tt
+			OR = {
+				mltd_ai_ncr_beaten = yes
+				has_country_flag = mltd_ncr_capitulated
+				NCR = { is_subject_of = ROOT }
+			}
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 3
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	ai_will_do = {
+		factor = 10
+	}
+	completion_reward = {
+		# the event's two options, previewed with their own native lines (effect_tooltip shows and does not execute): the same
+		# effects as mltd.40's options a and b (events/mltd_events.txt) - change both together
+		custom_effect_tooltip = mltd_shady_sands_falls_choice_tt
+		custom_effect_tooltip = mltd_shady_sands_falls_scholars_tt
+		effect_tooltip = {
+			add_research_slot = 1
+		}
+		custom_effect_tooltip = mltd_shady_sands_falls_rangers_tt
+		effect_tooltip = {
+			add_ideas = mltd_the_drowned_rangers
+			army_experience = 50
+		}
+		custom_effect_tooltip = mltd_newline_tt
+		country_event = { id = mltd.40 days = 1 }
+		hidden_effect = {
+			every_other_country = {
+				news_event = { id = mltd.41 days = 2 }
+			}
+		}
+	}
+}

@@ -1,0 +1,48 @@
+
+# Act VI - The Southern Deep: the oracles hear the south (fired by focus mltd_the_southern_deep; the focus pays the reward)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.60" }
+	id = mltd.60
+	title = mltd.60.t
+	desc = mltd.60.d
+	picture = GFX_event_mecha_aztec_calendar
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.60.a
+	}
+}
+
+# Act VI - The Last King Kneels: Texas is beaten and the south is the tide's (fired by focus mltd_the_last_king_kneels;
+# the focus pays the research slot and the idea)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.61" }
+	id = mltd.61
+	title = mltd.61.t
+	desc = mltd.61.d
+	picture = GFX_event_texas_capitol
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.61.a
+	}
+}
+
+# The South Has Drowned (world news; delivered by focus mltd_the_last_king_kneels via every_other_country, so MLT never
+# receives it)
+news_event = {
+	id = mltd.62
+	title = mltd.62.t
+	desc = mltd.62.d
+	picture = GFX_event_fall_alamo
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.62.a
+	}
+}

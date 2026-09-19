@@ -16,7 +16,7 @@ mltd_gifts_from_the_deep = {
 }
 
 # Rising Tide - the Broken Coast's volunteers (round 21)
-# Added by mltd_brk_add_volunteer_size (The Deep Ones Sail North, Star Spawn over the Strait): +3 volunteer divisions each, and
+# Added by mltd_brk_add_volunteer_size, which The Deep Ones Sail North calls twice (+3 volunteer divisions each), and
 # no world-tension requirement to send them (OWB's economic laws can add one, gov_economic.txt:38), as OWB's Brotherhood
 # expeditionary departments do (bos_dynamic_modifiers.txt:46-47).
 mltd_brk_volunteers = {

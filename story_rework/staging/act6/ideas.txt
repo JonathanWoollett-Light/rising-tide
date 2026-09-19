@@ -1,0 +1,20 @@
+		# ---- Rising Tide round 27, Act VI: permanent, from mltd_the_last_king_kneels (the south's oil, steel and people
+		# flow north to M'lyeh). Two modifiers inside the act-idea band (+5 % .. +10 %).
+		mltd_the_drowned_south = {
+			picture = generic_gulf_treaty
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				industrial_capacity_factory = 0.10
+				stability_factor = 0.05
+			}
+		}

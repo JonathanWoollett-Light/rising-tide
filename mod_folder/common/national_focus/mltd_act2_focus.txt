@@ -1,0 +1,443 @@
+# Rising Tide (MLT) - Act II, "The Northern Waters" (round 27).
+# Between The Deep Ones Walk and The Final Ritual the tribe turns north: three short branches, one per northern neighbour
+# worth watching, courting or robbing before the ritual - the Brotherhood that holds Washington, the raiders of the Broken
+# Coast and the Bone Dancers. Each branch is a head and one bead below it. The Final Ritual (national, in the override
+# "Mirelurk Tribe (MLT) Focus.txt") is the reconvergence: it takes an OR prerequisite over the three beads, so any one
+# branch opens it, and no prerequisite on the Walk - every bead already needs its head and every head the Walk, and a
+# Walk -> Ritual line would run solid straight down x = 15 through Salt and Sail North. There is no close focus and no
+# event of its own; Act III picks the three threads up again after the ritual (The Tide-Wall, the Drowned Covenant, Hail
+# the Drowned King / Drown the Dance).
+#
+# Pull-in: the three heads are listed in the override (`shared_focus = <id>`) and name the national focus
+# mltd_the_deep_ones_walk as their prerequisite; each bead reaches its head through a shared prerequisite, so the engine
+# pulls it in. Heads take absolute cells (13,22) (15,22) (17,22); each bead sits (0,1) below its head, relative to it.
+#
+# Never stranded: no story focus here has an intelligence gate, and every one is takeable when its target is gone (or is
+# our subject) - the reward falls back to political power. The one standing condition (The Deep Ones Sail North: no war
+# with the Broken Coast while it exists) blocks a single branch, and the other two stay open.
+#
+# Merged into the kept focuses (their ids are gone):
+#   Heresy in the Citadel               -> mltd_wbh_the_drowned_knights (each Brotherhood -40 PP, -6 % stability;
+#                                          La Resistance: civilian intel 15 + army token on it, else +25 PP)
+#   The Drowned Raiders                 -> mltd_brk_salt_on_the_broken_coast (+10 to BRK's cult; La Resistance: army
+#                                          token + civilian intel 15, folded into the root's intel grant, else +25 PP more)
+#   Star Spawn over the Strait          -> mltd_brk_the_deep_ones_sail_north (its +3 volunteer divisions: 6 in all)
+#   Salt on the Bone Road               -> mltd_bdt_the_dancers_hear_the_tide (steals 600 infantry equipment from BDT
+#                                          when it holds more than 1,200, else +25 PP; 30 army experience)
+# Costs: a merged bead keeps its own length plus about 40-50 % of the focus it absorbed, in whole weeks (Knights 42 + 14
+# = 56, Salt 35 + 14 = 49, Sail North 42 + 21 = 63, Dancers 35 + 21 = 56), so a branch pays what its old sub-tree did
+# in 70-80 % of the days (Washington 91 of 112, the Broken Coast 112 of 161, the Bone Dancers 91 of 112) rather than in
+# half of them. Eyes and Bone Shore absorbed nothing and keep 35.
+
+############ the Brotherhood in Washington ############
+
+# The Brotherhood that holds Washington - WBH, or TCA once it has formed the Northwestern Brotherhood (mltd_wbh_brotherhood,
+# which both answer while their own war runs). Act III's The Tide-Wall is this thread's war.
+shared_focus = {
+	id = mltd_wbh_eyes_in_the_sound
+	icon = GFX_goal_generic_esp_cam
+	cost = 35
+	prerequisite = { focus = mltd_the_deep_ones_walk }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 13
+	y = 22
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		# round 17: the cults of M'lyeh in the Brotherhood's lands wither half as fast (mltd_cult_refresh)
+		if = {
+			limit = { any_country = { mltd_wbh_brotherhood = yes } }
+			custom_effect_tooltip = mltd_wbh_cult_sheltered_tt
+			hidden_effect = {
+				every_country = {
+					limit = { mltd_wbh_brotherhood = yes }
+					set_country_flag = mltd_cult_sheltered
+				}
+			}
+		}
+		# round 27: takeable with no Brotherhood left in Washington - the intel then becomes political power
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				any_country = { mltd_wbh_brotherhood = yes }
+			}
+			if = {
+				limit = { WBH = { mltd_wbh_brotherhood = yes } }
+				add_intel = {
+					target = WBH
+					civilian_intel = 10
+					army_intel = 15
+				}
+			}
+			if = {
+				limit = { TCA = { mltd_wbh_brotherhood = yes } }
+				add_intel = {
+					target = TCA
+					civilian_intel = 10
+					army_intel = 15
+				}
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+	}
+}
+
+# The Drowned Knights, with Heresy in the Citadel merged in (round 27): the heresy among the citadel's slaves, then the theft.
+shared_focus = {
+	id = mltd_wbh_the_drowned_knights
+	icon = GFX_goal_WBH_black_paladins_2
+	cost = 56
+	prerequisite = { focus = mltd_wbh_eyes_in_the_sound }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 1
+	relative_position_id = mltd_wbh_eyes_in_the_sound
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		# from Heresy in the Citadel: the Inquisitors burn their own
+		every_country = {
+			limit = { mltd_wbh_brotherhood = yes }
+			add_political_power = -40
+			add_stability = -0.06
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				any_country = { mltd_wbh_brotherhood = yes }
+			}
+			if = {
+				limit = { WBH = { mltd_wbh_brotherhood = yes } }
+				add_intel = {
+					target = WBH
+					civilian_intel = 15
+				}
+				add_operation_token = {
+					tag = WBH
+					token = token_army
+				}
+			}
+			if = {
+				limit = { TCA = { mltd_wbh_brotherhood = yes } }
+				add_intel = {
+					target = TCA
+					civilian_intel = 15
+				}
+				add_operation_token = {
+					tag = TCA
+					token = token_army
+				}
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		# the theft is taken from whichever Brotherhood holds the stock (round 17's pair: the victim loses it from every
+		# producer, ROOT gains it under the victim's name)
+		if = {
+			limit = {
+				WBH = { mltd_wbh_brotherhood = yes }
+				WBH = { has_equipment = { infantry_equipment > 1200 } }
+			}
+			WBH = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -600
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 600
+				producer = WBH
+			}
+		}
+		else_if = {
+			limit = {
+				TCA = { mltd_wbh_brotherhood = yes }
+				TCA = { has_equipment = { infantry_equipment > 1200 } }
+			}
+			TCA = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -600
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 600
+				producer = TCA
+			}
+		}
+		if = {
+			limit = {
+				WBH = { mltd_wbh_brotherhood = yes }
+				WBH = { has_equipment = { power_armor_equipment > 120 } }
+			}
+			WBH = {
+				add_equipment_to_stockpile = {
+					type = power_armor_equipment
+					amount = -60
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = power_armor_equipment
+				amount = 60
+				producer = WBH
+			}
+		}
+		else_if = {
+			limit = {
+				TCA = { mltd_wbh_brotherhood = yes }
+				TCA = { has_equipment = { power_armor_equipment > 120 } }
+			}
+			TCA = {
+				add_equipment_to_stockpile = {
+					type = power_armor_equipment
+					amount = -60
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = power_armor_equipment
+				amount = 60
+				producer = TCA
+			}
+		}
+		army_experience = 30
+	}
+}
+
+############ the Broken Coast ############
+
+# The Broken Coast (BRK) is courted, not fought (round 21): envoys end the world's scorn between us, the cult grows among
+# the crews, and MLT may send more volunteers into the raiders' wars. Act III's Drowned Covenant is this thread's end.
+# Salt on the Broken Coast, with The Drowned Raiders merged in (round 27).
+shared_focus = {
+	id = mltd_brk_salt_on_the_broken_coast
+	icon = GFX_goal_BRK_naval_raiders
+	cost = 49
+	prerequisite = { focus = mltd_the_deep_ones_walk }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 15
+	y = 22
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = { country_exists = BRK }
+			# the cult of M'lyeh among the raiders withers half as fast (mltd_cult_refresh) - set first, so the cult founded
+			# below starts with the halved decay
+			custom_effect_tooltip = mltd_brk_cult_sheltered_tt
+			hidden_effect = {
+				BRK = { set_country_flag = mltd_cult_sheltered }
+			}
+			# from The Drowned Raiders: +10 to the raiders' cult, founding it if they have none (mltd_cult_add_strength)
+			set_temp_variable = { mltd_cult_gain = 10 }
+			custom_effect_tooltip = mltd_brk_raiders_cult_tt
+			hidden_effect = {
+				BRK = { mltd_cult_add_strength = yes }
+				mltd_cult_rebuild_list = yes
+			}
+		}
+		# the root's intel (civilian 10, army 10) and The Drowned Raiders' (civilian 15, the army token) in one grant; without
+		# La Resistance, or with the raiders gone, both focuses' +25 PP
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BRK
+			}
+			add_intel = {
+				target = BRK
+				civilian_intel = 25
+				army_intel = 10
+			}
+			add_operation_token = {
+				tag = BRK
+				token = token_army
+			}
+		}
+		else = {
+			add_political_power = 50
+		}
+		# OWB's start-of-game scorn between the Broken Coast and the world (on_startup, amfo_opinion_modifiers.txt:72-73),
+		# lifted the way OWB lifts it, and replaced by our envoys' goodwill both ways
+		if = {
+			limit = { country_exists = BRK }
+			remove_opinion_modifier = {
+				target = BRK
+				modifier = world_view_brk
+			}
+			BRK = {
+				remove_opinion_modifier = {
+					target = ROOT
+					modifier = brk_view_world
+				}
+			}
+			add_opinion_modifier = {
+				target = BRK
+				modifier = mltd_drowned_envoys
+			}
+			reverse_add_opinion_modifier = {
+				target = BRK
+				modifier = mltd_drowned_envoys
+			}
+		}
+	}
+}
+
+# The Deep Ones Sail North, with Star Spawn over the Strait merged in (round 27): +6 volunteer divisions at once. The old
+# gates on the summons (mltd_deep_ones_summon_unlocked, mltd_star_spawn_summon_unlocked) are gone - The Call of the Deep Ones
+# set the first (event mltd.7) and The Deep Ones Walk, this act's prerequisite, sets the second (event mltd.8).
+shared_focus = {
+	id = mltd_brk_the_deep_ones_sail_north
+	icon = GFX_goal_BRK_masters_of_the_waves
+	cost = 63
+	prerequisite = { focus = mltd_brk_salt_on_the_broken_coast }
+	available = {
+		if = {
+			limit = { country_exists = BRK }
+			BRK = { NOT = { has_war_with = ROOT } }
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 1
+	relative_position_id = mltd_brk_salt_on_the_broken_coast
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		# +3 volunteer divisions MLT may send per call (send_volunteer_size, the dynamic modifier mltd_brk_volunteers): the
+		# player sends them through the diplomacy screen's Send Volunteers, whichever divisions they choose. Both calls sit
+		# behind one tooltip, so the +6 reads as one line rather than two +3s.
+		if = {
+			limit = { country_exists = BRK }
+			custom_effect_tooltip = mltd_brk_volunteer_size_6_tt
+			hidden_effect = {
+				mltd_brk_add_volunteer_size = yes
+				mltd_brk_add_volunteer_size = yes
+			}
+		}
+		else = {
+			add_political_power = 50
+		}
+	}
+}
+
+############ the Bone Dancers ############
+
+# The Bone Dancers (BDT, round 22): envoys, the Order among the dancers, and the bone road robbed. Act III chooses between
+# inviting them into the Drowned Covenant (Hail the Drowned King) and drowning the dance.
+shared_focus = {
+	id = mltd_bdt_the_bone_shore
+	icon = GFX_goal_BDT_holy_skull
+	cost = 35
+	prerequisite = { focus = mltd_the_deep_ones_walk }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 17
+	y = 22
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		mltd_intel_foothold = yes
+		if = {
+			limit = { country_exists = BDT }
+			custom_effect_tooltip = mltd_bdt_cult_sheltered_tt
+			hidden_effect = {
+				BDT = { set_country_flag = mltd_cult_sheltered }
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BDT
+			}
+			add_intel = {
+				target = BDT
+				civilian_intel = 10
+				army_intel = 10
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		if = {
+			limit = { country_exists = BDT }
+			add_opinion_modifier = {
+				target = BDT
+				modifier = mltd_drowned_envoys
+			}
+			reverse_add_opinion_modifier = {
+				target = BDT
+				modifier = mltd_drowned_envoys
+			}
+		}
+	}
+}
+
+# The Dancers Hear the Tide, with Salt on the Bone Road merged in (round 27): the cult among the dancers, then the theft.
+shared_focus = {
+	id = mltd_bdt_the_dancers_hear_the_tide
+	icon = GFX_goal_BDT_skeleton_king
+	cost = 56
+	prerequisite = { focus = mltd_bdt_the_bone_shore }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 0
+	y = 1
+	relative_position_id = mltd_bdt_the_bone_shore
+	ai_will_do = { factor = 3 }
+	completion_reward = {
+		if = {
+			limit = { country_exists = BDT }
+			# +10 to the Bone Dancers' cult, founding it if they have none (mltd_cult_add_strength)
+			set_temp_variable = { mltd_cult_gain = 10 }
+			custom_effect_tooltip = mltd_bdt_dancers_cult_tt
+			hidden_effect = {
+				BDT = { mltd_cult_add_strength = yes }
+				mltd_cult_rebuild_list = yes
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+				country_exists = BDT
+			}
+			add_intel = {
+				target = BDT
+				civilian_intel = 15
+			}
+			add_operation_token = {
+				tag = BDT
+				token = token_army
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		# from Salt on the Bone Road: the victim loses the crates from every producer, ROOT gains them under its name
+		if = {
+			limit = {
+				country_exists = BDT
+				BDT = { has_equipment = { infantry_equipment > 1200 } }
+			}
+			BDT = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -600
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 600
+				producer = BDT
+			}
+		}
+		else = {
+			add_political_power = 25
+		}
+		army_experience = 30
+	}
+}

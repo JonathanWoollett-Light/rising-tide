@@ -1,0 +1,19 @@
+	# ---- Round 27, Act IV: the NCR capitulating while at war with MLT is recorded on MLT (country flag mltd_ncr_capitulated),
+	# so that the close, mltd_when_shady_sands_falls (mltd_act4_focus.txt), outlives the peace: has_capitulated clears once
+	# the country leaves its last war, and an NCR that survives the peace as a rump would otherwise never count as beaten.
+	# ROOT is the capitulated country, FROM the winner (vanilla 00_on_actions.txt:931); vanilla tests has_war_with against
+	# the capitulated country inside this on_action (:937-938), and FROM = MLT covers MLT's own win if it does not hold.
+	on_capitulation = {
+		effect = {
+			if = {
+				limit = {
+					tag = NCR
+					OR = {
+						has_war_with = MLT
+						FROM = { tag = MLT }
+					}
+				}
+				MLT = { set_country_flag = mltd_ncr_capitulated }
+			}
+		}
+	}

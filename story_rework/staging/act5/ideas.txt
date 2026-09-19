@@ -1,0 +1,21 @@
+		# Permanent, from mltd_when_the_legion_breaks (Act V close, mltd_act5_focus.txt): the Legion's war-god learns to swim.
+		# conscription_factor (shown as Recruitable Population) is the key the Gift of the Brood uses (mltd_dynamic_modifiers.txt).
+		mltd_mars_beneath_the_waves = {
+			picture = generic_legion
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = 0.05
+				war_support_factor = 0.05
+				conscription_factor = 0.05
+			}
+		}

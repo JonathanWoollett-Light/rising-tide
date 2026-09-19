@@ -96,7 +96,8 @@ ideas = {
 				special_forces_min = 80
 			}
 		}
-		# ---- Rising Tide round 13: conflict sub-trees and flavour events
+		# ---- Rising Tide round 13: timed ideas from the war capstones (in the story acts since round 27) and the flavour events
+		# Timed (180 days), from mltd_tex_black_water_rising (Act VI, mltd_act6_focus.txt).
 		mltd_tex_black_water = {
 			picture = generic_fuel
 
@@ -116,7 +117,7 @@ ideas = {
 				stability_factor = -0.02
 			}
 		}
-		# Timed (180 days), from mltd_wbh_the_tide_wall. targeted_modifier sits beside modifier, as in OWB bdt_ideas.txt:41-44.
+		# Timed (180 days), from mltd_wbh_the_tide_wall (Act III, mltd_act3_focus.txt). targeted_modifier sits beside modifier, as in OWB bdt_ideas.txt:41-44.
 		mltd_wbh_tide_wall = {
 			picture = generic_improv_barricade
 
@@ -148,7 +149,7 @@ ideas = {
 				defense_bonus_against = 0.10
 			}
 		}
-		# Timed, 180 days: mltd_ces_the_sea_against_mars (Caesar's Legion sub-tree, mltd_conflicts_focus.txt)
+		# Timed, 180 days: mltd_ces_the_sea_against_mars (Act V, mltd_act5_focus.txt)
 		mltd_ces_the_drowned_bull = {
 			picture = brk_coastal_terror
 
@@ -167,7 +168,7 @@ ideas = {
 				army_morale_factor = 0.05
 			}
 		}
-		# Timed (180 days): the war branch of mltd_bos_blood_in_the_water, taken while Lost Hills and the NCR are at war.
+		# Timed (180 days): the war branch of mltd_bos_blood_in_the_water (Act V), taken while Lost Hills and the NCR are at war.
 		mltd_bos_red_tide = {
 			picture = generic_blood
 
@@ -186,6 +187,7 @@ ideas = {
 				experience_gain_army_factor = 0.10
 			}
 		}
+		# Timed (180 days), from mltd_tla_the_drowned_god_sleeps (Act VI, mltd_act6_focus.txt).
 		mltd_tla_dreams_of_wire = {
 			picture = generic_circuit
 
@@ -241,7 +243,7 @@ ideas = {
 				stability_factor = -0.05
 			}
 		}
-		# Timed (180 days), granted by mltd_hea_the_crusade_turns_south in mltd_conflicts_focus.txt
+		# Timed (180 days), granted by mltd_hea_the_crusade_turns_south in mltd_act5_focus.txt (Act V)
 		mltd_hea_pilgrims_of_the_steam = {
 			picture = HEA_idea_pilgrims
 
@@ -260,7 +262,7 @@ ideas = {
 				stability_factor = 0.03
 			}
 		}
-		# Timed (180 days), granted by mltd_wht_rites_on_the_spiral_jetty in mltd_conflicts_focus.txt
+		# Timed (180 days), granted by mltd_wht_rites_on_the_spiral_jetty in mltd_act5_focus.txt (Act V)
 		mltd_wht_rites_on_the_jetty = {
 			picture = generic_salt
 
@@ -295,6 +297,148 @@ ideas = {
 			modifier = {
 				caps_income_modifier = 0.20
 				consumer_goods_factor = 0.04
+			}
+		}
+
+		# ---- Rising Tide round 27: the story acts' permanent ideas, one from each act's close (Act IV's from its event) and
+		# one per ending of the finale.
+		# Act III: permanent, from the close, mltd_the_tide_turns_south (mltd_act3_focus.txt). The north is
+		# the tribe's, and it turns south: steadier at home, readier for war, quicker to find a cause. The -25 % justification
+		# time is the act table's own figure (vanilla uses -0.25 on nine ideas); the other two sit at the +5 % end of the
+		# story acts' +-5-10 % band.
+		mltd_the_northern_waters = {
+			# a sailor's cap (OWB's generic coast guard): not brk_master_of_sea, which MLT already shows on its mltd_brk_volunteers
+			# dynamic modifier (Act II's The Deep Ones Sail North)
+			picture = generic_coast_guard
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				stability_factor = 0.05
+				war_support_factor = 0.05
+				justify_war_goal_time = -0.25
+			}
+		}
+		# Act IV: permanent, from event mltd.40 option b (the close, mltd_when_shady_sands_falls,
+		# mltd_act4_focus.txt). The Republic's Rangers, sworn to the deep. army_org_factor is the key the Grand Ritual uses.
+		mltd_the_drowned_rangers = {
+			picture = generic_ranger_helm
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = 0.05
+				army_defence_factor = 0.05
+				army_org_factor = 0.05
+			}
+		}
+		# Act V: permanent, from mltd_when_the_legion_breaks (the close, mltd_act5_focus.txt): the Legion's war-god learns to swim.
+		# conscription_factor (shown as Recruitable Population) is the key the Gift of the Brood uses (mltd_dynamic_modifiers.txt).
+		mltd_mars_beneath_the_waves = {
+			picture = generic_legion
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = 0.05
+				war_support_factor = 0.05
+				conscription_factor = 0.05
+			}
+		}
+		# Act VI: permanent, from mltd_the_last_king_kneels (the south's oil, steel and people
+		# flow north to M'lyeh). Two modifiers inside the act-idea band (+5 % .. +10 %).
+		mltd_the_drowned_south = {
+			picture = generic_gulf_treaty
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				industrial_capacity_factory = 0.10
+				stability_factor = 0.05
+			}
+		}
+		# The finale (mltd_finale_focus.txt): the three endings' permanent ideas. The endings are mutually
+		# exclusive, so a country holds at most one of these; they are the tree's one place for large bonuses (up to 20 %).
+		# Permanent, from mltd_ending_the_dreamer_wakes: war.
+		mltd_the_dreamer_wakes = {
+			picture = apocalypse_now
+			allowed = {
+				original_tag = MLT
+			}
+			allowed_civil_war = {
+				always = yes
+			}
+			removal_cost = -1
+			modifier = {
+				army_attack_factor = 0.15
+				army_defence_factor = 0.10
+				war_support_factor = 0.10
+				stability_factor = -0.05
+			}
+		}
+		# Permanent, from mltd_ending_the_priestess_reigns: rule. consumer_goods_factor as in mltd_the_wet_market, here a cut.
+		mltd_the_priestess_reigns = {
+			picture = IRN_throne
+			allowed = {
+				original_tag = MLT
+			}
+			allowed_civil_war = {
+				always = yes
+			}
+			removal_cost = -1
+			modifier = {
+				stability_factor = 0.20
+				political_power_factor = 0.20
+				consumer_goods_factor = -0.10
+			}
+		}
+		# Permanent, from mltd_ending_return_to_the_sea: the deep. monthly_population 0.2 is +20 % monthly population
+		# growth (OWB's own scale, e.g. gov_unique_ncr.txt:74); conscription_factor is Recruitable Population, the key the
+		# Gift of the Brood uses. The focus also raises two Leviathans at Mireport when it is held.
+		mltd_the_return_to_the_sea = {
+			picture = TIM_patch_oceanography
+			allowed = {
+				original_tag = MLT
+			}
+			allowed_civil_war = {
+				always = yes
+			}
+			removal_cost = -1
+			modifier = {
+				monthly_population = 0.2
+				conscription_factor = 0.10
 			}
 		}
 	}

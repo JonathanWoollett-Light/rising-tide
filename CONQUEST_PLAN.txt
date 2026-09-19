@@ -42,7 +42,7 @@
 #   Summoned divisions come fully equipped, with 20 % spare in the stockpile (32 Deep Ones, 16 Star Spawn) [F].
 
 # ---- 2275-01-01 day 0: 2 states, 11,009 people, 2 civ / 2 mil / 1 dock, 7 divisions (4 Coral Worshippers, 3 M'lulu's Clutch)
-# ---- ~900 free manpower, 0 caps, 3 research slots for the whole game
+# ---- ~900 free manpower, 0 caps, 3 research slots (4 from When Shady Sands Falls, 5 from The Last King Kneels)
 production 1 mil on melee_equipment_1                  # the existing line: infantry weapons for the Coral Hosts
 production 1 mil on amphibious_beast_equipment_1       # the existing line; there are no spare mirelurks
 research slot 1 scavtool_engineering_1                 # 2.5 -> ~129 days; max efficiency +9 %
@@ -319,46 +319,65 @@ decision mltd_summon_the_star_spawn                     # 75 PP, 16,000 people -
 justify take_state on TCA, state 37 East Portland      # 2 states, 30.9k people, 7 divisions with power armour; claimed coast, so cheap [M]
 wait 30 days
 
-# ---- 2278-03 day ~1170
+# ---- 2278-03-18 day 1171: Act II, The Northern Waters - any one of its three branches opens The Final Ritual
 declare war on TCA                                     # the Star Spawn and Deep Ones lead: power armour is the first enemy that fights back
-focus mltd_wbh_eyes_in_the_sound                       # the WBH conflict sub-tree: 4 focuses, ~155 days of agency upgrades, intel and stolen power armour
-focus mltd_brk_salt_on_the_broken_coast                 # 35 days. Court the Broken Coast instead of fighting it (run 3's AI declared on it and lost):
-#   an agency upgrade, its cult sheltered, and OWB's -25 world scorn both ways replaced by +25. Never declare on BRK from here on
-operative: build a network in BRK                      # the Covenant wants coverage over 30 %, a civilian token and civilian intel over 50 %
-focus mltd_brk_the_drowned_raiders                      # 35 days; a civilian token or 20 % coverage: +10 to BRK's cult, army token, 15 civilian intel
-focus mltd_brk_the_deep_ones_sail_north                 # 42 days; +3 volunteer divisions, no world tension needed to send them
-focus mltd_brk_star_spawn_over_the_strait               # 49 days; +3 more: 6 on top of the engine's own limit (5 % of MLT's divisions, capped by 5 % of BRK's provinces)
+focus mltd_brk_salt_on_the_broken_coast                 # 49 days. Court the Broken Coast instead of fighting it (run 3's AI declared on it and lost):
+#   an agency upgrade, its cult sheltered and founded (+10), its army token and 25 civilian intel, and OWB's -25 world scorn
+#   both ways replaced by +25. Never declare on BRK from here on
+operative: build a network in BRK                      # the Covenant (Act III) wants coverage over 30 %, a civilian token and civilian intel over 50 %
 operation mltd_op_nurture_the_cult on BRK              # to 50 %: sheltered, one operative holds ~76 %
-focus mltd_bdt_the_bone_shore                           # 35 days. The Bone Dancers, the other neighbour worth more as an ally than as land:
-#   an agency upgrade, their cult sheltered, +25 opinion both ways
-focus mltd_bdt_the_dancers_hear_the_tide                # 35 days; a civilian token or 20 % coverage: +10 to their cult, army token, 15 civilian intel
-focus mltd_bdt_salt_on_the_bone_road                    # 42 days; an army token or 25 % coverage: steals 600 infantry equipment, 30 army XP
+operation operation_infiltrate_civilian on BRK         # OWB's own infiltration (90 days, two operatives), once the network allows: the
+#   civilian token the Covenant asks for
+operative: build a network in BDT, then operation mltd_op_found_a_cult on it # for Hail the Drowned King (Act III): the Bone Dancers'
+#   cult at 40 %, 25 % coverage and a civilian token
+focus mltd_brk_the_deep_ones_sail_north                 # 63 days; +6 volunteer divisions on top of the engine's own limit (5 % of MLT's divisions,
+#   capped by 5 % of BRK's provinces), no world tension needed to send them: the help the NCR's war waits for
+# Washington (Eyes in the Sound, then The Drowned Knights) and the Bone Dancers (The Bone Shore, then The Dancers Hear the
+#   Tide) are the other two branches, 91 days each: either opens the ritual three weeks sooner, but the Broken Coast's
+#   volunteers are worth the wait. The Bone Dancers' beads come after the ritual, Washington's during the NCR war
+wait 112 days
 # snapshot 2278-06 [M]: 50-55 states, ~260k people, ~24 civ / ~29 mil, 58-62 divisions
 
-# ---- 2278-07 day ~1280
-focus mltd_the_final_ritual                            # needs 200,000 people. 180 days, and the toll takes 36.3 % of every state over 500 (~95k people)
+# ---- 2278-07-08 day 1283
+focus mltd_the_final_ritual                            # needs one Act II branch done and 200,000 people. 180 days, and the toll takes 36.3 % of every state over 500 (~95k people)
 # For 180 days: -20 % stability and organisation, -15 % political power, -10 % factory output and war support. Start no major war
 # While it runs: garrison Cascadia, fill templates, run operations, found a cult in the NCR once we border it (a real major even at peace)
 operative: build a network in the NCR, then operation mltd_op_found_a_cult on it # once MLT borders it; the NCR is a real major, so its cult bites at once
-operation mltd_op_nurture_the_cult on the NCR, two at a time # ~76 % held; 100 % once the NCR sub-tree's root shelters it (decay halved)
+operation mltd_op_nurture_the_cult on the NCR, two at a time # ~76 % held; 100 % once Act IV's chapter, A Mole in Shady Sands, shelters it (decay halved)
 wait 180 days
 # ~2279-01: the Final Ritual completes. mltd_star_spawn_tech (Star Spawn trainable, 8 water each); all five gifts PERMANENT:
 #   +20 % attack, defence, organisation and stability, +30 % recruitable population. Both Rising Tide categories close; mltd.5 and mltd.6
 # snapshot 2279-01-01 [M]: 55-60 states, the population down from ~300k to ~200k, ~25 civ / ~30 mil, 60-65 divisions
 #   (5-6 Deep Ones, 3-4 Star Spawn), ~10,000 free manpower
 
-# ---- 2279-01: Cascadia
+# ---- 2279-01-04 day 1463: Cascadia, and Act III, The Stars Are Right - any one of its four opens The Tide Turns South
 justify take_state on WBH, state 84 Seattle            # 4 states, 20 divisions, power armour and energy weapons; its claim on The Warren makes it a threat anyway [M]
 justify take_state on OLY 424, YAK 540 and TOC 332 in turn # their capitals: the Washington coast; coastal states core for free after the Kingdom
 justify take_state on MXS, state 467 Seth Detention Center, FOU, state 369 O'Brien, and TDN, state 57 The Den # the stepping stones to the NCR's border at Redding (141) [F owners]
-declare war on WBH when its justification completes     # PMR's 221 Illwican Stretch -> OLY's 556 Kodiak Base -> WBH's 61 White Sprawl; the Tide-Wall capstone's war goal needs 2280 or WBH's purge
 # every gift has been permanent since the Final Ritual, so there are no more gift decisions to take
 decision mltd_summon_the_leviathan                     # 100 PP, 24,000 people -> another Leviathan at Mireport; every 180 days, and only above ~300k people (from ~2280) [M]
 #   The Leviathans escort the Drowned Herald's coast and the Broken Coast's landings; MLT has no other navy
-focus mltd_ncr_a_mole_in_shady_sands                    # the NCR sub-tree, 5 focuses (~177 days): the root halves cult decay in the NCR and MOT, and
-#   The Turbines Sing declares the NCR war itself when it completes (round 22): no justification needed, so take it only when ready
 research slot 3 amphibious_beast_intermediate_form     # `_2` (year 2279), then amphibious_beast_upgrade_tech_2 (2280)
 production move the mirelurk lines to amphibious_beast_equipment_2 as soon as it unlocks   # 4 water each
+focus mltd_bdt_the_bone_shore                           # 35 days; Act II's third branch, taken now for Act III: an agency upgrade, the Bone Dancers'
+#   cult sheltered, +25 opinion both ways - the other neighbour worth more as an ally than as land
+focus mltd_bdt_the_dancers_hear_the_tide                # 56 days; +10 to their cult, an army token and 15 civilian intel; 600 of their infantry
+#   equipment stolen when they hold over 1,200, and 30 army XP
+operation mltd_op_nurture_the_cult on BDT              # to 40 %, sheltered since The Bone Shore (decay halved)
+operation operation_infiltrate_civilian on BDT         # the second invitation's civilian token
+# ~2279-03 [M]: the WBH justification completes
+declare war on WBH                                      # PMR's 221 Illwican Stretch -> OLY's 556 Kodiak Base -> WBH's 61 White Sprawl
+wait 91 days
+
+# ---- 2279-04-05 day 1554
+focus mltd_wbh_the_tide_wall                            # 45 days, now, while the WBH war runs and The Warren is ours: bunkers in The Warren, WBH's claim on
+#   it removed, WBH -3 % war support and the 180-day Tide-Wall idea - but only 30 army XP once no Brotherhood is left, so before
+#   WBH falls. (The AI lists the two invitations first; their gates usually open later than this war)
+focus mltd_bdt_hail_the_drowned_king                    # 49 days; needs The Bone Shore, BDT to have crowned the Odious King (bdt_hail_to_the_king), a cult
+#   at 40 %, its civilian token and 25 % coverage. mltd.24: the Bone Dancers join the Drowned Covenant. If they never crown him,
+#   take mltd_bdt_drown_the_dance instead - it declares an annex_everything war and bars this one (since round 24 a refused
+#   Covenant no longer bars the war in turn)
+wait 94 days
 # mid-2279 [M]: WBH, OLY, YAK, TOC, MXS, FOU and TDN annexed; then KAM in British Columbia. BRK is not conquered but courted:
 # Before the NCR: help the Broken Coast win its wars. With Cascadia taken and the Final Ritual done, send volunteers while BRK
 #   fights, and only then turn on the NCR (the AI waits for four or more volunteers serving 26 weeks, BRK at peace or holding
@@ -367,56 +386,127 @@ production move the mirelurk lines to amphibious_beast_equipment_2 as soon as it
 #   Round 25: BRK's own war on the Haida Confederation is fought on an island with two ports in nine beaches, and between two
 #   AIs it ends in a white peace (mltd.27) the day BRK is thrown off it - so volunteers sent to that war come home rather than
 #   drown in landing after landing. The peace also satisfies mltd_ai_brk_helped (BRK at peace), which can open the NCR sooner.
-focus mltd_bdt_hail_the_drowned_king                    # 49 days; needs BDT to have crowned the Odious King (bdt_hail_to_the_king), a cult at 40 %,
-#   its civilian token and 25 % coverage. mltd.24: the Bone Dancers join the Drowned Covenant. Taking the war capstone,
-#   mltd_bdt_drown_the_dance, bars this one - take that one instead if they never crown him, for an annex_everything war goal;
-#   since round 24 a refused Covenant no longer bars the war capstone in turn
-focus mltd_brk_the_drowned_covenant                     # 49 days; once BRK's sphere owns every core of VIC and DRE (brk_nf_pirate_coast's land),
-#   its cult is at 50 %, and MLT holds its civilian token, 30 % coverage and 50 % civilian intel. mltd.21: BRK joins the Drowned
-#   Covenant (MLT's faction, +75 opinion both ways). An AI Broken Coast always accepts; a human one may refuse (MLT -25, and
-#   BRK is a conquest target again)
+
+# ---- 2279-07-08 day 1648
+focus mltd_brk_the_drowned_covenant                     # 49 days; needs Salt on the Broken Coast, BRK's sphere owning every core of VIC and DRE
+#   (brk_nf_pirate_coast's land), its cult at 50 %, and MLT holding its civilian token, 30 % coverage and 50 % civilian intel.
+#   mltd.21: BRK joins the Drowned Covenant (MLT's faction, +75 opinion both ways). An AI Broken Coast always accepts; a human
+#   one may refuse (MLT -25, and BRK is a conquest target again)
+focus mltd_the_tide_turns_south                         # 30 days; Act III's close, at 50 controlled states (or from 2281): mltd.30, news mltd.31 and the permanent
+#   Northern Waters idea (+5 % stability and war support, -25 % justification time). The drums turn toward California
 # The north first: before the NCR, take back whatever of Oregon, Washington and British Columbia other countries hold by
 #   now - run 2's AI lost KLA and TDN to MOD, TIM to BDT, and KAM and BRK to SYN - but not from a country with a strong ally
 #   (SYN is in the Northern Union with PAS and BEL): leave that land for later rather than start a war MLT cannot win
 justify take_state on NEW, state 285 New Reno          # only if Vault City, Elko or S'Lanter has joined the NCR's faction and New Reno has not [F adjacency]
 declare war on NEW when its justification completes    # New Reno's land is the only way to those three: an ally MLT cannot reach never capitulates, so the NCR war would never end
 focus mlt_tropic_of_cancer                             # needs more than 60 controlled states: claims on every remaining Pacific-coastal state
-# snapshot 2279-09 [M]: 75-90 states, ~450k people, ~30 civ / ~35 mil (8 dock), 65-70 divisions, a Leviathan, a cult in the NCR at 76-100 %
+wait 109 days
 
-# ---- 2279-10: the NCR, while it is tied up with the Legion at Hoover Dam (the second battle is possible from 2279-06)
+# ---- 2279-10-25 day 1757: Act IV, The Drowned Republic
+focus mltd_ncr_a_mole_in_shady_sands                    # 30 days; the chapter: an agency upgrade, the NCR's and MOT's cults sheltered (decay halved),
+#   civilian 10 / army 5 intel in the NCR (without La Resistance +25 PP)
+focus mltd_ncr_sleepers_on_the_long_15                  # 35 days; any one bead opens the war: 30 army XP, MOT -3 % war support, army intel on both
+wait 65 days
+# snapshot 2279-12 [M]: 80-95 states, ~480k people, ~31 civ / ~36 mil (8 dock), 66-72 divisions, a Leviathan, a cult in the NCR at 76-100 %
+
+# ---- 2279-12-29 day 1822: the NCR, while it is tied up with the Legion at Hoover Dam (the second battle is possible from 2279-06)
 # NCR at start [F]: 62 states, 915k people, 77 civ / 27 mil / 13 dock, 28 divisions, tier-1 power armour; [M] 50-70 divisions by now
 law able_bodied_tribesmen                              # 0.12 conscription, with the permanent +30 % from the Brood gift
 # Before declaring: the north is held, the NCR's cult stands at 40 % or more, and every member of its faction can be reached by
 #   land. A member nobody can reach keeps the whole war going: ask its neighbours for military access, and take one that refuses
-declare war on NCR                                      # The Turbines Sing declares it on completion (round 22); its faction (MOT, NAT) joins; the cult hits at once
+focus mltd_ncr_the_turbines_sing                        # 42 days, once a Hoover outcome is known or from 2279-06-01. The war itself: it declares on the
+#   NCR when it completes (no justification needed), so its 42 days are the run-up - take it only when ready
+# ~day 1864 [M]: The Turbines Sing completes
+declare war on NCR                                      # its faction (MOT, NAT) joins; the cult hits at once
 army M'lulu: Tide Walls and Star Spawn down the level-4 railway 451 -> 600 -> 96 -> 467 -> 369 (all ours by now) -> 141 Redding
 army the Drowned Herald: the Pacific coast from Crater Lake to the Bay (it cores for free)
+focus mltd_ncr_drowned_delegates                        # 35 days, at war: NCR -35 PP and -6 % stability (-4 % more in its crisis), +40 PP, an army token
+focus mltd_ncr_salt_on_the_caravan_roads                # 35 days: 800 infantry and 200 support equipment stolen from the NCR, +100 caps
 operation mltd_op_indoctrinate_the_faithful_5000 x2 on the NCR   # the >50k band: 5,000 manpower per 60 days each, for 500 support equipment each
 decision mlt_claw_land                                 # 20 PP once San Francisco (163; SHI's at start, so declare on SHI when the front reaches the Bay) is ours: renamed M'lulu's Claw and cored
-# 2281-12 [M]: Shady Sands (253), the Bay, Los Angeles and San Diego held; the NCR capitulates
+focus mltd_wbh_eyes_in_the_sound                        # 35 days; Act II's last branch fills the war's idle focus slot: an agency upgrade and intel
+#   in whichever Brotherhood holds Washington - or +25 PP once none does
+focus mltd_wbh_the_drowned_knights                      # 56 days: each Brotherhood -40 PP and -6 % stability, 600 infantry equipment and 60 power armour
+#   stolen, 30 army XP - or +25 PP and the XP once none is left. Then OWB's shared lurk_ focuses fill the slot until the NCR falls:
+#   Act V opens only on its close
+research slot 3 amphibious_beast_king_form             # ~day 2555 (2282-01), year 2282: +10 organisation, speed 5.5, river and desert bonuses; armour_form instead against power armour
+# 2282-04 [M]: Shady Sands (253), the Bay, Los Angeles and San Diego held; the NCR capitulates
 peace with NCR: annex all
-# snapshot 2282-01 [M]: 140-170 states, 1.3-1.7M people, ~50 civ / ~60 mil (California halved by decimation), 70-80 divisions
-#   (~30 Tide Walls on `_2`, 12 trained Deep Ones at the special-forces cap, 8-10 Star Spawn, ~30 levies as garrison and line)
 
-# ---- 2282 to 2285: the Legion and the interior
-research slot 3 amphibious_beast_king_form             # year 2282: +10 organisation, speed 5.5, river and desert bonuses; armour_form instead against power armour
+# ---- 2282-04-10 day 2654
+focus mltd_when_shady_sands_falls                       # 30 days; Act IV's close, once the NCR has capitulated (or is gone, or our subject); news mltd.41
+event mltd.40 choose a                                  # ~day 2685: +1 research slot, 4 from here on (b: the Drowned Rangers, +5 % attack, defence and organisation, and 50 army XP)
+research slot 4 amphibious_beast_upgrade_tech_4        # ~day 2706 (2282-06), year 2283: the mirelurk line's last step, after the king form - when the AI starts it too
+# snapshot 2282-05 [M]: 140-170 states, 1.3-1.7M people, ~50 civ / ~60 mil (California halved by decimation), 70-80 divisions
+#   (~30 Tide Walls on `_2`, 12 trained Deep Ones at the special-forces cap, 8-10 Star Spawn, ~30 levies as garrison and line)
+wait 30 days
+
+# ---- 2282-05-10 day 2684: Act V, The Sea Against Mars - the Legion and the interior
 template "Shell Levy" = 8 x amphibious_beast_creature  # once the NCR is beaten: the levies and Coral Hosts become Tide Walls, upgraded in the field as mirelurk stock allows
 template "Coral Host" = 8 x amphibious_beast_creature
-focus mltd_ces_what_the_river_carries                   # the Legion sub-tree, 5 focuses: the root shelters cults in the Legion, The Sea Against Mars grants the war goal
-declare war on CES                                      # The Sea Against Mars declares it on completion. 56 states, 560k people, 34 divisions at start; nothing it has pierces mirelurks
+focus mltd_mars_in_the_water                            # 35 days; the chapter: mltd.50, +30 army XP
+focus mltd_ces_what_the_river_carries                   # 35 days: an agency upgrade, the Legion's cults sheltered, CES -6 % stability and an army token;
+#   with an agency, the operative Silanus the Drowned
+focus mltd_ces_the_sea_against_mars                     # 45 days: 800 infantry and 200 support equipment stolen, the 180-day Drowned Bull idea - and the war
+# ~day 2799 [M]: The Sea Against Mars completes
+declare war on CES                                      # 56 states, 560k people, 34 divisions at start; nothing it has pierces mirelurks
 # Arizona is desert (mirelurks -10 %): lead with Star Spawn and Deep Ones
 declare war on MOT, VEG and the other Mojave tags as the front reaches them
-focus mltd_bos_the_drowned_paladin                      # the Lost Hills sub-tree; Blood in the Water grants the war goal on BOS (1 state, 6 power-armour divisions)
-focus mltd_wht_the_lake_god_answers                     # the Utah sub-tree while the White Legs and the Eighties fight; the Rites grant war goals on WHT and EHT; then TAR, NCN
-focus mltd_hea_whispers_in_the_steam                    # Heaven's Guard's sub-tree; the Crusade grants the war goal on HEA; then HGH
+focus mltd_bos_the_drowned_paladin                      # 35 days: BOS -35 PP and -4 % stability, a stolen engineering or industry tech bonus, 20 army XP
+focus mltd_bos_blood_in_the_water                       # 45 days: Lost Hills' armoury robbed (energy weapons, power armour) - and the war
+focus mltd_wht_the_lake_god_answers                     # 30 days: +40 PP, WHT -6 % stability, 200 rifles sold to each side of the Utah road war not at war with us
+focus mltd_wht_rites_on_the_spiral_jetty                # 42 days, once the road war runs (or 2280): EHT -3 % war support, 600 of its infantry equipment, the
+#   180-day Rites idea - and the war
+focus mltd_hea_whispers_in_the_steam                    # 30 days: +40 PP, HEA -35 PP and -6 % stability, an army token
+focus mltd_hea_the_crusade_turns_south                  # 42 days, once Heaven's Guard's holy wars start (or 2280): 600 of its infantry equipment, a stolen
+#   industry bonus, the 180-day Pilgrims idea - and the war
+declare war on BOS                                      # ~day 2879, by Blood in the Water: 1 state, 6 power-armour divisions
+declare war on WHT and EHT                              # ~day 2951, by the Rites; then TAR, NCN
+declare war on HEA                                      # ~day 3023, by the Crusade; then HGH
 declare war on the Colorado tags (HAN, BLC, ORO, MXC)  # MXC has scientific power armour and energy weapons: Star Spawn first
 declare war on LAC                                     # Lanius's Cohort, New Mexico
-# snapshot 2285-12 [M]: 300-400 states, 3-4M people, ~90 civ / ~110 mil, 100-120 divisions
+# From ~2283-04 the focus slot idles again, on OWB's lurk_ focuses, until the Legion falls: Act VI opens only on Act V's close
+# ~2284-03 [M]: CES capitulates
+peace with CES: annex all
 
-# ---- 2286 to ~2291: Texas, Mexico and the north
-focus mltd_tex_all_waters_are_one                       # the Texas sub-tree; Black Water Rising grants war goals on TBH and LNS; then TAA, RRG, SHA, ARM
-focus mltd_tla_the_iron_god_dreams                      # the Tlaloc sub-tree (Tlaloc died ~2280): The Drowned God Sleeps grants war goals on TLA or his living heirs MAX, MOC and ZAP
-declare war on ATE                                     # the Aztec Empire: 686k people, 38 divisions at start
+# ---- 2284-03-04 day 3347
+focus mltd_when_the_legion_breaks                       # 30 days; Act V's close, once the Legion has capitulated (or is gone, or our subject): the permanent
+#   Mars Beneath the Waves (+5 % attack, war support and recruitable population) and news mltd.52
+event mltd.51 choose a                                  # ~day 3378: the Legion's slaves freed into the tide, +5,000 people in the capital and +5 % stability (b: 5,000 manpower)
+wait 30 days
+
+# ---- 2284-04-03 day 3377: Act VI, All Waters Are One - Texas, Tlaloc's heirs and Nuevo Aztlan
+focus mltd_the_southern_deep                            # 35 days; the chapter: mltd.60, +50 PP
+focus mltd_tex_all_waters_are_one                       # 30 days: an agency upgrade, the Texans' cults sheltered, an army token and intel on each, +80 caps,
+#   each Texan tag -4 % stability and -25 PP
+focus mltd_tex_black_water_rising                       # 45 days, once Texas is one (texas_formed) or from 2280: +3 energy in the capital, 800 infantry equipment
+#   stolen, 30 army XP, the 180-day Black Water idea - and the war
+focus mltd_tla_the_iron_god_dreams                      # 30 days (Tlaloc died ~2280): an agency upgrade, -6 % stability and -25 PP on Tlaloc or each heir
+focus mltd_tla_the_drowned_god_sleeps                   # 45 days: the Iron Bones stolen, 20 army XP, +100 caps, the 180-day Dreams of Wire idea - and the war
+focus mltd_ate_the_feathered_tide                       # 35 days: Nuevo Aztlan (ATE) - an agency upgrade, its cult sheltered, intel, ATE -4 % stability
+declare war on TBH and LNS                              # ~day 3487, by Black Water Rising; then TAA, RRG, SHA, ARM
+declare war on TLA, MAX, MOC and ZAP                    # ~day 3562, by The Drowned God Sleeps: whichever of Tlaloc (died ~2280) and his heirs still lives
+# ~2285-10 [M]: Texas beaten - TBH and LNS capitulate
+peace with TBH and LNS: annex all
+
+# ---- 2285-10-18 day 3940
+focus mltd_ate_the_serpent_drowns                       # 42 days, once the Texan war is over (as the AI waits): 40 army XP, ATE -6 % stability and -3 % war support - and the war
+# ~day 3982 [M]: The Serpent Drowns completes
+declare war on ATE                                     # Nuevo Aztlan: 686k people, 38 divisions at start
+focus mltd_the_last_king_kneels                         # 30 days; Act VI's close, once Texas is beaten: +1 research slot (5), the permanent Drowned South
+#   (+10 % factory output, +5 % stability), mltd.61 and news mltd.62
+research slot 5 specialized_industry_tech_7            # ~day 4013 (2285-12), year 2284: factory output, which decimation keeps halving in every conquered state
+# snapshot 2285-12 [M]: 300-400 states, 3-4M people, ~90 civ / ~110 mil, 100-120 divisions
+wait 72 days
+
+# ---- 2285-12-29 day 4012: R'lyeh Rises
+focus mltd_rlyeh_rises                                  # 70 days, at 300 controlled states: +15 victory points in M'lyeh, mltd.70 and news mltd.71
+focus mltd_ending_the_dreamer_wakes                     # 35 days; the ending for the wars still to fight: +15 % attack, +10 % defence and war support,
+#   -5 % stability (mltd.72). It bars the other two: The Priestess Reigns (+20 % stability and political power) and Return to
+#   the Sea (population growth, recruitable population and two Leviathans)
+wait 105 days
+
+# ---- 2286-04-13 day 4117 to ~2291: Mexico and the north
 declare war on ITZ                                     # Chichen Itza: 41 divisions and 46 ships in Yucatan, overland only (MLT has no navy)
 declare war on FFI, GDH, LGS and the rest of Mexico
 declare war on MCA                                     # MacArthur, the Enclave remnant: 74 techs, energy weapons, robots
@@ -436,8 +526,8 @@ declare war on the plains and Rockies tags, then Canada (PAS, MTC, STA, STC, WPG
 #   One conquest block per target switches on when its stage comes - the previous target gone or at war, a focus, or a fallback
 #   date - so the order survives a game that drifts: CCW from day 0, TRL, RBT, MDT, PMR and ARR after the Kingdom, the Oregon
 #   ring, Cascadia, MXS / FOU / TDN, New Reno when it stands in the way, then the NCR and SHI, the interior, then Texas, Mexico
-#   and the north. No stage from Cascadia on opens while the Final Ritual runs. The Kingdom-and-Books focus plan skips every
-#   conflict capstone but WBH's, and two hold blocks keep the AI from declaring on a capstone's war goal before its stage.
+#   and the north. No stage from Cascadia on opens while the Final Ritual runs. Two hold blocks keep the AI from declaring on a
+#   war goal against the interior or the south before its stage.
 #   Round 20: a stage opens only on a target MLT can take on - not on the NCR's side before the NCR's stage (a hold on each
 #   country of that side), and not behind an ally at half MLT's strength. The NCR's stage waits for the north (whoever holds
 #   it), the NCR's cult at 40 % and New Reno out of the way (or 2284). Frontier conquests follow the north's land to whoever
@@ -448,8 +538,9 @@ declare war on the plains and Rockies tags, then Canada (PAS, MTC, STA, STC, WPG
 #   sellers as a player buys them) for Shell Levies and Coral Hosts, while the summons still raise Deep Ones and Star Spawn.
 #   After the Kingdom it starts no war on a country stronger than itself. Run 3 (to September 2281) kept 51 divisions on a
 #   400-division frontage, declared on Broken Coast (47 states) and was losing to it. So from the Kingdom on the AI courts the
-#   Broken Coast (mltd_ai_courting_brk: no war, no claim pressed, a network and the cult target there) through the sub-tree
-#   mltd_brk_*, until BRK joins the Drowned Covenant, refuses it or attacks. The NCR's stage also waits until the Broken Coast
+#   Broken Coast (mltd_ai_courting_brk: no war, no claim pressed, a network and the cult target there) through its focuses
+#   mltd_brk_* (since round 27 Act II's branch and the Covenant in Act III), until BRK joins the Drowned Covenant, refuses it
+#   or attacks. The NCR's stage also waits until the Broken Coast
 #   has been helped (mltd_ai_brk_helped: four or more volunteers serving 26 weeks while it fights, or no help needed, or 2283);
 #   the AI wants to send volunteers there whenever BRK fights and MLT is at peace.
 #   Round 23: the AI strikes a target that is already fighting someone else (a war goal in hand plus its war is the moment),
@@ -466,6 +557,17 @@ declare war on the plains and Rockies tags, then Canada (PAS, MTC, STA, STC, WPG
 #   Washington. Run 4 (to May 2279) is why: it never took CCW (TRL swallowed it by day 210), came out of the Kingdom 242 days
 #   late with 8 states, sat at 0.31-0.47 of its army target for a year, spent 200 days justifying on Eureka, and then declared
 #   on the Washington Brotherhood on The Tide-Wall's war goal with 35 divisions and no army on that border.
+#   Round 27: the ten conflict sub-trees became one story spine - Act II between the Walk and the Final Ritual, then Act III
+#   in the north, the NCR (IV), the Legion and the interior (V), the south (VI) and the finale - and each act's chapter waits
+#   on the previous act's close, which waits on that act's great war being won. So no war focus can be reached before its
+#   act, and the Kingdom-and-Books plan no longer zeroes the capstones: it takes Act II's Broken Coast branch (its volunteers
+#   are the help the NCR's stage waits on) and then the Final Ritual, with the other two branches as fillers while the
+#   ritual's population is short; the late plan takes the acts in order, the invitations of Act III before its two wars.
+#   "Beaten" now means what the closes ask - gone, capitulated, once capitulated to MLT, or its subject - for the stages
+#   and holds as well, so the NCR's and the Legion's closes and the stages after them open together. Each war focus's
+#   AI hold (its stage, the army's readiness, a courtship) now sits in its own available, hidden and for an AI only: run 8
+#   (round-24 code) took The Tide-Wall and The Turbines Sing while their ai_will_do read 0, because an AI takes every
+#   listed focus that is available, and took both Muttfruit trades through a focus_factors 0.
 #   Run 1 (to August 2276): the AI never justified or went to war on its own, while TRL, MDT and WBH fought on
 #   focus-granted war goals. The fix must not hand it claims or war goals a human would not have.
 #   Run 2 (to October 2285): the Kingdom came 543 days late, and the AI declared on Arroyo in 2279 after Arroyo had joined the
@@ -492,7 +594,17 @@ declare war on the plains and Rockies tags, then Canada (PAS, MTC, STA, STC, WPG
 #   It buys the line's weapons from OWB's sellers through the player's own buy button (mltd_ai_buy_line_equipment), not OWB's
 #   AI buyer, which refuses to trade on negative caps income - which a large army's upkeep always gives MLT. Wet Market lots
 #   wait on mltd_ai_late_army (the king or armour form, and the NCR beaten or 2285).
+#   Its interior and southern conquest stages keep their fallback dates (2283, 2286). In a stalled game they only let the
+#   conquest blocks justify on those countries; the story's war focuses there still wait for the NCR's and the Legion's closes.
+#   It builds no network in the Bone Dancers' land and runs no infiltration there, so with La Resistance it seldom meets
+#   Hail the Drowned King's courtship gates; from 2281 Drown the Dance no longer waits on the courtship.
+#   Before the Final Ritual it takes the Bone Dancers' and Washington's Act II branches too whenever the ritual's 200,000
+#   people are not there yet; this plan, which has them, goes straight from the Broken Coast's branch to the ritual.
+#   It fills its fifth research slot, and its fourth around the mirelurk techs it forces, from the late plan's category
+#   weights (industry 75), not by name: a research_tech strategy forces one named tech, not the long chain behind
+#   specialized_industry_tech_7.
 # AI deviation: operation mltd_op_indoctrinate_the_faithful_5000 - the AI never runs Indoctrinate: manpower is not its bottleneck
+# AI deviation: research specialized_industry_tech_7 - the fifth slot's tech: the AI reaches the industry line by category weight, not by name
 # AI deviation: war ANO ASF BAG BDT BEL BJS BVC CHE CLJ COW CRZ CWB CYC DES DRE EAG EAS EUR EXE - frontier conquests 1/3: the map, not a stage, makes them targets (common/ai_strategy/mltd_MLT_frontier.txt)
 # AI deviation: war GLW JAC LON LUB LUM MOD MOJ MOS PAC PAL RAP RIP ROT RUB SHO SIE SKY SLA SLE - frontier conquests 2/3: the map, not a stage, makes them targets (common/ai_strategy/mltd_MLT_frontier.txt)
 # AI deviation: war SLN SOK SUF SUN SYN TOB TOF TON TWO UIN UMB VIP VLT WHD WHI WOO YKZ - frontier conquests 3/3: the map, not a stage, makes them targets (common/ai_strategy/mltd_MLT_frontier.txt)
@@ -504,22 +616,28 @@ declare war on the plains and Rockies tags, then Canada (PAS, MTC, STA, STC, WPG
 # Water, not manpower, caps the creature army: 36 water runs 12 mirelurk `_1` factories, 7 on Deep Ones and 4 on Star Spawn,
 #   so a trained Star Spawn division takes ~3 years. The Offering of the Tides (+4 water per 180 days) is the only renewable fix.
 #   The Muttfruit branch's trades spend 24 of the capital's water.
-# Research is fixed at 3 slots. Everything but creatures falls behind the NCR, the Brotherhoods and the Enclave;
-#   the summons, the Walk and the permanent gifts carry MLT's late game.
+# Research runs on 3 slots until When Shady Sands Falls (mltd.40 a: a fourth, ~2282) and The Last King Kneels (a fifth, ~2286).
+#   Until then everything but creatures falls behind the NCR, the Brotherhoods and the Enclave; the summons, the Walk and the
+#   permanent gifts carry MLT's late game, and the two late slots let industry catch up only once the great wars are decided.
 # Cults (round 17): Found a Cult reaches any country the network covers, and Nurture the Cult is paid in equipment, not caps.
-#   Two nurture operations hold a cult at ~76 % (100 % where a conflict root shelters it). The Calls pay per point of total strength,
+#   Two nurture operations hold a cult at ~76 % (100 % where an act's head shelters it). The Calls pay per point of total strength,
 #   so several middling cults beat one strong one: three at 50 % pay 1,500 manpower, or 600 + 150 equipment, every 90 days.
 #   The Spreading Cult still plants its free 20 % cults only in neighbouring majors (during a war, or on the NCR).
-# Every conflict sub-tree now ends in the war itself - the capstone declares (round 22) - so from the NCR on MLT never justifies
-#   a major war: take the capstone only when the army is ready, because its completion is the declaration.
+# Every story act's war focus declares its war itself (round 22), so from the NCR on MLT never justifies a major war: take it
+#   only when the army is ready, because its completion is the declaration. Each act's close then waits for its great war to be
+#   won - the NCR, the Legion, Texas: gone, capitulated, or its subject - so a war that stalls holds the story back.
 # The early market matters: OWB's sellers supply ~4,000 infantry weapons a year from 2275 at 15 caps a lot, which is what equips
 #   the ritual's 8,000 men as Shell Levies. From 2277 the Drowned Hoard's caps buy ~1,000 Wet Market mirelurks a year - water-free.
 # Manpower is abundant from mid-2276 because MLT's units cost ~12.5 IC per man (a mirelurk battalion: 375 IC for 30 men; Deep Ones
 #   ~17, Star Spawn 30) - equipment runs out long before men do - and armour halves the damage mirelurks take while each loses only
 #   half a man per point of it (30 men on 60 HP). The egg ritual's +8,000 comes on top, then conquest and the Brood gift's +30 %.
 #   So Indoctrinate the Faithful, the rituals' weekly manpower and Call for People add little; the Shell Levies are the one sink.
-# The focus slot is saturated from the Kingdom to ~2285: Rising Tide's column is 670 days, of which the rituals hold 300,
-#   and the 46 conflict focuses are ~1740 days. Expect 3-5 of the 10 sub-trees in a real game.
+# The focus slot is saturated from the Kingdom to ~2280 only: Rising Tide's column is 670 days, of which the rituals hold 300,
+#   and the 39 story focuses after the Walk are 1,559 days - 1,440 in one game (one ending; Hail the Drowned King or Drown the
+#   Dance), 685 along the spine alone (one bead per fan and one ending). This plan takes 36 of them, the 1,440 days. But each
+#   act after Act III opens only once the previous act's great war is won, so the slot idles through those wars - ~630 days of
+#   the NCR's (after Act II's Washington branch), ~320 of the Legion's and ~340 of Texas's - on OWB's shared lurk_ focuses. A
+#   real game takes every act; how late its finale comes is how fast it beats the NCR, the Legion and Texas.
 # Decimation halves every conquered state's industry, so MLT's strength stays population and focus-granted units, never factories.
 # Army size: fill half the combat width of every border province at peace (two 20-wide divisions an 80-wide tile) and three
 #   quarters at war (three); past that, spend army experience on the templates and new equipment rather than on more

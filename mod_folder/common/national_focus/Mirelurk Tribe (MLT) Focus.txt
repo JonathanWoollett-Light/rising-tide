@@ -17,17 +17,16 @@ focus_tree = {
 
 	shared_focus = lurk_aquatic_construction
 	shared_focus = lurk_consult_the_oracles
-	# Rising Tide conflict sub-trees (common/national_focus/mltd_conflicts_focus.txt)
-	shared_focus = mltd_ncr_a_mole_in_shady_sands
-	shared_focus = mltd_tex_all_waters_are_one
+	# Rising Tide story acts II-VI and the finale (common/national_focus/mltd_act*_focus.txt, mltd_finale_focus.txt):
+	# the roots whose prerequisite is a national focus - Act II hangs off The Deep Ones Walk, Act III off The Final
+	# Ritual. Every later act chains to these through shared prerequisites and is pulled in with them.
 	shared_focus = mltd_wbh_eyes_in_the_sound
-	shared_focus = mltd_ces_what_the_river_carries
-	shared_focus = mltd_bos_the_drowned_paladin
-	shared_focus = mltd_tla_the_iron_god_dreams
-	shared_focus = mltd_hea_whispers_in_the_steam
-	shared_focus = mltd_wht_the_lake_god_answers
 	shared_focus = mltd_brk_salt_on_the_broken_coast
 	shared_focus = mltd_bdt_the_bone_shore
+	shared_focus = mltd_wbh_the_tide_wall
+	shared_focus = mltd_brk_the_drowned_covenant
+	shared_focus = mltd_bdt_hail_the_drowned_king
+	shared_focus = mltd_bdt_drown_the_dance
 
 	focus = {
 		id = mlt_sanity_lost
@@ -1690,8 +1689,12 @@ focus_tree = {
 		cost = 180
 		cancelable = no
 		available_if_capitulated = yes
+		# Act II reconverges here: any one of the Northern Waters branches (common/national_focus/mltd_act2_focus.txt). No
+		# prerequisite on the Walk: every branch already needs it, and its line would run down x = 15 through the Broken Coast's.
 		prerequisite = {
-			focus = mltd_the_deep_ones_walk
+			focus = mltd_wbh_the_drowned_knights
+			focus = mltd_brk_the_deep_ones_sail_north
+			focus = mltd_bdt_the_dancers_hear_the_tide
 		}
 		available = {
 			custom_trigger_tooltip = {
@@ -1708,7 +1711,7 @@ focus_tree = {
 			}
 		}
 		x = 0
-		y = 2
+		y = 3
 		relative_position_id = mltd_the_deep_ones_walk
 		ai_will_do = { factor = 10 }
 		completion_reward = {

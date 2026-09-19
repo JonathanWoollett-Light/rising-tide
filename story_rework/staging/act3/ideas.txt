@@ -1,0 +1,25 @@
+		# Permanent (round 27, Act III's close): from the focus mltd_the_tide_turns_south (mltd_act3_focus.txt). The north is
+		# the tribe's, and it turns south: steadier at home, readier for war, quicker to find a cause. The -25 % justification
+		# time is the act table's own figure (vanilla uses -0.25 on nine ideas); the other two sit at the +5 % end of the
+		# story acts' +-5-10 % band.
+		mltd_the_northern_waters = {
+			# a sailor's cap (OWB's generic coast guard): not brk_master_of_sea, which MLT already shows on its mltd_brk_volunteers
+			# dynamic modifier (Act II's The Deep Ones Sail North)
+			picture = generic_coast_guard
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				stability_factor = 0.05
+				war_support_factor = 0.05
+				justify_war_goal_time = -0.25
+			}
+		}

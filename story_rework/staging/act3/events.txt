@@ -1,0 +1,36 @@
+# ---- Round 27, Act III: the close of "The Stars Are Right". mltd.30 goes to MLT from the focus mltd_the_tide_turns_south
+# (mltd_act3_focus.txt); mltd.31 is its world news, delivered by the same focus through every_other_country, so MLT never
+# receives it. Options carry no effects - the focus already applied them (the idea mltd_the_northern_waters).
+
+# The Tide Turns South (fired by focus mltd_the_tide_turns_south)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.30" }
+	id = mltd.30
+	title = mltd.30.t
+	desc = mltd.30.d
+	picture = GFX_event_sub_generic_wasteland_river
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.30.a
+	}
+	option = {
+		name = mltd.30.b
+	}
+}
+
+# Drums in the North (world news; delivered by the focus via every_other_country, so MLT never receives it)
+news_event = {
+	id = mltd.31
+	title = mltd.31.t
+	desc = mltd.31.d
+	picture = GFX_event_NCR_night
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.31.a
+	}
+}

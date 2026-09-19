@@ -286,15 +286,25 @@ mltd_spawn_leviathan = {
 	}
 }
 
-# National population (country scope), recomputed every day by on_daily_MLT: the sum of
-# state_population over every owned state. The ritual focuses gate on it with check_variable
-# and print it with [?mltd_national_population|0]. PREV inside the state loop is the country
-# (OWB exodus_effects.txt:385 sums state_population_k into PREV.core_population_k the same way).
+# National population (country scope), recomputed every day by on_daily_MLT: the population of
+# every owned state. The ritual focuses gate on it with check_variable and print it with
+# [?mltd_national_population|0]; the decisions' gates and AI guards read it too. PREV inside the
+# state loop is the country (OWB exodus_effects.txt:392-396 sums state_population_k into
+# PREV.core_population_k the same way).
+#
+# Summed in THOUSANDS (state_population_k, fractional, so exact to the person), then copied back
+# into people, capped at 2,147,000. A raw sum of state_population wraps negative past the variable
+# ceiling of 2,147,483.647 (Gotchas), which the later story acts reach (the plan puts MLT at 3-4M):
+# the Final Ritual's gate, and every act after it, would then fail for good, the Leviathan summon
+# would grey out and the AI guards (< 72,000, < 300,000) would read the wrapped value as small.
+# Every threshold that reads these two variables is below the cap, so capping changes no test; the
+# ritual tooltips' "currently" simply stops at 2,147,000. The _k variables stay for anything that
+# needs the true figure.
 mltd_update_national_population = {
-	set_variable = { mltd_national_population = 0 }
-	set_variable = { mltd_controlled_population = 0 }
+	set_variable = { mltd_national_population_k = 0 }
+	set_variable = { mltd_controlled_population_k = 0 }
 	every_owned_state = {
-		add_to_variable = { PREV.mltd_national_population = state_population }
+		add_to_variable = { PREV.mltd_national_population_k = state_population_k }
 		# The summons gate on this one, because it is exactly the pool mltd_take_population_everywhere
 		# spends from - same is_controlled_by / > 500 filter. Gating on the owned total instead would
 		# let an occupied MLT clear the gate and then spread the whole toll over the few states it
@@ -304,9 +314,15 @@ mltd_update_national_population = {
 				is_controlled_by = ROOT
 				state_population > 500
 			}
-			add_to_variable = { PREV.mltd_controlled_population = state_population }
+			add_to_variable = { PREV.mltd_controlled_population_k = state_population_k }
 		}
 	}
+	set_variable = { mltd_national_population = mltd_national_population_k }
+	clamp_variable = { var = mltd_national_population max = 2147 }
+	multiply_variable = { mltd_national_population = 1000 }
+	set_variable = { mltd_controlled_population = mltd_controlled_population_k }
+	clamp_variable = { var = mltd_controlled_population max = 2147 }
+	multiply_variable = { mltd_controlled_population = 1000 }
 }
 
 # The summon toll. Country scope; set mltd_toll_target_k first, in THOUSANDS of people. Takes that
@@ -379,7 +395,8 @@ mltd_ritual_daily_toll = {
 	}
 }
 
-# Every conflict sub-tree (common/national_focus/mltd_conflicts_focus.txt) opens with this. With
+# The story acts' spying focuses open with this - each old conflict sub-tree's root, now an act's head or chapter, and
+# Act VI's The Feathered Tide (common/national_focus/mltd_act2_focus.txt ... mltd_act6_focus.txt). With
 # La Resistance and an agency it adds one random OWB agency upgrade. OWB charges 15 caps in each
 # upgrade's complete_effect (intelligence_agency_upgrades.txt:16-34), so the upgrade is refunded, as
 # Unbound (UNB) Focus.txt:370-375 does - paid first, so add_caps's bankruptcy check never sees the dip.
@@ -416,7 +433,7 @@ mltd_intel_foothold = {
 #   mltd_cult_decay             points it loses at the next weekly tick
 #   mltd_cult_threat_big/_small/_air  the war penalties in percentage points, for loc (0.25 / 0.15 / 0.5 per point)
 #   mltd_cult_*_var             the five mltd_cult_infiltration inputs, 0 unless at war with MLT
-# Country flag mltd_cult_sheltered (set by the root of each conflict sub-tree on its targets) halves the decay.
+# Country flag mltd_cult_sheltered (set on its targets by each story act's spying head, mltd_act*_focus.txt) halves the decay.
 # MLT keeps mltd_cult_total_strength, the sum of every cult's strength, which the Call decisions pay out on.
 
 # The last of the faithful are gone: the country is clean, and a new cult can be founded there.
@@ -436,7 +453,7 @@ mltd_cult_dissolve = {
 
 # Recomputes the weekly decay and the war penalties from the current strength s.
 # decay = 0.5 + s * s / 2500 points a week: 1.5 at 50 %, 3.74 at 90 %, 4.5 at 100 %, so holding 90 costs
-# ~2.5x what holding 50 does. Halved in a country whose conflict sub-tree MLT has opened (mltd_cult_sheltered); tripled
+# ~2.5x what holding 50 does. Halved in a country a story act's head has sheltered (mltd_cult_sheltered); tripled
 # while at war with MLT: the faithful rise, and rising exposes them.
 # s * s peaks at 10,000, far under the 2,147,483 variable ceiling.
 mltd_cult_refresh = {
@@ -713,11 +730,12 @@ mltd_indoctrinate_defector = {
 	}
 }
 
-# ---- Broken Coast (round 21; the sub-tree mltd_brk_* in common/national_focus/mltd_conflicts_focus.txt) ----
-# MLT scope. +3 to the volunteer divisions MLT may send (send_volunteer_size), from The Deep Ones Sail North and Star Spawn
-# over the Strait: the dynamic modifier mltd_brk_volunteers reads mltd_brk_volunteer_size_var (OWB's Brotherhood does the
+# ---- Broken Coast (round 21; the mltd_brk_* focuses, in Acts II and III since round 27) ----
+# MLT scope. +3 to the volunteer divisions MLT may send (send_volunteer_size); The Deep Ones Sail North calls it twice, for
+# +6: the dynamic modifier mltd_brk_volunteers reads mltd_brk_volunteer_size_var (OWB's Brotherhood does the
 # same with BOS_expeditionary_departments, bos_dynamic_modifiers.txt:46-47). The +3 is repeated in
-# mltd_brk_volunteer_size_tt. The engine's own limit (a share of MLT's divisions and of the target's provinces) comes on top.
+# mltd_brk_volunteer_size_tt, and the focus's +6 in mltd_brk_volunteer_size_6_tt. The engine's own limit (a share of MLT's
+# divisions and of the target's provinces) comes on top.
 mltd_brk_add_volunteer_size = {
 	custom_effect_tooltip = mltd_brk_volunteer_size_tt
 	hidden_effect = {

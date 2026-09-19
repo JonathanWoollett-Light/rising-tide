@@ -762,7 +762,9 @@ class Analysis(object):
         return hits[0] if hits else None
 
     def beaten_day(self, tag):
-        """Gone or capitulated, whichever came first (mltd_ai_ncr_beaten / mltd_ai_legion_beaten)."""
+        """Gone or capitulated, whichever came first (mltd_ai_ncr_beaten / mltd_ai_legion_beaten). Since round 27 the
+        triggers also count a capitulation to MLT that the peace outlived (its first capitulated ENEMY line) and MLT's
+        subject, which the telemetry does not log."""
         days = [d for d in (self.gone_day(tag), self.capitulated_day(tag)) if d is not None]
         return min(days) if days else None
 

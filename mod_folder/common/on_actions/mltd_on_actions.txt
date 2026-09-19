@@ -29,7 +29,8 @@ on_actions = {
 			# watch for a foothold - daily, so a landing thrown back within the week is not missed - and make peace the day
 			# BRK loses its last one. "Pushed off" means landed, then lost: BRK holds no Haida province before its first
 			# landing either, so a plain control test would end the war the day it began.
-			# The flag is cleared whenever that war is not running, so a later war starts clean.
+			# The flag is cleared whenever that war is not running, so a later war starts clean. The watch starts with
+			# Salt on the Broken Coast, which since round 27 is an Act II head (mltd_act2_focus.txt), after The Deep Ones Walk.
 			if = {
 				limit = {
 					has_global_flag = mltd_brk_landed_on_haida
@@ -113,7 +114,7 @@ on_actions = {
 	}
 
 	# Every week: every cult of M'lyeh abroad loses its decay (faster the stronger it is, three times as
-	# fast while at war with us, half as fast where a conflict sub-tree shelters it) and dissolves below 1 %
+	# fast while at war with us, half as fast where a story act's focus shelters it) and dissolves below 1 %
 	# (mltd_cult_weekly); then the
 	# category's list of cults is rebuilt (mltd_cult_rebuild_list). An AI Mirelurk Tribe then surveys the map for its
 	# strategy (mltd_ai_survey), re-picks the target of its cult operations and may buy a lot from The Wet Market (the three
@@ -197,6 +198,35 @@ on_actions = {
 						}
 					}
 					set_variable = { mltd_ai_cult_target = BRK }
+				}
+				# else the Bone Dancers, once they have crowned the Odious King and The Bone Shore has opened their branch (round-27
+				# review): Hail the Drowned King waits on a cult there at 40 %, and the scorer seldom picks them either. Nurtured to
+				# 50 %, ten points over the gate as the Broken Coast's 60 is over its 50; the Broken Coast comes first, so the two
+				# never overwrite each other week to week. The same NCR-first guard.
+				else_if = {
+					limit = {
+						mltd_ai_courting_bdt = yes
+						has_completed_focus = mltd_bdt_the_bone_shore
+						NOT = { has_completed_focus = mltd_bdt_hail_the_drowned_king }
+						BDT = { has_completed_focus = bdt_hail_to_the_king }
+						network_national_coverage = { target = BDT value > 0 }
+						BDT = {
+							OR = {
+								NOT = { has_variable = mltd_cult_strength }
+								check_variable = { mltd_cult_strength < 50 }
+							}
+						}
+						OR = {
+							NOT = { has_completed_focus = mltd_the_deep_ones_walk }
+							NOT = { country_exists = NCR }
+							has_war_with = NCR
+							NCR = {
+								has_variable = mltd_cult_strength
+								check_variable = { mltd_cult_strength > 39.9 }
+							}
+						}
+					}
+					set_variable = { mltd_ai_cult_target = BDT }
 				}
 			}
 
@@ -298,6 +328,42 @@ on_actions = {
 					FROM = { tag = MLT }
 				}
 				mltd_cult_refresh = yes
+			}
+		}
+	}
+
+	# Round 27, the story acts: a capitulation to MLT is recorded on MLT, so that an act's close outlives the peace -
+	# has_capitulated clears once the country leaves its last war, and a rump that survives the peace would otherwise never
+	# count as beaten. The NCR (mltd_ncr_capitulated) opens Act IV's close, mltd_when_shady_sands_falls (mltd_act4_focus.txt);
+	# the Legion (mltd_ces_capitulated) Act V's, mltd_when_the_legion_breaks (mltd_act5_focus.txt); the two Texan tags
+	# (mltd_tbh_capitulated, mltd_lns_capitulated) Act VI's, through mltd_texas_beaten. ROOT is the capitulated country, FROM
+	# the winner (vanilla 00_on_actions.txt:931); vanilla tests has_war_with against the capitulated country inside this
+	# on_action (:937-938), and FROM = MLT covers MLT's own win if it does not hold.
+	on_capitulation = {
+		effect = {
+			if = {
+				limit = {
+					OR = {
+						has_war_with = MLT
+						FROM = { tag = MLT }
+					}
+				}
+				if = {
+					limit = { tag = NCR }
+					MLT = { set_country_flag = mltd_ncr_capitulated }
+				}
+				else_if = {
+					limit = { tag = CES }
+					MLT = { set_country_flag = mltd_ces_capitulated }
+				}
+				else_if = {
+					limit = { tag = TBH }
+					MLT = { set_country_flag = mltd_tbh_capitulated }
+				}
+				else_if = {
+					limit = { tag = LNS }
+					MLT = { set_country_flag = mltd_lns_capitulated }
+				}
 			}
 		}
 	}

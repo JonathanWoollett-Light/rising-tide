@@ -1,4 +1,4 @@
-# Rising Tide - opinion modifiers (the Broken Coast sub-tree, round 21)
+# Rising Tide - opinion modifiers (the Broken Coast focuses, round 21; in Acts II and III since round 27)
 opinion_modifiers = {
 	# mltd_brk_salt_on_the_broken_coast, both ways: replaces OWB's world_view_brk / brk_view_world between MLT and BRK
 	mltd_drowned_envoys = {

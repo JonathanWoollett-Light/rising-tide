@@ -1,0 +1,285 @@
+# ---- W. The story acts' war focuses: when an AI may take one -------------------------------------------------------------
+# Round 27 review. Each war focus declares its own war on completion (common/national_focus/mltd_act3..6_focus.txt), so its
+# 42-49 days are the run-up. An AI MLT takes every focus of its strategy plan's ai_national_focuses that is AVAILABLE, in list
+# order, whatever its ai_will_do reads: run 8 (ai_runs/20260918-170847, round-24 code) completed Eyes in the Sound on day
+# 1330 and The Tide-Wall on day 1715 with mltd_ai_stage_wbh closed (20 states, not 31), A Mole in Shady Sands on day 1750
+# before The Deep Ones Walk and The Turbines Sing on day 2513 with the NCR's stage never open - each while its ai_will_do
+# read 0. (Its two Muttfruit FOCUS lines are no evidence either way: both trades were bypassed - by owning 186, and 493 and
+# 450 - and a bypassed focus reads as completed.) So each war focus calls its trigger below in `available`: hidden, and for
+# an AI only (a human always passes), the idiom of mltd_ai_may_press_claims. Each holds only while the focus would actually
+# start a war: with its target gone, already at war with MLT or MLT's subject, the focus is a payout and nothing waits. This
+# only restricts the AI, so it is fair play. MLT scope (ROOT is MLT).
+#
+# Every hold also waits while MLT is losing a war (surrender progress over 15 %, the line of mltd_ai_may_press_claims and
+# mltd_ai_no_new_wars_when_losing - which only damps the strategy's own declarations and cannot reach a focus's). It lifts as
+# soon as MLT is not losing, so it strands no act. The optional wars - their act's close also opens through a sibling - wait
+# for a safe target as well (mltd_ai_safe_target, or mltd_ai_safe_by_strength for the courted Bone Dancers), as the conquest
+# blocks for the same targets demand, because a focus's own declaration skips that check. Act III's two wars are an AI's real
+# ways through the act (an AI seldom meets both invitations' gates), so their safe-target test gives way on 1 January 2281,
+# the date The Tide Turns South's own size gate gives way. The Turbines Sing, The Sea Against Mars and Black Water Rising,
+# whose closes need their wars, wait on no safe target.
+# A hold is read only when the AI picks the focus: every war focus is continue_if_invalid = yes, so one started while MLT was
+# winning still declares on completion if MLT has started losing during the run-up.
+
+# The Tide-Wall (Act III): Washington's stage (more than 30 states, the Kingdom and the Walk), the army ready, MLT not losing
+# and - until 2281 - every Brotherhood it would declare on a safe target, while a Brotherhood that holds Washington stands at
+# peace with MLT and is not its subject.
+mltd_ai_may_raise_the_tide_wall = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				any_country = {
+					mltd_wbh_brotherhood = yes
+					NOT = { has_war_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+				}
+			}
+			mltd_ai_stage_wbh = yes
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+			OR = {
+				NOT = {
+					any_country = {
+						mltd_wbh_brotherhood = yes
+						NOT = { has_war_with = ROOT }
+						NOT = { is_subject_of = ROOT }
+						NOT = { mltd_ai_safe_target = yes }
+					}
+				}
+				date > 2281.1.1
+			}
+		}
+	}
+}
+
+# Drown the Dance (Act III): the army ready, MLT not losing, and not while MLT courts the Bone Dancers (mltd_ai_courting_bdt:
+# Hail the Drowned King is the plan's answer to them) - until 1 January 2281. An AI builds their network, takes their civilian
+# token (mltd_ai_network_bdt, mltd_ai_infiltrate_bdt) and points its cult operations at them, but whether Hail's gates open in
+# time rests on the Bone Dancers' own tree; from 2281 it stops waiting, so that Act III's close has a Bone Dancers path besides
+# The Tide-Wall's. Until 2281 also only against Bone Dancers with no strong ally and no strength to beat MLT
+# (mltd_ai_safe_by_strength: mltd_ai_safe_target itself refuses them while they are courted, which would cancel the date).
+# Never while MLT fights an NCR that has not capitulated: the courtship's date would otherwise open a Bone Dancers front in the
+# middle of the NCR's war, which on the plan's timeline runs through 2281.
+mltd_ai_may_drown_the_dance = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				country_exists = BDT
+				NOT = { has_war_with = BDT }
+				BDT = { NOT = { is_subject_of = ROOT } }
+			}
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+			OR = {
+				NOT = { mltd_ai_courting_bdt = yes }
+				date > 2281.1.1
+			}
+			OR = {
+				BDT = { mltd_ai_safe_by_strength = yes }
+				date > 2281.1.1
+			}
+			NOT = {
+				AND = {
+					has_war_with = NCR
+					NCR = { has_capitulated = no }
+				}
+			}
+		}
+	}
+}
+
+# The Turbines Sing (Act IV): the NCR's stage (the north consolidated, the NCR's cult at 40 %, the Broken Coast helped, New
+# Reno out of the way - or 2284), the army ready and MLT not losing. Lifted only once the focus can no longer start the war
+# early: the NCR gone, MLT's subject or already at war with MLT, or once it has capitulated to MLT (mltd_ncr_capitulated, set
+# by on_capitulation) - Act IV's close needs the focus, so an AI must not be held off it after MLT's war. A capitulation to
+# anyone else (the Legion in the Hoover war, say) does not lift it: the NCR stays capitulated for as long as its allies fight
+# on, and the focus would still declare on it - and on its whole side - with the stage closed.
+mltd_ai_may_start_ncr_war = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				country_exists = NCR
+				NOT = { has_war_with = NCR }
+				NCR = { NOT = { is_subject_of = ROOT } }
+				NOT = { has_country_flag = mltd_ncr_capitulated }
+			}
+			mltd_ai_stage_ncr = yes
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+		}
+	}
+}
+
+# Act V's four wars: the army ready and MLT not losing. The Sea Against Mars (CES), which the close waits on, holds on nothing
+# else; Blood in the Water (BOS), the Rites (WHT and EHT) and the Crusade (HEA) also wait until every target they would
+# declare on is a safe target.
+mltd_ai_may_start_ces_war = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				country_exists = CES
+				NOT = { has_war_with = CES }
+				CES = { NOT = { is_subject_of = ROOT } }
+			}
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+		}
+	}
+}
+
+mltd_ai_may_start_bos_war = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				country_exists = BOS
+				NOT = { has_war_with = BOS }
+				BOS = { NOT = { is_subject_of = ROOT } }
+			}
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+			BOS = { mltd_ai_safe_target = yes }
+		}
+	}
+}
+
+mltd_ai_may_start_utah_war = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				any_country = {
+					OR = {
+						tag = WHT
+						tag = EHT
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+				}
+			}
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+			NOT = {
+				any_country = {
+					OR = {
+						tag = WHT
+						tag = EHT
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+					NOT = { mltd_ai_safe_target = yes }
+				}
+			}
+		}
+	}
+}
+
+mltd_ai_may_start_hea_war = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				country_exists = HEA
+				NOT = { has_war_with = HEA }
+				HEA = { NOT = { is_subject_of = ROOT } }
+			}
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+			HEA = { mltd_ai_safe_target = yes }
+		}
+	}
+}
+
+# Act VI: Black Water Rising (TBH and LNS), which the close waits on - the army ready and MLT not losing - and The Drowned God
+# Sleeps (TLA and his heirs), which also waits until every target it would declare on is a safe target.
+mltd_ai_may_start_texas_war = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				any_country = {
+					OR = {
+						tag = TBH
+						tag = LNS
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+				}
+			}
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+		}
+	}
+}
+
+mltd_ai_may_start_tla_war = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				any_country = {
+					OR = {
+						tag = TLA
+						tag = MAX
+						tag = MOC
+						tag = ZAP
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+				}
+			}
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+			NOT = {
+				any_country = {
+					OR = {
+						tag = TLA
+						tag = MAX
+						tag = MOC
+						tag = ZAP
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+					NOT = { mltd_ai_safe_target = yes }
+				}
+			}
+		}
+	}
+}
+
+# The Serpent Drowns (Act VI): Nuevo Aztlan's stage, the army ready and MLT not losing; only against a safe target, as
+# mltd_ai_conquer_ate demands (round 21: no war on a stronger country or one with a strong ally), because the focus's own
+# declaration skips that check; and never while a Texan war the close waits on still runs (a capitulated Texan tag counts as
+# beaten, as in mltd_texas_beaten).
+mltd_ai_may_start_ate_war = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				country_exists = ATE
+				NOT = { has_war_with = ATE }
+				ATE = { NOT = { is_subject_of = ROOT } }
+			}
+			mltd_ai_stage_ate = yes
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+			ATE = { mltd_ai_safe_target = yes }
+			NOT = {
+				AND = {
+					has_war_with = TBH
+					TBH = { has_capitulated = no }
+				}
+			}
+			NOT = {
+				AND = {
+					has_war_with = LNS
+					LNS = { has_capitulated = no }
+				}
+			}
+		}
+	}
+}

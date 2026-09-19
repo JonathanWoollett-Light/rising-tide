@@ -1301,3 +1301,289 @@ country_event = {
 	hidden = yes
 	is_triggered_only = yes
 }
+
+# ---- Round 27, Act III "The Stars Are Right": the close. mltd.30 goes to MLT from the focus mltd_the_tide_turns_south
+# (mltd_act3_focus.txt); mltd.31 is its world news, delivered by the same focus through every_other_country, so MLT never
+# receives it. Options carry no effects - the focus already applied them (the idea mltd_the_northern_waters).
+
+# The Tide Turns South (fired by focus mltd_the_tide_turns_south)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.30" }
+	id = mltd.30
+	title = mltd.30.t
+	desc = mltd.30.d
+	picture = GFX_event_sub_generic_wasteland_river
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.30.a
+	}
+	option = {
+		name = mltd.30.b
+	}
+}
+
+# Drums in the North (world news; delivered by the focus via every_other_country, so MLT never receives it)
+news_event = {
+	id = mltd.31
+	title = mltd.31.t
+	desc = mltd.31.d
+	picture = GFX_event_NCR_night
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.31.a
+	}
+}
+
+# ---- Round 27, Act IV "The Drowned Republic" (mltd_act4_focus.txt): mltd.40 is the close, mltd_when_shady_sands_falls,
+# and mltd.41 its world news.
+
+# When Shady Sands Falls: the Republic is broken, and the Coral Court chooses its trophy - the scholars (a research slot) or
+# the Rangers (the idea mltd_the_drowned_rangers and 50 army experience). Fired by the focus; its tooltip previews both options
+# with the same effects in effect_tooltip blocks (mltd_act4_focus.txt, mltd_when_shady_sands_falls) - change both together.
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.40" }
+	id = mltd.40
+	title = mltd.40.t
+	desc = mltd.40.d
+	picture = GFX_event_shady_sands
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.40.a
+		ai_chance = {
+			base = 3
+		}
+		add_research_slot = 1
+	}
+	option = {
+		name = mltd.40.b
+		ai_chance = {
+			base = 1
+		}
+		add_ideas = mltd_the_drowned_rangers
+		army_experience = 50
+	}
+}
+
+# The Bear Lies Down (world news; delivered by the focus via every_other_country, so MLT never receives it)
+news_event = {
+	id = mltd.41
+	title = mltd.41.t
+	desc = mltd.41.d
+	picture = GFX_event_NCR_congress
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.41.a
+	}
+}
+
+# ---- Round 27, Act V "The Sea Against Mars" (mltd_act5_focus.txt): mltd.50 opens the act, mltd.51 closes it with the
+# pens of Flagstaff, and mltd.52 tells the world.
+
+# Mars in the Water: the Legion's scouts find the Colorado running salt (fired by focus mltd_mars_in_the_water)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.50" }
+	id = mltd.50
+	title = mltd.50.t
+	desc = mltd.50.d
+	picture = GFX_event_CES_camp_2
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.50.a
+	}
+}
+
+# When the Legion Breaks: the pens of Flagstaff - free the chained into the tide, or feed them to the spawning pools (fired
+# by focus mltd_when_the_legion_breaks, which also grants mltd_mars_beneath_the_waves and previews both options with
+# effect_tooltip: change the numbers in both places). The same 5,000 people either way: freed, they join the capital's
+# population (+5 % stability); fed to the pools, they are 5,000 manpower at once. Option a merges the old The Chained Are
+# Given to the Tide.
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.51" }
+	id = mltd.51
+	title = mltd.51.t
+	desc = mltd.51.d
+	picture = GFX_event_legion_slaves
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.51.a
+		ai_chance = {
+			base = 2
+		}
+		capital_scope = {
+			set_temp_variable = { pop_add = 5000 }
+			add_state_population = yes
+		}
+		add_stability = 0.05
+	}
+	option = {
+		name = mltd.51.b
+		ai_chance = {
+			base = 1
+		}
+		add_manpower = 5000
+	}
+}
+
+# The Bull Goes Down to the Sea (world news; delivered by focus mltd_when_the_legion_breaks via every_other_country, so MLT
+# never receives it)
+news_event = {
+	id = mltd.52
+	title = mltd.52.t
+	desc = mltd.52.d
+	picture = GFX_event_CES_burning
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.52.a
+	}
+}
+
+# ---- Round 27, Act VI "All Waters Are One" (mltd_act6_focus.txt): mltd.60 opens the act, mltd.61 closes it once Texas
+# is beaten, and mltd.62 tells the world.
+
+# Act VI - The Southern Deep: the oracles hear the south (fired by focus mltd_the_southern_deep; the focus pays the reward)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.60" }
+	id = mltd.60
+	title = mltd.60.t
+	desc = mltd.60.d
+	picture = GFX_event_mecha_aztec_calendar
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.60.a
+	}
+}
+
+# Act VI - The Last King Kneels: Texas is beaten and the south is the tide's (fired by focus mltd_the_last_king_kneels;
+# the focus pays the research slot and the idea)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.61" }
+	id = mltd.61
+	title = mltd.61.t
+	desc = mltd.61.d
+	picture = GFX_event_texas_capitol
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.61.a
+	}
+}
+
+# The South Has Drowned (world news; delivered by focus mltd_the_last_king_kneels via every_other_country, so MLT never
+# receives it)
+news_event = {
+	id = mltd.62
+	title = mltd.62.t
+	desc = mltd.62.d
+	picture = GFX_event_fall_alamo
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.62.a
+	}
+}
+
+# ---- Round 27, the finale "R'lyeh Rises" (mltd_finale_focus.txt): mltd.70 and its world news mltd.71, then one event
+# per ending, mltd.72-74.
+
+# R'lyeh Rises: the drowned city beneath M'lyeh breaks the surface (fired by focus mltd_rlyeh_rises; the focus applies the effects)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.70" }
+	id = mltd.70
+	title = mltd.70.t
+	desc = mltd.70.d
+	picture = GFX_event_night_tower
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.70.a
+	}
+}
+
+# A City Out of the Sea (world news; delivered by the focus via every_other_country, so MLT never receives it)
+news_event = {
+	id = mltd.71
+	title = mltd.71.t
+	desc = mltd.71.d
+	picture = GFX_event_foggy_flooded_boston_city
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.71.a
+	}
+}
+
+# Ending - The Dreamer Wakes (fired by focus mltd_ending_the_dreamer_wakes, which adds the idea mltd_the_dreamer_wakes)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.72" }
+	id = mltd.72
+	title = mltd.72.t
+	desc = mltd.72.d
+	picture = GFX_mltd_event_final_ritual
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.72.a
+	}
+}
+
+# Ending - The Priestess Reigns (fired by focus mltd_ending_the_priestess_reigns, which adds the idea mltd_the_priestess_reigns)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.73" }
+	id = mltd.73
+	title = mltd.73.t
+	desc = mltd.73.d
+	picture = GFX_mltd_event_kingdom
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.73.a
+	}
+}
+
+# Ending - Return to the Sea (fired by focus mltd_ending_return_to_the_sea, which adds the idea mltd_the_return_to_the_sea
+# and raises two Leviathans if Mireport is held - the text does not depend on them)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.74" }
+	id = mltd.74
+	title = mltd.74.t
+	desc = mltd.74.d
+	picture = GFX_mltd_event_grand_ritual
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.74.a
+	}
+}

@@ -8,9 +8,14 @@
 #
 # ai_national_focuses is taken in order, the first available entry first; unavailable entries are skipped, so
 # the fillers at the end run while a conquest, egg, Book or population gate holds everything above them (OWB
-# does the same at BDT.txt:43). focus_factors scales ai_will_do, which the AI consults only once no listed
-# focus is available. research weights technology categories (common/technology_tags); ideas weights advisors
-# by idea_token (common/characters/MLT.txt; OWB precedent BOS.txt:58-60).
+# does the same at BDT.txt:43). A listed focus that is available is taken whatever its ai_will_do reads: run 8
+# (ai_runs/20260918-170847) completed The Tide-Wall and The Turbines Sing while their ai_will_do read 0. So every
+# story war focus holds an AI in its own `available` (hidden, AI-only: common/scripted_triggers/mltd_ai_triggers.txt,
+# section W). focus_factors scales ai_will_do, which the AI consults once no listed focus is available; whether a
+# focus_factors 0 holds a listed focus is untested - run 8's two Muttfruit FOCUS lines were bypasses (owning 186,
+# and 493 and 450), which the telemetry records as completed, not the AI's choice.
+# research weights technology categories (common/technology_tags); ideas weights advisors by idea_token
+# (common/characters/MLT.txt; OWB precedent BOS.txt:58-60).
 
 mltd_MLT_oregon_opening = {
 	name = "Mirelurk Tribe - Oregon opening"
@@ -133,7 +138,7 @@ mltd_MLT_oregon_opening = {
 
 mltd_MLT_kingdom_and_books = {
 	name = "Mirelurk Tribe - Kingdom and Books"
-	desc = "Gifts from the Deep, the five Books, the Deep Ones and both rituals, the Washington Brotherhood sub-tree and the NCR's short of its war goal"
+	desc = "Gifts from the Deep, the five Books, the Deep Ones, Act II (the Broken Coast first) and both rituals"
 
 	allowed = {
 		original_tag = MLT
@@ -169,31 +174,19 @@ mltd_MLT_kingdom_and_books = {
 		# the claim focuses need no war MLT can still fight, no war goal held and no losing war (mltd_ai_may_press_claims)
 		mlt_cascadian_current
 		mlt_sea_of_cortez
-		# the Washington Brotherhood; The Tide-Wall also needs The Warren (235) owned and controlled
-		mltd_wbh_eyes_in_the_sound
-		mltd_wbh_salt_in_the_citadel
-		mltd_wbh_the_drowned_knights
-		# the Broken Coast is courted, not conquered (mltd_ai_courting_brk): envoys, the cult when the network allows, volunteers
-		# while the population can spare them; the Covenant waits on the raiders' coast, their cult, the network and intel
+		# Act II, The Northern Waters (common/national_focus/mltd_act2_focus.txt): any one branch opens The Final Ritual. The
+		# Broken Coast's first: the raiders are courted, not conquered (mltd_ai_courting_brk), and The Deep Ones Sail North's
+		# six volunteer divisions are the help the NCR's stage waits on (mltd_ai_brk_helped). 112 days, then the ritual.
 		mltd_brk_salt_on_the_broken_coast
-		mltd_brk_the_drowned_raiders
 		mltd_brk_the_deep_ones_sail_north
-		mltd_brk_star_spawn_over_the_strait
-		# the Bone Dancers: the invitation if they have crowned the Odious King, else the war
+		mltd_the_final_ritual
+		# The other two branches, taken while the ritual's 200,000 people are not there yet (or while the Broken Coast's
+		# branch is closed by a war with BRK - then one of these opens the ritual). The Bone Dancers' first: Hail the Drowned
+		# King (Act III) needs The Bone Shore, and The Dancers Hear the Tide feeds their cult (+10) towards its 40 %.
 		mltd_bdt_the_bone_shore
 		mltd_bdt_the_dancers_hear_the_tide
-		mltd_bdt_salt_on_the_bone_road
-		mltd_bdt_hail_the_drowned_king
-		mltd_bdt_drown_the_dance
-		mltd_the_final_ritual
-		mltd_wbh_the_tide_wall
-		mltd_brk_the_drowned_covenant
-		# the NCR, short of The Turbines Sing: its war goal would start the NCR war before or during the Final Ritual
-		# (zeroed below; the late-game plan takes it)
-		mltd_ncr_a_mole_in_shady_sands
-		mltd_ncr_drowned_delegates
-		mltd_ncr_sleepers_on_the_long_15
-		mltd_ncr_salt_on_the_caravan_roads
+		mltd_wbh_eyes_in_the_sound
+		mltd_wbh_the_drowned_knights
 		# fillers
 		lurk_consult_the_oracles
 		lurk_visions_of_strategies
@@ -218,20 +211,16 @@ mltd_MLT_kingdom_and_books = {
 		mlt_the_great_tunnels_of_mlulu
 	}
 
-	# As in the opening, and no capstone whose war goal is out of this stage: once the list runs dry the AI falls back on
-	# every conflict focus's own ai_will_do (factor 3), and OWB's DILPOMATIC_ACTION_DECLARE_WAR_WARGOAL_BASE = 500
-	# (01_defines.lua:291) would take it to war on the war goal. The WBH capstone stays listed: Cascadia is this stage.
+	# As in the opening. Until round 27 this also zeroed the seven conflict capstones other than WBH's (The Turbines Sing,
+	# The Sea Against Mars, Blood in the Water, the Rites, the Crusade, Black Water Rising, The Drowned God Sleeps): each sat
+	# in a detached sub-tree open from the Kingdom and declared a war years before its stage. In the story acts every one
+	# of them sits behind The Final Ritual - whose completion ends this plan - and behind its own act's chapter, so none can
+	# be reached from here and the zeros guarded nothing. The two war focuses Act III adds after the ritual (The Tide-Wall,
+	# Drown the Dance) are likewise out of this plan's reach.
 	focus_factors = {
 		mlt_offer_muttfruit_for_the_cannibal_territories = 0
 		mlt_offer_muttfruit_for_ribbreaker_coast = 0
 		lurk_defensive_mindset = 0
-		mltd_ncr_the_turbines_sing = 0
-		mltd_ces_the_sea_against_mars = 0
-		mltd_bos_blood_in_the_water = 0
-		mltd_tla_the_drowned_god_sleeps = 0
-		mltd_tex_black_water_rising = 0
-		mltd_hea_the_crusade_turns_south = 0
-		mltd_wht_rites_on_the_spiral_jetty = 0
 	}
 
 	# The opening's weights, with more on the second mirelurk form, its upgrades and industry.
@@ -270,7 +259,7 @@ mltd_MLT_kingdom_and_books = {
 
 mltd_MLT_late_game = {
 	name = "Mirelurk Tribe - late game"
-	desc = "The conflict sub-trees in the order of the conquests: the NCR, the Legion, Lost Hills, Utah, Heaven's Guard, Texas, Tlaloc"
+	desc = "The story acts in order: Act III in the north, the NCR (Act IV), the Legion and the interior (Act V), the south (Act VI), R'lyeh Rises and an ending"
 
 	allowed = {
 		original_tag = MLT
@@ -284,66 +273,78 @@ mltd_MLT_late_game = {
 		is_subject = yes
 	}
 
+	# The story acts are one spine (common/national_focus/mltd_act3..6_focus.txt, mltd_finale_focus.txt): each act's chapter
+	# needs the previous act's close, so the list below only orders the beads within an act; the tree enforces the rest.
+	# Each war focus holds an AI in its own `available` (the army's readiness; for some also a conquest stage or a
+	# courtship: mltd_ai_may_* in common/scripted_triggers/mltd_ai_triggers.txt, section W), so an AI that reaches one early
+	# skips it and takes the act's other beads, then the fillers, until the hold lifts.
 	ai_national_focuses = {
-		# the Broken Coast first: its volunteers come before the NCR's war (mltd_ai_brk_helped)
+		# Act II's Broken Coast branch, if the previous phase reached The Final Ritual through another one: its volunteers
+		# come before the NCR's war (mltd_ai_brk_helped), and The Drowned Covenant needs its head
 		mltd_brk_salt_on_the_broken_coast
-		mltd_brk_the_drowned_raiders
 		mltd_brk_the_deep_ones_sail_north
-		mltd_brk_star_spawn_over_the_strait
+		# Act III, The Stars Are Right: any one of the four opens The Tide Turns South (and 50 controlled states, or 2281). The
+		# invitations first - the Covenant once the raiders hold their coast and their cult, token, network and intel allow;
+		# Hail the Drowned King once the Bone Dancers have crowned the Odious King (it needs The Bone Shore, and The Dancers
+		# Hear the Tide adds +10 towards its 40 % cult, both taken here if the previous phase did not) - then the Bone
+		# Dancers' war, held until the army is ready and, while they are courted, until 2281, and The Tide-Wall, held until
+		# the Washington stage and the army's readiness while a Brotherhood still stands at peace with MLT
 		mltd_brk_the_drowned_covenant
 		mltd_bdt_the_bone_shore
 		mltd_bdt_the_dancers_hear_the_tide
-		mltd_bdt_salt_on_the_bone_road
 		mltd_bdt_hail_the_drowned_king
 		mltd_bdt_drown_the_dance
-		# the NCR, where the previous phase left it
+		mltd_wbh_the_tide_wall
+		mltd_the_tide_turns_south
+		# Act IV, The Drowned Republic: the chapter, one bead (Sleepers on the Long 15), then The Turbines Sing - the NCR war,
+		# held until the NCR's stage (the north, the NCR's cult at 40 %, the Broken Coast helped: mltd_ai_stage_ncr) and the
+		# army's readiness - with the other two beads taken while it is held, or during the war; the close once the NCR is
+		# beaten (a research slot, 3 times in 4)
 		mltd_ncr_a_mole_in_shady_sands
-		mltd_ncr_drowned_delegates
 		mltd_ncr_sleepers_on_the_long_15
-		mltd_ncr_salt_on_the_caravan_roads
 		mltd_ncr_the_turbines_sing
+		mltd_ncr_drowned_delegates
+		mltd_ncr_salt_on_the_caravan_roads
+		mltd_when_shady_sands_falls
 		mlt_tropic_of_cancer
 		# the previous phase's claim focuses, for an AI that never met their gate (mltd_ai_may_press_claims)
 		mlt_cascadian_current
 		mlt_sea_of_cortez
-		# Caesar's Legion
+		# Act V, The Sea Against Mars: the chapter, then each fan branch in the plan's order - the Legion (The Sea Against
+		# Mars declares the war the close waits on), Lost Hills, Utah, Heaven's Guard; each capstone is a war held until the
+		# army is ready - and the close once the Legion is beaten
+		mltd_mars_in_the_water
 		mltd_ces_what_the_river_carries
-		mltd_ces_the_drowned_frumentarius
-		mltd_ces_the_chained_are_given_to_the_tide
-		mltd_ces_salt_in_the_armouries
 		mltd_ces_the_sea_against_mars
-		# the Lost Hills Brotherhood
 		mltd_bos_the_drowned_paladin
-		mltd_bos_the_paladin_returns
-		mltd_bos_the_tide_takes_the_armoury
-		mltd_bos_the_codex_unsealed
 		mltd_bos_blood_in_the_water
-		# the Utah road war
 		mltd_wht_the_lake_god_answers
-		mltd_wht_the_drowned_shamans
-		mltd_wht_guns_for_both_sides
-		mltd_wht_sand_in_the_engines
 		mltd_wht_rites_on_the_spiral_jetty
-		# Heaven's Guard
 		mltd_hea_whispers_in_the_steam
-		mltd_hea_a_second_schism
-		mltd_hea_steam_for_the_deep
 		mltd_hea_the_crusade_turns_south
-		# Texas
+		mltd_when_the_legion_breaks
+		# Act VI, All Waters Are One: Texas first (the close waits on it), then Tlaloc's heirs, then Nuevo Aztlan, whose war
+		# also waits until no Texan war is running and it is a safe target (its available); the close once Texas is beaten
+		mltd_the_southern_deep
 		mltd_tex_all_waters_are_one
-		mltd_tex_the_silent_partner
-		mltd_tex_wreckers_on_the_trinity
 		mltd_tex_black_water_rising
-		# Tlaloc and his heirs
 		mltd_tla_the_iron_god_dreams
-		mltd_tla_the_three_voices
-		mltd_tla_picking_the_iron_bones
 		mltd_tla_the_drowned_god_sleeps
-		# the Washington Brotherhood, if the previous phase did not finish it
+		mltd_ate_the_feathered_tide
+		mltd_ate_the_serpent_drowns
+		mltd_the_last_king_kneels
+		# the finale, at 300 controlled states, and the plan's ending: The Dreamer Wakes, for the wars still to fight. All three
+		# open the day R'lyeh Rises completes, so the list order takes The Dreamer Wakes; the other two are mutually exclusive
+		# with it and listed only in case it cannot be taken. Their ai_will_do (3 / 2 / 1) orders them only for an AI running
+		# no plan (a subject MLT)
+		mltd_rlyeh_rises
+		mltd_ending_the_dreamer_wakes
+		mltd_ending_the_priestess_reigns
+		mltd_ending_return_to_the_sea
+		# Act II's Washington branch, if the previous phase left it: no act needs it any more, so it waits here for the long
+		# stretches when a great war holds the next chapter shut
 		mltd_wbh_eyes_in_the_sound
-		mltd_wbh_salt_in_the_citadel
 		mltd_wbh_the_drowned_knights
-		mltd_wbh_the_tide_wall
 		# fillers
 		lurk_consult_the_oracles
 		lurk_visions_of_strategies
@@ -368,7 +369,9 @@ mltd_MLT_late_game = {
 		mlt_the_great_tunnels_of_mlulu
 	}
 
-	# as in the opening
+	# As in the opening. No story focus needs a zero here: every one is listed above, each act's chapter waits on the
+	# previous act's close, and each war focus holds itself for an AI in its own `available` (its stage, the army's
+	# readiness, a courtship), which a zero here could not do (see the header).
 	focus_factors = {
 		mlt_offer_muttfruit_for_the_cannibal_territories = 0
 		mlt_offer_muttfruit_for_ribbreaker_coast = 0

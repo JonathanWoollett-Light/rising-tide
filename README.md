@@ -19,12 +19,15 @@ the Books open is a column of ritual: gifts from the deep that you switch on and
 units you **summon rather than build** and pay for in your own people, and two great rituals that tax
 every province you hold for as long as they run.
 
-Around that column sit **ten branches of quiet work**. Your priesthood founds an intelligence agency,
-the Esoteric Order of M'lyeh, and turns it on Old World Blues' own great wars — the NCR and the
-Hoover Dam, Caesar's Legion, the Brotherhood in Washington and at Lost Hills, Texas, Tlaloc, Heaven's
-Guard, the Utah road war. You rob their armouries, bleed their stability and arrive late to a war
-already half-lost. Two of the ten are not wars at all: the Broken Coast and the Bone Dancers can be
-courted instead of drowned, into a faction of your own.
+Once the Deep Ones walk, the column runs on as a **story in five acts**, one chapter after another
+down a single spine, with the second great ritual among them. Your priesthood founds an intelligence
+agency, the Esoteric Order of M'lyeh, and turns it on Old World Blues' own great wars — the Brotherhood
+in Washington, the NCR and the Hoover Dam, Caesar's Legion, Lost Hills, Heaven's Guard, the Utah road
+war, Texas, Nuevo Aztlán and Tlaloc. The acts spy on, rob and bleed their targets before they declare
+their wars, and from the NCR on the next chapter opens only when the great war is won. Two of the
+northern peoples need not be fought at all: the Broken Coast and the Bone Dancers can be courted into
+a faction of your own. At the bottom R'lyeh rises from the sea, and the campaign closes on one of
+three endings.
 
 Meanwhile **cults of M'lyeh** take root abroad — grown by your operatives, withering if you neglect
 them, and rising to sabotage their own country if it ever goes to war with you. They can be called on
@@ -38,7 +41,7 @@ you are someone else's neighbour.
 requires Old World Blues, loaded **above** this mod.
 
 **Status:** early release. The ritual column, the creature units and the main menu have been played;
-the conflict branches, the cults, the Wet Market and the AI are new and lightly tested. Bug reports
+the story acts, the cults, the Wet Market and the AI are new and lightly tested. Bug reports
 are welcome.
 
 Only `mod_folder/` ships. Everything else — design notes, tunables, the build scripts, the override

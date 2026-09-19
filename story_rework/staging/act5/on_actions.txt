@@ -1,0 +1,20 @@
+	# ---- Round 27, Act V: the Legion capitulating while at war with MLT is recorded on MLT (country flag mltd_ces_capitulated),
+	# so that the close, mltd_when_the_legion_breaks (mltd_act5_focus.txt), outlives the peace: has_capitulated clears once
+	# the country leaves its last war, and a Legion that survives the peace as a rump would otherwise never count as beaten.
+	# The same shape as Act IV's branch for the NCR (mltd_ncr_capitulated): ROOT is the capitulated country, FROM the winner
+	# (vanilla 00_on_actions.txt:931). Merge this if into Act IV's on_capitulation effect, beside its NCR branch (on_actions
+	# also merge across blocks - OWB has on_capitulation in 00_, ARR_ and BAG_on_actions.txt - so a block of its own works too).
+	on_capitulation = {
+		effect = {
+			if = {
+				limit = {
+					tag = CES
+					OR = {
+						has_war_with = MLT
+						FROM = { tag = MLT }
+					}
+				}
+				MLT = { set_country_flag = mltd_ces_capitulated }
+			}
+		}
+	}

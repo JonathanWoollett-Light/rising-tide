@@ -1,0 +1,45 @@
+# ---- Act IV, "The Drowned Republic" (round 27): the close, mltd_when_shady_sands_falls (mltd_act4_focus.txt)
+
+# When Shady Sands Falls: the Republic is broken, and the Coral Court chooses its trophy - the scholars (a research slot) or
+# the Rangers (the idea mltd_the_drowned_rangers and 50 army experience). Fired by the focus; its tooltip previews both options
+# with the same effects in effect_tooltip blocks (mltd_act4_focus.txt, mltd_when_shady_sands_falls) - change both together.
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.40" }
+	id = mltd.40
+	title = mltd.40.t
+	desc = mltd.40.d
+	picture = GFX_event_shady_sands
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.40.a
+		ai_chance = {
+			base = 3
+		}
+		add_research_slot = 1
+	}
+	option = {
+		name = mltd.40.b
+		ai_chance = {
+			base = 1
+		}
+		add_ideas = mltd_the_drowned_rangers
+		army_experience = 50
+	}
+}
+
+# The Bear Lies Down (world news; delivered by the focus via every_other_country, so MLT never receives it)
+news_event = {
+	id = mltd.41
+	title = mltd.41.t
+	desc = mltd.41.d
+	picture = GFX_event_NCR_congress
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.41.a
+	}
+}

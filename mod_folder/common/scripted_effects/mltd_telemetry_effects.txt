@@ -39,7 +39,7 @@
 
 # pop_k: national population in thousands - state_population_k summed over every owned state into a variable on MLT
 # through PREV (the idiom of mltd_take_population_everywhere; OWB exodus_effects.txt:392-396). mltd_national_population
-# sums raw state_population instead, which wraps negative at the 2,147,483 variable ceiling past ~2.1 million people.
+# is capped at 2,147,000 people under the variable ceiling (mltd_update_national_population), so pop_k keeps its own sum.
 mltd_tm_update_pop_k = {
 	set_variable = { mltd_tm_pop_k = 0 }
 	every_owned_state = {
@@ -259,7 +259,7 @@ mltd_tm_poll_law = {
 # ---------------------------------------------------------------- FOCUS and TECH
 
 # FOCUS: every focus MLT can take, in three groups - mlt_nf's own, the shared lurk_ focuses its two Oregon roots pull in
-# from OWB, and the conflict sub-trees. The flag mltd_tm_f_<id> marks a focus logged.
+# from OWB, and the story acts (Acts II-VI and the finale). The flag mltd_tm_f_<id> marks a focus logged.
 mltd_tm_poll_focuses = {
 	# mlt_nf: OWB's national focuses, then ours (45)
 	if = {
@@ -648,7 +648,62 @@ mltd_tm_poll_focuses = {
 		set_country_flag = mltd_tm_f_lurk_the_shell_games
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_the_shell_games"
 	}
-	# the conflict sub-trees, common/national_focus/mltd_conflicts_focus.txt (46)
+	# the story acts, common/national_focus/mltd_act2_focus.txt ... mltd_act6_focus.txt and mltd_finale_focus.txt (39)
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_eyes_in_the_sound } has_completed_focus = mltd_wbh_eyes_in_the_sound }
+		set_country_flag = mltd_tm_f_mltd_wbh_eyes_in_the_sound
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_eyes_in_the_sound"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_the_drowned_knights } has_completed_focus = mltd_wbh_the_drowned_knights }
+		set_country_flag = mltd_tm_f_mltd_wbh_the_drowned_knights
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_the_drowned_knights"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_salt_on_the_broken_coast } has_completed_focus = mltd_brk_salt_on_the_broken_coast }
+		set_country_flag = mltd_tm_f_mltd_brk_salt_on_the_broken_coast
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_salt_on_the_broken_coast"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_the_deep_ones_sail_north } has_completed_focus = mltd_brk_the_deep_ones_sail_north }
+		set_country_flag = mltd_tm_f_mltd_brk_the_deep_ones_sail_north
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_the_deep_ones_sail_north"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_the_bone_shore } has_completed_focus = mltd_bdt_the_bone_shore }
+		set_country_flag = mltd_tm_f_mltd_bdt_the_bone_shore
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_the_bone_shore"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_the_dancers_hear_the_tide } has_completed_focus = mltd_bdt_the_dancers_hear_the_tide }
+		set_country_flag = mltd_tm_f_mltd_bdt_the_dancers_hear_the_tide
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_the_dancers_hear_the_tide"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_the_tide_wall } has_completed_focus = mltd_wbh_the_tide_wall }
+		set_country_flag = mltd_tm_f_mltd_wbh_the_tide_wall
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_the_tide_wall"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_the_drowned_covenant } has_completed_focus = mltd_brk_the_drowned_covenant }
+		set_country_flag = mltd_tm_f_mltd_brk_the_drowned_covenant
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_the_drowned_covenant"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_hail_the_drowned_king } has_completed_focus = mltd_bdt_hail_the_drowned_king }
+		set_country_flag = mltd_tm_f_mltd_bdt_hail_the_drowned_king
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_hail_the_drowned_king"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_drown_the_dance } has_completed_focus = mltd_bdt_drown_the_dance }
+		set_country_flag = mltd_tm_f_mltd_bdt_drown_the_dance
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_drown_the_dance"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_the_tide_turns_south } has_completed_focus = mltd_the_tide_turns_south }
+		set_country_flag = mltd_tm_f_mltd_the_tide_turns_south
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_the_tide_turns_south"
+	}
 	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ncr_a_mole_in_shady_sands } has_completed_focus = mltd_ncr_a_mole_in_shady_sands }
 		set_country_flag = mltd_tm_f_mltd_ncr_a_mole_in_shady_sands
@@ -675,64 +730,19 @@ mltd_tm_poll_focuses = {
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ncr_the_turbines_sing"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tex_all_waters_are_one } has_completed_focus = mltd_tex_all_waters_are_one }
-		set_country_flag = mltd_tm_f_mltd_tex_all_waters_are_one
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tex_all_waters_are_one"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_when_shady_sands_falls } has_completed_focus = mltd_when_shady_sands_falls }
+		set_country_flag = mltd_tm_f_mltd_when_shady_sands_falls
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_when_shady_sands_falls"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tex_the_silent_partner } has_completed_focus = mltd_tex_the_silent_partner }
-		set_country_flag = mltd_tm_f_mltd_tex_the_silent_partner
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tex_the_silent_partner"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tex_wreckers_on_the_trinity } has_completed_focus = mltd_tex_wreckers_on_the_trinity }
-		set_country_flag = mltd_tm_f_mltd_tex_wreckers_on_the_trinity
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tex_wreckers_on_the_trinity"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tex_black_water_rising } has_completed_focus = mltd_tex_black_water_rising }
-		set_country_flag = mltd_tm_f_mltd_tex_black_water_rising
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tex_black_water_rising"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_eyes_in_the_sound } has_completed_focus = mltd_wbh_eyes_in_the_sound }
-		set_country_flag = mltd_tm_f_mltd_wbh_eyes_in_the_sound
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_eyes_in_the_sound"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_salt_in_the_citadel } has_completed_focus = mltd_wbh_salt_in_the_citadel }
-		set_country_flag = mltd_tm_f_mltd_wbh_salt_in_the_citadel
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_salt_in_the_citadel"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_the_drowned_knights } has_completed_focus = mltd_wbh_the_drowned_knights }
-		set_country_flag = mltd_tm_f_mltd_wbh_the_drowned_knights
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_the_drowned_knights"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_the_tide_wall } has_completed_focus = mltd_wbh_the_tide_wall }
-		set_country_flag = mltd_tm_f_mltd_wbh_the_tide_wall
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_the_tide_wall"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_mars_in_the_water } has_completed_focus = mltd_mars_in_the_water }
+		set_country_flag = mltd_tm_f_mltd_mars_in_the_water
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_mars_in_the_water"
 	}
 	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ces_what_the_river_carries } has_completed_focus = mltd_ces_what_the_river_carries }
 		set_country_flag = mltd_tm_f_mltd_ces_what_the_river_carries
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ces_what_the_river_carries"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ces_the_drowned_frumentarius } has_completed_focus = mltd_ces_the_drowned_frumentarius }
-		set_country_flag = mltd_tm_f_mltd_ces_the_drowned_frumentarius
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ces_the_drowned_frumentarius"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ces_the_chained_are_given_to_the_tide } has_completed_focus = mltd_ces_the_chained_are_given_to_the_tide }
-		set_country_flag = mltd_tm_f_mltd_ces_the_chained_are_given_to_the_tide
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ces_the_chained_are_given_to_the_tide"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ces_salt_in_the_armouries } has_completed_focus = mltd_ces_salt_in_the_armouries }
-		set_country_flag = mltd_tm_f_mltd_ces_salt_in_the_armouries
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ces_salt_in_the_armouries"
 	}
 	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ces_the_sea_against_mars } has_completed_focus = mltd_ces_the_sea_against_mars }
@@ -745,64 +755,9 @@ mltd_tm_poll_focuses = {
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bos_the_drowned_paladin"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bos_the_paladin_returns } has_completed_focus = mltd_bos_the_paladin_returns }
-		set_country_flag = mltd_tm_f_mltd_bos_the_paladin_returns
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bos_the_paladin_returns"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bos_the_tide_takes_the_armoury } has_completed_focus = mltd_bos_the_tide_takes_the_armoury }
-		set_country_flag = mltd_tm_f_mltd_bos_the_tide_takes_the_armoury
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bos_the_tide_takes_the_armoury"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bos_the_codex_unsealed } has_completed_focus = mltd_bos_the_codex_unsealed }
-		set_country_flag = mltd_tm_f_mltd_bos_the_codex_unsealed
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bos_the_codex_unsealed"
-	}
-	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bos_blood_in_the_water } has_completed_focus = mltd_bos_blood_in_the_water }
 		set_country_flag = mltd_tm_f_mltd_bos_blood_in_the_water
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bos_blood_in_the_water"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tla_the_iron_god_dreams } has_completed_focus = mltd_tla_the_iron_god_dreams }
-		set_country_flag = mltd_tm_f_mltd_tla_the_iron_god_dreams
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tla_the_iron_god_dreams"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tla_the_three_voices } has_completed_focus = mltd_tla_the_three_voices }
-		set_country_flag = mltd_tm_f_mltd_tla_the_three_voices
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tla_the_three_voices"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tla_picking_the_iron_bones } has_completed_focus = mltd_tla_picking_the_iron_bones }
-		set_country_flag = mltd_tm_f_mltd_tla_picking_the_iron_bones
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tla_picking_the_iron_bones"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tla_the_drowned_god_sleeps } has_completed_focus = mltd_tla_the_drowned_god_sleeps }
-		set_country_flag = mltd_tm_f_mltd_tla_the_drowned_god_sleeps
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tla_the_drowned_god_sleeps"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_hea_whispers_in_the_steam } has_completed_focus = mltd_hea_whispers_in_the_steam }
-		set_country_flag = mltd_tm_f_mltd_hea_whispers_in_the_steam
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_hea_whispers_in_the_steam"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_hea_a_second_schism } has_completed_focus = mltd_hea_a_second_schism }
-		set_country_flag = mltd_tm_f_mltd_hea_a_second_schism
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_hea_a_second_schism"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_hea_steam_for_the_deep } has_completed_focus = mltd_hea_steam_for_the_deep }
-		set_country_flag = mltd_tm_f_mltd_hea_steam_for_the_deep
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_hea_steam_for_the_deep"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_hea_the_crusade_turns_south } has_completed_focus = mltd_hea_the_crusade_turns_south }
-		set_country_flag = mltd_tm_f_mltd_hea_the_crusade_turns_south
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_hea_the_crusade_turns_south"
 	}
 	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wht_the_lake_god_answers } has_completed_focus = mltd_wht_the_lake_god_answers }
@@ -810,74 +765,84 @@ mltd_tm_poll_focuses = {
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_the_lake_god_answers"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wht_the_drowned_shamans } has_completed_focus = mltd_wht_the_drowned_shamans }
-		set_country_flag = mltd_tm_f_mltd_wht_the_drowned_shamans
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_the_drowned_shamans"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wht_guns_for_both_sides } has_completed_focus = mltd_wht_guns_for_both_sides }
-		set_country_flag = mltd_tm_f_mltd_wht_guns_for_both_sides
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_guns_for_both_sides"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wht_sand_in_the_engines } has_completed_focus = mltd_wht_sand_in_the_engines }
-		set_country_flag = mltd_tm_f_mltd_wht_sand_in_the_engines
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_sand_in_the_engines"
-	}
-	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wht_rites_on_the_spiral_jetty } has_completed_focus = mltd_wht_rites_on_the_spiral_jetty }
 		set_country_flag = mltd_tm_f_mltd_wht_rites_on_the_spiral_jetty
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wht_rites_on_the_spiral_jetty"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_salt_on_the_broken_coast } has_completed_focus = mltd_brk_salt_on_the_broken_coast }
-		set_country_flag = mltd_tm_f_mltd_brk_salt_on_the_broken_coast
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_salt_on_the_broken_coast"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_hea_whispers_in_the_steam } has_completed_focus = mltd_hea_whispers_in_the_steam }
+		set_country_flag = mltd_tm_f_mltd_hea_whispers_in_the_steam
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_hea_whispers_in_the_steam"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_the_deep_ones_sail_north } has_completed_focus = mltd_brk_the_deep_ones_sail_north }
-		set_country_flag = mltd_tm_f_mltd_brk_the_deep_ones_sail_north
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_the_deep_ones_sail_north"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_hea_the_crusade_turns_south } has_completed_focus = mltd_hea_the_crusade_turns_south }
+		set_country_flag = mltd_tm_f_mltd_hea_the_crusade_turns_south
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_hea_the_crusade_turns_south"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_the_drowned_raiders } has_completed_focus = mltd_brk_the_drowned_raiders }
-		set_country_flag = mltd_tm_f_mltd_brk_the_drowned_raiders
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_the_drowned_raiders"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_when_the_legion_breaks } has_completed_focus = mltd_when_the_legion_breaks }
+		set_country_flag = mltd_tm_f_mltd_when_the_legion_breaks
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_when_the_legion_breaks"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_star_spawn_over_the_strait } has_completed_focus = mltd_brk_star_spawn_over_the_strait }
-		set_country_flag = mltd_tm_f_mltd_brk_star_spawn_over_the_strait
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_star_spawn_over_the_strait"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_the_southern_deep } has_completed_focus = mltd_the_southern_deep }
+		set_country_flag = mltd_tm_f_mltd_the_southern_deep
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_the_southern_deep"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_the_drowned_covenant } has_completed_focus = mltd_brk_the_drowned_covenant }
-		set_country_flag = mltd_tm_f_mltd_brk_the_drowned_covenant
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_the_drowned_covenant"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tex_all_waters_are_one } has_completed_focus = mltd_tex_all_waters_are_one }
+		set_country_flag = mltd_tm_f_mltd_tex_all_waters_are_one
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tex_all_waters_are_one"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_the_bone_shore } has_completed_focus = mltd_bdt_the_bone_shore }
-		set_country_flag = mltd_tm_f_mltd_bdt_the_bone_shore
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_the_bone_shore"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tex_black_water_rising } has_completed_focus = mltd_tex_black_water_rising }
+		set_country_flag = mltd_tm_f_mltd_tex_black_water_rising
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tex_black_water_rising"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_the_dancers_hear_the_tide } has_completed_focus = mltd_bdt_the_dancers_hear_the_tide }
-		set_country_flag = mltd_tm_f_mltd_bdt_the_dancers_hear_the_tide
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_the_dancers_hear_the_tide"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ate_the_feathered_tide } has_completed_focus = mltd_ate_the_feathered_tide }
+		set_country_flag = mltd_tm_f_mltd_ate_the_feathered_tide
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ate_the_feathered_tide"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_salt_on_the_bone_road } has_completed_focus = mltd_bdt_salt_on_the_bone_road }
-		set_country_flag = mltd_tm_f_mltd_bdt_salt_on_the_bone_road
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_salt_on_the_bone_road"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ate_the_serpent_drowns } has_completed_focus = mltd_ate_the_serpent_drowns }
+		set_country_flag = mltd_tm_f_mltd_ate_the_serpent_drowns
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ate_the_serpent_drowns"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_hail_the_drowned_king } has_completed_focus = mltd_bdt_hail_the_drowned_king }
-		set_country_flag = mltd_tm_f_mltd_bdt_hail_the_drowned_king
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_hail_the_drowned_king"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tla_the_iron_god_dreams } has_completed_focus = mltd_tla_the_iron_god_dreams }
+		set_country_flag = mltd_tm_f_mltd_tla_the_iron_god_dreams
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tla_the_iron_god_dreams"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_drown_the_dance } has_completed_focus = mltd_bdt_drown_the_dance }
-		set_country_flag = mltd_tm_f_mltd_bdt_drown_the_dance
-		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_drown_the_dance"
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_tla_the_drowned_god_sleeps } has_completed_focus = mltd_tla_the_drowned_god_sleeps }
+		set_country_flag = mltd_tm_f_mltd_tla_the_drowned_god_sleeps
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_tla_the_drowned_god_sleeps"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_the_last_king_kneels } has_completed_focus = mltd_the_last_king_kneels }
+		set_country_flag = mltd_tm_f_mltd_the_last_king_kneels
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_the_last_king_kneels"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_rlyeh_rises } has_completed_focus = mltd_rlyeh_rises }
+		set_country_flag = mltd_tm_f_mltd_rlyeh_rises
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_rlyeh_rises"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ending_the_dreamer_wakes } has_completed_focus = mltd_ending_the_dreamer_wakes }
+		set_country_flag = mltd_tm_f_mltd_ending_the_dreamer_wakes
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ending_the_dreamer_wakes"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ending_the_priestess_reigns } has_completed_focus = mltd_ending_the_priestess_reigns }
+		set_country_flag = mltd_tm_f_mltd_ending_the_priestess_reigns
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ending_the_priestess_reigns"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_ending_return_to_the_sea } has_completed_focus = mltd_ending_return_to_the_sea }
+		set_country_flag = mltd_tm_f_mltd_ending_return_to_the_sea
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ending_return_to_the_sea"
 	}
 }
 
@@ -956,14 +921,19 @@ mltd_tm_poll_techs = {
 		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_king_form"
 	}
 	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_2 } has_tech = amphibious_beast_upgrade_tech_2 }
-		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_2
-		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_2"
-	}
-	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_4 } has_tech = amphibious_beast_upgrade_tech_4 }
 		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_4
 		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_4"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_specialized_industry_tech_7 } has_tech = specialized_industry_tech_7 }
+		set_country_flag = mltd_tm_t_specialized_industry_tech_7
+		log = "MLTD [?mltd_tm_day|0] TECH id=specialized_industry_tech_7"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_2 } has_tech = amphibious_beast_upgrade_tech_2 }
+		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_2
+		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_2"
 	}
 	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_unlock_tech } has_tech = amphibious_beast_unlock_tech }

@@ -1,0 +1,52 @@
+		# ---- Round 27, the finale (mltd_finale_focus.txt): the three endings' permanent ideas. The endings are mutually
+		# exclusive, so a country holds at most one of these; they are the tree's one place for large bonuses (up to 20 %).
+		# Permanent, from mltd_ending_the_dreamer_wakes: war.
+		mltd_the_dreamer_wakes = {
+			picture = apocalypse_now
+			allowed = {
+				original_tag = MLT
+			}
+			allowed_civil_war = {
+				always = yes
+			}
+			removal_cost = -1
+			modifier = {
+				army_attack_factor = 0.15
+				army_defence_factor = 0.10
+				war_support_factor = 0.10
+				stability_factor = -0.05
+			}
+		}
+		# Permanent, from mltd_ending_the_priestess_reigns: rule. consumer_goods_factor as in mltd_the_wet_market, here a cut.
+		mltd_the_priestess_reigns = {
+			picture = IRN_throne
+			allowed = {
+				original_tag = MLT
+			}
+			allowed_civil_war = {
+				always = yes
+			}
+			removal_cost = -1
+			modifier = {
+				stability_factor = 0.20
+				political_power_factor = 0.20
+				consumer_goods_factor = -0.10
+			}
+		}
+		# Permanent, from mltd_ending_return_to_the_sea: the deep. monthly_population 0.2 is +20 % monthly population
+		# growth (OWB's own scale, e.g. gov_unique_ncr.txt:74); conscription_factor is Recruitable Population, the key the
+		# Gift of the Brood uses. The focus also raises two Leviathans at Mireport when it is held.
+		mltd_the_return_to_the_sea = {
+			picture = TIM_patch_oceanography
+			allowed = {
+				original_tag = MLT
+			}
+			allowed_civil_war = {
+				always = yes
+			}
+			removal_cost = -1
+			modifier = {
+				monthly_population = 0.2
+				conscription_factor = 0.10
+			}
+		}

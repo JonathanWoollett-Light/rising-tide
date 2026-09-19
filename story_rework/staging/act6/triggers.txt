@@ -1,0 +1,17 @@
+
+# mltd_texas_beaten: Act VI's close, mltd_the_last_king_kneels, opens once Texas is beaten - each of the two Texan tags
+# (there is no TEX tag: it is an alias for TBH or LNS in a Texan cosmetic, tag_aliases.txt:93-106) is gone, has
+# capitulated or has become MLT's subject. A capitulated country stays at war while an ally holds out, so waiting for
+# it to be gone could wait for ever (the same reasoning as mltd_ai_ncr_beaten). MLT is named by tag, so any scope works.
+mltd_texas_beaten = {
+	OR = {
+		NOT = { country_exists = TBH }
+		TBH = { has_capitulated = yes }
+		TBH = { is_subject_of = MLT }
+	}
+	OR = {
+		NOT = { country_exists = LNS }
+		LNS = { has_capitulated = yes }
+		LNS = { is_subject_of = MLT }
+	}
+}

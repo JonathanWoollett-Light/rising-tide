@@ -1,0 +1,80 @@
+# ---- The finale, "R'lyeh Rises" (round 27): mltd.70-74, fired by the focuses in mltd_finale_focus.txt
+
+# R'lyeh Rises: the drowned city beneath M'lyeh breaks the surface (fired by focus mltd_rlyeh_rises; the focus applies the effects)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.70" }
+	id = mltd.70
+	title = mltd.70.t
+	desc = mltd.70.d
+	picture = GFX_event_night_tower
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.70.a
+	}
+}
+
+# A City Out of the Sea (world news; delivered by the focus via every_other_country, so MLT never receives it)
+news_event = {
+	id = mltd.71
+	title = mltd.71.t
+	desc = mltd.71.d
+	picture = GFX_event_foggy_flooded_boston_city
+
+	is_triggered_only = yes
+
+	option = {
+		name = mltd.71.a
+	}
+}
+
+# Ending - The Dreamer Wakes (fired by focus mltd_ending_the_dreamer_wakes, which adds the idea mltd_the_dreamer_wakes)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.72" }
+	id = mltd.72
+	title = mltd.72.t
+	desc = mltd.72.d
+	picture = GFX_mltd_event_final_ritual
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.72.a
+	}
+}
+
+# Ending - The Priestess Reigns (fired by focus mltd_ending_the_priestess_reigns, which adds the idea mltd_the_priestess_reigns)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.73" }
+	id = mltd.73
+	title = mltd.73.t
+	desc = mltd.73.d
+	picture = GFX_mltd_event_kingdom
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.73.a
+	}
+}
+
+# Ending - Return to the Sea (fired by focus mltd_ending_return_to_the_sea, which adds the idea mltd_the_return_to_the_sea
+# and raises two Leviathans if Mireport is held - the text does not depend on them)
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.74" }
+	id = mltd.74
+	title = mltd.74.t
+	desc = mltd.74.d
+	picture = GFX_mltd_event_grand_ritual
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = mltd.74.a
+	}
+}
