@@ -1,16 +1,20 @@
 # Rising Tide (MLT) - Act II, "The Northern Waters" (round 27).
-# Between The Deep Ones Walk and The Final Ritual the tribe turns north: three short branches, one per northern neighbour
-# worth watching, courting or robbing before the ritual - the Brotherhood that holds Washington, the raiders of the Broken
-# Coast and the Bone Dancers. Each branch is a head and one bead below it. The Final Ritual (national, in the override
-# "Mirelurk Tribe (MLT) Focus.txt") is the reconvergence: it takes an OR prerequisite over the three beads, so any one
-# branch opens it, and no prerequisite on the Walk - every bead already needs its head and every head the Walk, and a
-# Walk -> Ritual line would run solid straight down x = 15 through Salt and Sail North. There is no close focus and no
-# event of its own; Act III picks the three threads up again after the ritual (The Tide-Wall, the Drowned Covenant, Hail
-# the Drowned King / Drown the Dance).
+# After The Grand Ritual the tribe turns north: three short branches, one per northern neighbour worth watching, courting
+# or robbing - the Brotherhood that holds Washington, the raiders of the Broken Coast and the Bone Dancers. Each branch is a
+# head and one bead below it, and since 2026-09-24 each bead leads straight on to its nation's Act III pair, the invitation
+# and the war twin (Terms for the Citadel / The Tide-Wall, The Drowned Covenant / The Coast Goes Under, Hail the Drowned King
+# / Drown the Dance), so every northern nation is one column: spy, rob or court, then invite or fight. There is no close
+# focus and no event of its own. The Deep Ones Walk and then The Final Ritual (national, in the override "Mirelurk Tribe
+# (MLT) Focus.txt") follow Act III: the Walk has one OR prerequisite over its six focuses (the user, 2026-09-24: the tribe
+# stood still between the Kingdom and the ritual while its neighbours grew, the wars that need no justification sat behind
+# the ritual, and the Walk belongs just before it). From round 27 to 2026-09-23 the heads hung off the Walk, the ritual
+# reconverged on the three beads here and Act III hung off the ritual.
 #
 # Pull-in: the three heads are listed in the override (`shared_focus = <id>`) and name the national focus
-# mltd_the_deep_ones_walk as their prerequisite; each bead reaches its head through a shared prerequisite, so the engine
-# pulls it in. Heads take absolute cells (13,22) (15,22) (17,22); each bead sits (0,1) below its head, relative to it.
+# mltd_the_grand_ritual as their prerequisite (The Deep Ones Walk until 2026-09-24); each bead reaches its head, and each Act
+# III focus its bead, through a shared prerequisite, so the engine pulls them in. Heads take absolute cells (11,21) (15,21)
+# (19,21) - four columns apart since 2026-09-24 (13 / 15 / 17 on row 22 before), so that each nation's Act III pair sits one
+# column either side of its bead; each bead sits (0,1) below its head, relative to it.
 #
 # Never stranded: no story focus here has an intelligence gate, and every one is takeable when its target is gone (or is
 # our subject) - the reward falls back to political power. The one standing condition (The Deep Ones Sail North: no war
@@ -27,21 +31,44 @@
 # Costs: a merged bead keeps its own length plus about 40-50 % of the focus it absorbed, in whole weeks (Knights 42 + 14
 # = 56, Salt 35 + 14 = 49, Sail North 42 + 21 = 63, Dancers 35 + 21 = 56), so a branch pays what its old sub-tree did
 # in 70-80 % of the days (Washington 91 of 112, the Broken Coast 112 of 161, the Bone Dancers 91 of 112) rather than in
-# half of them. Eyes and Bone Shore absorbed nothing and keep 35.
+# half of them. Eyes and Bone Shore absorbed nothing and keep 35. 2026-09-25 (the user: every focus 7, 30, 60, 120 or 180
+# days): the four merged focuses take 60, Eyes in the Sound and The Bone Shore 30.
+#
+# Round 28b (the user's play-test: every effect must show before the focus is taken). The Drowned Knights' heresy is written
+# per Brotherhood (WBH, then TCA) instead of an every_country, so the preview names the country; its two thefts and The
+# Dancers Hear the Tide's are custom tooltips that state their conditions (mltd_wbh_knights_theft_tt,
+# mltd_bdt_bone_road_theft_tt) over hidden effects, because whether the victim holds the stock is known only at completion
+# and a preview read while it did not showed nothing. The amounts are unchanged: this act is taken in 2278-80 (the plan's
+# snapshots: 22-36 military factories, 55-72 divisions still armed with infantry equipment), and 600 infantry equipment
+# taken from a neighbour's stock - a division's worth, and the victim's loss too - is still in scale there.
+#
+# Round 28c review: the two beads never rob or spy on an ally. An accepted Terms for the Citadel or Hail the Drowned King
+# (Act III) brings the Brotherhood or the Bone Dancers into MLT's faction, and a bead can still be taken after it (an AI takes
+# The Drowned Knights as a filler in the late plan, after Terms). So The Drowned Knights' heresy, intel, army token and thefts
+# and The Dancers Hear the Tide's intel, army token and theft skip a nation in MLT's faction or its subject, as The Tide-Wall
+# does, and the political power pays instead; the two theft tooltips say so.
 
 ############ the Brotherhood in Washington ############
 
 # The Brotherhood that holds Washington - WBH, or TCA once it has formed the Northwestern Brotherhood (mltd_wbh_brotherhood,
-# which both answer while their own war runs). Act III's The Tide-Wall is this thread's war.
+# which both answer while their own war runs). Act III ends this thread with Terms for the Citadel or The Tide-Wall.
 shared_focus = {
 	id = mltd_wbh_eyes_in_the_sound
 	icon = GFX_goal_generic_esp_cam
-	cost = 35
-	prerequisite = { focus = mltd_the_deep_ones_walk }
+	cost = 30
+	# The Grand Ritual since 2026-09-24 (The Deep Ones Walk, which now follows Act III, until then)
+	prerequisite = { focus = mltd_the_grand_ritual }
+	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only its fallback
+	bypass = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_wbh_no_brotherhood_tt
+			NOT = { any_country = { mltd_wbh_brotherhood = yes } }
+		}
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 13
-	y = 22
+	x = 11
+	y = 21
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
@@ -89,8 +116,15 @@ shared_focus = {
 shared_focus = {
 	id = mltd_wbh_the_drowned_knights
 	icon = GFX_goal_WBH_black_paladins_2
-	cost = 56
+	cost = 60
 	prerequisite = { focus = mltd_wbh_eyes_in_the_sound }
+	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only its fallback
+	bypass = {
+		custom_trigger_tooltip = {
+			tooltip = mltd_wbh_no_brotherhood_tt
+			NOT = { any_country = { mltd_wbh_brotherhood = yes } }
+		}
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = 0
@@ -98,19 +132,59 @@ shared_focus = {
 	relative_position_id = mltd_wbh_eyes_in_the_sound
 	ai_will_do = { factor = 3 }
 	completion_reward = {
-		# from Heresy in the Citadel: the Inquisitors burn their own
-		every_country = {
-			limit = { mltd_wbh_brotherhood = yes }
-			add_political_power = -40
-			add_stability = -0.06
+		# Round 28c: three blocks, parted by the house spacer mltd_newline_tt - the heresy the Brotherhood suffers, what the
+		# Order learns of it, and what the knights carry off. Each spacer is the first line inside the branch it introduces,
+		# so a branch that does not fire prints no blank line and none is ever left trailing (with no Brotherhood to strike,
+		# the reward is the bare +25 political power and the army experience).
+		# from Heresy in the Citadel: the Inquisitors burn their own. Round 28b: one block per tag instead of an every_country,
+		# so the preview names the Brotherhood rather than "every country". Round 28c review: never a Brotherhood in our
+		# faction (an accepted Terms for the Citadel) or our subject - no heresy, no intel or army token on it and no theft
+		# (as The Tide-Wall spares one); with only such a Brotherhood left the +25 political power pays, as with none
+		if = {
+			limit = {
+				WBH = {
+					mltd_wbh_brotherhood = yes
+					NOT = { is_in_faction_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+				}
+			}
+			WBH = {
+				add_political_power = -40
+				add_stability = -0.06
+			}
+		}
+		if = {
+			limit = {
+				TCA = {
+					mltd_wbh_brotherhood = yes
+					NOT = { is_in_faction_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+				}
+			}
+			TCA = {
+				add_political_power = -40
+				add_stability = -0.06
+			}
 		}
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
-				any_country = { mltd_wbh_brotherhood = yes }
+				any_country = {
+					mltd_wbh_brotherhood = yes
+					NOT = { is_in_faction_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+				}
 			}
+			# what the Order learns, a block of its own
+			custom_effect_tooltip = mltd_newline_tt
 			if = {
-				limit = { WBH = { mltd_wbh_brotherhood = yes } }
+				limit = {
+					WBH = {
+						mltd_wbh_brotherhood = yes
+						NOT = { is_in_faction_with = ROOT }
+						NOT = { is_subject_of = ROOT }
+					}
+				}
 				add_intel = {
 					target = WBH
 					civilian_intel = 15
@@ -121,7 +195,13 @@ shared_focus = {
 				}
 			}
 			if = {
-				limit = { TCA = { mltd_wbh_brotherhood = yes } }
+				limit = {
+					TCA = {
+						mltd_wbh_brotherhood = yes
+						NOT = { is_in_faction_with = ROOT }
+						NOT = { is_subject_of = ROOT }
+					}
+				}
 				add_intel = {
 					target = TCA
 					civilian_intel = 15
@@ -136,73 +216,106 @@ shared_focus = {
 			add_political_power = 25
 		}
 		# the theft is taken from whichever Brotherhood holds the stock (round 17's pair: the victim loses it from every
-		# producer, ROOT gains it under the victim's name)
+		# producer, ROOT gains it under the victim's name). Round 28b: whether the victim has the stock to spare is known only
+		# when the focus completes, and a preview read while it has not showed nothing at all - so one custom tooltip states
+		# both thefts with their conditions, and the effects are hidden. Its 600 / 1,200 and 60 / 120 are repeated in
+		# mltd_wbh_knights_theft_tt
 		if = {
 			limit = {
-				WBH = { mltd_wbh_brotherhood = yes }
-				WBH = { has_equipment = { infantry_equipment > 1200 } }
+				any_country = {
+					mltd_wbh_brotherhood = yes
+					NOT = { is_in_faction_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+				}
 			}
-			WBH = {
+			# what the knights carry off, a block of its own, closed by the army experience below
+			custom_effect_tooltip = mltd_newline_tt
+			custom_effect_tooltip = mltd_wbh_knights_theft_tt
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					WBH = {
+						mltd_wbh_brotherhood = yes
+						NOT = { is_in_faction_with = ROOT }
+						NOT = { is_subject_of = ROOT }
+					}
+					WBH = { has_equipment = { infantry_equipment > 1200 } }
+				}
+				WBH = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = -600
+					}
+				}
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = -600
+					amount = 600
+					producer = WBH
 				}
 			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = 600
-				producer = WBH
-			}
-		}
-		else_if = {
-			limit = {
-				TCA = { mltd_wbh_brotherhood = yes }
-				TCA = { has_equipment = { infantry_equipment > 1200 } }
-			}
-			TCA = {
+			else_if = {
+				limit = {
+					TCA = {
+						mltd_wbh_brotherhood = yes
+						NOT = { is_in_faction_with = ROOT }
+						NOT = { is_subject_of = ROOT }
+					}
+					TCA = { has_equipment = { infantry_equipment > 1200 } }
+				}
+				TCA = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = -600
+					}
+				}
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = -600
+					amount = 600
+					producer = TCA
 				}
 			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = 600
-				producer = TCA
-			}
-		}
-		if = {
-			limit = {
-				WBH = { mltd_wbh_brotherhood = yes }
-				WBH = { has_equipment = { power_armor_equipment > 120 } }
-			}
-			WBH = {
+			if = {
+				limit = {
+					WBH = {
+						mltd_wbh_brotherhood = yes
+						NOT = { is_in_faction_with = ROOT }
+						NOT = { is_subject_of = ROOT }
+					}
+					WBH = { has_equipment = { power_armor_equipment > 120 } }
+				}
+				WBH = {
+					add_equipment_to_stockpile = {
+						type = power_armor_equipment
+						amount = -60
+					}
+				}
 				add_equipment_to_stockpile = {
 					type = power_armor_equipment
-					amount = -60
+					amount = 60
+					producer = WBH
 				}
 			}
-			add_equipment_to_stockpile = {
-				type = power_armor_equipment
-				amount = 60
-				producer = WBH
-			}
-		}
-		else_if = {
-			limit = {
-				TCA = { mltd_wbh_brotherhood = yes }
-				TCA = { has_equipment = { power_armor_equipment > 120 } }
-			}
-			TCA = {
+			else_if = {
+				limit = {
+					TCA = {
+						mltd_wbh_brotherhood = yes
+						NOT = { is_in_faction_with = ROOT }
+						NOT = { is_subject_of = ROOT }
+					}
+					TCA = { has_equipment = { power_armor_equipment > 120 } }
+				}
+				TCA = {
+					add_equipment_to_stockpile = {
+						type = power_armor_equipment
+						amount = -60
+					}
+				}
 				add_equipment_to_stockpile = {
 					type = power_armor_equipment
-					amount = -60
+					amount = 60
+					producer = TCA
 				}
-			}
-			add_equipment_to_stockpile = {
-				type = power_armor_equipment
-				amount = 60
-				producer = TCA
 			}
 		}
 		army_experience = 30
@@ -211,20 +324,29 @@ shared_focus = {
 
 ############ the Broken Coast ############
 
-# The Broken Coast (BRK) is courted, not fought (round 21): envoys end the world's scorn between us, the cult grows among
-# the crews, and MLT may send more volunteers into the raiders' wars. Act III's Drowned Covenant is this thread's end.
+# The Broken Coast (BRK) is courted first (round 21) and fought only by choice (round 28c): envoys end the world's scorn
+# between us, the cult grows among the crews, and MLT may send more volunteers into the raiders' wars. Act III ends this
+# thread with the Drowned Covenant or its war twin, The Coast Goes Under.
 # Salt on the Broken Coast, with The Drowned Raiders merged in (round 27).
 shared_focus = {
 	id = mltd_brk_salt_on_the_broken_coast
 	icon = GFX_goal_BRK_naval_raiders
-	cost = 49
-	prerequisite = { focus = mltd_the_deep_ones_walk }
+	cost = 60
+	# The Grand Ritual since 2026-09-24 (The Deep Ones Walk, which now follows Act III, until then)
+	prerequisite = { focus = mltd_the_grand_ritual }
+	# 2026-09-23: bypassed once BRK is gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = BRK }
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = 15
-	y = 22
+	y = 21
 	ai_will_do = { factor = 3 }
 	completion_reward = {
+		# Round 28c: three blocks, parted by the house spacer mltd_newline_tt - the Order's foothold and the cult among the
+		# crews, what the Order learns of the raiders, and the envoys. Each spacer is the first line inside the branch it
+		# introduces, and the foothold below is unconditional, so no reward can open or end on a blank line.
 		mltd_intel_foothold = yes
 		if = {
 			limit = { country_exists = BRK }
@@ -249,6 +371,8 @@ shared_focus = {
 				has_dlc = "La Resistance"
 				country_exists = BRK
 			}
+			# what the Order learns, a block of its own; the else's single +50 political power line joins the block above
+			custom_effect_tooltip = mltd_newline_tt
 			add_intel = {
 				target = BRK
 				civilian_intel = 25
@@ -266,6 +390,8 @@ shared_focus = {
 		# lifted the way OWB lifts it, and replaced by our envoys' goodwill both ways
 		if = {
 			limit = { country_exists = BRK }
+			# the envoys, a block of its own
+			custom_effect_tooltip = mltd_newline_tt
 			remove_opinion_modifier = {
 				target = BRK
 				modifier = world_view_brk
@@ -290,17 +416,22 @@ shared_focus = {
 
 # The Deep Ones Sail North, with Star Spawn over the Strait merged in (round 27): +6 volunteer divisions at once. The old
 # gates on the summons (mltd_deep_ones_summon_unlocked, mltd_star_spawn_summon_unlocked) are gone - The Call of the Deep Ones
-# set the first (event mltd.7) and The Deep Ones Walk, this act's prerequisite, sets the second (event mltd.8).
+# sets the first (event mltd.7) and The Deep Ones Walk the second (event mltd.8); the volunteers are whatever divisions MLT
+# chooses to send.
 shared_focus = {
 	id = mltd_brk_the_deep_ones_sail_north
 	icon = GFX_goal_BRK_masters_of_the_waves
-	cost = 63
+	cost = 60
 	prerequisite = { focus = mltd_brk_salt_on_the_broken_coast }
 	available = {
 		if = {
 			limit = { country_exists = BRK }
 			BRK = { NOT = { has_war_with = ROOT } }
 		}
+	}
+	# 2026-09-23: bypassed once BRK is gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = BRK }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
@@ -333,12 +464,17 @@ shared_focus = {
 shared_focus = {
 	id = mltd_bdt_the_bone_shore
 	icon = GFX_goal_BDT_holy_skull
-	cost = 35
-	prerequisite = { focus = mltd_the_deep_ones_walk }
+	cost = 30
+	# The Grand Ritual since 2026-09-24 (The Deep Ones Walk, which now follows Act III, until then)
+	prerequisite = { focus = mltd_the_grand_ritual }
+	# 2026-09-23: bypassed once BDT is gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = BDT }
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 17
-	y = 22
+	x = 19
+	y = 21
 	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
@@ -381,8 +517,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_bdt_the_dancers_hear_the_tide
 	icon = GFX_goal_BDT_skeleton_king
-	cost = 56
+	cost = 60
 	prerequisite = { focus = mltd_bdt_the_bone_shore }
+	# 2026-09-23: bypassed once BDT is gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = BDT }
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = 0
@@ -400,10 +540,16 @@ shared_focus = {
 				mltd_cult_rebuild_list = yes
 			}
 		}
+		# round 28c review: no intel or army token on Bone Dancers in our faction (an accepted Hail the Drowned King) or our
+		# subject, and no theft from them below; the +25 political power pays instead, as with the Bone Dancers gone
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
 				country_exists = BDT
+				BDT = {
+					NOT = { is_in_faction_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+				}
 			}
 			add_intel = {
 				target = BDT
@@ -417,26 +563,36 @@ shared_focus = {
 		else = {
 			add_political_power = 25
 		}
-		# from Salt on the Bone Road: the victim loses the crates from every producer, ROOT gains them under its name
-		if = {
-			limit = {
-				country_exists = BDT
-				BDT = { has_equipment = { infantry_equipment > 1200 } }
-			}
-			BDT = {
+		# from Salt on the Bone Road: the victim loses the crates from every producer, ROOT gains them under its name. Round 28b:
+		# the preview used to show only the branch the Bone Dancers' stock picked that day - the theft, or the +25 political
+		# power - so one custom tooltip states both, and the effects are hidden. Its 600 / 1,200 / 25 are repeated in
+		# mltd_bdt_bone_road_theft_tt
+		custom_effect_tooltip = mltd_bdt_bone_road_theft_tt
+		hidden_effect = {
+			if = {
+				limit = {
+					country_exists = BDT
+					BDT = {
+						NOT = { is_in_faction_with = ROOT }
+						NOT = { is_subject_of = ROOT }
+						has_equipment = { infantry_equipment > 1200 }
+					}
+				}
+				BDT = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = -600
+					}
+				}
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = -600
+					amount = 600
+					producer = BDT
 				}
 			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = 600
-				producer = BDT
+			else = {
+				add_political_power = 25
 			}
-		}
-		else = {
-			add_political_power = 25
 		}
 		army_experience = 30
 	}

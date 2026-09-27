@@ -137,9 +137,10 @@ for fid in pulled:
     groups.setdefault(shared[fid][1], []).append(fid)
 for fn in groups:
     groups[fn].sort(key=lambda f: shared[f][2])
-# the story acts (round 27): Acts II-VI and the finale, one file each, pulled in through the roots the override lists
+# the story acts (round 27): Acts II-VI and the finale, one file each, pulled in through the roots the override lists;
+# then the spoils branches (round 28) - not acts, but pulled in the same way, each off an act's close
 STORY_FILES = ['mltd_act2_focus.txt', 'mltd_act3_focus.txt', 'mltd_act4_focus.txt', 'mltd_act5_focus.txt',
-               'mltd_act6_focus.txt', 'mltd_finale_focus.txt']
+               'mltd_act6_focus.txt', 'mltd_finale_focus.txt', 'mltd_spoils_focus.txt']
 assert set(groups) == {'Shared Oregon Coastals Focus.txt'} | set(STORY_FILES), groups.keys()
 oregon = groups['Shared Oregon Coastals Focus.txt']
 story = [fid for fn in STORY_FILES for fid in groups[fn]]  # act order, then file order
@@ -334,7 +335,7 @@ def gen_focus():
                        ('OWB\'s Shared Oregon Coastals Focus.txt, pulled in by ' + ' and '.join(
                            r for r in roots if r in oregon), oregon),
                        ('the story acts, common/national_focus/mltd_act2_focus.txt ... mltd_act6_focus.txt and '
-                        'mltd_finale_focus.txt', story)):
+                        'mltd_finale_focus.txt, then the spoils branches, mltd_spoils_focus.txt', story)):
         out.append('\t# %s (%d)' % (title, len(ids)))
         for fid in ids:
             out += once('mltd_tm_f_' + fid, 'has_completed_focus = ' + fid, 'MLTD %s FOCUS id=%s' % (day(), fid))
@@ -999,8 +1000,8 @@ def build():
 
 
 if __name__ == '__main__':
-    print('focuses: %d national + %d Oregon + %d story acts = %d' % (len(national), len(oregon), len(story),
-                                                                       len(all_focuses)))
+    print('focuses: %d national + %d Oregon + %d story acts and spoils = %d' % (len(national), len(oregon),
+                                                                                len(story), len(all_focuses)))
     print('roots:', ' '.join(roots))
     print('techs (%d): %s' % (len(techs), ' '.join(techs)))
     print('laws:', ' '.join(laws))

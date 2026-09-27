@@ -96,7 +96,15 @@ ideas = {
 				special_forces_min = 80
 			}
 		}
-		# ---- Rising Tide round 13: timed ideas from the war capstones (in the story acts since round 27) and the flavour events
+		# ---- Rising Tide round 13: timed ideas from the war capstones (in the story acts since round 27) and the flavour events.
+		# 2026-09-24: every story war focus grants a 180-day idea that carries +10 % attack and +10 % defence against the
+		# countries it goes to war with (targeted_modifier, one block per tag, beside `modifier` as in OWB bdt_ideas.txt:41-44;
+		# vanilla ENG_tackle_fascism_idea_1 carries several), in place of the stability and war-support losses the war focuses
+		# used to inflict on their targets, and the shared 60-day mltd_the_first_wave. The seven old capstone ideas carry the
+		# bonus beside their own modifiers; the four war focuses that had none got one (mltd_brk_the_raiders_hunted,
+		# mltd_bdt_the_dance_drowned, mltd_ncr_the_turbines_silenced, mltd_ate_the_serpent_hunted). The 0.10s are literals in
+		# each block and nowhere else: the preview draws them natively. targeted_modifier does not work in a dynamic modifier
+		# (vanilla aat_dynamic_modifiers.txt:751, "for targeted_modifier when it works"), hence ideas.
 		# Timed (180 days), from mltd_tex_black_water_rising (Act VI, mltd_act6_focus.txt).
 		mltd_tex_black_water = {
 			picture = generic_fuel
@@ -115,6 +123,18 @@ ideas = {
 				industrial_capacity_factory = 0.05
 				production_speed_buildings_factor = 0.05
 				stability_factor = -0.02
+			}
+
+			targeted_modifier = {
+				tag = TBH
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
+
+			targeted_modifier = {
+				tag = LNS
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
 			}
 		}
 		# Timed (180 days), from mltd_wbh_the_tide_wall (Act III, mltd_act3_focus.txt). targeted_modifier sits beside modifier, as in OWB bdt_ideas.txt:41-44.
@@ -135,9 +155,10 @@ ideas = {
 				army_core_defence_factor = 0.05
 			}
 
+			# 2026-09-24: +10 % attack (+5 % until then) and +10 % defence, as every war focus's idea
 			targeted_modifier = {
 				tag = WBH
-				attack_bonus_against = 0.05
+				attack_bonus_against = 0.10
 				defense_bonus_against = 0.10
 			}
 
@@ -145,7 +166,7 @@ ideas = {
 			# the bonuses have to name both - against TCA the idea used to be the flat core defence alone.
 			targeted_modifier = {
 				tag = TCA
-				attack_bonus_against = 0.05
+				attack_bonus_against = 0.10
 				defense_bonus_against = 0.10
 			}
 		}
@@ -167,8 +188,15 @@ ideas = {
 				war_support_factor = 0.05
 				army_morale_factor = 0.05
 			}
+
+			targeted_modifier = {
+				tag = CES
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
 		}
-		# Timed (180 days): the war branch of mltd_bos_blood_in_the_water (Act V), taken while Lost Hills and the NCR are at war.
+		# Timed (180 days), from mltd_bos_blood_in_the_water (Act V). Until 2026-09-24 only its war branch, taken while Lost
+		# Hills and the NCR were at war; now granted with the war the focus starts, as every war focus's idea is.
 		mltd_bos_red_tide = {
 			picture = generic_blood
 
@@ -185,6 +213,12 @@ ideas = {
 			modifier = {
 				army_attack_factor = 0.05
 				experience_gain_army_factor = 0.10
+			}
+
+			targeted_modifier = {
+				tag = BOS
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
 			}
 		}
 		# Timed (180 days), from mltd_tla_the_drowned_god_sleeps (Act VI, mltd_act6_focus.txt).
@@ -203,6 +237,30 @@ ideas = {
 
 			modifier = {
 				research_speed_factor = 0.05
+			}
+
+			targeted_modifier = {
+				tag = TLA
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
+
+			targeted_modifier = {
+				tag = MAX
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
+
+			targeted_modifier = {
+				tag = MOC
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
+
+			targeted_modifier = {
+				tag = ZAP
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
 			}
 		}
 		# Timed, 90 days (event mltd.10, option a): the tribe eats what the fog brought home. conscription_factor
@@ -261,6 +319,12 @@ ideas = {
 				political_power_factor = 0.05
 				stability_factor = 0.03
 			}
+
+			targeted_modifier = {
+				tag = HEA
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
 		}
 		# Timed (180 days), granted by mltd_wht_rites_on_the_spiral_jetty in mltd_act5_focus.txt (Act V)
 		mltd_wht_rites_on_the_jetty = {
@@ -279,6 +343,124 @@ ideas = {
 			modifier = {
 				army_morale_factor = 0.05
 				recruitable_population_factor = 0.03
+			}
+
+			targeted_modifier = {
+				tag = WHT
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
+
+			targeted_modifier = {
+				tag = EHT
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
+		}
+
+		# ---- 2026-09-24: the four war focuses that had no idea of their own get one (see the block's header above), and
+		# every war focus grants The First Wave.
+		# Timed (180 days), from mltd_brk_the_coast_goes_under (Act III, mltd_act3_focus.txt).
+		mltd_brk_the_raiders_hunted = {
+			picture = brk_master_of_sea
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			targeted_modifier = {
+				tag = BRK
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
+		}
+		# Timed (180 days), from mltd_bdt_drown_the_dance (Act III, mltd_act3_focus.txt).
+		mltd_bdt_the_dance_drowned = {
+			picture = BDT_realm_of_bone
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			targeted_modifier = {
+				tag = BDT
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
+		}
+		# Timed (180 days), from mltd_ncr_the_turbines_sing (Act IV, mltd_act4_focus.txt).
+		mltd_ncr_the_turbines_silenced = {
+			picture = generic_dam
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			targeted_modifier = {
+				tag = NCR
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
+		}
+		# Timed (180 days), from mltd_ate_the_serpent_drowns (Act VI, mltd_act6_focus.txt).
+		mltd_ate_the_serpent_hunted = {
+			picture = ATE_serpent
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			targeted_modifier = {
+				tag = ATE
+				attack_bonus_against = 0.10
+				defense_bonus_against = 0.10
+			}
+		}
+		# Timed (60 days), from every story war focus (Acts III-VI) against a country it goes to war with: the "immediate buff"
+		# the user asked for beside the targeted bonus (2026-09-24), a percentage so that it matters in 2285 as in 2278.
+		# army_morale_factor is Division Recovery Rate (MODIFIER_ARMY_MORALE_FACTOR); breakthrough_factor is a country
+		# modifier in vanilla's army spirits (army_spirits.txt:1050). An idea is held once, so a second war focus inside the 60
+		# days does not stack it (unverified: whether it restarts the timer).
+		mltd_the_first_wave = {
+			picture = lightning_raids_spirit
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				army_morale_factor = 0.10
+				breakthrough_factor = 0.05
 			}
 		}
 
@@ -343,8 +525,10 @@ ideas = {
 			removal_cost = -1
 
 			modifier = {
-				army_attack_factor = 0.05
-				army_defence_factor = 0.05
+				# round-28c balance review: 0.05 lost to option a's research slot, so attack and defence are doubled.
+				# Organisation stays at 0.05: the permanent gifts already give +20 %
+				army_attack_factor = 0.10
+				army_defence_factor = 0.10
 				army_org_factor = 0.05
 			}
 		}
@@ -424,9 +608,11 @@ ideas = {
 				consumer_goods_factor = -0.10
 			}
 		}
-		# Permanent, from mltd_ending_return_to_the_sea: the deep. monthly_population 0.2 is +20 % monthly population
-		# growth (OWB's own scale, e.g. gov_unique_ncr.txt:74); conscription_factor is Recruitable Population, the key the
-		# Gift of the Brood uses. The focus also raises two Leviathans at Mireport when it is held.
+		# Permanent, from mltd_ending_return_to_the_sea: the deep. monthly_population 0.2 is +20 % monthly population growth
+		# (OWB's own scale, e.g. gov_unique_ncr.txt:74) - the people the summons are paid in. Round 28c: a -15 % build cost on
+		# every creature, keyed by archetype as continuous_mltd_spawning_pools is (so every variant, and never the rifles a
+		# type = infantry category would catch), replaces +10 % recruitable population, which MLT no longer lacks by the
+		# ending; it stacks with Feed the Spawning Pools' -15 %. The focus also raises two Leviathans at Mireport when it is held.
 		mltd_the_return_to_the_sea = {
 			picture = TIM_patch_oceanography
 			allowed = {
@@ -438,7 +624,257 @@ ideas = {
 			removal_cost = -1
 			modifier = {
 				monthly_population = 0.2
-				conscription_factor = 0.10
+			}
+			equipment_bonus = {
+				amphibious_beast_equipment = {
+					instant = yes
+					build_cost_ic = -0.15
+				}
+				mltd_deep_ones_equipment = {
+					instant = yes
+					build_cost_ic = -0.15
+				}
+				mltd_star_spawn_equipment = {
+					instant = yes
+					build_cost_ic = -0.15
+				}
+			}
+		}
+		# ---- Rising Tide round 28 (restructured in round 28c): the spoils' permanent ideas, one from the idea focus of each
+		# group of mltd_spoils_focus.txt - two in California, The Drowned Harvest and The Office of Salt and Industry (after The
+		# Salt Road) - with 2-3 modifiers each, inside the story acts' +-5-10 % band; pictures are OWB's. Two timed ideas follow.
+		# The Drowned Sound: permanent, from mltd_spoils_the_drowned_sound (the north). research_speed_factor 0.05 is OWB's
+		# commonest value on its ideas (the Brotherhood's scribes); global_building_slots_factor 0.05 is OWB's too (its
+		# workshops rebuilt); resistance_decay 0.10 as on OWB's ideas - resistance falls faster in the conquered towns.
+		mltd_the_drowned_sound = {
+			picture = generic_BOS_idea_scribes
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				research_speed_factor = 0.05
+				global_building_slots_factor = 0.05
+				resistance_decay = 0.10
+			}
+		}
+		# The Drowned Harvest: permanent, from mltd_spoils_the_drowned_harvest (California). compliance_growth is OWB's
+		# conqueror lever - its coring needs 95 % compliance (coring_button_scripted_triggers.txt:52) - and 0.10 is inside
+		# OWB's own range (0.04-0.20 on its ideas); monthly_population on OWB's scale (0.1 = +10 % monthly growth, as in
+		# mltd_the_return_to_the_sea); production_speed_buildings_factor is construction speed, as in mltd_tex_black_water.
+		mltd_the_drowned_harvest = {
+			picture = generic_food_good
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				compliance_growth = 0.10
+				monthly_population = 0.1
+				production_speed_buildings_factor = 0.05
+			}
+		}
+		# The Iron Tithe: permanent, from mltd_spoils_the_iron_tithe (the interior): the Legion's smiths work for the deep,
+		# and the towns that fed its armies keep their own order. resistance_target -0.05 is OWB's own figure on its ideas;
+		# required_garrison_factor lowers the garrison every occupied state asks for.
+		mltd_the_iron_tithe = {
+			picture = legion_smiths
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				production_factory_efficiency_gain_factor = 0.10
+				required_garrison_factor = -0.10
+				resistance_target = -0.05
+			}
+		}
+		# The Salt Road: permanent, from mltd_spoils_the_salt_road (the south). core_creation_cost_factor is OWB's own coring
+		# modifier (common/modifier_definitions/coring_cost_modifier_definitions.txt; read at coring_button_scripted_triggers.txt:189,
+		# negative is cheaper); caps_income_modifier is OWB's (as in mltd_the_wet_market; it does nothing with the caps rule
+		# off, the other two still apply); consumer_goods_factor as in mltd_the_priestess_reigns, here a smaller cut.
+		mltd_the_salt_road = {
+			picture = KHA_a_new_silk_road
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				core_creation_cost_factor = -0.10
+				consumer_goods_factor = -0.05
+				caps_income_modifier = 0.10
+			}
+		}
+		# The Office of Salt and Industry: permanent, from mltd_spoils_the_office_of_salt (California, round 28c; the group's
+		# second idea - California's four may carry two). The Republic's Office of Science and Industry works for the tide:
+		# research_speed_factor 0.05 and production_factory_max_efficiency_factor 0.05 are OWB's commonest values for both on
+		# its ideas (133 and 50 uses); both scale with the economy they land in.
+		mltd_the_office_of_salt = {
+			picture = generic_research_boost
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				research_speed_factor = 0.05
+				production_factory_max_efficiency_factor = 0.05
+			}
+		}
+		# ---- The spoils' two timed ideas (round 28b), 365 days each by add_timed_idea, sized to scale with what they land in.
+		# The Legion's Steel: timed (365 days), from mltd_spoils_the_legions_armouries (the interior, ~2284-85): the Bull's steel
+		# melted into barbed harness and shell-plate for the brood. +10 % defence and armour on the three creature archetypes,
+		# keyed by archetype so it reaches every variant and never the rifles (every creature archetype is type = infantry), in
+		# OWB's own shape (army_spirits.txt:804-813 on motorised equipment, :635-640 on heavy infantry). It is worth however many
+		# creature divisions MLT fields. Round 28c: in place of 28b's -10 % build cost, which came from the same close as
+		# mltd.51 b's cheaper creatures and, for a player who chose them, stacked with them, Feed the Spawning Pools and the
+		# -10 % then staged for Black Water Rising to -45 %. With Black Water's cut dropped too (the late area's 28c review), the
+		# creature cuts now peak at -25 % (the pools and the Emptied Pens) until the endings.
+		mltd_the_legions_steel = {
+			picture = salvaged_military_industry
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			equipment_bonus = {
+				amphibious_beast_equipment = {
+					instant = yes
+					defense = 0.10
+					armor_value = 0.10
+				}
+				mltd_deep_ones_equipment = {
+					instant = yes
+					defense = 0.10
+					armor_value = 0.10
+				}
+				mltd_star_spawn_equipment = {
+					instant = yes
+					defense = 0.10
+					armor_value = 0.10
+				}
+			}
+		}
+		# Black Water Visions: timed (365 days), from mltd_spoils_the_black_water_wells (the south, ~2286).
+		mltd_the_black_water_visions = {
+			picture = tvt_the_directors_vision
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				research_speed_factor = 0.10
+			}
+		}
+		# ---- Rising Tide rounds 28b-28c: the pens of Flagstaff (event mltd.51, the trophy of Act V's close mltd_when_the_legion_breaks,
+		# through the scripted effects mltd_legion_pens_freed / mltd_legion_pens_fed). Until round 28b the two options were 5,000
+		# people each, which is noise at the Legion's fall (~2.5M people): both are modifiers now, so they scale with the empire.
+		# Option a, permanent: the freed rise as the faithful. stability_factor 0.05 replaces the option's old one-off +5 %
+		# stability one for one; compliance_growth 0.10 is OWB's conqueror lever (its coring needs 95 % compliance,
+		# coring_button_scripted_triggers.txt:52) inside OWB's own range (0.04-0.20), as in mltd_the_drowned_harvest - the
+		# freed carry the tide back to the towns that sold them. Two modifiers inside the story acts' +-5-10 % band.
+		mltd_the_unchained = {
+			picture = NPC_freed_workers_production
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				stability_factor = 0.05
+				compliance_growth = 0.10
+			}
+		}
+		# Option b, timed (730 days, the days in mltd_legion_pens_fed): the pens emptied into the spawning pools. A cheaper build
+		# of every creature the tribe fields, keyed by archetype as continuous_mltd_spawning_pools is (so every variant, and
+		# never the rifles a type = infantry category would catch); it stacks with Feed the Spawning Pools' -15 %. Round 28c:
+		# -10 % for two years in place of round 28b's -20 % for one - the same worth, inside the story acts' +-5-10 % band for an
+		# act idea, and a lower peak where it overlaps the other creature cuts: with Feed the Spawning Pools, -25 % (round 28c's
+		# reviews dropped the -10 % first staged for Black Water, and The Legion's Steel arms the creatures instead); only Return
+		# to the Sea's -15 %, an ending, can meet the pens' last weeks, for -40 %. At ~85 military factories (the plan's ~2284,
+		# ~110 by 2286) on OWB's 5 IC a day (fchanges_defines.lua:103) and 50-70 % efficiency (OWB's base cap is 35 %,
+		# fchanges_defines.lua:99, raised by its techs), two years' output is ~170,000-230,000 IC; a tenth off the creatures'
+		# price makes that ~18,000-25,000 IC more of them - 900-1,250 mirelurks, five or six Tide Walls - and more the larger
+		# the industry it lands in.
+		mltd_the_pens_emptied = {
+			picture = generic_egg
+
+			allowed = {
+				original_tag = MLT
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			equipment_bonus = {
+				amphibious_beast_equipment = {
+					instant = yes
+					build_cost_ic = -0.10
+				}
+				mltd_deep_ones_equipment = {
+					instant = yes
+					build_cost_ic = -0.10
+				}
+				mltd_star_spawn_equipment = {
+					instant = yes
+					build_cost_ic = -0.10
+				}
 			}
 		}
 	}

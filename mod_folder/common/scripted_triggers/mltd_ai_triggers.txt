@@ -333,13 +333,33 @@ mltd_ai_late_army = {
 # Courting the Broken Coast (round 21): from the Kingdom on (the Broken Coast's branch, mltd_brk_* in Act II, opens only
 # after The Deep Ones Walk, and the frontier or the Broken Coast's stage would open a war on it before then), while BRK is
 # not at war with MLT, is not yet in its faction and has not refused the Drowned Covenant (global flag, event mltd.21), MLT
-# helps BRK win its coast instead of conquering it. MLT scope.
+# helps BRK win its coast instead of conquering it. Round 28: nor once the Brotherhood in Washington has joined the Covenant
+# (mltd_wbh_alliance, Terms for the Citadel), which closes the Covenant to the raiders for good - a courtship resumed after a
+# war with BRK would otherwise never end, keep BRK off every target list and keep mltd_ai_brk_helped waiting. Round 28c: nor
+# once MLT has taken The Coast Goes Under, the Covenant's war twin, which excludes the Covenant for good - the same reason
+# (mltd_ai_courting_bdt ends on Drown the Dance the same way). Round 28c review, the other ways the invitation can no longer
+# come: the Covenant completed without sending its offer (mltd_brk_covenant_lapsed, set in its +50 political power fallback:
+# mltd.21 is fire_only_once) or the raiders once sworn to it (mltd_brk_covenant_joined, so a Broken Coast that later leaves
+# the faction is not courted for ever) end it for good - a plain has_completed_focus would end it on the day the Covenant
+# completes, before the raiders answer, and let the AI offer Terms for the Citadel into that answer; and it pauses while the
+# raiders are another country's subject, since the Covenant cannot be offered to a subject (MLT's own subject stays courted:
+# the Covenant then pays its fallback and sets the flag). MLT scope.
 mltd_ai_courting_brk = {
 	has_completed_focus = mlt_kingdom_of_mlyeh
 	country_exists = BRK
 	NOT = { has_war_with = BRK }
 	NOT = { is_in_faction_with = BRK }
 	NOT = { has_global_flag = mltd_brk_refused_covenant }
+	NOT = { has_country_flag = mltd_wbh_alliance }
+	NOT = { has_completed_focus = mltd_brk_the_coast_goes_under }
+	NOT = { has_country_flag = mltd_brk_covenant_lapsed }
+	NOT = { has_country_flag = mltd_brk_covenant_joined }
+	NOT = {
+		BRK = {
+			is_subject = yes
+			NOT = { is_subject_of = PREV }
+		}
+	}
 }
 
 # Broken Coast helped before the NCR (round 21): once The Deep Ones Sail North (Act II, taken before The Final Ritual) has
@@ -367,26 +387,31 @@ mltd_ai_brk_helped = {
 # Covenant, are not at war with MLT and MLT has not chosen Drown the Dance instead, the AI takes the invitation (Hail the
 # Drowned King, Act III) and leaves them alone. Gated on the Kingdom rather than on mltd_bdt_the_bone_shore (round 24): The
 # Bone Shore (Act II) opens only after The Deep Ones Walk, and until it was taken the frontier could conquer BDT and close
-# the Covenant for good - mltd_ai_courting_brk gates on the Kingdom for exactly this reason. MLT scope.
+# the Covenant for good - mltd_ai_courting_brk gates on the Kingdom for exactly this reason. Round 28c review: it also ends
+# once Hail the Drowned King has completed without sending its offer (mltd_bdt_covenant_lapsed, set in its +50 political
+# power fallback: mltd.24 is fire_only_once), and pauses while the Bone Dancers are another country's subject, as the Broken
+# Coast's does. MLT scope.
 mltd_ai_courting_bdt = {
 	has_completed_focus = mlt_kingdom_of_mlyeh
 	country_exists = BDT
-	# The invitation needs the Bone Dancers on OWB's Odious King branch: either they have crowned him, or they still can.
-	# bdt_hail_to_the_king is mutually exclusive with bdt_road_warriors_of_the_eighty_four and bdt_listen_to_the_pilgrims
-	# (OWB Bone Dancers (BDT) Focus.txt:1508-1513), so either of those closes the Covenant for good and frees the war branch.
-	BDT = {
-		OR = {
-			has_completed_focus = bdt_hail_to_the_king
-			AND = {
-				NOT = { has_completed_focus = bdt_road_warriors_of_the_eighty_four }
-				NOT = { has_completed_focus = bdt_listen_to_the_pilgrims }
-			}
-		}
-	}
+	# Round 28c: the invitation asks only what Hail the Drowned King now asks - that the Bone Dancers are not sworn to
+	# Heaven's Guard's seraph lords (bdt_listen_to_the_pilgrims, one of the three exclusive roads of OWB's Bone Dancers
+	# (BDT) Focus.txt, which their Odious King branch bdt_hail_to_the_king also bars), and that MLT is not allied to
+	# Heaven's Guard itself. Before that the courtship waited on the Odious King, whom an AI Bone Dancer crowns only on
+	# its own behaviour roll, which is why Drown the Dance's hold gives up waiting in 2281.
+	BDT = { NOT = { has_completed_focus = bdt_listen_to_the_pilgrims } }
+	NOT = { is_in_faction_with = HEA }
 	NOT = { has_completed_focus = mltd_bdt_drown_the_dance }
 	NOT = { has_war_with = BDT }
 	NOT = { is_in_faction_with = BDT }
 	NOT = { has_global_flag = mltd_bdt_refused_covenant }
+	NOT = { has_country_flag = mltd_bdt_covenant_lapsed }
+	NOT = {
+		BDT = {
+			is_subject = yes
+			NOT = { is_subject_of = PREV }
+		}
+	}
 }
 
 # The army is ready for a new war: at least half the frontage target (mltd_ai_army_ready_at, the weekly survey). MLT scope.
@@ -496,8 +521,10 @@ mltd_ai_stage_tca = {
 	}
 }
 
-# ---- B6. Cascadia, with more than 30 states and after The Deep Ones Walk (or from June 2278), never while the Final Ritual
-# runs (CONQUEST_PLAN.txt: no major war during the Final Ritual): WBH first, then the coast.
+# ---- B6. Cascadia, with more than 30 states and after The Grand Ritual (or from June 2278), never while the Final Ritual
+# runs (CONQUEST_PLAN.txt: no major war during the Final Ritual): WBH first, then the coast. The Grand Ritual since
+# 2026-09-24, when The Deep Ones Walk moved below Act III: The Tide-Wall, Act III's usual road for an AI, needs this stage,
+# and the Walk now needs Act III, so a stage on the Walk would wait for the 2278 date.
 mltd_ai_stage_wbh = {
 	OR = {
 		AND = {
@@ -505,7 +532,7 @@ mltd_ai_stage_wbh = {
 			has_completed_focus = mlt_kingdom_of_mlyeh
 			num_of_controlled_states > 30
 			OR = {
-				has_completed_focus = mltd_the_deep_ones_walk
+				has_completed_focus = mltd_the_grand_ritual
 				date > 2278.6.1
 			}
 		}
@@ -519,7 +546,7 @@ mltd_ai_stage_oly = {
 			has_completed_focus = mlt_kingdom_of_mlyeh
 			num_of_controlled_states > 30
 			OR = {
-				has_completed_focus = mltd_the_deep_ones_walk
+				has_completed_focus = mltd_the_grand_ritual
 				date > 2278.6.1
 			}
 		}
@@ -533,7 +560,7 @@ mltd_ai_stage_yak = {
 			has_completed_focus = mlt_kingdom_of_mlyeh
 			num_of_controlled_states > 30
 			OR = {
-				has_completed_focus = mltd_the_deep_ones_walk
+				has_completed_focus = mltd_the_grand_ritual
 				date > 2278.6.1
 			}
 		}
@@ -547,7 +574,7 @@ mltd_ai_stage_toc = {
 			has_completed_focus = mlt_kingdom_of_mlyeh
 			num_of_controlled_states > 30
 			OR = {
-				has_completed_focus = mltd_the_deep_ones_walk
+				has_completed_focus = mltd_the_grand_ritual
 				date > 2278.6.1
 			}
 		}
@@ -561,7 +588,7 @@ mltd_ai_stage_kam = {
 			has_completed_focus = mlt_kingdom_of_mlyeh
 			num_of_controlled_states > 30
 			OR = {
-				has_completed_focus = mltd_the_deep_ones_walk
+				has_completed_focus = mltd_the_grand_ritual
 				date > 2278.6.1
 			}
 		}
@@ -575,14 +602,15 @@ mltd_ai_stage_brk = {
 			has_completed_focus = mlt_kingdom_of_mlyeh
 			num_of_controlled_states > 30
 			OR = {
-				has_completed_focus = mltd_the_deep_ones_walk
+				has_completed_focus = mltd_the_grand_ritual
 				date > 2278.6.1
 			}
 		}
 	}
 }
 
-# ---- B7. The route to the NCR, after The Deep Ones Walk (or from 2279), never while the Final Ritual runs: MXS, FOU, TDN.
+# ---- B7. The route to the NCR, after The Grand Ritual (The Deep Ones Walk until 2026-09-24, when it moved below Act III; or
+# from 2279), never while the Final Ritual runs: MXS, FOU, TDN.
 # OWB only lets an AI justify on a neighbour (diplomacy_scripted_triggers.txt:1210-1216), so these are the stepping stones:
 # MXS borders KLA and ARR, and FOU and TDN border the NCR (FOU's 369 and TDN's 57 touch Redding, 141).
 mltd_ai_stage_mxs = {
@@ -590,7 +618,7 @@ mltd_ai_stage_mxs = {
 		AND = {
 			NOT = { has_idea = mltd_the_final_ritual }
 			OR = {
-				has_completed_focus = mltd_the_deep_ones_walk
+				has_completed_focus = mltd_the_grand_ritual
 				date > 2279.1.1
 			}
 		}
@@ -602,7 +630,7 @@ mltd_ai_stage_fou = {
 		AND = {
 			NOT = { has_idea = mltd_the_final_ritual }
 			OR = {
-				has_completed_focus = mltd_the_deep_ones_walk
+				has_completed_focus = mltd_the_grand_ritual
 				date > 2279.1.1
 			}
 		}
@@ -614,7 +642,7 @@ mltd_ai_stage_tdn = {
 		AND = {
 			NOT = { has_idea = mltd_the_final_ritual }
 			OR = {
-				has_completed_focus = mltd_the_deep_ones_walk
+				has_completed_focus = mltd_the_grand_ritual
 				date > 2279.1.1
 			}
 		}
@@ -1103,7 +1131,7 @@ mltd_ai_stage_mdm = {
 
 # ---- W. The story acts' war focuses: when an AI may take one -------------------------------------------------------------
 # Round 27 review. Each war focus declares its own war on completion (common/national_focus/mltd_act3..6_focus.txt), so its
-# 42-49 days are the run-up. An AI MLT takes every focus of its strategy plan's ai_national_focuses that is AVAILABLE, in list
+# 30 days are the run-up (2026-09-25; 42-49 until then). An AI MLT takes every focus of its strategy plan's ai_national_focuses that is AVAILABLE, in list
 # order, whatever its ai_will_do reads: run 8 (ai_runs/20260918-170847, round-24 code) completed Eyes in the Sound on day
 # 1330 and The Tide-Wall on day 1715 with mltd_ai_stage_wbh closed (20 states, not 31), A Mole in Shady Sands on day 1750
 # before The Deep Ones Walk and The Turbines Sing on day 2513 with the NCR's stage never open - each while its ai_will_do
@@ -1117,16 +1145,35 @@ mltd_ai_stage_mdm = {
 # mltd_ai_no_new_wars_when_losing - which only damps the strategy's own declarations and cannot reach a focus's). It lifts as
 # soon as MLT is not losing, so it strands no act. The optional wars - their act's close also opens through a sibling - wait
 # for a safe target as well (mltd_ai_safe_target, or mltd_ai_safe_by_strength for the courted Bone Dancers), as the conquest
-# blocks for the same targets demand, because a focus's own declaration skips that check. Act III's two wars are an AI's real
-# ways through the act (an AI seldom meets both invitations' gates), so their safe-target test gives way on 1 January 2281,
-# the date The Tide Turns South's own size gate gives way. The Turbines Sing, The Sea Against Mars and Black Water Rising,
-# whose closes need their wars, wait on no safe target.
+# blocks for the same targets demand, because a focus's own declaration skips that check. The Tide-Wall and Drown the Dance
+# are an AI's real ways through Act III (it seldom meets the Covenant's or Hail the Drowned King's gates, and offers Terms for
+# the Citadel only on unhistorical focuses), so their safe-target test gives way on 1 January 2281, the date The Tide Turns
+# South's own size gate gives way - but only while no Act III focus is done yet (mltd_ai_act3_path_taken, round 28c review):
+# any one of the six opens the close, so after that the escape could only send an AI into a war on a stronger country, and
+# the refusal holds (common/ai_strategy/mltd_MLT.txt, section C2), which reuse these triggers, could only release a refused
+# invitation's war goal on one. The act's third war, The Coast Goes Under (round 28c), keeps its safe-target test with no
+# date: the courted Broken Coast is never an AI's only way through the act. The Turbines Sing, The Sea Against Mars and
+# Black Water Rising, whose closes need their wars, wait on no safe target.
 # A hold is read only when the AI picks the focus: every war focus is continue_if_invalid = yes, so one started while MLT was
 # winning still declares on completion if MLT has started losing during the run-up.
 
+# Act III has been answered (round 28c review): any one of its six focuses is done, so the act's OR prerequisite is met -
+# The Deep Ones Walk's since 2026-09-24 (The Final Ritual's earlier that day, The Tide Turns South's before) - and no AI hold
+# below needs its 2281 escape to keep the act from stranding. MLT scope.
+mltd_ai_act3_path_taken = {
+	OR = {
+		has_completed_focus = mltd_wbh_terms_for_the_citadel
+		has_completed_focus = mltd_wbh_the_tide_wall
+		has_completed_focus = mltd_brk_the_drowned_covenant
+		has_completed_focus = mltd_brk_the_coast_goes_under
+		has_completed_focus = mltd_bdt_hail_the_drowned_king
+		has_completed_focus = mltd_bdt_drown_the_dance
+	}
+}
+
 # The Tide-Wall (Act III): Washington's stage (more than 30 states, the Kingdom and the Walk), the army ready, MLT not losing
-# and - until 2281 - every Brotherhood it would declare on a safe target, while a Brotherhood that holds Washington stands at
-# peace with MLT and is not its subject.
+# and every Brotherhood it would declare on a safe target - from 2281 only while no Act III focus is done - while a
+# Brotherhood that holds Washington stands at peace with MLT and is not its subject.
 mltd_ai_may_raise_the_tide_wall = {
 	hidden_trigger = {
 		if = {
@@ -1150,7 +1197,10 @@ mltd_ai_may_raise_the_tide_wall = {
 						NOT = { mltd_ai_safe_target = yes }
 					}
 				}
-				date > 2281.1.1
+				AND = {
+					date > 2281.1.1
+					NOT = { mltd_ai_act3_path_taken = yes }
+				}
 			}
 		}
 	}
@@ -1160,8 +1210,9 @@ mltd_ai_may_raise_the_tide_wall = {
 # Hail the Drowned King is the plan's answer to them) - until 1 January 2281. An AI builds their network, takes their civilian
 # token (mltd_ai_network_bdt, mltd_ai_infiltrate_bdt) and points its cult operations at them, but whether Hail's gates open in
 # time rests on the Bone Dancers' own tree; from 2281 it stops waiting, so that Act III's close has a Bone Dancers path besides
-# The Tide-Wall's. Until 2281 also only against Bone Dancers with no strong ally and no strength to beat MLT
-# (mltd_ai_safe_by_strength: mltd_ai_safe_target itself refuses them while they are courted, which would cancel the date).
+# The Tide-Wall's. Also only against Bone Dancers with no strong ally and no strength to beat MLT - from 2281 only while no
+# Act III focus is done (mltd_ai_act3_path_taken, round 28c review) - through mltd_ai_safe_by_strength: mltd_ai_safe_target
+# itself refuses them while they are courted, which would cancel the date.
 # Never while MLT fights an NCR that has not capitulated: the courtship's date would otherwise open a Bone Dancers front in the
 # middle of the NCR's war, which on the plan's timeline runs through 2281.
 mltd_ai_may_drown_the_dance = {
@@ -1181,7 +1232,10 @@ mltd_ai_may_drown_the_dance = {
 			}
 			OR = {
 				BDT = { mltd_ai_safe_by_strength = yes }
-				date > 2281.1.1
+				AND = {
+					date > 2281.1.1
+					NOT = { mltd_ai_act3_path_taken = yes }
+				}
 			}
 			NOT = {
 				AND = {
@@ -1190,6 +1244,115 @@ mltd_ai_may_drown_the_dance = {
 				}
 			}
 		}
+	}
+}
+
+# The Coast Goes Under (Act III, round 28c): the Broken Coast's war twin, mutually exclusive both ways with the Drowned
+# Covenant. Never while MLT courts the raiders (mltd_ai_courting_brk): the AI courts them on purpose - run 3's AI declared on
+# the Broken Coast, 47 states, and lost - and the Covenant is its answer to them. So an AI reaches this focus only once the
+# courtship has ended some other way: the Brotherhood in Washington sworn to the Covenant (mltd_wbh_alliance, which closes it
+# to the raiders), or the raiders in a war with MLT already (then the focus is a payout and this holds nothing). A refused
+# Covenant ends the courtship too, but the Covenant's own completion has then excluded this focus: that war runs on the
+# refusal's expiring war goal, through the conquest blocks. Then the army ready, MLT not losing, and the raiders a safe
+# target - no strong ally and not stronger than MLT (mltd_ai_safe_target; the courtship term in it is already false here) -
+# with no 2281 escape, unlike Drown the Dance's and The Tide-Wall's: Act III's close has five other paths, and this is never
+# an AI's only way through the act. Never while MLT fights an NCR that has not capitulated, as Drown the Dance. Held only
+# while the focus would start a war: with the raiders gone, MLT's subject or already at war with it, nothing waits. This only
+# restricts the AI, so it is fair play. MLT scope.
+mltd_ai_may_drown_the_coast = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				country_exists = BRK
+				NOT = { has_war_with = BRK }
+				BRK = { NOT = { is_subject_of = ROOT } }
+			}
+			NOT = { mltd_ai_courting_brk = yes }
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+			BRK = { mltd_ai_safe_target = yes }
+			NOT = {
+				AND = {
+					has_war_with = NCR
+					NCR = { has_capitulated = no }
+				}
+			}
+		}
+	}
+}
+
+# Terms for the Citadel (Act III, round 28): not a war focus, but an AI takes any listed focus that is available, so it has a
+# hold here like the war focuses. On historical focuses the Brotherhood never accepts (mltd.32's ai_chance), and the 60 days
+# would buy nothing but a war goal. While MLT courts the Broken Coast (mltd_ai_courting_brk) an acceptance would close the
+# Drowned Covenant the plan counts on - the NCR's stage waits on mltd_ai_brk_helped, which the Covenant satisfies. Only the
+# Washington Brotherhood itself is asked (AI/plan pass): the Northwestern Brotherhood accepts one time in ten, and since
+# round 28b Terms and The Tide-Wall exclude each other both ways, so taking Terms forfeits the wall - its bunkers, its claim
+# removal and its idea - whatever the answer: a one-in-ten gamble is not worth that (CONQUEST_PLAN.txt gambles on WBH only).
+# A refusal (half the time) hands MLT an annex_everything war goal on the Brotherhood for a year, which OWB's AI uses almost at
+# once, so the offer waits for everything The Tide-Wall's own hold asks of that war (mltd_ai_may_raise_the_tide_wall):
+# Washington's stage, the army ready, and a Brotherhood that is a safe target (from 2281 only while no Act III focus is done,
+# mltd_ai_act3_path_taken - after one, a refusal's war goal would stay held until it is safe). Like every hold it waits while
+# MLT is losing a war, and it holds only while there is a Brotherhood to ask. This only restricts the AI, so it is fair play.
+# MLT scope.
+mltd_ai_may_offer_the_citadel = {
+	hidden_trigger = {
+		if = {
+			limit = {
+				is_ai = yes
+				any_country = { mltd_wbh_terms_target = yes }
+			}
+			NOT = { is_historical_focus_on = yes }
+			NOT = { mltd_ai_courting_brk = yes }
+			any_country = {
+				tag = WBH
+				mltd_wbh_terms_target = yes
+			}
+			mltd_ai_stage_wbh = yes
+			mltd_ai_army_ready = yes
+			NOT = { surrender_progress > 0.15 }
+			OR = {
+				NOT = {
+					any_country = {
+						mltd_wbh_terms_target = yes
+						NOT = { mltd_ai_safe_target = yes }
+					}
+				}
+				AND = {
+					date > 2281.1.1
+					NOT = { mltd_ai_act3_path_taken = yes }
+				}
+			}
+		}
+	}
+}
+
+# Terms for the Citadel still to be offered (AI/plan pass, round 28): the conditions under which an AI MLT means to offer the
+# Washington Brotherhood Terms before it fights it - after The Grand Ritual, which opens Act II (since 2026-09-24, when Act
+# III moved above The Deep Ones Walk and The Final Ritual, whose completion this read until then), Terms not yet taken, The
+# Tide-Wall not taken
+# either (round 28b: the two exclude each other, so once the wall is raised Terms can never come, and without this line a
+# wall war that ended with WBH alive and at peace would leave the Washington conquest held off WBH for good), unhistorical
+# focuses, the Covenant off the table (no courtship of the Broken Coast, and the raiders not sworn), MLT free or leading its
+# own faction, and WBH itself the Brotherhood that would be asked (mltd_ai_may_offer_the_citadel asks no other). The
+# readiness, stage and safe-target lines of that hold are left out on purpose: while they fail the offer waits, and the war
+# on WBH waits with it. Read by mltd_ai_hold_wbh_for_terms and mltd_ai_strike_wbh_at_war (common/ai_strategy/mltd_MLT.txt),
+# which keep the Washington conquest block from justifying or declaring on the Brotherhood before the offer is made: a war
+# would leave Terms nothing to offer (the focus then pays +50 political power). MLT scope.
+mltd_ai_terms_pending = {
+	has_completed_focus = mltd_the_grand_ritual
+	NOT = { has_completed_focus = mltd_wbh_terms_for_the_citadel }
+	NOT = { has_completed_focus = mltd_wbh_the_tide_wall }
+	NOT = { is_historical_focus_on = yes }
+	NOT = { mltd_ai_courting_brk = yes }
+	NOT = { has_country_flag = mltd_brk_covenant_joined }
+	OR = {
+		is_in_faction = no
+		is_faction_leader = yes
+	}
+	any_country = {
+		tag = WBH
+		mltd_wbh_terms_target = yes
 	}
 }
 

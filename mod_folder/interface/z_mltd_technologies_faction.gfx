@@ -1,0 +1,32 @@
+spriteTypes = {
+
+	################
+	# Rising Tide - MLT's own technology icons, keyed GFX_<TAG>_<tech_id>_medium like the MLT block of OWB's
+	# z_fallout_technologies_faction.gfx. Textures built by build_tech_icons.py.
+	#
+	# The first two sprites are OWB's names, re-pointed at our own copies of its Cultist Knife and Conch Knife
+	# (a little smaller and lifted off the bottom of the tech box). OWB's textures are left alone because DIS uses
+	# them too. When a sprite name is declared twice the declaration read last wins, and interface/*.gfx files are
+	# read in filename order - OWB's z_ prefix exists to beat vanilla that way, and UTCM re-points 43 sprites of
+	# that same OWB file from z_fallout_technologies_faction_mutants.gfx. So this file must keep a name that sorts
+	# after z_fallout_technologies_faction.gfx; in mltd.gfx these two would lose to OWB's.
+	#
+	# The third is a new name: Tridents = Heavy Melee Weaponry for MLT (loc MLT_melee_equipment_3).
+	################
+	spriteType = {
+		name = "GFX_MLT_melee_weaponry_tech_1_medium"
+		texturefile = "gfx/interface/equipment/cosmetic/melee/mltd_melee_weaponry_tech_icon_1_cultist_knife.dds"
+		alwaystransparent = yes
+	}
+	spriteType = {
+		name = "GFX_MLT_melee_weaponry_tech_2_medium"
+		texturefile = "gfx/interface/equipment/cosmetic/melee/mltd_melee_weaponry_tech_icon_2_conch_knife.dds"
+		alwaystransparent = yes
+	}
+	spriteType = {
+		name = "GFX_MLT_melee_weaponry_tech_3_medium"
+		texturefile = "gfx/interface/equipment/cosmetic/melee/mltd_melee_weaponry_tech_icon_3_trident.dds"
+		alwaystransparent = yes
+	}
+
+}

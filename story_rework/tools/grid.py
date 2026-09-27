@@ -1,6 +1,12 @@
 """Resolve every focus of mlt_nf to its grid cell: the override's national focuses plus every shared focus pulled in
 (the listed roots, then transitively through prerequisites on pulled shared focuses). Reports overlaps, the story
-focuses pulled in against the spec's 39, and each story focus's cell."""
+focuses pulled in against the spec, and each story focus's cell. The spec is round 28c's table (story_rework/SPEC_R28C.md)
+as 2026-09-24 re-laid its top: 41 story focuses (round 27's 39, Terms for the Citadel and The Coast Goes Under) and the 10
+spoils. Since 2026-09-24 Act II hangs off The Grand Ritual (rows 21-22, x 11 / 15 / 19), Act III's pairs sit on row 23
+under their nations' Act II beads, The Deep Ones Walk on row 25 and The Final Ritual on row 27, each under an empty row
+(24, 26) for its tall icon, and The Tide Turns South and everything below it one row lower than round 28c's table (round
+28c: the Walk on row 21, Act II on rows 22-23, the ritual on row 25 under an empty row 24). The Last King Kneels wears a
+normal-height icon since the round-28c balance review, so Act VI closes up: its wars sit one row above it."""
 import glob
 import os
 import re
@@ -129,30 +135,44 @@ for fid, c in pos.items():
 overlaps = {c: v for c, v in cells.items() if len(v) > 1}
 
 SPEC = {
-    'mltd_wbh_eyes_in_the_sound': (13, 22), 'mltd_wbh_the_drowned_knights': (13, 23),
-    'mltd_brk_salt_on_the_broken_coast': (15, 22), 'mltd_brk_the_deep_ones_sail_north': (15, 23),
-    'mltd_bdt_the_bone_shore': (17, 22), 'mltd_bdt_the_dancers_hear_the_tide': (17, 23),
-    'mltd_wbh_the_tide_wall': (12, 25), 'mltd_brk_the_drowned_covenant': (14, 25),
-    'mltd_bdt_hail_the_drowned_king': (16, 25), 'mltd_bdt_drown_the_dance': (18, 25),
-    'mltd_the_tide_turns_south': (15, 26),
-    'mltd_ncr_a_mole_in_shady_sands': (15, 27), 'mltd_ncr_drowned_delegates': (13, 28),
-    'mltd_ncr_sleepers_on_the_long_15': (15, 28), 'mltd_ncr_salt_on_the_caravan_roads': (17, 28),
-    'mltd_ncr_the_turbines_sing': (15, 29), 'mltd_when_shady_sands_falls': (15, 30),
-    'mltd_mars_in_the_water': (15, 31),
-    'mltd_ces_what_the_river_carries': (12, 32), 'mltd_ces_the_sea_against_mars': (12, 33),
-    'mltd_bos_the_drowned_paladin': (14, 32), 'mltd_bos_blood_in_the_water': (14, 33),
-    'mltd_wht_the_lake_god_answers': (16, 32), 'mltd_wht_rites_on_the_spiral_jetty': (16, 33),
-    'mltd_hea_whispers_in_the_steam': (18, 32), 'mltd_hea_the_crusade_turns_south': (18, 33),
-    'mltd_when_the_legion_breaks': (15, 34),
-    'mltd_the_southern_deep': (15, 35),
-    'mltd_tex_all_waters_are_one': (13, 36), 'mltd_tex_black_water_rising': (13, 37),
-    'mltd_ate_the_feathered_tide': (15, 36), 'mltd_ate_the_serpent_drowns': (15, 37),
-    'mltd_tla_the_iron_god_dreams': (17, 36), 'mltd_tla_the_drowned_god_sleeps': (17, 37),
-    'mltd_the_last_king_kneels': (15, 38),
-    'mltd_rlyeh_rises': (15, 39), 'mltd_ending_the_dreamer_wakes': (13, 40),
-    'mltd_ending_the_priestess_reigns': (15, 40), 'mltd_ending_return_to_the_sea': (17, 40),
+    # Act II (rows 21-22 under The Grand Ritual, x 11 / 15 / 19, since 2026-09-24; rows 22-23 at x 13 / 15 / 17 before)
+    'mltd_wbh_eyes_in_the_sound': (11, 21), 'mltd_wbh_the_drowned_knights': (11, 22),
+    'mltd_brk_salt_on_the_broken_coast': (15, 21), 'mltd_brk_the_deep_ones_sail_north': (15, 22),
+    'mltd_bdt_the_bone_shore': (19, 21), 'mltd_bdt_the_dancers_hear_the_tide': (19, 22),
+    # Act III (row 23 since 2026-09-24, each pair under its bead; row 26 before) and its close, under The Final Ritual
+    'mltd_wbh_terms_for_the_citadel': (10, 23), 'mltd_wbh_the_tide_wall': (12, 23),
+    'mltd_brk_the_drowned_covenant': (14, 23), 'mltd_brk_the_coast_goes_under': (16, 23),
+    'mltd_bdt_hail_the_drowned_king': (18, 23), 'mltd_bdt_drown_the_dance': (20, 23),
+    'mltd_the_tide_turns_south': (15, 28),
+    # Act IV
+    'mltd_ncr_a_mole_in_shady_sands': (15, 29), 'mltd_ncr_drowned_delegates': (13, 30),
+    'mltd_ncr_sleepers_on_the_long_15': (15, 30), 'mltd_ncr_salt_on_the_caravan_roads': (17, 30),
+    'mltd_ncr_the_turbines_sing': (15, 31), 'mltd_when_shady_sands_falls': (15, 32),
+    # Act V
+    'mltd_mars_in_the_water': (15, 33),
+    'mltd_ces_what_the_river_carries': (12, 34), 'mltd_ces_the_sea_against_mars': (12, 35),
+    'mltd_bos_the_drowned_paladin': (14, 34), 'mltd_bos_blood_in_the_water': (14, 35),
+    'mltd_wht_the_lake_god_answers': (16, 34), 'mltd_wht_rites_on_the_spiral_jetty': (16, 35),
+    'mltd_hea_whispers_in_the_steam': (18, 34), 'mltd_hea_the_crusade_turns_south': (18, 35),
+    'mltd_when_the_legion_breaks': (15, 36),
+    # Act VI (closed up: The Last King Kneels' icon is a normal 100x88 again)
+    'mltd_the_southern_deep': (15, 37),
+    'mltd_tex_all_waters_are_one': (13, 38), 'mltd_tex_black_water_rising': (13, 39),
+    'mltd_ate_the_feathered_tide': (15, 38), 'mltd_ate_the_serpent_drowns': (15, 39),
+    'mltd_tla_the_iron_god_dreams': (17, 38), 'mltd_tla_the_drowned_god_sleeps': (17, 39),
+    'mltd_the_last_king_kneels': (15, 40),
+    # the finale
+    'mltd_rlyeh_rises': (15, 41), 'mltd_ending_the_dreamer_wakes': (13, 42),
+    'mltd_ending_the_priestess_reigns': (15, 42), 'mltd_ending_return_to_the_sea': (17, 42),
+    # the spoils (round 28c): each group flanks the chapter after its act's close, on the chapter's row
+    'mltd_spoils_the_scribes_vaults': (13, 29), 'mltd_spoils_the_drowned_sound': (17, 29),
+    'mltd_spoils_the_canals_run_salt': (11, 33), 'mltd_spoils_the_foundries_relit': (13, 33),
+    'mltd_spoils_the_office_of_salt': (17, 33), 'mltd_spoils_the_drowned_harvest': (19, 33),
+    'mltd_spoils_the_legions_armouries': (13, 37), 'mltd_spoils_the_iron_tithe': (17, 37),
+    'mltd_spoils_the_black_water_wells': (13, 41), 'mltd_spoils_the_salt_road': (17, 41),
 }
-NATIONAL_SPEC = {'mltd_the_grand_ritual': (15, 20), 'mltd_the_deep_ones_walk': (15, 21), 'mltd_the_final_ritual': (15, 24)}
+NATIONAL_SPEC = {'mltd_call_of_the_deep_ones': (15, 19), 'mltd_the_grand_ritual': (15, 20),
+                 'mltd_the_deep_ones_walk': (15, 25), 'mltd_the_final_ritual': (15, 27)}
 
 print('national focuses in the override:', len(national))
 print('listed roots:', roots, 'missing:', missing_roots)
@@ -191,13 +211,25 @@ for f, fi in allf.items():
             print('MUTUALLY_EXCLUSIVE NOT IN TREE:', f, '->', q)
 # rows 20-40, columns 10-20: a picture of the spine
 print()
-for y in range(19, 41):
+for y in range(19, 43):
     row = ''
     for x in range(10, 21):
         v = cells.get((x, y))
         row += ('%-4s' % ('[%d]' % len(v) if v and len(v) > 1 else ('##' if v else '.')))
     print('%2d %s' % (y, row))
 print('   ' + ''.join('%-4d' % x for x in range(10, 21)))
-# anything else in rows 20-41 outside the spine window
-print('other focuses in rows 19-41:', sorted((c, v) for c, v in cells.items() if 19 <= c[1] <= 41 and not 10 <= c[0] <= 20))
+# The Deep Ones Walk's and The Final Ritual's icons grow upward, so the row above each stays empty at x 13-17 and Act
+# III's six sit two rows above the Walk (since 2026-09-24). Act VI needs no such room since the balance review swapped The
+# Last King Kneels' icon
+empty = {row: [fid for fid, c in pos.items() if c[1] == row and 13 <= c[0] <= 17] for row in (24, 26)}
+print('rows 24 and 26 at x 13-17 (must be empty):', empty)
+ends = [pos[f][1] for f in ('mltd_wbh_terms_for_the_citadel', 'mltd_wbh_the_tide_wall', 'mltd_brk_the_drowned_covenant',
+                            'mltd_brk_the_coast_goes_under', 'mltd_bdt_hail_the_drowned_king', 'mltd_bdt_drown_the_dance')]
+wars = [pos[f][1] for f in ('mltd_tex_black_water_rising', 'mltd_ate_the_serpent_drowns',
+                            'mltd_tla_the_drowned_god_sleeps')]
+print('Act III two rows above The Deep Ones Walk:', all(r + 2 == pos['mltd_the_deep_ones_walk'][1] for r in ends))
+print('The Final Ritual two rows below the Walk:', pos['mltd_the_final_ritual'][1] == pos['mltd_the_deep_ones_walk'][1] + 2)
+print('Act VI wars one row above The Last King Kneels:', all(r + 1 == pos['mltd_the_last_king_kneels'][1] for r in wars))
+# anything else in rows 19-42 outside the spine window
+print('other focuses in rows 19-42:', sorted((c, v) for c, v in cells.items() if 19 <= c[1] <= 42 and not 10 <= c[0] <= 20))
 print('max cell:', max(c[0] for c in pos.values()), max(c[1] for c in pos.values()), 'min', min(c[0] for c in pos.values()), min(c[1] for c in pos.values()))

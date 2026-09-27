@@ -304,9 +304,10 @@ mltd_children_of_the_deep_cat = {
 		allowed = {
 			original_tag = MLT
 		}
+		# stays open once the Deep Ones can be trained (2026-09-23; until then it hid at The Deep Ones Walk): the sea
+		# answers in days what the barracks take months over, and at a price in people rather than manpower
 		visible = {
 			has_country_flag = mltd_deep_ones_summon_unlocked
-			NOT = { has_country_flag = mltd_star_spawn_summon_unlocked }
 		}
 		available = {
 			custom_trigger_tooltip = {
@@ -341,6 +342,13 @@ mltd_children_of_the_deep_cat = {
 				NOT = { has_idea = mltd_the_final_ritual }
 				check_variable = { mltd_national_population < 215000 }
 			}
+			# after the Final Ritual the people matter more than one more division: only with a large nation to draw on, as
+			# the Leviathan and the Offering of the Tides
+			modifier = {
+				factor = 0
+				has_completed_focus = mltd_the_final_ritual
+				check_variable = { mltd_national_population < 300000 }
+			}
 		}
 		complete_effect = {
 			# Every land pays, in proportion to what it holds; the division rises at the capital.
@@ -361,9 +369,9 @@ mltd_children_of_the_deep_cat = {
 		allowed = {
 			original_tag = MLT
 		}
+		# stays open once the Star Spawn can be trained (2026-09-23; until then it hid at The Final Ritual)
 		visible = {
 			has_country_flag = mltd_star_spawn_summon_unlocked
-			NOT = { has_completed_focus = mltd_the_final_ritual }
 		}
 		available = {
 			custom_trigger_tooltip = {
@@ -382,11 +390,18 @@ mltd_children_of_the_deep_cat = {
 				factor = 0
 				check_variable = { mltd_controlled_population < 48000 }
 			}
-			# keeps the nation over the Final Ritual's 200,000 gate until the ritual has begun (the decision hides once it ends)
+			# keeps the nation over the Final Ritual's 200,000 gate until the ritual has begun
 			modifier = {
 				factor = 0
+				NOT = { has_completed_focus = mltd_the_final_ritual }
 				NOT = { has_idea = mltd_the_final_ritual }
 				check_variable = { mltd_national_population < 225000 }
+			}
+			# after it, as the Deep Ones summon and the Leviathan's
+			modifier = {
+				factor = 0
+				has_completed_focus = mltd_the_final_ritual
+				check_variable = { mltd_national_population < 300000 }
 			}
 		}
 		complete_effect = {
@@ -403,8 +418,8 @@ mltd_children_of_the_deep_cat = {
 			}
 		}
 	}
-	# The Leviathan: only ever summoned, never built (its equipment cannot be produced), so unlike the two summons above
-	# this one never retires. Opened by focus mltd_the_grand_ritual. The toll falls on every land, as
+	# The Leviathan: only ever summoned, never built (its equipment cannot be produced). Like the two summons above it never
+	# retires. Opened by focus mltd_the_grand_ritual. The toll falls on every land, as
 	# the summons' does; the ship surfaces at Mireport (mltd_spawn_leviathan), so Mireport must be ours. The 24 (thousand
 	# people), the 48,000 gate and the 180-day cooldown are repeated in mltd_leviathan_toll_tt,
 	# mltd_summon_state_pop_leviathan_tt, mltd_summon_the_leviathan_desc and mltd_leviathan_summon_cooldown_after_tt.
@@ -524,10 +539,15 @@ mltd_children_of_the_deep_cat = {
 			}
 		}
 		complete_effect = {
-			random_owned_controlled_state = {
-				limit = { state_population > 3000 }
-				set_temp_variable = { pop_add = -1000 }
-				add_state_population = yes
+			# a random state pays, so the preview could not name it (round 28b): the line says what is taken and from where,
+			# and the pick runs hidden. The 1,000 and the 3,000 are repeated in mltd_offering_drowned_toll_tt.
+			custom_effect_tooltip = mltd_offering_drowned_toll_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = { state_population > 3000 }
+					set_temp_variable = { pop_add = -1000 }
+					add_state_population = yes
+				}
 			}
 			set_temp_variable = { caps_to_add = 100 }
 			add_caps = yes
@@ -585,10 +605,15 @@ mltd_children_of_the_deep_cat = {
 			}
 		}
 		complete_effect = {
-			random_owned_controlled_state = {
-				limit = { state_population > 3000 }
-				set_temp_variable = { pop_add = -1500 }
-				add_state_population = yes
+			# as the Drowned Hoard: the random state's toll is written out (mltd_offering_tides_toll_tt repeats the 1,500 and the
+			# 3,000) and the pick runs hidden
+			custom_effect_tooltip = mltd_offering_tides_toll_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = { state_population > 3000 }
+					set_temp_variable = { pop_add = -1500 }
+					add_state_population = yes
+				}
 			}
 			capital_scope = {
 				add_resource = {
@@ -609,7 +634,8 @@ mltd_children_of_the_deep_cat = {
 # Cults are founded and grown by La Resistance operations (common/operations/mltd_operations.txt: mltd_op_found_a_cult,
 # mltd_op_nurture_the_cult). These two decisions are untargeted and draw on every cult at once through
 # mltd_cult_total_strength, the sum of every cult's strength in points, kept on MLT by mltd_cult_rebuild_list (daily).
-# Call for People pays 10 manpower per point, Call for Equipment 4 infantry equipment + 1 support equipment per point; each
+# Call for People pays 10 manpower per point, Call for Equipment 4 infantry equipment + 1 support equipment per point - from
+# mltd_mars_in_the_water on, 1 mirelurk (the archetype) per point instead (round 28b); each
 # costs 25 PP on a 90-day timed-flag cooldown (the house idiom, [?flag:days_left|0]). The rates appear in the temp-variable
 # lines below and in mltd_cult_call_*_tt; the cooldown in the flag and in mltd_cult_call_*_again_tt.
 mltd_cult_infiltration_cat = {
@@ -680,21 +706,43 @@ mltd_cult_infiltration_cat = {
 			}
 		}
 		complete_effect = {
-			# archetypes, so the stockpile gets MLT's best variant (OWB _MOT_decisions.txt:156-163 pays the same pair by variable)
+			# archetypes, so the stockpile gets MLT's best variant (OWB _MOT_decisions.txt:156-163 pays the same pair by variable).
+			# The amounts are temp variables set here, before the branch, so that the preview prints them (house idiom).
 			set_temp_variable = { mltd_cult_call_infantry = mltd_cult_total_strength }
 			multiply_temp_variable = { mltd_cult_call_infantry = 4 }
 			set_temp_variable = { mltd_cult_call_support = mltd_cult_total_strength }
-			custom_effect_tooltip = mltd_cult_call_equipment_tt
+			set_temp_variable = { mltd_cult_call_beasts = mltd_cult_total_strength }
+			# Round 28b: from Act V's chapter on (the NCR beaten - the plan turns its Shell Levies and Coral Hosts into
+			# all-mirelurk Tide Walls then, and MLT's AI its line roles with mltd_ai_late_army) rifles are what the tribe no
+			# longer fields, so the call brings mirelurks instead: 1 for each point of cult strength, the archetype, so the best
+			# breed the tribe has unlocked. 4 rifles (2-3.5 IC each in OWB) and a support crate (5 IC) are ~13-19 IC a point; a
+			# mirelurk is 15-20 IC (cre_amphibious_eq.txt), so the call keeps its worth and changes only its coin. The 1 is
+			# repeated in mltd_cult_call_beasts_tt and mltd_cult_call_for_equipment_desc.
+			if = {
+				limit = { has_completed_focus = mltd_mars_in_the_water }
+				custom_effect_tooltip = mltd_cult_call_beasts_tt
+				hidden_effect = {
+					add_equipment_to_stockpile = {
+						type = amphibious_beast_equipment
+						amount = mltd_cult_call_beasts
+					}
+				}
+			}
+			else = {
+				custom_effect_tooltip = mltd_cult_call_equipment_tt
+				hidden_effect = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = mltd_cult_call_infantry
+					}
+					add_equipment_to_stockpile = {
+						type = support_equipment
+						amount = mltd_cult_call_support
+					}
+				}
+			}
 			custom_effect_tooltip = mltd_cult_call_equipment_again_tt
 			hidden_effect = {
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-					amount = mltd_cult_call_infantry
-				}
-				add_equipment_to_stockpile = {
-					type = support_equipment
-					amount = mltd_cult_call_support
-				}
 				set_country_flag = { flag = mltd_cult_call_equipment_cooldown value = 1 days = 90 }
 			}
 		}

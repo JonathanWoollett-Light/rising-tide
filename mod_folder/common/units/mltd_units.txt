@@ -14,7 +14,8 @@
 sub_units = {
 
 	mltd_deep_ones = {
-		sprite = mirelurk_infantry
+		# The Star Spawn's 3D model, shared (see mltd_star_spawn below).
+		sprite = mltd_star_spawn
 		map_icon_category = infantry
 		special_forces = yes
 
@@ -90,7 +91,9 @@ sub_units = {
 	}
 
 	mltd_star_spawn = {
-		sprite = mirelurk_infantry
+		# Its own 3D model: `sprite = X` resolves to the entity X_entity (gfx/entities/mltd_entities.asset,
+		# built by build_unit_model.py). The Deep Ones wear the same entity.
+		sprite = mltd_star_spawn
 		map_icon_category = infantry
 		special_forces = yes
 

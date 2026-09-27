@@ -18,15 +18,15 @@ focus_tree = {
 	shared_focus = lurk_aquatic_construction
 	shared_focus = lurk_consult_the_oracles
 	# Rising Tide story acts II-VI and the finale (common/national_focus/mltd_act*_focus.txt, mltd_finale_focus.txt):
-	# the roots whose prerequisite is a national focus - Act II hangs off The Deep Ones Walk, Act III off The Final
-	# Ritual. Every later act chains to these through shared prerequisites and is pulled in with them.
+	# the shared focuses whose prerequisite is a national focus - Act II's three heads hang off The Grand Ritual, and
+	# Act III's close, The Tide Turns South, off The Final Ritual. Everything else chains to these through shared
+	# prerequisites and is pulled in with them: Act III's six under Act II's beads, the later acts under the close,
+	# and the spoils (mltd_spoils_focus.txt), each off an act's close. From round 27 to 2026-09-23 the heads hung off
+	# the Walk, and Act III's six off The Final Ritual, listed here instead of the close.
 	shared_focus = mltd_wbh_eyes_in_the_sound
 	shared_focus = mltd_brk_salt_on_the_broken_coast
 	shared_focus = mltd_bdt_the_bone_shore
-	shared_focus = mltd_wbh_the_tide_wall
-	shared_focus = mltd_brk_the_drowned_covenant
-	shared_focus = mltd_bdt_hail_the_drowned_king
-	shared_focus = mltd_bdt_drown_the_dance
+	shared_focus = mltd_the_tide_turns_south
 
 	focus = {
 		id = mlt_sanity_lost
@@ -166,9 +166,16 @@ focus_tree = {
 		}
 		available = {
 			NOT = { has_completed_focus = mlt_dig_barrows_for_spawning_pools }
+			NOT = { owns_state = 186 }	# Rising Tide: already ours - bypass it instead (below)
 		}
+		# Rising Tide: owning Cannibal Territories no longer bypasses this trade by itself, which locked the
+		# Barrows (they need it undone): the player bypasses it or digs the Barrows (vanilla's idiom,
+		# china_communist_sea.txt:594). Nor once the Barrows are dug: a bypass ignores available, and
+		# run 8's AI got this branch too, 1,470 days after its Barrows.
+		enable_automatic_bypass = no
 		bypass = {
 			owns_state = 186
+			NOT = { has_completed_focus = mlt_dig_barrows_for_spawning_pools }	# Rising Tide
 		}
 		x = -3
 		y = 1
@@ -1157,6 +1164,8 @@ focus_tree = {
 					set_province_name = { id = 1983 name = VICTORY_POINTS_1983_MLT }
 				}
 			}
+			# Rising Tide: a blank line between OWB's own rewards above and the ones inserted below
+			custom_effect_tooltip = mltd_newline_tt
 			# Rising Tide: M'lyeh becomes a trade node, the tribe's main node - OWB's create_map_node (nodes_scripted_effects.txt:
 			# 520-580), as Robot City's focus does it. It prints its own tooltip (create_new_node_effect_tt). No-op without the caps rule.
 			if = {
@@ -1179,6 +1188,28 @@ focus_tree = {
 			add_victory_points = { province = 7064 value = 5 }
 			custom_effect_tooltip = mltd_newline_tt
 			country_event = { id = mltd.1 days = 1 }
+			# Rising Tide (round 28b): a focus preview names an event only by its title (vanilla EFFECT_COUNTRY_EVENT, "Gets
+			# event"), so what mltd.1 brings - either option gives the Drowned Herald his general role - is previewed here, as
+			# vanilla does after an event (australia_taog.txt:1390-1394) and OWB for this very effect (Twin Mothers (TTM)
+			# Focus.txt:1830-1838). effect_tooltip only displays; keep the block equal to mltd.1's options (events/mltd_events.txt)
+			custom_effect_tooltip = mltd_event_brings_tt
+			effect_tooltip = {
+				add_corps_commander_role = {
+					character = MLT_DROWNED_HERALD
+					traits = {
+						strong_trait
+						enduring_trait
+						swamp_fox
+						animal_friend_trait
+					}
+					skill = 4
+					attack_skill = 4
+					defense_skill = 2
+					planning_skill = 2
+					logistics_skill = 1
+					legacy_id = -1
+				}
+			}
 			hidden_effect = {
 				every_other_country = {
 					news_event = { id = mltd.2 days = 2 }
@@ -1271,7 +1302,7 @@ focus_tree = {
 	focus = {
 		id = mltd_the_spreading_cult
 		icon = GFX_goal_LUM_missionaries_foreign_field
-		cost = 35
+		cost = 30
 		prerequisite = { focus = mlt_kingdom_of_mlyeh }
 		x = -1
 		y = 2
@@ -1292,6 +1323,9 @@ focus_tree = {
 				limit = { has_dlc = "La Resistance" }
 				if = {
 					limit = { has_intelligence_agency = no }
+					# round 28c review: an agency can still be founded from the intelligence screen while the focus runs, and
+					# this `if` is tested again at completion (then the `else` below pays), so the tooltip names both outcomes;
+					# the 50 is repeated in it (the shape of mltd_intel_foothold's no-agency branch)
 					custom_effect_tooltip = mltd_spreading_cult_agency_tt
 					hidden_effect = {
 						# name is stored as written, not localised (a loc key shows raw in the agency screen): keep it equal
@@ -1315,7 +1349,7 @@ focus_tree = {
 	focus = {
 		id = mltd_the_wet_market
 		icon = GFX_goal_PLT_drown_drug_sale
-		cost = 35
+		cost = 30
 		prerequisite = { focus = mlt_kingdom_of_mlyeh }
 		x = 1
 		y = 2
@@ -1591,6 +1625,14 @@ focus_tree = {
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			country_event = mltd.7
+			# round 28b: the preview names the event only by its title, so its one option's effects are shown here (effect_tooltip
+			# only displays; the event applies them). Keep the block equal to mltd.7's option, whose 25 army experience it repeats
+			custom_effect_tooltip = mltd_event_brings_tt
+			effect_tooltip = {
+				custom_effect_tooltip = mltd_deep_ones_decision_unlocked_tt
+				mltd_spawn_deep_ones_division = yes
+				army_experience = 25
+			}
 		}
 	}
 
@@ -1643,15 +1685,19 @@ focus_tree = {
 			# the Leviathan (round 26): its tech, the first one at Mireport if we hold it, and its summon decision
 			custom_effect_tooltip = mltd_newline_tt
 			set_technology = { mltd_leviathan_tech = 1 }
+			# round 28c review: Mireport is tested when the preview is drawn and again at completion (the ritual runs 120 days),
+			# so both lines say so, as Return to the Sea's do; the spawn effect's own flat line is hidden
 			if = {
 				limit = { mltd_leviathan_can_surface = yes }
-				mltd_spawn_leviathan = yes
+				custom_effect_tooltip = mltd_grand_ritual_leviathan_tt
+				hidden_effect = { mltd_spawn_leviathan = yes }
 			}
 			else = {
 				custom_effect_tooltip = mltd_leviathan_no_mireport_tt
 			}
 			custom_effect_tooltip = mltd_leviathan_decision_unlocked_tt
 			set_country_flag = mltd_leviathan_summon_unlocked
+			custom_effect_tooltip = mltd_newline_tt
 			country_event = { id = mltd.3 days = 1 }
 			hidden_effect = {
 				every_other_country = {
@@ -1665,8 +1711,16 @@ focus_tree = {
 		id = mltd_the_deep_ones_walk
 		icon = GFX_goal_CHC_mother
 		cost = 60
+		# Act III reconverges here (2026-09-24): any one of the north's six answers - an invitation or a war for each northern
+		# nation (common/national_focus/mltd_act3_focus.txt) - so the tribe courts or fights the north before the Walk and the
+		# ritual. Until then the Walk followed The Grand Ritual and Act II hung off it.
 		prerequisite = {
-			focus = mltd_the_grand_ritual
+			focus = mltd_wbh_terms_for_the_citadel
+			focus = mltd_wbh_the_tide_wall
+			focus = mltd_brk_the_drowned_covenant
+			focus = mltd_brk_the_coast_goes_under
+			focus = mltd_bdt_hail_the_drowned_king
+			focus = mltd_bdt_drown_the_dance
 		}
 		available = {
 			custom_trigger_tooltip = {
@@ -1674,12 +1728,25 @@ focus_tree = {
 				check_variable = { mltd_books_read > 4 }
 			}
 		}
+		# (0,5) of The Grand Ritual, row 25, since 2026-09-24, below Act III on row 23 ((0,1), row 21, until then). Its icon,
+		# GFX_goal_CHC_mother, is 152x171 against a normal 92x90 and grows upward, so row 24 stays empty above it
 		x = 0
-		y = 1
+		y = 5
 		relative_position_id = mltd_the_grand_ritual
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			country_event = mltd.8
+			# round 28b: as for the Call - mltd.8's one option, previewed; keep the block equal to it (the template it creates at
+			# the Call is left out: it already exists by now)
+			custom_effect_tooltip = mltd_event_brings_tt
+			effect_tooltip = {
+				set_technology = { warbike_unlock_tech = 1 }
+				add_ideas = mltd_children_of_the_deep
+				custom_effect_tooltip = mltd_deep_ones_template_unlocked_tt
+				mltd_spawn_star_spawn_division = yes
+				custom_effect_tooltip = mltd_star_spawn_decision_unlocked_tt
+				custom_effect_tooltip = mltd_deep_ones_summon_remains_tt
+			}
 		}
 	}
 
@@ -1689,12 +1756,10 @@ focus_tree = {
 		cost = 180
 		cancelable = no
 		available_if_capitulated = yes
-		# Act II reconverges here: any one of the Northern Waters branches (common/national_focus/mltd_act2_focus.txt). No
-		# prerequisite on the Walk: every branch already needs it, and its line would run down x = 15 through the Broken Coast's.
+		# The Deep Ones Walk, just before it (2026-09-24; the Walk reconverges on Act III's six). From round 27 to 2026-09-23 the
+		# ritual itself took one OR prerequisite - over Act II's three beads, then over Act III's six - and none on the Walk
 		prerequisite = {
-			focus = mltd_wbh_the_drowned_knights
-			focus = mltd_brk_the_deep_ones_sail_north
-			focus = mltd_bdt_the_dancers_hear_the_tide
+			focus = mltd_the_deep_ones_walk
 		}
 		available = {
 			custom_trigger_tooltip = {
@@ -1710,8 +1775,12 @@ focus_tree = {
 				add_ideas = mltd_the_final_ritual
 			}
 		}
+		# (0,2) of the Walk, row 27, since 2026-09-24, under the Walk on row 25 (round 28b-2026-09-23: (0,4) of the Walk, row
+		# 25, with Act III under it). Its icon, GFX_goal_CHC_cultists, is 266x253 - nearly three rows and three columns against
+		# a normal 92x90 - and grows upward, so row 26 stays empty above it; The Tide Turns South sits directly below it (the
+		# user: focuses need room above it, but only one row below)
 		x = 0
-		y = 3
+		y = 2
 		relative_position_id = mltd_the_deep_ones_walk
 		ai_will_do = { factor = 10 }
 		completion_reward = {
@@ -1734,10 +1803,12 @@ focus_tree = {
 				}
 			}
 			custom_effect_tooltip = mltd_star_spawn_template_unlocked_tt
+			custom_effect_tooltip = mltd_newline_tt
 			multiply_variable = { mltd_gift_manpower_var = 2 }
 			custom_effect_tooltip = mltd_gift_manpower_final_tt
 			hidden_effect = { force_update_dynamic_modifier = yes }
 			mltd_all_gifts_permanent = yes
+			custom_effect_tooltip = mltd_newline_tt
 			country_event = { id = mltd.5 days = 1 }
 			hidden_effect = {
 				every_other_country = {

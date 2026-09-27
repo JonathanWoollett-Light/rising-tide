@@ -8,8 +8,9 @@
 # mltd_cult_strength (0-100); one at 90 or more is left alone.
 # A cult is built before its war, not in it: at war with MLT a cult decays three times as fast (mltd_cult_weekly), so run 2's
 # cults, founded in current enemies, died within months, and the NCR's was only founded mid-war. The NCR comes first from
-# The Deep Ones Walk on - Act II, The Final Ritual and Act III still stand between the Walk and the NCR's act - so its cult
-# can reach the 40 % its war waits for (mltd_ai_ncr_cult_ready).
+# The Deep Ones Walk on - The Final Ritual and Act III's close still stand between the Walk and the NCR's act; since
+# 2026-09-24 the Walk comes after Act III, so the invitations' cults are worked first - so its cult can reach the 40 % its
+# war waits for (mltd_ai_ncr_cult_ready).
 # OWB replace_paths common/scorers/country, so this file only loads after OWB (dependencies in descriptor.mod).
 mltd_ai_cult_target_scorer = {
 	targets = {
@@ -43,7 +44,8 @@ mltd_ai_cult_target_scorer = {
 				factor = 0.25
 			}
 
-			# the NCR, MLT's great war, from The Deep Ones Walk on (Act II, the Final Ritual and Act III come next, then its act)
+			# the NCR, MLT's great war, from The Deep Ones Walk on (the Final Ritual and Act III's close come next, then its act;
+			# since 2026-09-24 the Walk follows Act III, so the invitations' cults come first and the NCR's after them)
 			modifier = {
 				tag = NCR
 				NOT = { has_war_with = FROM }

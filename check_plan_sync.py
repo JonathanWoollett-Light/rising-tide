@@ -13,16 +13,19 @@ CLAUDE.md requires the three to stay in step. This script prints every place the
   country the AI conquers that the plan never names;
 - a tech the plan researches with no research_tech strategy;
 - an mltd_op_ operation the plan runs with no operative_operation strategy;
-- a division template the plan designs (template "X" = ...) that no ai_templates target_template matches.
+- a division template the plan designs (template "X" = ...) that no ai_templates target_template matches, counting
+  battalions and support companies alike (the plan writes a company as a unit: "+ 1 anti_tank_company"); every design
+  is checked, not only the last of each name.
 - a focus, tech or conquest target the plan or the AI uses that the telemetry (mltd_telemetry_effects.txt) does not
-  poll; python build_telemetry.py regenerates it.
+  poll; python build_telemetry.py regenerates it;
+- a focus of ours (mltd_) whose cost is not 7, 30, 60, 120 or 180 days (2026-09-25, the user's rule).
 
 An intended difference is a comment line in the plan, which exempts its ids:
 
     # AI deviation: <focus|war|research|operation|template> <id> [<id> ...] - <why>
 
 Template names go in double quotes. A deviation line that no longer applies is reported as well.
-Numbers are not checked: keeping the plan's costs, dates and snapshots right stays a reading job.
+Other numbers are not checked: keeping the plan's costs, dates and snapshots right stays a reading job.
 
 Usage: python check_plan_sync.py
 """
@@ -140,7 +143,7 @@ for path in sorted(glob.glob(os.path.join(OWB, "localisation", "**", "*_l_englis
 problems = []
 deviations = {kind: set() for kind in KINDS}
 used = {kind: {} for kind in defined}
-templates = {}
+templates = []                    # every design the plan writes: (name, composition, line)
 plan_text = rd(PLAN)
 
 
@@ -178,7 +181,7 @@ for n, line in enumerate(plan_text.split("\n"), 1):
             comp[unit] += int(count)
             use("sub-unit", unit, n)
         if m.group(2) == "=":
-            templates[m.group(1)] = (comp, n)
+            templates.append((m.group(1), comp, n))
     for o in re.findall(r"\bmltd_op_[a-z0-9_]+", op):
         use("operation", o, n)
     if re.match(r"(justify|declare war|peace with)\b", op):
@@ -226,15 +229,16 @@ for path in mine("common/ai_templates"):
     text = script(path)
     for m in re.finditer(r"\btarget_template\s*=\s*\{", text):
         tt = body(text, m.end())
-        r = re.search(r"\bregiments\s*=\s*\{", tt)
         comp = Counter()
-        if r:
-            reg = body(tt, r.end())
-            for unit in re.findall(r"([a-z][a-z0-9_]*)\s*=\s*\{[^{}]*\}", reg):
-                comp[unit] += 1
-            flat = re.sub(r"[a-z][a-z0-9_]*\s*=\s*\{[^{}]*\}", "", reg)
-            for unit, count in re.findall(r"([a-z][a-z0-9_]*)\s*=\s*(\d+)", flat):
-                comp[unit] += int(count)
+        for part in ("regiments", "support"):             # a support company counts as a unit, as the plan writes it
+            r = re.search(r"\b%s\s*=\s*\{" % part, tt)
+            if r:
+                reg = body(tt, r.end())
+                for unit in re.findall(r"([a-z][a-z0-9_]*)\s*=\s*\{[^{}]*\}", reg):
+                    comp[unit] += 1
+                flat = re.sub(r"[a-z][a-z0-9_]*\s*=\s*\{[^{}]*\}", "", reg)
+                for unit, count in re.findall(r"([a-z][a-z0-9_]*)\s*=\s*(\d+)", flat):
+                    comp[unit] += int(count)
         ai_templates.append(comp)
 
 for f in sorted(ai_focuses - defined["focus"]):
@@ -263,13 +267,26 @@ cover("research", used["tech"], research, "research_tech strategy")
 cover("operation", used["operation"], operations, "operative_operation strategy")
 for t in sorted(conquer - set(re.findall(r"\b" + TAG + r"\b", plan_text)) - deviations["war"]):
     problems.append("the AI conquers %s, which the plan never names" % t)
-for nm, (comp, n) in templates.items():
+for nm, comp, n in templates:
     if nm not in deviations["template"] and comp not in ai_templates:
         problems.append("line %d: template %r (%s) matches no ai_templates target_template"
                         % (n, nm, " + ".join("%d %s" % (c, u) for u, c in comp.items())))
 for nm in sorted(deviations["template"]):
-    if nm not in templates or templates[nm][0] in ai_templates:
+    designs = [comp for name, comp, _ in templates if name == nm]
+    if not designs or all(comp in ai_templates for comp in designs):
         problems.append("'# AI deviation: template \"%s\"' no longer applies" % nm)
+
+# ---- every focus of ours takes 7, 30, 60, 120 or 180 days (2026-09-25, the user; CLAUDE.md > Project > Focus lengths)
+LENGTHS = (7, 30, 60, 120, 180)
+for path in [os.path.join(MOD, "common", "national_focus", "Mirelurk Tribe (MLT) Focus.txt")] + mine("common/national_focus"):
+    text = script(path)
+    for m in re.finditer(r"(?m)^\s*id\s*=\s*(mltd_[A-Za-z0-9_]+)", text):
+        nxt = re.compile(r"(?m)^\s*id\s*=").search(text, m.end())
+        cost = re.compile(r"(?m)^\s*cost\s*=\s*([0-9.]+)").search(text, m.end(), nxt.start() if nxt else len(text))
+        if not cost:
+            problems.append("focus %s has no cost" % m.group(1))
+        elif float(cost.group(1)) not in LENGTHS:
+            problems.append("focus %s takes %s days, not one of %s" % (m.group(1), cost.group(1), ", ".join(map(str, LENGTHS))))
 
 # ---- plan and AI against the telemetry, which build_telemetry.py generates from them
 TELEMETRY = os.path.join(MOD, "common", "scripted_effects", "mltd_telemetry_effects.txt")
@@ -287,7 +304,7 @@ if os.path.exists(TELEMETRY):
 else:
     print("telemetry: absent")
 
-print("plan: %d focuses, %d techs, %d wars, %d templates, %d deviations; AI: %d focuses, %d conquer targets, "
+print("plan: %d focuses, %d techs, %d wars, %d template designs, %d deviations; AI: %d focuses, %d conquer targets, "
       "%d research_tech, %d operations, %d templates"
       % (len(used["focus"]), len(used["tech"]), len(used["country"]), len(templates),
          sum(len(v) for v in deviations.values()), len(ai_focuses), len(conquer), len(research), len(operations),

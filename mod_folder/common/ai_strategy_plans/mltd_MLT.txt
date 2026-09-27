@@ -91,6 +91,8 @@ mltd_MLT_oregon_opening = {
 
 	# Never: the Muttfruit trades spend the capital's water and lock the Barrows; Defensive Mindset is
 	# mutually exclusive with the listed Aggressive Mindset.
+	# (Since 2026-09-25 holding Cannibal Territories no longer bypasses the first trade by itself, and
+	# once the Barrows are dug it cannot be bypassed: run 8 got the branch that way from day 1792.)
 	focus_factors = {
 		mlt_offer_muttfruit_for_the_cannibal_territories = 0
 		mlt_offer_muttfruit_for_ribbreaker_coast = 0
@@ -138,7 +140,7 @@ mltd_MLT_oregon_opening = {
 
 mltd_MLT_kingdom_and_books = {
 	name = "Mirelurk Tribe - Kingdom and Books"
-	desc = "Gifts from the Deep, the five Books, the Deep Ones, Act II (the Broken Coast first) and both rituals"
+	desc = "Gifts from the Deep, the five Books, the Deep Ones, Acts II and III (the Broken Coast first) and both rituals"
 
 	allowed = {
 		original_tag = MLT
@@ -169,24 +171,44 @@ mltd_MLT_kingdom_and_books = {
 		mltd_fourth_book
 		mltd_fifth_book
 		mltd_the_grand_ritual
-		mltd_the_deep_ones_walk
 		mlt_protect_the_southern_crossing
 		# the claim focuses need no war MLT can still fight, no war goal held and no losing war (mltd_ai_may_press_claims)
 		mlt_cascadian_current
 		mlt_sea_of_cortez
-		# Act II, The Northern Waters (common/national_focus/mltd_act2_focus.txt): any one branch opens The Final Ritual. The
-		# Broken Coast's first: the raiders are courted, not conquered (mltd_ai_courting_brk), and The Deep Ones Sail North's
-		# six volunteer divisions are the help the NCR's stage waits on (mltd_ai_brk_helped). 112 days, then the ritual.
+		# Acts II and III, The Northern Waters and The Stars Are Right (common/national_focus/mltd_act2_focus.txt,
+		# mltd_act3_focus.txt). Since 2026-09-24 Act II hangs off The Grand Ritual and each northern nation is one column - an
+		# Act II head and bead, then an Act III pair, its invitation and its war twin - and The Deep Ones Walk follows any one of
+		# the six Act III focuses (one OR block), with The Final Ritual after the Walk, so the north is courted or fought before
+		# the Walk and the long ritual rather than after them. The Broken Coast's branch first: the
+		# raiders are courted, not conquered (mltd_ai_courting_brk), and The Deep Ones Sail North's six volunteer divisions are
+		# the help the NCR's stage waits on (mltd_ai_brk_helped).
 		mltd_brk_salt_on_the_broken_coast
 		mltd_brk_the_deep_ones_sail_north
+		# The Deep Ones Walk and The Final Ritual next in the list, so that each is taken the day it opens - the Walk once one
+		# Act III answer is in and all five Books are read, the ritual after it at 200,000 people - ahead of everything below;
+		# until then the AI works down the list
+		mltd_the_deep_ones_walk
 		mltd_the_final_ritual
-		# The other two branches, taken while the ritual's 200,000 people are not there yet (or while the Broken Coast's
-		# branch is closed by a war with BRK - then one of these opens the ritual). The Bone Dancers' first: Hail the Drowned
-		# King (Act III) needs The Bone Shore, and The Dancers Hear the Tide feeds their cult (+10) towards its 40 %.
+		# Act III: the invitations first, so that taking one forfeits only its own war twin - the Covenant once the raiders'
+		# cult, civilian token and network allow; Hail the Drowned King, after the Bone Dancers' two Act II focuses (The Dancers
+		# Hear the Tide adds +10 towards its 40 % cult), while they have not taken the pilgrims' road; then the Washington
+		# branch and Terms for the Citadel, which its hold (mltd_ai_may_offer_the_citadel) keeps from an AI on historical focuses,
+		# while it courts the Broken Coast, for any Brotherhood but WBH itself and until the Washington war could be fought
+		mltd_brk_the_drowned_covenant
 		mltd_bdt_the_bone_shore
 		mltd_bdt_the_dancers_hear_the_tide
+		mltd_bdt_hail_the_drowned_king
 		mltd_wbh_eyes_in_the_sound
 		mltd_wbh_the_drowned_knights
+		mltd_wbh_terms_for_the_citadel
+		# then the wars, each held in its own `available` (mltd_ai_may_*, common/scripted_triggers/mltd_ai_triggers.txt,
+		# section W): the Bone Dancers' until the army is ready and, while they are courted, until 2281; The Tide-Wall, which
+		# asks for a war with the Brotherhood already running (or its purge of mutants, or 2280), until the Washington stage and
+		# the army's readiness; the Broken Coast's twin never while the raiders are courted. So an AI with no invitation open
+		# usually reaches the ritual through The Tide-Wall, in the Washington war its stage opens
+		mltd_bdt_drown_the_dance
+		mltd_wbh_the_tide_wall
+		mltd_brk_the_coast_goes_under
 		# fillers
 		lurk_consult_the_oracles
 		lurk_visions_of_strategies
@@ -215,8 +237,8 @@ mltd_MLT_kingdom_and_books = {
 	# The Sea Against Mars, Blood in the Water, the Rites, the Crusade, Black Water Rising, The Drowned God Sleeps): each sat
 	# in a detached sub-tree open from the Kingdom and declared a war years before its stage. In the story acts every one
 	# of them sits behind The Final Ritual - whose completion ends this plan - and behind its own act's chapter, so none can
-	# be reached from here and the zeros guarded nothing. The two war focuses Act III adds after the ritual (The Tide-Wall,
-	# Drown the Dance) are likewise out of this plan's reach.
+	# be reached from here and the zeros guarded nothing. Act III's three war focuses (The Tide-Wall, The Coast Goes Under,
+	# Drown the Dance), which since 2026-09-24 come before the ritual and are listed above, hold themselves in `available`.
 	focus_factors = {
 		mlt_offer_muttfruit_for_the_cannibal_territories = 0
 		mlt_offer_muttfruit_for_ribbreaker_coast = 0
@@ -248,18 +270,21 @@ mltd_MLT_kingdom_and_books = {
 	}
 
 	# Old Castro (+2 operative slots) is visible only with La Resistance and available once MLT has an agency; the AI saves
-	# political power for him (mltd_ai_save_for_castro, common/ai_strategy/mltd_MLT.txt).
+	# political power for him (mltd_ai_save_for_castro, common/ai_strategy/mltd_MLT.txt). The Tide-Speaker (2026-09-24,
+	# -30 % justification time, from the Kingdom on) comes after him: the Books' wars are justified before the agency
+	# stands, but the north's stragglers after it.
 	ideas = {
 		MLT_tide_hunter_army_chief = 10
 		MLT_king_high_command = 8
 		MLT_mutants_theorist = 3
 		MLT_old_castro_cultural_advisor = 60
+		MLT_tide_speaker_cultural_advisor = 40
 	}
 }
 
 mltd_MLT_late_game = {
 	name = "Mirelurk Tribe - late game"
-	desc = "The story acts in order: Act III in the north, the NCR (Act IV), the Legion and the interior (Act V), the south (Act VI), R'lyeh Rises and an ending"
+	desc = "The story acts in order: Act III's close and what the north has left, the NCR (Act IV), the Legion and the interior (Act V), the south (Act VI), R'lyeh Rises and an ending, with the spoils in the waits"
 
 	allowed = {
 		original_tag = MLT
@@ -278,23 +303,16 @@ mltd_MLT_late_game = {
 	# Each war focus holds an AI in its own `available` (the army's readiness; for some also a conquest stage or a
 	# courtship: mltd_ai_may_* in common/scripted_triggers/mltd_ai_triggers.txt, section W), so an AI that reaches one early
 	# skips it and takes the act's other beads, then the fillers, until the hold lifts.
+	# The spoils (round 28, restructured in 28c: common/national_focus/mltd_spoils_focus.txt) gate nothing: ten focuses in four
+	# groups - two for the north, four for California, two for the interior, two for the south - none chained to another. Each
+	# names only its act's close in its prerequisite and asks only for land held, and each group sits beside the chapter after
+	# that close. Each group is listed after the NEXT act's war focuses and before that act's close, so that the AI works it
+	# while the close waits on its war - or while a war focus is held - and never ahead of the war that the close waits for:
+	# listed before the next chapter it would put that war off by 98 days (175 for California). Within a group the one-offs
+	# come first and the permanent ideas last. The south's group, whose act has no successor, comes after the ending.
 	ai_national_focuses = {
-		# Act II's Broken Coast branch, if the previous phase reached The Final Ritual through another one: its volunteers
-		# come before the NCR's war (mltd_ai_brk_helped), and The Drowned Covenant needs its head
-		mltd_brk_salt_on_the_broken_coast
-		mltd_brk_the_deep_ones_sail_north
-		# Act III, The Stars Are Right: any one of the four opens The Tide Turns South (and 50 controlled states, or 2281). The
-		# invitations first - the Covenant once the raiders hold their coast and their cult, token, network and intel allow;
-		# Hail the Drowned King once the Bone Dancers have crowned the Odious King (it needs The Bone Shore, and The Dancers
-		# Hear the Tide adds +10 towards its 40 % cult, both taken here if the previous phase did not) - then the Bone
-		# Dancers' war, held until the army is ready and, while they are courted, until 2281, and The Tide-Wall, held until
-		# the Washington stage and the army's readiness while a Brotherhood still stands at peace with MLT
-		mltd_brk_the_drowned_covenant
-		mltd_bdt_the_bone_shore
-		mltd_bdt_the_dancers_hear_the_tide
-		mltd_bdt_hail_the_drowned_king
-		mltd_bdt_drown_the_dance
-		mltd_wbh_the_tide_wall
+		# Act III's close, The Tide Turns South: since 2026-09-24 it follows The Final Ritual (and needs 50 controlled states,
+		# or 2281), whose completion starts this plan, and no longer waits on any one of the act's six
 		mltd_the_tide_turns_south
 		# Act IV, The Drowned Republic: the chapter, one bead (Sleepers on the Long 15), then The Turbines Sing - the NCR war,
 		# held until the NCR's stage (the north, the NCR's cult at 40 %, the Broken Coast helped: mltd_ai_stage_ncr) and the
@@ -302,9 +320,44 @@ mltd_MLT_late_game = {
 		# beaten (a research slot, 3 times in 4)
 		mltd_ncr_a_mole_in_shady_sands
 		mltd_ncr_sleepers_on_the_long_15
+		# What the north has left of Acts II and III after the ritual, which needed only one of Act III's six (common/
+		# national_focus/mltd_act2_focus.txt, mltd_act3_focus.txt). Each nation's pair is mutually exclusive both ways (round
+		# 28b; the Broken Coast's since round 28c), and across nations only an accepted invitation closes a door: the
+		# Brotherhood sworn to the Covenant closes it to the raiders, and the raiders sworn close Terms for the Citadel. Listed
+		# above The Turbines Sing, because the Covenant is one way to the help the NCR's stage waits on (mltd_ai_brk_helped). The
+		# invitations first, so that taking one forfeits only its war twin - the Covenant once the raiders' cult, token and
+		# network allow; Hail the Drowned King while the Bone Dancers have not taken the pilgrims' road; Terms for the Citadel,
+		# the AI's fallback once the Covenant is off the table, whose hold (mltd_ai_may_offer_the_citadel) keeps it off
+		# historical focuses, off any Brotherhood but WBH itself and off a courtship of the Broken Coast. Each branch's Act II
+		# focuses come first, since each pair needs its bead
+		mltd_brk_salt_on_the_broken_coast
+		mltd_brk_the_deep_ones_sail_north
+		mltd_brk_the_drowned_covenant
+		mltd_bdt_the_bone_shore
+		mltd_bdt_the_dancers_hear_the_tide
+		mltd_bdt_hail_the_drowned_king
+		mltd_wbh_eyes_in_the_sound
+		mltd_wbh_the_drowned_knights
+		mltd_wbh_terms_for_the_citadel
 		mltd_ncr_the_turbines_sing
 		mltd_ncr_drowned_delegates
 		mltd_ncr_salt_on_the_caravan_roads
+		# Act III's wars, each held in its own `available`: the Bone Dancers', until the army is ready and, while they are
+		# courted, until 2281; The Tide-Wall, until the Washington stage and the army's readiness while a Brotherhood still
+		# stands at peace with MLT (both also wait for a safe target, which gives way in 2281 only while no Act III focus is
+		# done); and the Broken Coast's twin, The Coast Goes Under (round 28c), never while the AI courts the raiders
+		# (mltd_ai_may_drown_the_coast) - run 3's AI declared on them and lost - so it comes only once the courtship has ended
+		# some other way (the Brotherhood sworn to the Covenant, or a war with the raiders already running, when it is only a
+		# payout), with the army ready and the raiders a safe target. The Bone Dancers' and the raiders' wars also wait while a
+		# war with an uncapitulated NCR runs, so neither opens a second front in Act IV
+		mltd_bdt_drown_the_dance
+		mltd_wbh_the_tide_wall
+		mltd_brk_the_coast_goes_under
+		# the north's spoils (after Act III's close, beside A Mole in Shady Sands): The Scribes' Vaults with Seattle or East
+		# Portland held, The Drowned Sound at 80 controlled states (its works in Spokane and Crowshaven) - taken while the NCR's
+		# stage holds The Turbines Sing, or during the war
+		mltd_spoils_the_scribes_vaults
+		mltd_spoils_the_drowned_sound
 		mltd_when_shady_sands_falls
 		mlt_tropic_of_cancer
 		# the previous phase's claim focuses, for an AI that never met their gate (mltd_ai_may_press_claims)
@@ -322,6 +375,14 @@ mltd_MLT_late_game = {
 		mltd_wht_rites_on_the_spiral_jetty
 		mltd_hea_whispers_in_the_steam
 		mltd_hea_the_crusade_turns_south
+		# California's spoils (after Act IV's close, beside Mars in the Water; four, for the first true superpower MLT beats):
+		# Salt in the Canals with Shady Sands or San Francisco held, The Foundries Relit with The Boneyard, The Office of Salt
+		# and Industry with The Hub or Sac-City, The Drowned Harvest at 120 controlled states - taken while the Legion's war
+		# holds Act V's close, or while a war focus above is held
+		mltd_spoils_the_canals_run_salt
+		mltd_spoils_the_foundries_relit
+		mltd_spoils_the_office_of_salt
+		mltd_spoils_the_drowned_harvest
 		mltd_when_the_legion_breaks
 		# Act VI, All Waters Are One: Texas first (the close waits on it), then Tlaloc's heirs, then Nuevo Aztlan, whose war
 		# also waits until no Texan war is running and it is a safe target (its available); the close once Texas is beaten
@@ -332,6 +393,11 @@ mltd_MLT_late_game = {
 		mltd_tla_the_drowned_god_sleeps
 		mltd_ate_the_feathered_tide
 		mltd_ate_the_serpent_drowns
+		# the interior's spoils (after Act V's close, beside The Southern Deep): The Legion's Armouries with Flagstaff held, The
+		# Iron Tithe at 180 controlled states (its works in Flagstaff, North Phoenix and Red Sun City) - taken while the Texan
+		# war holds Act VI's close, or while a war focus above is held
+		mltd_spoils_the_legions_armouries
+		mltd_spoils_the_iron_tithe
 		mltd_the_last_king_kneels
 		# the finale, at 300 controlled states, and the plan's ending: The Dreamer Wakes, for the wars still to fight. All three
 		# open the day R'lyeh Rises completes, so the list order takes The Dreamer Wakes; the other two are mutually exclusive
@@ -341,10 +407,11 @@ mltd_MLT_late_game = {
 		mltd_ending_the_dreamer_wakes
 		mltd_ending_the_priestess_reigns
 		mltd_ending_return_to_the_sea
-		# Act II's Washington branch, if the previous phase left it: no act needs it any more, so it waits here for the long
-		# stretches when a great war holds the next chapter shut
-		mltd_wbh_eyes_in_the_sound
-		mltd_wbh_the_drowned_knights
+		# the south's spoils (after Act VI's close, beside R'lyeh Rises): The Black Water Wells with Dallas or Lone Star held, The
+		# Salt Road at 250 controlled states (its hatch in the Gulf ports) - after the ending, or before R'lyeh Rises while its
+		# 300 states are short
+		mltd_spoils_the_black_water_wells
+		mltd_spoils_the_salt_road
 		# fillers
 		lurk_consult_the_oracles
 		lurk_visions_of_strategies
@@ -408,5 +475,6 @@ mltd_MLT_late_game = {
 		MLT_king_high_command = 8
 		MLT_mutants_theorist = 3
 		MLT_old_castro_cultural_advisor = 60
+		MLT_tide_speaker_cultural_advisor = 40
 	}
 }

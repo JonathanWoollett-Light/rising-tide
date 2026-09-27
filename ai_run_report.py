@@ -15,7 +15,9 @@ reads those lines back, splits them into runs, and prints a markdown report:
 the run's summary, seventeen automated checks (each naming the AI block to
 look at), the plan against the run (focuses, wars, enemies, annexations,
 snapshots, research, laws, decisions, rituals, cults) and the run's own
-timeline.
+timeline.  The report is laid out as mdformat lays it out with the repo's
+.mdformat.toml, so no line is wider than 100 columns: prose is wrapped, and a
+table too wide for that is printed as a list, one item per row.
 
 **The line contract.**  Every telemetry line renders as one game.log line
 that contains
@@ -60,8 +62,10 @@ import glob
 import io
 import os
 import re
+import string
 import sys
 import tempfile
+import textwrap
 import time
 from collections import Counter, defaultdict
 
@@ -131,6 +135,9 @@ ARMY_WINDOW = 365                                # (p) the last days of SNAPs ju
 ARMY_RANGE = (0.75, 1.5)                         # ... on divisions / mltd_ai_army_target (target=)
 OFFERING_CAPS_AFTER = 200                        # (q) the Drowned after the Final Ritual: caps logged after its +100
 TIDES_POP_K = 300                                # (q) the Tides after the Final Ritual: people it needs (thousands)
+# (q) since 2026-09-23 the land summons stay open after the Final Ritual, and their AI draws only above the same 300k; a
+# DECISION line is logged in the week after, so its pop_k is judged with the summon's own toll (thousands) added back
+SUMMON_TOLL_K = {"mltd_summon_the_deep_ones": 8, "mltd_summon_the_star_spawn": 16}
 SNAP_MATCH_WINDOW = 45                           # a plan snapshot matches the nearest SNAP this close
 FIRST_POLL_DAYS = 7                              # a weekly poll reports everything already true
 
@@ -408,7 +415,7 @@ ESTIMATE = re.compile(r"^#\s*(?:~\s*day\s*(?P<d1>\d+)(?:\s*-\s*(?P<d2>\d+))?"
 INLINE_ESTIMATE = re.compile(r"~\s*day\s*(\d+)(?:\s*-\s*(\d+))?")
 # verbs whose day is the estimate comment above them when there is one; focus and research follow the clock
 ESTIMATED = ("justify", "declare", "peace", "law", "decision", "event")
-UNTRACKED = ("production", "template", "train", "army", "market", "operation", "operative")
+UNTRACKED = ("production", "template", "train", "army", "market", "operation", "operative", "continuous")
 NUMTOK = r"~?\d[\d,]*(?:\.\d+)?"
 SNAP_METRICS = (
     ("states", r"(%s(?:\s*-\s*%s)?)\s+states\b" % (NUMTOK, NUMTOK)),
@@ -996,7 +1003,8 @@ def check_j(an):
             continue
         elif fs is None or ln.cal < fs.cal:
             # round 25: judged like the rest - round 24 gave its AI the Final Ritual's gate too (215,000; run
-            # 20260918-170847 summoned at 245k, 235k, 227k and 216k and stopped there). mltd.8 hides it at the Walk.
+            # 20260918-170847 summoned at 245k, 235k, 227k and 216k and stopped there). Since 2026-09-23 it stays open
+            # after the Walk.
             gate, name = final_gate, final
         else:
             after += 1
@@ -1169,10 +1177,16 @@ def check_q(an):
                 bad.append("the Tides on day %d (%sk people)" % (ln.cal, fmt_num(pop)))
             else:
                 fine += 1
+        elif ln.get("id") in SUMMON_TOLL_K:
+            pop = ln.num("pop_k")
+            if pop is not None and pop + SUMMON_TOLL_K[ln.get("id")] < TIDES_POP_K:
+                bad.append("%s on day %d (%sk people after it)" % (ln.get("id"), ln.cal, fmt_num(pop)))
+            else:
+                fine += 1
     if bad:
-        return FAIL, "%d offering(s) after the Final Ritual (day %d) without the need: %s" % (
+        return FAIL, "%d offering(s) or summon(s) after the Final Ritual (day %d) without the need: %s" % (
             len(bad), e.cal, "; ".join(bad[:5]) + ("; ..." if len(bad) > 5 else ""))
-    return PASS, "%d offering(s) after the Final Ritual (day %d), each when caps were short or people plenty" % (
+    return PASS, "%d offering(s) or summon(s) after the Final Ritual (day %d), each when caps were short or people plenty" % (
         fine, e.cal)
 
 
@@ -1213,8 +1227,8 @@ CHECKS = (
     ("p", "p_army_size", "The army stays at %.2f-%.2fx its target over the last %d days" % (
         ARMY_RANGE[0], ARMY_RANGE[1], ARMY_WINDOW), check_p,
      "`mltd_ai_army_short` / `mltd_ai_army_full`; the target in `mltd_ai_survey` (mltd_ai_survey_effects.txt)"),
-    ("q", "q_offerings", "After the Final Ritual, offerings only when caps are short or people plentiful", check_q,
-     "the offerings' `ai_will_do` (common/decisions/mltd_decisions.txt)"),
+    ("q", "q_offerings", "After the Final Ritual, offerings and summons only when caps are short or people plentiful", check_q,
+     "the offerings' and summons' `ai_will_do` (common/decisions/mltd_decisions.txt)"),
 )
 
 
@@ -1245,10 +1259,80 @@ LOGGED_DECISIONS = POPULATION_DECISIONS + ("mltd_cult_call_for_people", "mltd_cu
 BOOK_NAMES = dict((fid, "Book %d" % (i + 1)) for i, (fid, _, _) in enumerate(BOOKS))
 
 
-def md_table(header, rows, align=None):
+WIDTH = 100                                      # no report line is wider (.markdownlint-cli2.jsonc, MD013) ...
+WRAP = 99                                        # ... and prose wraps one short of it (.mdformat.toml: mdformat
+                                                 # may escape a wrapped line's first character, one more)
+
+
+def md_table(header, rows, align=None, lead=None):
+    """A GFM table laid out as mdformat 1.0.0 with mdformat-gfm prints it: every cell padded to its column's width,
+    `r` columns right-justified.  A table that would be wider than WIDTH becomes a list, one item per row: `lead`,
+    a format string over the row's cells ("{0}: {1}" for two columns, else "{0}"), then every other non-empty cell
+    as a sub-item under its column's header.  An item is one logical line; md_wrap lays it out."""
     align = align or "l" * len(header)
-    out = ["| " + " | ".join(header) + " |", "|" + "|".join("---:" if a == "r" else "---" for a in align) + "|"]
-    out += ["| " + " | ".join(str(c).replace("|", "\\|") for c in row) + " |" for row in rows]
+    cells = [[str(c).replace("|", "\\|") for c in row] for row in [header] + list(rows)]
+    widths = [max(3, *(len(row[i]) for row in cells)) for i in range(len(header))]
+    if sum(widths) + 3 * len(widths) + 1 <= WIDTH:
+        line = lambda row: "| " + " | ".join(c.rjust(w) if a == "r" else c.ljust(w)
+                                             for c, w, a in zip(row, widths, align)) + " |"
+        return [line(cells[0]), line("-" * (w - 1) + ":" if a == "r" else "-" * w for w, a in zip(widths, align))] \
+            + [line(row) for row in cells[1:]]
+    lead = lead or ("{0}: {1}" if len(header) == 2 else "{0}")
+    used = set(int(f) for _, f, _, _ in string.Formatter().parse(lead) if f)
+    out = []
+    for row in rows:                             # outside a table a pipe needs no escape
+        row = [str(c) for c in row]
+        out.append("- " + lead.format(*row))
+        out += ["  - " + (h + ": " if h else "") + c for i, (h, c) in enumerate(zip(header, row))
+                if c and i not in used]
+    return out
+
+
+def md_code(text, room=WRAP - 2):
+    """`text` as a code span, or - where it is longer than `room`, which a code span cannot wrap past - as several,
+    split at spaces.  `room` is a list item's width by default; a paragraph's is WRAP."""
+    parts = re.split(r"( +)", text.strip())     # words, and the spaces between them
+    spans, cur, gap = [], "", ""
+    for word, after in zip(parts[::2], parts[1::2] + [""]):
+        if cur and len(cur + gap + word) + 2 > room:
+            spans.append(cur)
+            cur = word
+        else:
+            cur += gap + word
+        gap = after
+    return " ".join("`%s`" % s for s in spans + [cur])
+
+
+def md_escape(line):
+    """A wrapped line escaped where Markdown would read it as a heading, quote, list item or rule - mdformat's own
+    escapes (mdformat/renderer/_context.py, `paragraph`), so that the report is left as it is by mdformat."""
+    if re.match(r"(#{1,6}|[-*+])( |$)|>", line):
+        return "\\" + line
+    number = re.match(r"[0-9]+([.)])( |$)", line)
+    if number:
+        return line[:number.start(1)] + "\\" + line[number.start(1):]
+    bare = line.replace(" ", "")
+    if len(bare) >= 3 and len(set(bare)) == 1 and bare[0] in "-*_" or set(line) in ({"-"}, {"="}):
+        return line.replace(bare[0], "\\" + bare[0], 1)
+    return line
+
+
+def md_wrap(lines):
+    """The report's logical lines laid out as mdformat 1.0.0 lays them out at WRAP: a paragraph, or a list item
+    ("- ", or "  - " under an item) with its later lines indented under its text, word-wrapped at spaces but never
+    inside a code span (a word longer than the line stays whole), each line escaped by md_escape.  Blank lines,
+    headings and table rows pass through."""
+    out = []
+    for line in lines:
+        if not line or line[0] in "#|":
+            out.append(line)
+            continue
+        mark = re.match(r"(?: *- )?", line).group()
+        parts = re.split(r"(`[^`]*`)", line[len(mark):])      # odd parts are code spans: their spaces hold
+        text = "".join(p.replace(" ", "\0") if i % 2 else re.sub(" +", " ", p) for i, p in enumerate(parts))
+        wrapped = textwrap.wrap(text, WRAP - len(mark), break_long_words=False, break_on_hyphens=False)
+        out += [((" " * len(mark) if i else mark) + md_escape(w.replace("\0", " "))).rstrip()
+                for i, w in enumerate(wrapped or [""])]
     return out
 
 
@@ -1390,8 +1474,8 @@ def summary_rows(runs, run, bad):
     if unknown:
         rows.append(("Unknown kinds", ", ".join("%s %d" % (k, kinds[k]) for k in unknown)))
     if bad:
-        rows.append(("Malformed", "%d MLTD line(s) in the log break the contract, e.g. game.log line %d: `%s`"
-                     % (len(bad), bad[0][0], bad[0][1][:80])))
+        rows.append(("Malformed", "%d MLTD line(s) in the log break the contract, e.g. game.log line %d: %s"
+                     % (len(bad), bad[0][0], md_code(bad[0][1][:80]))))
     rows.append(("Runs in the log", "%d; this is run %d" % (len(runs), run.index)))
     return rows
 
@@ -1497,12 +1581,13 @@ def plan_sections(plan, an=None):
                          s["line"]))
     out += ["", "### Snapshots", ""]
     if ai:
-        out += md_table(("Plan day", "Date", "AI SNAP", "States: plan / AI", "People (k)", "Divisions", "Other"),
-                        rows, "rllllll")
+        out += md_table(("Plan day", "Date", "AI SNAP", "States (plan / AI)", "People (k)", "Divisions", "Other"),
+                        rows, "rllllll", "Plan day {0} ({1})")
         out += ["", "Each plan snapshot against the run's nearest SNAP: `ok` inside the plan's range, else the "
                 "distance from its nearer end. States are owned states; manpower is free manpower in thousands."]
     else:
-        out += md_table(("Day", "Date", "States", "People (k)", "Divisions", "Other", "Plan line"), rows, "rllllll")
+        out += md_table(("Day", "Date", "States", "People (k)", "Divisions", "Other", "Plan line"), rows, "rllllll",
+                        "Day {0} ({1})")
     # rituals
     rows = []
     for rid, name, fid in (("grand", "Grand Ritual", "mltd_the_grand_ritual"),
@@ -1579,10 +1664,10 @@ def plan_notes(plan):
     out = []
     if plan.notes:
         out += ["", "### Plan lines the parser could not use", ""]
-        out += ["- line %d: %s - `%s`" % (n, why, text.strip()[:110]) for n, text, why in plan.notes]
+        out += ["- line %d: %s - %s" % (n, why, md_code(text.strip()[:110])) for n, text, why in plan.notes]
     if plan.consistency:
         out += ["", "### Plan headers whose date and day disagree", ""]
-        out += ["- line %d: `%s` - %s" % (n, text.strip(), why) for n, text, why in plan.consistency]
+        out += ["- line %d: %s - %s" % (n, md_code(text), why) for n, text, why in plan.consistency]
         out += ["", "The report uses the header's day, not its date. Dates count in HOI4's calendar: 365-day years, "
                 "no leap day."]
     return out
@@ -1613,7 +1698,8 @@ def render_report(runs, run, plan, log_path, bad):
     if (run.info("ai", "") or "").lower() == "no":
         out += ["START says ai=no: MLT was played by a human, so these describe the player, not the AI.", ""]
     out += md_table(("", "Check", "Result", "Why", "Look at"),
-                    [("(%s)" % c["key"], c["what"], c["result"], c["reason"], c["look"]) for c in checks])
+                    [("(%s)" % c["key"], c["what"], c["result"], c["reason"], c["look"]) for c in checks],
+                    lead="**{0}** {1} - **{2}**")
     out += ["", "## Plan vs AI", ""]
     out += plan_sections(plan, an)
     events = [(ln.cal, ln.order, describe(ln, an)) for ln in run.kept if ln.kind not in ("SNAP", "CULT", "ENEMY")]
@@ -1622,11 +1708,11 @@ def render_report(runs, run, plan, log_path, bad):
     out += ["", "## AI timeline", "",
             "Every line but SNAP and ENEMY, in day order; CULT lines only where a cult takes root or vanishes (the "
             "Cults and Enemies tables have the rest).", ""]
-    out += md_table(("Day", "Date", "What"), [(d, iso(d), text) for d, _, text in events], "rll")
+    out += md_table(("Day", "Date", "What"), [(d, iso(d), text) for d, _, text in events], "rll", "{0} ({1}): {2}")
     notes = plan_notes(plan)
     if notes:
         out += ["", "## Plan notes"] + notes
-    return "\n".join(out) + "\n", an, checks
+    return "\n".join(md_wrap(out)) + "\n", an, checks
 
 
 def render_plan_only(plan, lead):
@@ -1635,7 +1721,7 @@ def render_plan_only(plan, lead):
     notes = plan_notes(plan)
     if notes:
         out += ["", "## Plan notes"] + notes
-    return "\n".join(out) + "\n"
+    return "\n".join(md_wrap(out)) + "\n"
 
 
 def list_runs(runs):
@@ -1854,8 +1940,37 @@ def selftest():
                 ok(len(saved) == 2 and saved[0]["kingdom"] == "600" and saved[0]["e_ritual_peace"] == FAIL,
                    "runs.csv rows: %r" % saved[:1])
     alone = render_plan_only(plan, ["No MLTD lines."])
-    ok("## The plan's timeline" in alone and "| mlt_kingdom_of_mlyeh | 365 | 395 |" in alone and
-       "frobnicate" in alone, "the plan-only report: its focus table and its notes")
+    ok("## The plan's timeline" in alone and "frobnicate" in alone and
+       "| Focus                | Start | Done | Days | Plan line |\n"
+       "| -------------------- | ----: | ---: | ---: | --------: |\n"
+       "| aaa                  |     0 |    7 |    7 |         5 |" in alone and
+       "| mlt_kingdom_of_mlyeh |   365 |  395 |   30 |        16 |" in alone,
+       "the plan-only report: its focus table, aligned, and its notes")
+    # the layout: an aligned table while it fits in WIDTH, else a list; prose wrapped at WRAP as mdformat wraps it
+    for name, text in (("run 2's report", report), ("the plan-only report", alone)):
+        lines = text.splitlines()
+        ok(all(len(ln) <= WIDTH or " " not in ln[WIDTH:] for ln in lines), "%s: a line over %d" % (name, WIDTH))
+        ok(all(ln.count("`") % 2 == 0 for ln in lines), "%s: a code span broken across lines" % name)
+        tables = re.findall(r"(?m)(?:^\|.*\n)+", text)
+        ok(tables and all(len(set(map(len, t.splitlines()))) == 1 for t in tables), "%s: a table not aligned" % name)
+    ok("\n- MLT played by: the AI (ai=yes)\n- La Resistance: yes\n" in report and
+       "\n- **(e)** No war begins while the Final Ritual runs - **FAIL**\n  - Why: TCA day 1350 " in report and
+       "\n  - Look at: the stage conditions of `mltd_ai_conquer_*`; `mltd_ai_stay_on_plan`\n" in report,
+       "the run summary and the checks, too wide for tables, as lists")
+    wide = md_table(("Tag", "Note", "More"), [("AAA", "x" * 90, ""), ("BBB", "y", "z|w")])
+    ok(wide == ["- AAA", "  - Note: " + "x" * 90, "- BBB", "  - Note: y", "  - More: z|w"],
+       "a table too wide for WIDTH as a list: %r" % wide)
+    got = md_table(("", ""), [("key", "z|w")], "lr")
+    ok(got == ["|     |      |", "| --- | ---: |", "| key | z\\|w |"], "a two-column table: %r" % got)
+    x = "x" * (WRAP - 1)                         # a word that leaves no room for the next on its line
+    got = md_wrap(["- " + x[4:] + " `a code span` y", x + " 868. tail", x + " - tail", x + " # tail", "",
+                   "## A heading", "| a |"])
+    ok(got == ["- " + x[4:], "  `a code span` y", x, "868\\. tail", x, "\\- tail", x, "\\# tail", "",
+               "## A heading", "| a |"], "md_wrap: an item at WRAP - 2, a code span kept whole, mdformat's escapes: "
+                                         "%r" % got)
+    code = md_code("word " * 30)
+    ok(len(code.split("` `")) == 2 and all(len(s) + 2 <= WRAP - 2 for s in code.strip("`").split("` `")),
+       "md_code splits a long span at spaces: %r" % code)
     ok("run 1: day 0-165" in list_runs(runs), "--list: %r" % list_runs(runs))
 
     def mini(rows):
@@ -1963,8 +2078,8 @@ def main():
                 "it run, and run this report before the game is launched again - every launch empties game.log. "
                 "Until then, here is the plan's timeline alone."]
         if bad:
-            lead += ["", "%d line(s) mention MLTD but break the contract, e.g. game.log line %d: `%s`" % (
-                len(bad), bad[0][0], bad[0][1][:100])]
+            lead += ["", "%d line(s) mention MLTD but break the contract, e.g. game.log line %d: %s" % (
+                len(bad), bad[0][0], md_code(bad[0][1][:100], WRAP))]
         emit(render_plan_only(plan, lead), args.out)
         if args.list or args.csv or args.save:
             sys.stderr.write("no run to list, export or save\n")

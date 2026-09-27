@@ -15,6 +15,17 @@ mltd_gifts_from_the_deep = {
 	weekly_manpower = mltd_gift_manpower_var
 }
 
+# Rising Tide - the summoned host (2026-09-23)
+# Added by mltd_add_summoned_room (mltd_scripted_effects.txt), which every summoned Deep Ones or Star Spawn division
+# calls: each adds its own 8 battalions to mltd_summoned_sf_var, so a summoned division never takes a place under the
+# special-forces cap that a trained one could have used. For MLT the cap is the floor - OWB's 20 plus special_forces_min
+# - because OWB's other term, 2 % of the non-special battalions (01_defines.lua:126-127), would need 5,000 of them to
+# pass it. The room stays if the division is lost.
+mltd_summoned_host = {
+	icon = GFX_idea_monstrous_horrors_beyond_comprehension_spirit
+	special_forces_min = mltd_summoned_sf_var
+}
+
 # Rising Tide - the Broken Coast's volunteers (round 21)
 # Added by mltd_brk_add_volunteer_size, which The Deep Ones Sail North calls twice (+3 volunteer divisions each), and
 # no world-tension requirement to send them (OWB's economic laws can add one, gov_economic.txt:38), as OWB's Brotherhood

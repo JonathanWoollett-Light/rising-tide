@@ -435,9 +435,47 @@ characters = {
 			}
 			cost = 150
 			# the agency's two extra operatives carry the Books' networks and the cults: an AI hires him early (run 2 never
-			# did, nor run 8 with 853 political power banked). He is the only candidate for MLT's one cultural-advisor slot,
-			# so the factor is not choosing between advisors - it is choosing to spend at all. OWB's own norm is 10 and its
-			# ceiling 10003; round 24 raised ours from 50.
+			# did, nor run 8 with 853 political power banked). OWB gives three cultural-advisor slots; until 2026-09-24 he
+			# was MLT's only candidate for any of them, so the factor chose whether to spend at all. The Tide-Speaker (below)
+			# now shares the slot type, and this factor puts him first. OWB's own norm is 10 and its ceiling 10003; round
+			# 24 raised ours from 50.
+			ai_will_do = {
+				# OWB's idiom for an advisor the AI must hire (round-28c balance review): a plain 100 stayed under
+				# vanilla's CRITICAL_IDEA_PRIORITY, and no spectator run ever hired him
+				factor = 10003
+			}
+		}
+	}
+
+	# Rising Tide (2026-09-24): the Tide-Speaker, who names the shores the queen claims next - -30 % justification time
+	# (mltd_claims_of_the_tide, common/country_leader/mltd_traits.txt), for the straggler nations the north is full of
+	# (the Koover Union, the Washington coast, British Columbia). A cultural advisor, like Old Castro, from the Kingdom on.
+	# MLT has three cultural slots and no other civilian advisor, so what she costs is political power - hers against
+	# Castro's, the summons' and the Calls' - not a slot: the strategic choice the user asked for.
+	MLT_TIDE_SPEAKER = {
+		name = MLT_TIDE_SPEAKER_NAME
+		portraits = {
+			civilian = {
+				small = GFX_idea_generic_advisor28
+			}
+		}
+		advisor = {
+			slot = cultural_advisor
+			idea_token = MLT_tide_speaker_cultural_advisor
+			desc = MLT_TIDE_SPEAKER_DESC
+			allowed = {
+				original_tag = MLT
+			}
+			available = {
+				has_completed_focus = mlt_kingdom_of_mlyeh
+			}
+			traits = {
+				mltd_claims_of_the_tide
+			}
+			cost = 150
+			# well below Old Castro's 10003, so that an AI weighing both hires him first: the agency's operatives carry the
+			# courtships and the NCR's cult. common/ai_strategy/mltd_MLT.txt (mltd_ai_hire_tide_speaker) raises the
+			# cultural_advisor spending for her once he is in post, or from the Kingdom without La Resistance
 			ai_will_do = {
 				factor = 100
 			}

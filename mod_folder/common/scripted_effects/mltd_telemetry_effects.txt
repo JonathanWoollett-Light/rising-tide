@@ -648,7 +648,7 @@ mltd_tm_poll_focuses = {
 		set_country_flag = mltd_tm_f_lurk_the_shell_games
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=lurk_the_shell_games"
 	}
-	# the story acts, common/national_focus/mltd_act2_focus.txt ... mltd_act6_focus.txt and mltd_finale_focus.txt (39)
+	# the story acts, common/national_focus/mltd_act2_focus.txt ... mltd_act6_focus.txt and mltd_finale_focus.txt, then the spoils branches, mltd_spoils_focus.txt (51)
 	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_eyes_in_the_sound } has_completed_focus = mltd_wbh_eyes_in_the_sound }
 		set_country_flag = mltd_tm_f_mltd_wbh_eyes_in_the_sound
@@ -680,6 +680,11 @@ mltd_tm_poll_focuses = {
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_bdt_the_dancers_hear_the_tide"
 	}
 	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_terms_for_the_citadel } has_completed_focus = mltd_wbh_terms_for_the_citadel }
+		set_country_flag = mltd_tm_f_mltd_wbh_terms_for_the_citadel
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_terms_for_the_citadel"
+	}
+	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_wbh_the_tide_wall } has_completed_focus = mltd_wbh_the_tide_wall }
 		set_country_flag = mltd_tm_f_mltd_wbh_the_tide_wall
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_wbh_the_tide_wall"
@@ -688,6 +693,11 @@ mltd_tm_poll_focuses = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_the_drowned_covenant } has_completed_focus = mltd_brk_the_drowned_covenant }
 		set_country_flag = mltd_tm_f_mltd_brk_the_drowned_covenant
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_the_drowned_covenant"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_brk_the_coast_goes_under } has_completed_focus = mltd_brk_the_coast_goes_under }
+		set_country_flag = mltd_tm_f_mltd_brk_the_coast_goes_under
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_brk_the_coast_goes_under"
 	}
 	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_bdt_hail_the_drowned_king } has_completed_focus = mltd_bdt_hail_the_drowned_king }
@@ -844,6 +854,56 @@ mltd_tm_poll_focuses = {
 		set_country_flag = mltd_tm_f_mltd_ending_return_to_the_sea
 		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_ending_return_to_the_sea"
 	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_spoils_the_scribes_vaults } has_completed_focus = mltd_spoils_the_scribes_vaults }
+		set_country_flag = mltd_tm_f_mltd_spoils_the_scribes_vaults
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_spoils_the_scribes_vaults"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_spoils_the_drowned_sound } has_completed_focus = mltd_spoils_the_drowned_sound }
+		set_country_flag = mltd_tm_f_mltd_spoils_the_drowned_sound
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_spoils_the_drowned_sound"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_spoils_the_canals_run_salt } has_completed_focus = mltd_spoils_the_canals_run_salt }
+		set_country_flag = mltd_tm_f_mltd_spoils_the_canals_run_salt
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_spoils_the_canals_run_salt"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_spoils_the_foundries_relit } has_completed_focus = mltd_spoils_the_foundries_relit }
+		set_country_flag = mltd_tm_f_mltd_spoils_the_foundries_relit
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_spoils_the_foundries_relit"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_spoils_the_office_of_salt } has_completed_focus = mltd_spoils_the_office_of_salt }
+		set_country_flag = mltd_tm_f_mltd_spoils_the_office_of_salt
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_spoils_the_office_of_salt"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_spoils_the_drowned_harvest } has_completed_focus = mltd_spoils_the_drowned_harvest }
+		set_country_flag = mltd_tm_f_mltd_spoils_the_drowned_harvest
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_spoils_the_drowned_harvest"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_spoils_the_legions_armouries } has_completed_focus = mltd_spoils_the_legions_armouries }
+		set_country_flag = mltd_tm_f_mltd_spoils_the_legions_armouries
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_spoils_the_legions_armouries"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_spoils_the_iron_tithe } has_completed_focus = mltd_spoils_the_iron_tithe }
+		set_country_flag = mltd_tm_f_mltd_spoils_the_iron_tithe
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_spoils_the_iron_tithe"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_spoils_the_black_water_wells } has_completed_focus = mltd_spoils_the_black_water_wells }
+		set_country_flag = mltd_tm_f_mltd_spoils_the_black_water_wells
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_spoils_the_black_water_wells"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_f_mltd_spoils_the_salt_road } has_completed_focus = mltd_spoils_the_salt_road }
+		set_country_flag = mltd_tm_f_mltd_spoils_the_salt_road
+		log = "MLTD [?mltd_tm_day|0] FOCUS id=mltd_spoils_the_salt_road"
+	}
 }
 
 # TECH: the techs CONQUEST_PLAN.txt researches, those MLT's AI forces (research_tech, common/ai_strategy/mltd_MLT.txt),
@@ -916,6 +976,16 @@ mltd_tm_poll_techs = {
 		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_intermediate_form"
 	}
 	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_2 } has_tech = amphibious_beast_upgrade_tech_2 }
+		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_2
+		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_2"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_t_anti_tank_equipment_tech_2 } has_tech = anti_tank_equipment_tech_2 }
+		set_country_flag = mltd_tm_t_anti_tank_equipment_tech_2
+		log = "MLTD [?mltd_tm_day|0] TECH id=anti_tank_equipment_tech_2"
+	}
+	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_king_form } has_tech = amphibious_beast_king_form }
 		set_country_flag = mltd_tm_t_amphibious_beast_king_form
 		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_king_form"
@@ -924,16 +994,6 @@ mltd_tm_poll_techs = {
 		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_4 } has_tech = amphibious_beast_upgrade_tech_4 }
 		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_4
 		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_4"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_t_specialized_industry_tech_7 } has_tech = specialized_industry_tech_7 }
-		set_country_flag = mltd_tm_t_specialized_industry_tech_7
-		log = "MLTD [?mltd_tm_day|0] TECH id=specialized_industry_tech_7"
-	}
-	if = {
-		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_2 } has_tech = amphibious_beast_upgrade_tech_2 }
-		set_country_flag = mltd_tm_t_amphibious_beast_upgrade_tech_2
-		log = "MLTD [?mltd_tm_day|0] TECH id=amphibious_beast_upgrade_tech_2"
 	}
 	if = {
 		limit = { NOT = { has_country_flag = mltd_tm_t_amphibious_beast_unlock_tech } has_tech = amphibious_beast_unlock_tech }
@@ -3668,6 +3728,11 @@ mltd_tm_poll_advisors = {
 		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_old_castro } MLT_OLD_CASTRO = { is_hired_as_advisor = yes } }
 		set_country_flag = mltd_tm_a_mlt_old_castro
 		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_OLD_CASTRO"
+	}
+	if = {
+		limit = { NOT = { has_country_flag = mltd_tm_a_mlt_tide_speaker } MLT_TIDE_SPEAKER = { is_hired_as_advisor = yes } }
+		set_country_flag = mltd_tm_a_mlt_tide_speaker
+		log = "MLTD [?mltd_tm_day|0] ADVISOR id=MLT_TIDE_SPEAKER"
 	}
 }
 

@@ -197,3 +197,139 @@ defined_text = {
 		localization_key = amphibious_beast_equipment_king_short
 	}
 }
+
+# Round 28b (early): OWB's name for the bunker building ("Outpost", OWB replace/replace_buildings_l_english.yml:20). A replace/
+# key cannot be nested in a sentence ($bunker$ would print raw), so The Tide-Wall's mltd_wbh_tide_wall_bunkers_tt reads it
+# through this function, as the Wet Market reads the mirelurk names (GetMltdMirelurksName and its siblings, above).
+defined_text = {
+	name = GetMltdBunkerName
+	text = {
+		localization_key = bunker
+	}
+}
+
+# Rising Tide round 28b (spoils): OWB's building names. OWB renames them in its localisation/replace/ folder
+# (replace_buildings_l_english.yml:5 "Arms Workshop", :11 "Civilian Workshop"), so $arms_factory$ would print raw inside a
+# sentence - the same reason as GetMltdMirelurksName above. The spoils' works tooltips (mltd_spoils_*_works_tt) read them.
+defined_text = {
+	name = GetMltdArmsFactoryName
+	text = {
+		localization_key = arms_factory
+	}
+}
+defined_text = {
+	name = GetMltdCivilianFactoryName
+	text = {
+		localization_key = industrial_complex
+	}
+}
+
+# GetMltd<Brk|Bdt|Wbh>Odds (round 28): how likely an invitation's answer is, at the end of the invitation's description -
+# The Drowned Covenant (mltd.21), Hail the Drowned King (mltd.24) and Terms for the Citadel (mltd.32). Each reads the game
+# rule, so it is true in the game being played: the answer is those events' ai_chance, and a historical focus rule changes it
+# (is_historical_focus_on, as OWB's nevada_pact_events.txt:15-22 weights its own). Change the odds and these lines together.
+# A human on the other side answers as they please, so each first says so; the Broken Coast's also covers raiders already
+# gone or MLT's subject (the focus then pays political power), and the Brotherhood's a Washington no free Brotherhood holds.
+# Terms for the Citadel asks WBH unless it is gone or someone's subject, else TCA as the Northwestern Brotherhood
+# (mltd_wbh_terms_target; OWB lets TCA form it while WBH is its subject), so the Brotherhood's lines follow the same rule: a
+# subject Brotherhood is never the one that answers. Tags are written out (never ROOT): a focus description names no scope
+# of its own.
+defined_text = {
+	name = GetMltdBrkOdds
+	text = {
+		trigger = {
+			OR = {
+				NOT = { country_exists = BRK }
+				BRK = { is_subject_of = MLT }
+			}
+		}
+		localization_key = mltd_brk_odds_gone
+	}
+	text = {
+		trigger = {
+			BRK = { is_ai = no }
+		}
+		localization_key = mltd_brk_odds_human
+	}
+	text = {
+		trigger = {
+			is_historical_focus_on = yes
+		}
+		localization_key = mltd_brk_odds_historical
+	}
+	text = {
+		localization_key = mltd_brk_odds_unhistorical
+	}
+}
+defined_text = {
+	name = GetMltdBdtOdds
+	text = {
+		trigger = {
+			country_exists = BDT
+			BDT = { is_ai = no }
+		}
+		localization_key = mltd_bdt_odds_human
+	}
+	text = {
+		localization_key = mltd_bdt_odds
+	}
+}
+defined_text = {
+	name = GetMltdWbhOdds
+	text = {
+		trigger = {
+			NOT = {
+				any_country = {
+					mltd_wbh_brotherhood = yes
+					is_subject = no
+				}
+			}
+		}
+		localization_key = mltd_wbh_odds_none
+	}
+	text = {
+		trigger = {
+			OR = {
+				WBH = {
+					mltd_wbh_brotherhood = yes
+					is_subject = no
+					is_ai = no
+				}
+				AND = {
+					NOT = {
+						WBH = {
+							exists = yes
+							is_subject = no
+						}
+					}
+					TCA = {
+						mltd_wbh_brotherhood = yes
+						is_subject = no
+						is_ai = no
+					}
+				}
+			}
+		}
+		localization_key = mltd_wbh_odds_human
+	}
+	text = {
+		trigger = {
+			is_historical_focus_on = yes
+		}
+		localization_key = mltd_wbh_odds_historical
+	}
+	text = {
+		trigger = {
+			NOT = {
+				WBH = {
+					exists = yes
+					is_subject = no
+				}
+			}
+		}
+		localization_key = mltd_wbh_odds_tca
+	}
+	text = {
+		localization_key = mltd_wbh_odds_wbh
+	}
+}

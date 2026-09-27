@@ -38,20 +38,27 @@ spriteTypes = {
 		alwaystransparent = yes
 	}
 
+	# (MLT's own melee technology icons, GFX_MLT_melee_weaponry_tech_<n>_medium, live in
+	# z_mltd_technologies_faction.gfx: two of them re-point OWB sprites, so their file must sort after OWB's.)
+
 	################
 	# Rising Tide - equipment icons, keyed GFX_<equipment_id>_medium exactly like OWB's
 	# reward-tab unlock equipment (z_fallout_technologies.gfx: GFX_sentinel_command_slave_equipment_1_medium,
 	# GFX_faerie_equipment_1_medium, GFX_leshy_equipment_1_medium). OWB declares no archetype-level sprite.
+	# The textures are ours: renders of the mod's own 3D unit model (gfx/models/mltd/star_spawn/, which both
+	# sub-units wear on the map), posed by its own clips, made by build_equipment_icons.py - the Star Spawn
+	# rearing (attack), full height; the Deep Ones in the crouched walk (move), smaller, darker and greener.
+	# 130x60 uncompressed A8R8G8B8, header as OWB's mirelurk_king_equipment.dds, which these two borrowed before.
 	################
 	spriteType = {
 		name = "GFX_mltd_deep_ones_equipment_1_medium"
-		texturefile = "gfx/interface/equipment/generic/mirelurk_king_equipment.dds"
+		texturefile = "gfx/interface/equipment/mltd/mltd_deep_ones_equipment.dds"
 		alwaystransparent = yes
 	}
 
 	spriteType = {
 		name = "GFX_mltd_star_spawn_equipment_1_medium"
-		texturefile = "gfx/interface/equipment/generic/mirelurk_bloodrage_equipment.dds"
+		texturefile = "gfx/interface/equipment/mltd/mltd_star_spawn_equipment.dds"
 		alwaystransparent = yes
 	}
 

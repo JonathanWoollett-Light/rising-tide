@@ -1,0 +1,605 @@
+# Rising Tide (MLT) - the spoils (round 28; rewards rescaled and every effect previewed in round 28b; restructured in round 28c).
+# (2026-09-24: The Deep Ones Walk and The Final Ritual moved below Act III, and Act III's close with them to (15,28), so every
+# row this header names is one lower in the tree today; every cell here is relative and followed.)
+# Optional economy focuses that pay off the land the story acts conquer. Ten shared focuses in four groups, one group after
+# each of Acts III-VI's closes. None is chained to another: each names only its act's close in its prerequisite, so the
+# engine pulls it into mlt_nf with that close (a shared focus); none is listed in "Mirelurk Tribe (MLT) Focus.txt", and no
+# other focus names one of these in a prerequisite, so nothing here gates the spine.
+#
+# Layout (round 28c, SPEC_R28C.md section 2). Each group flanks, on the spine's own row, the chapter that follows its close:
+# two columns out on each side, with California's four also four columns out. A spoils focus takes that chapter as its
+# relative_position_id (x = -4 / -2 / 2 / 4, y = 0) but its act's close as its prerequisite, so it draws the same line from
+# the close as its chapter does and gates nothing. Cells below are the ones the chapters' round-28c rows give.
+#
+#   group (theatre)          prerequisite (close)          anchor (chapter)                cells: left | right
+#   the north                mltd_the_tide_turns_south     mltd_ncr_a_mole_in_shady_sands  (13,28) The Scribes' Vaults
+#                                                          (15,28)                         (17,28) The Drowned Sound (idea)
+#   California (the NCR)     mltd_when_shady_sands_falls   mltd_mars_in_the_water          (11,32) Salt in the Canals
+#                                                          (15,32)                         (13,32) The Foundries Relit
+#                                                                                          (17,32) The Office of Salt and Industry (idea)
+#                                                                                          (19,32) The Drowned Harvest (idea)
+#   the interior             mltd_when_the_legion_breaks   mltd_the_southern_deep          (13,36) The Legion's Armouries
+#                                                          (15,36)                         (17,36) The Iron Tithe (idea)
+#   the south                mltd_the_last_king_kneels     mltd_rlyeh_rises                (13,41) The Black Water Wells
+#                                                          (15,41)                         (17,41) The Salt Road (idea)
+#
+# Two focuses a group, one-offs on the left and the group's permanent idea on the right; four for the NCR's California, the
+# first true superpower MLT fights, which carries two ideas. Round 28c merged each old chain of three into its two: the
+# third focus of each 28b chain kept its id and its idea and took in the middle focus's relit works or hatch (Beyond the
+# Cascades into The Drowned Sound, The Forges of the Bull into The Iron Tithe, The Gulf Yards into The Salt Road), whose
+# tech bonuses (industry; production and construction) were dropped - each group keeps one tech bonus at most. California
+# kept all three of its focuses and gained The Office of Salt and Industry (Republic research turned to the tide).
+#
+# Icons (checked in round 28c). OWB draws a focus icon centred (nationalfocusview.gui:518-524), so a tall one reaches up into
+# the focus above it. No spoils icon is tall: no texture is over 130 px high, and none draws more than 111 px (The Legion's
+# Armouries' salvage; Salt in the Canals' 109x130 texture is mostly transparent, 77 px drawn), and the cell directly above
+# every spoils focus is empty anyway. The cells directly below six of them hold other files' focuses - (13,29) Drowned
+# Delegates and (17,29) Salt on the Caravan Roads in Act IV, (13,37) All Waters Are One and (17,37) The Iron God Dreams in
+# Act VI, (13,42) The Dreamer Wakes and (17,42) Return to the Sea among the endings - so those focuses' icons must stay
+# normal height (about 90 px) too; round 28c gave three of them normal icons for that reason (their files' headers say so).
+#
+# Gates ask for land actually held - a theatre state (owns_state) or a controlled-state count (in a custom_trigger_tooltip,
+# the count repeated as a literal in mltd_spoils_<group>_states_tt: change both together) - never for a war's outcome, so
+# each group can be worked while the next act's war is fought.
+#   The Scribes' Vaults       Seattle (84) or East Portland (37)
+#   The Drowned Sound         80 controlled states
+#   Salt in the Canals        Shady Sands (253) or San Francisco (163)
+#   The Foundries Relit       The Boneyard (350)
+#   The Office of Salt...     The Hub (1) or Sac-City (135)
+#   The Drowned Harvest       120 controlled states
+#   The Legion's Armouries    Flagstaff (520)
+#   The Iron Tithe            180 controlled states
+#   The Black Water Wells     Dallas (892) or Lone Star (921)
+#   The Salt Road             250 controlled states
+#
+# Payoffs are sized to when a player takes them (round 28b), from CONQUEST_PLAN.txt's snapshots [M]: the north's ~2280
+# (~31 civ / ~36 mil), California's ~2283 (~50-55 civ / ~60-70 mil), the interior's ~2284-85 and the south's ~2286 (~90 civ /
+# ~110 mil by 2285-12). No resources: by 2280 MLT holds the north's 182 water and 223 metal, its creature lines need only
+# water and its infantry lines 1-3 metal each, so +4 of anything was noise. Each group pays what scales:
+#   - one-offs that grow with the land held: compliance or resistance in every held core of the theatre, and in California
+#     and the Gulf a hatch of MLT's best mirelurks per held state (the archetype amphibious_beast_equipment gives the best
+#     unlocked variant, as Call for Equipment does), each about a tenth of a year's military output at its moment;
+#   - relit works in the theatre's great cities (a slot and a factory each, two of each in the Legion's forge cities), about
+#     four to six months of MLT's own construction at its moment - OWB's PMR idiom, and a partial answer to decimation,
+#     which halves the industry of every state that changes hands;
+#   - two 365-day ideas that scale with what they land in (common/ideas/mltd_ideas.txt): The Legion's Steel, +10 % defence
+#     and armour on the three creature archetypes (worth however many creature divisions MLT fields; round 28c, in place of
+#     28b's -10 % build cost, which came from the same close as mltd.51 b's cheaper creatures and stacked with them), and
+#     Black Water Visions, +10 % research speed;
+#   - 50 % tech bonuses (they scale with the tech's cost) in categories that keep techs open into the 2280s: electronics (the
+#     north) and construction (California, guarded, below);
+#   - one permanent idea per group, two in California (2-3 modifiers each, inside +-5-10 %). No research slots: Acts IV and
+#     VI give the only two.
+# A group is optional and may be taken years after its close, so the one bonus whose category is a single line of techs
+# (construction_category, the Foundries) is granted only while that line's last tech is unresearched, and pays +50 PP
+# otherwise - the story acts' "else pays political power".
+#
+# Every effect shows before the focus is taken (round 28b): an effect whose preview the engine cannot draw - a state loop
+# whose limit may match nothing yet, an owns-dependent if that only holds later, an amount counted at run time - runs in
+# hidden_effect behind a custom_effect_tooltip that says what it does in every case. Each literal in those tooltips is
+# repeated from the script beside it (mltd_spoils_*_tt): change both together.
+#
+# A group pays in several kinds at once, so a focus that pays in two separates them with the house spacer
+# (custom_effect_tooltip = mltd_newline_tt, loc " \n", as in the rituals and R'lyeh Rises): the group's permanent idea from the
+# works or the hatch that comes with it (The Drowned Sound, The Iron Tithe, The Salt Road), the relit works from the
+# construction bonus (The Foundries Relit), and the Legion's cowed towns from its year of better steel (The Legion's
+# Armouries). Presentation only - no number, gate, effect or order changed. The three that pay in one kind (The Office of Salt
+# and Industry, The Drowned Harvest, The Black Water Wells) and the two that pay in two short lines (The Scribes' Vaults, Salt
+# in the Canals) need none.
+#
+# Every focus: cancel_if_invalid = no + continue_if_invalid = yes (states come and go while a focus runs); ai_will_do 2,
+# below the spine's heads (3) and chapters and closes (10), so an AI works the spine first and these while it waits; an
+# OWB icon that has its _shine; search_filters Industry (and Research where it pays research). LF, no BOM.
+
+############ The north - after Act III's close, flanking A Mole in Shady Sands ############
+
+# The Brotherhood's archives: compliance in every Brotherhood or Bone Dancer core we hold, and the scribes' electronics
+shared_focus = {
+	id = mltd_spoils_the_scribes_vaults
+	icon = GFX_goal_MOJ_scribal_thought
+	cost = 30
+	prerequisite = { focus = mltd_the_tide_turns_south }
+	# land held, as every spoils gate asks. A Brotherhood sworn to the Covenant keeps its vaults: after an accepted Terms for
+	# the Citadel from the Northwestern Brotherhood (TCA holds both citadels once it has formed) the focus stays shut while
+	# the alliance lasts - by design, the knights are not "dead, drowned or fled" (round 28c review)
+	available = {
+		OR = {
+			owns_state = 84
+			owns_state = 37
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 0
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+	ai_will_do = {
+		factor = 2
+	}
+	completion_reward = {
+		# +10 compliance; the 10 is repeated in mltd_spoils_scribes_compliance_tt
+		custom_effect_tooltip = mltd_spoils_scribes_compliance_tt
+		hidden_effect = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						is_core_of = WBH
+						is_core_of = TCA
+						is_core_of = BDT
+					}
+					is_controlled_by = ROOT
+				}
+				add_compliance = 10
+			}
+		}
+		add_tech_bonus = {
+			name = mltd_spoils_the_scribes_vaults
+			bonus = 0.5
+			uses = 1
+			category = electronics
+		}
+	}
+}
+
+# The group's idea - the north is the tribe's own - and the armouries beyond the Cascades relit (round 28c: Beyond the
+# Cascades' works, merged in; its industry bonus dropped)
+shared_focus = {
+	id = mltd_spoils_the_drowned_sound
+	icon = GFX_goal_generic_harbours_focus
+	cost = 60
+	prerequisite = { focus = mltd_the_tide_turns_south }
+	available = {
+		# 80 controlled states (the plan holds 80-95 as the NCR war begins); repeated in mltd_spoils_sound_states_tt
+		custom_trigger_tooltip = {
+			tooltip = mltd_spoils_sound_states_tt
+			num_of_controlled_states > 79
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 0
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+	ai_will_do = {
+		factor = 2
+	}
+	completion_reward = {
+		add_ideas = mltd_the_drowned_sound
+		custom_effect_tooltip = mltd_newline_tt
+		# a slot and an arms factory in each of the two held (up to +2 mil, about four to five months of MLT's own construction
+		# at ~31 civ in 2280 [M]); the 1 and 1 are repeated in mltd_spoils_cascades_works_tt
+		custom_effect_tooltip = mltd_spoils_cascades_works_tt
+		hidden_effect = {
+			if = {
+				limit = {
+					332 = { is_owned_and_controlled_by = ROOT }
+				}
+				332 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					71 = { is_owned_and_controlled_by = ROOT }
+				}
+				71 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+############ California - after Act IV's close, flanking Mars in the Water ############
+
+# The Republic's canals salted: compliance in every Republic core we hold, and the brood hatched along the canals
+shared_focus = {
+	id = mltd_spoils_the_canals_run_salt
+	icon = GFX_goal_NCR_Calhoun_Water_Tower
+	cost = 30
+	prerequisite = { focus = mltd_when_shady_sands_falls }
+	available = {
+		OR = {
+			owns_state = 253
+			owns_state = 163
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -4
+	y = 0
+	relative_position_id = mltd_mars_in_the_water
+	search_filters = { FOCUS_FILTER_INDUSTRY }
+	ai_will_do = {
+		factor = 2
+	}
+	completion_reward = {
+		# +10 compliance and 10 mirelurks for each held Republic core (the plan holds ~50 of its 56 core states by 2283: ~500,
+		# about a tenth of a year's military output then [M]; at most 560); both 10s are repeated in
+		# mltd_spoils_canals_compliance_tt and mltd_spoils_canals_hatch_tt
+		custom_effect_tooltip = mltd_spoils_canals_compliance_tt
+		custom_effect_tooltip = mltd_spoils_canals_hatch_tt
+		hidden_effect = {
+			# the count is a temp variable summed inside the state loop, as OWB's Baggers (BAG) Focus.txt:12400-12418 does
+			set_temp_variable = { mltd_spoils_hatch = 0 }
+			every_owned_state = {
+				limit = {
+					is_core_of = NCR
+					is_controlled_by = ROOT
+				}
+				add_compliance = 10
+				add_to_temp_variable = { mltd_spoils_hatch = 10 }
+			}
+			if = {
+				limit = {
+					check_variable = { mltd_spoils_hatch > 0 }
+				}
+				add_equipment_to_stockpile = {
+					type = amphibious_beast_equipment
+					amount = mltd_spoils_hatch
+				}
+			}
+		}
+	}
+}
+
+# The works: a slot and a civilian factory relit in each of the three great Californian cities we hold
+shared_focus = {
+	id = mltd_spoils_the_foundries_relit
+	icon = GFX_goal_NCR_Rebuild_the_13
+	cost = 30
+	prerequisite = { focus = mltd_when_shady_sands_falls }
+	available = {
+		owns_state = 350
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 0
+	relative_position_id = mltd_mars_in_the_water
+	search_filters = { FOCUS_FILTER_INDUSTRY }
+	ai_will_do = {
+		factor = 2
+	}
+	completion_reward = {
+		# up to +3 civilian factories, about five months of MLT's own construction in 2283 [M]; the 1 and 1 are repeated in
+		# mltd_spoils_foundries_works_tt
+		custom_effect_tooltip = mltd_spoils_foundries_works_tt
+		hidden_effect = {
+			if = {
+				limit = {
+					350 = { is_owned_and_controlled_by = ROOT }
+				}
+				350 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					253 = { is_owned_and_controlled_by = ROOT }
+				}
+				253 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					163 = { is_owned_and_controlled_by = ROOT }
+				}
+				163 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		custom_effect_tooltip = mltd_newline_tt
+		# construction_industry_tech_6 (start year 2284) is the line's last tech: past it the bonus would sit unused. The
+		# engine previews whichever branch holds when the focus is looked at, and this `if` is tested again at completion, so
+		# (round 28c review) while the tech is still unresearched the preview shows both outcomes - it can be researched while
+		# the focus runs; once it is, it cannot be lost, and the plain +50 shows as it is. The 50 of the else and of its
+		# effect_tooltip change together
+		if = {
+			limit = {
+				NOT = { has_tech = construction_industry_tech_6 }
+			}
+			custom_effect_tooltip = mltd_spoils_foundries_bonus_if_tt
+			add_tech_bonus = {
+				name = mltd_spoils_the_foundries_relit
+				bonus = 0.5
+				uses = 1
+				category = construction_category
+			}
+			custom_effect_tooltip = mltd_spoils_foundries_bonus_else_tt
+			effect_tooltip = { add_political_power = 50 }
+		}
+		else = {
+			add_political_power = 50
+		}
+	}
+}
+
+# The group's second idea (round 28c): the Republic's scientists, in the universities of Sac-City and the Hub, work for the
+# Coral Court - research and factory efficiency, both scaling with the economy they land in
+shared_focus = {
+	id = mltd_spoils_the_office_of_salt
+	icon = GFX_goal_NCR_Hayes_Science
+	cost = 60
+	prerequisite = { focus = mltd_when_shady_sands_falls }
+	available = {
+		OR = {
+			owns_state = 1
+			owns_state = 135
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 0
+	relative_position_id = mltd_mars_in_the_water
+	search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+	ai_will_do = {
+		factor = 2
+	}
+	completion_reward = {
+		add_ideas = mltd_the_office_of_salt
+	}
+}
+
+# The group's first idea: the Republic's larder feeds the tribe
+shared_focus = {
+	id = mltd_spoils_the_drowned_harvest
+	icon = GFX_goal_NCR_Agricultural_Research
+	cost = 60
+	prerequisite = { focus = mltd_when_shady_sands_falls }
+	available = {
+		# 120 controlled states (the plan holds 140-170 at Act IV's close); repeated in mltd_spoils_harvest_states_tt
+		custom_trigger_tooltip = {
+			tooltip = mltd_spoils_harvest_states_tt
+			num_of_controlled_states > 119
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 4
+	y = 0
+	relative_position_id = mltd_mars_in_the_water
+	search_filters = { FOCUS_FILTER_INDUSTRY }
+	ai_will_do = {
+		factor = 2
+	}
+	completion_reward = {
+		add_ideas = mltd_the_drowned_harvest
+	}
+}
+
+############ The interior - after Act V's close, flanking The Southern Deep ############
+
+# The Legion's racks melted down for the brood, and its overseers turned to our order
+shared_focus = {
+	id = mltd_spoils_the_legions_armouries
+	icon = GFX_goal_v100_weapon_salvage
+	cost = 30
+	prerequisite = { focus = mltd_when_the_legion_breaks }
+	available = {
+		owns_state = 520
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 0
+	relative_position_id = mltd_the_southern_deep
+	search_filters = { FOCUS_FILTER_INDUSTRY }
+	ai_will_do = {
+		factor = 2
+	}
+	completion_reward = {
+		# -10 resistance; the 10 is repeated in mltd_spoils_armouries_resistance_tt
+		custom_effect_tooltip = mltd_spoils_armouries_resistance_tt
+		hidden_effect = {
+			every_owned_state = {
+				limit = {
+					is_core_of = CES
+					is_controlled_by = ROOT
+				}
+				add_resistance = -10
+			}
+		}
+		custom_effect_tooltip = mltd_newline_tt
+		# In place of 500 infantry and 100 support equipment (round 28), which a creature army barely uses by 2285: a year of
+		# better-armoured creatures, scaling with however many of them MLT fields. The engine draws the idea and its days
+		add_timed_idea = {
+			idea = mltd_the_legions_steel
+			days = 365
+		}
+	}
+}
+
+# The group's idea - the interior pays the tribe what it paid Mars - and the Legion's forges relit (round 28c: The Forges of
+# the Bull's works, merged in; its production bonus dropped)
+shared_focus = {
+	id = mltd_spoils_the_iron_tithe
+	icon = GFX_goal_CES_Industry_Miner
+	cost = 60
+	prerequisite = { focus = mltd_when_the_legion_breaks }
+	available = {
+		# 180 controlled states (the plan holds 140-170 before Act V's conquests); repeated in mltd_spoils_tithe_states_tt
+		custom_trigger_tooltip = {
+			tooltip = mltd_spoils_tithe_states_tt
+			num_of_controlled_states > 179
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 0
+	relative_position_id = mltd_the_southern_deep
+	search_filters = { FOCUS_FILTER_INDUSTRY }
+	ai_will_do = {
+		factor = 2
+	}
+	completion_reward = {
+		add_ideas = mltd_the_iron_tithe
+		custom_effect_tooltip = mltd_newline_tt
+		# up to +6 arms factories, about five months of MLT's own construction in 2285 [M]; the 2 and 2 are repeated in
+		# mltd_spoils_forges_works_tt. Two slots and level 2 as OWB's Alamo Chapter (ACH) Focus.txt:1315, :1467-1468
+		custom_effect_tooltip = mltd_spoils_forges_works_tt
+		hidden_effect = {
+			if = {
+				limit = {
+					520 = { is_owned_and_controlled_by = ROOT }
+				}
+				520 = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					518 = { is_owned_and_controlled_by = ROOT }
+				}
+				518 = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					522 = { is_owned_and_controlled_by = ROOT }
+				}
+				522 = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+############ The south - after Act VI's close, flanking R'lyeh Rises ############
+
+# Texan black water sent north to the Coral Court: a year of visions
+shared_focus = {
+	id = mltd_spoils_the_black_water_wells
+	icon = GFX_goal_generic_generic_oil_rig
+	cost = 30
+	prerequisite = { focus = mltd_the_last_king_kneels }
+	available = {
+		OR = {
+			owns_state = 892
+			owns_state = 921
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = -2
+	y = 0
+	relative_position_id = mltd_rlyeh_rises
+	search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+	ai_will_do = {
+		factor = 2
+	}
+	completion_reward = {
+		# In place of +4 energy in each well state and an extraction bonus (round 28), which a creature army could not use and
+		# which the plan's timeline turned into +50 PP: a year of faster research, scaling with MLT's slots. The engine draws
+		# the idea and its days
+		add_timed_idea = {
+			idea = mltd_the_black_water_visions
+			days = 365
+		}
+	}
+}
+
+# The group's idea - one road from the Gulf to the Sound - and the Gulf's dry docks flooded as spawning pens (round 28c: The
+# Gulf Yards' hatch, merged in)
+shared_focus = {
+	id = mltd_spoils_the_salt_road
+	icon = GFX_goal_RRG_texan_trade
+	cost = 60
+	prerequisite = { focus = mltd_the_last_king_kneels }
+	available = {
+		# 250 controlled states (the plan holds 300-400 at Act VI's close; R'lyeh Rises needs 300); repeated in
+		# mltd_spoils_salt_road_states_tt
+		custom_trigger_tooltip = {
+			tooltip = mltd_spoils_salt_road_states_tt
+			num_of_controlled_states > 249
+		}
+	}
+	cancel_if_invalid = no
+	continue_if_invalid = yes
+	x = 2
+	y = 0
+	relative_position_id = mltd_rlyeh_rises
+	search_filters = { FOCUS_FILTER_INDUSTRY }
+	ai_will_do = {
+		factor = 2
+	}
+	completion_reward = {
+		add_ideas = mltd_the_salt_road
+		custom_effect_tooltip = mltd_newline_tt
+		# 200 mirelurks for each held Gulf port (the plan's three Texan ports: 600, about a tenth of a year's military output in
+		# 2286 [M]); the 200 is repeated in mltd_spoils_gulf_hatch_tt
+		custom_effect_tooltip = mltd_spoils_gulf_hatch_tt
+		hidden_effect = {
+			set_temp_variable = { mltd_spoils_hatch = 0 }
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 799
+						state = 903
+						state = 904
+						state = 880
+					}
+					is_controlled_by = ROOT
+				}
+				add_to_temp_variable = { mltd_spoils_hatch = 200 }
+			}
+			if = {
+				limit = {
+					check_variable = { mltd_spoils_hatch > 0 }
+				}
+				add_equipment_to_stockpile = {
+					type = amphibious_beast_equipment
+					amount = mltd_spoils_hatch
+				}
+			}
+		}
+	}
+}

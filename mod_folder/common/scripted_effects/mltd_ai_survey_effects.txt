@@ -74,7 +74,8 @@ mltd_ai_survey = {
 	clamp_variable = { var = mltd_ai_army_ready_at min = 6 max = 20 }
 
 	# The north: how many of its 79 states MLT owns, and whether it is consolidated - more than 70 owned, or none left to a
-	# country MLT could safely attack (mltd_ai_north_done, read by the NCR's and New Reno's stages).
+	# country MLT could safely attack (mltd_ai_north_done, read by the NCR's and New Reno's stages). An ally in MLT's faction
+	# is no such country (round 28: the Drowned Covenant).
 	set_variable = { mltd_ai_north_owned = 0 }
 	every_owned_state = {
 		limit = { mltd_ai_north_state = yes }
@@ -87,6 +88,7 @@ mltd_ai_survey = {
 				NOT = {
 					any_other_country = {
 						NOT = { is_subject_of = ROOT }
+						NOT = { is_in_faction_with = ROOT }
 						any_owned_state = { mltd_ai_north_state = yes }
 						mltd_ai_safe_target = yes
 					}

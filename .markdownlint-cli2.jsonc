@@ -1,0 +1,18 @@
+// Markdown lint for every .md in the repo (CLAUDE.md > Markdown). Run:
+//   npx --yes markdownlint-cli2@0.23.3
+// Formatting itself is mdformat's (.mdformat.toml); these rules check what it cannot, above all
+// that no line - a table row included - is wider than 100 characters.
+{
+  "config": {
+    "default": true,
+    // Every line, table rows and headings included, at most 100 characters. A line whose overflow
+    // holds no space (a long URL or path) is allowed, as markdownlint does by default.
+    "MD013": {
+      "line_length": 100,
+      "heading_line_length": 100,
+      "code_block_line_length": 100
+    }
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["**/node_modules/**"]
+}

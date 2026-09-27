@@ -1,34 +1,45 @@
 # Rising Tide (MLT) - Act V, "The Sea Against Mars" (round 27, the story acts).
+# (2026-09-24: The Deep Ones Walk and The Final Ritual moved below Act III, and Act III's close with them to (15,28), so every
+# row this header names is one lower in the tree today; every cell here is relative and followed.)
 # Shared focuses, pulled into mlt_nf through their prerequisites: the chapter, mltd_mars_in_the_water, hangs off Act IV's
 # close, mltd_when_shady_sands_falls (mltd_act4_focus.txt), which reaches the listed Act III roots through Act IV's chapter
 # and mltd_the_tide_turns_south; everything else here hangs off the chapter. No focus in this file is listed in the override.
 #
-# The act folds four of the old conflict sub-trees (round 13) into one chapter of the spine (x = 15):
-#   row 31  the chapter   Mars in the Water (0,1) of mltd_when_shady_sands_falls - event mltd.50, the river runs salt
-#   row 32  the fan       What the River Carries (-3,1), The Drowned Paladin (-1,1), The Lake God Answers (1,1),
+# The act folds four of the old conflict sub-trees (round 13) into one chapter of the spine (x = 15). Rows as of round 28c
+# (one lower than round 27's: Act III's close sits at (15,27), and every cell here is relative to it):
+#   row 32  the chapter   Mars in the Water (0,1) of mltd_when_shady_sands_falls - event mltd.50, the river runs salt;
+#                         California's four spoils (mltd_spoils_focus.txt) flank it at (-4,0) (-2,0) (2,0) (4,0)
+#   row 33  the fan       What the River Carries (-3,1), The Drowned Paladin (-1,1), The Lake God Answers (1,1),
 #                         Whispers in the Steam (3,1)
-#   row 33  the wars      The Sea Against Mars (-3,2), Blood in the Water (-1,2), Rites on the Spiral Jetty (1,2),
+#   row 34  the wars      The Sea Against Mars (-3,2), Blood in the Water (-1,2), Rites on the Spiral Jetty (1,2),
 #                         The Crusade Turns South (3,2) - each under its own head, each declaring its war
-#   row 34  the close     When the Legion Breaks (0,3) - any one war opens it (one OR block), once Caesar's Legion has
+#   row 35  the close     When the Legion Breaks (0,3) - any one war opens it (one OR block), once Caesar's Legion has
 #                         capitulated (to anyone now, or to us in a war since ended: the flag mltd_ces_capitulated), is gone
-#                         or is our subject; the idea mltd_mars_beneath_the_waves, event mltd.51 (the pens: the same 5,000
-#                         people either freed into the capital with +5 % stability, or fed to the pools as 5,000 manpower)
-#                         and world news mltd.52
+#                         or is our subject; the idea mltd_mars_beneath_the_waves, event mltd.51 (the pens: the chained freed
+#                         into the tide - the permanent mltd_the_unchained - or fed to the spawning pools -
+#                         mltd_the_pens_emptied for 730 days, two years) and world news mltd.52
 #
 # Merged away, each into the kept focus that now carries its distinctive effects (pure duplicates dropped - a second
 # intelligence grant to the same country is folded into one add_intel at the larger values):
 #   The Drowned Frumentarius           -> mltd_ces_what_the_river_carries (Silanus the Drowned, CES token_army, CES -6 % stability)
-#   A Crate for Every Cross            -> mltd_ces_the_sea_against_mars (800 infantry and 200 support equipment, or 100 caps)
-#   The Chained Are Given to the Tide  -> event mltd.51, option a (the spec's +5,000 capital population, +5 % stability)
+#   A Crate for Every Cross            -> mltd_ces_the_sea_against_mars (a quarter of the Legion's infantry and support
+#                                         equipment since round 28b - it was 800 and 200 - paid to us as mirelurks since
+#                                         round 28c, or 100 caps when the haul is under 125 mirelurks)
+#   The Chained Are Given to the Tide  -> event mltd.51, option a (since round 28b the permanent mltd_the_unchained; it was
+#                                         +5,000 capital population and +5 % stability)
 #   The Paladin Returns                -> mltd_bos_the_drowned_paladin (BOS token_army, BOS -35 political power)
 #   The Codex Unsealed                 -> mltd_bos_the_drowned_paladin (the stolen tech bonus, BOS -4 % stability)
-#   The Tide Takes the Armoury         -> mltd_bos_blood_in_the_water (the energy-weapon and power-armour theft, its tiers)
+#   The Tide Takes the Armoury         -> mltd_bos_blood_in_the_water (the energy-weapon and power-armour theft, its tiers;
+#                                         paid to us as mirelurks since round 28c)
 #   The Drowned Shamans                -> mltd_wht_the_lake_god_answers (+40 political power, WHT -6 % stability, the converts)
 #   Guns for Both Sides                -> mltd_wht_the_lake_god_answers (the per-buyer sale, round 24's fix)
-#   Sand in the Engines                -> mltd_wht_rites_on_the_spiral_jetty (EHT -3 % war support, 600 infantry equipment)
+#   Sand in the Engines                -> mltd_wht_rites_on_the_spiral_jetty (EHT -3 % war support, a quarter of its infantry
+#                                         equipment since round 28b - it was 600 - paid to us as mirelurks since round 28c)
 #   A Second Schism                    -> mltd_hea_whispers_in_the_steam (+40 political power, HEA -35 political power and
 #                                         -6 % stability, HEA token_army)
-#   Steam for the Deep                 -> mltd_hea_the_crusade_turns_south (600 infantry equipment, the stolen industry bonus)
+#   Steam for the Deep                 -> mltd_hea_the_crusade_turns_south (a quarter of HEA's infantry equipment since round
+#                                         28b - it was 600 - paid to us as mirelurks since round 28c, and the stolen
+#                                         industry bonus)
 #
 # What else changed (rules in the round-27 build spec): no head has a Kingdom, country or intelligence gate any more (the
 # intel rewards stay, inside has_dlc = "La Resistance"), and each pays a fallback when its target is gone; the round-23
@@ -41,6 +52,49 @@
 # opens through The Sea Against Mars - wait for every target they would declare on to be a safe target. Kept focuses keep their
 # ids, costs and icons; tech bonuses that were named after a deleted focus are now named after the focus that grants them.
 # Every focus is cancel_if_invalid = no + continue_if_invalid = yes.
+#
+# Round 28b (the play-test fixes):
+# - The four wars' thefts are a quarter of what each victim holds in store, not a flat 600-800: a flat lot was ~5 % of a
+#   year's arms output when the plan opens this act (~60 military factories, CONQUEST_PLAN.txt's 2282-05 snapshot) and MLT's
+#   line is turning into mirelurks by then, while a quarter of the enemy's reserve on the war's first day weighs the same in
+#   any year. Each share is read into a temp variable for the preview (the tooltip prints it) and again at completion; the
+#   transfers are hidden. The quarter is a literal in each focus and in its tooltip - change both.
+# - Round 28c: the thefts pay in what the tribe fields from this act on. The victim still loses its stores, with no producer
+#   on the removal, but the plan's levies become all-mirelurk Tide Walls at this act's chapter, so rifles are no use to us:
+#   the haul is melted down into harness and shell-plate for the brood - one mirelurk (the archetype
+#   amphibious_beast_equipment, our best unlocked breed) for every five weapons or crates taken, and one for every suit of
+#   power armour, about their worth in IC. A quarter of a Legion depot of ~6,000 rifles and ~1,200 crates is ~360
+#   mirelurks, ~6,500 IC: about a tenth of a year's output at the plan's ~60 military factories, taken from the enemy on
+#   the war's first day. The tooltips print the mirelurks as the stores stand.
+# - Round 28c (the review): a theft's old fallback is now its floor, paid whenever the haul comes to less than the fallback
+#   is worth, so a victim with a small store never pays less than one with none (the victim still loses what was taken).
+#   100 caps buy 125 mirelurks at the Wet Market's dearest lot (200 caps for 250), so The Sea Against Mars and Blood in the
+#   Water pay their 100 caps under 125 mirelurks; 25 political power is 20 caps at OWB's own rate (add_caps pays 1.25
+#   political power a cap with the caps rule off), about 25 mirelurks, so the Rites and the Crusade pay their +25 under 25.
+# - Every effect that hangs on a condition that can still change while the focus runs (Caesar's health, the Cult of Mars,
+#   Lost Hills' quarrel with the NCR, the White Legs' gods, the road war, Heaven's holy wars) is previewed as a condition,
+#   with its native lines (effect_tooltip), and applied in hidden_effect, so the tooltip is true whichever way it falls.
+#   A condition that can no longer change - a focus the other country has completed, a country gone - still shows as it is.
+#
+# Round 28c (readability): these are the longest rewards in the mod - a war focus can render sixteen or seventeen lines - so
+# each is broken into blocks with the house spacer, custom_effect_tooltip = mltd_newline_tt (loc " \n"; CLAUDE.md > The
+# rituals, and the invitations in mltd_act3_focus.txt). The order of the blocks is what we gain, what the target loses, the
+# intelligence, the war, then the event - never a reordering of the effects themselves, only blank lines between them. The
+# four heads share one shape: the foothold and the cult it shelters, then what that branch's merged focus brings, then the
+# intelligence grants. The four wars: the declaration, then the theft, then each outcome of a condition as a block of its
+# own - a preview that lists three ways Caesar's health or Lost Hills' quarrel may fall needs the blank lines to be read at
+# all. A spacer sits inside the branch it separates wherever the branch can fail, so it never prints for a branch that did
+# not fire, and never last in a reward or a branch. Presentation only - no number, gate or effect changed. Left alone, at
+# two lines: the chapter, Mars in the Water.
+#
+# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
+# war-support losses of little consequence; and too much text): each of the four wars declares, then - against a target that
+# is not MLT's subject - grants its 180-day idea, which now carries +10 % attack and defence against its targets, and the
+# shared 60-day mltd_the_first_wave (+10 % division recovery rate, +5 % breakthrough), and takes its theft, one line with no
+# floor. Gone: Caesar's health and the Cult of Mars (The Sea Against Mars), Lost Hills' quarrel with the NCR (Blood in the
+# Water, whose Red Tide idea now comes with every war), the White Legs' gods and the Eighties' -3 % war support (the Rites) and
+# the Utah war's gleanings (the Crusade), each previewed as a condition. The Lake God Answers lost the converts and the road
+# war's army experience, and its guns are one line; Whispers in the Steam lost the schism war's -2 % war support.
 
 ############ Act V - the chapter ############
 
@@ -48,7 +102,7 @@
 shared_focus = {
 	id = mltd_mars_in_the_water
 	icon = GFX_goal_CES_The_Rubicon
-	cost = 35
+	cost = 30
 	prerequisite = { focus = mltd_when_shady_sands_falls }
 	cancel_if_invalid = no
 	continue_if_invalid = yes
@@ -70,8 +124,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ces_what_the_river_carries
 	icon = GFX_goal_EXE_something_fishy
-	cost = 35
+	cost = 30
 	prerequisite = { focus = mltd_mars_in_the_water }
+	# 2026-09-23: bypassed once CES is gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = CES }
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = -3
@@ -90,9 +148,15 @@ shared_focus = {
 				CES = { set_country_flag = mltd_cult_sheltered }
 			}
 		}
+		# round 28c: the foothold and the sheltered cult above, then what the frumentarius brings, then what the Legion loses.
+		# The if/else below always renders one branch, so this spacer can stand outside it
+		custom_effect_tooltip = mltd_newline_tt
 		if = {
 			limit = { has_dlc = "La Resistance" }
-			# the drowned frumentarius (merged): an operative once the agency exists, as before
+			# the drowned frumentarius (merged): an operative once the agency exists, as before. Round 28c review: the branch is
+			# chosen when the focus completes, and an agency can still be founded from the intelligence screen while it runs, so
+			# with none yet the preview writes both outcomes (mltd_ces_frumentarius_no_agency_tt, the shape of
+			# mltd_intel_foothold's no-agency branch) over a hidden +50 PP; the 50 is repeated in that key
 			if = {
 				limit = { has_intelligence_agency = yes }
 				create_operative_leader = {
@@ -106,7 +170,10 @@ shared_focus = {
 				}
 			}
 			else = {
-				add_political_power = 50
+				custom_effect_tooltip = mltd_ces_frumentarius_no_agency_tt
+				hidden_effect = {
+					add_political_power = 50
+				}
 			}
 			# one intelligence grant (the river's civ 10 / army 10 and the frumentarius' civ 15, at the larger values) and the
 			# frumentarius' army token; the Legion gone, the river's +25 stands in for both
@@ -132,6 +199,9 @@ shared_focus = {
 		}
 		if = {
 			limit = { country_exists = CES }
+			# round 28c: what the Legion loses is its own block, and the spacer is inside the branch, so nothing is separated
+			# off when there is no Legion left
+			custom_effect_tooltip = mltd_newline_tt
 			CES = { add_stability = -0.06 }
 		}
 	}
@@ -141,7 +211,7 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ces_the_sea_against_mars
 	icon = GFX_goal_CES_Mars_God
-	cost = 45
+	cost = 30
 	prerequisite = { focus = mltd_ces_what_the_river_carries }
 	available = {
 		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
@@ -151,6 +221,10 @@ shared_focus = {
 		# that is available whatever its ai_will_do reads; it also waits while MLT is losing a war (mltd_ai_triggers.txt,
 		# section W)
 		mltd_ai_may_start_ces_war = yes
+	}
+	# 2026-09-23: bypassed once CES is gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = CES }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
@@ -162,9 +236,6 @@ shared_focus = {
 	}
 	will_lead_to_war_with = CES
 	completion_reward = {
-		# round 22: the branch ends in the war itself - the focus declares on each living target that is not already at war
-		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
-		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = CES
@@ -176,94 +247,90 @@ shared_focus = {
 				target = CES
 			}
 		}
-		# A Crate for Every Cross (merged): the frumentarius empties the armouries as the war begins. Paired transfers, the
-		# victim's removal with no producer (CLAUDE.md > Theft without producer); guards at least the amount taken.
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
+		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
+		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and the theft, one line; with the
+		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
+		# (Caesar's health, his succession war and the Cult of Mars, round 28b-2026-09-23). A Crate for Every Cross (merged): a
+		# quarter of each store of at least 100, paid as one mirelurk (the archetype amphibious_beast_equipment, our best
+		# unlocked breed) for every five pieces; the quarter and the five are literals here and in mltd_ces_crates_theft_tt.
+		# Its caps floor went with the rest
 		if = {
 			limit = {
 				country_exists = CES
-				CES = { has_equipment = { infantry_equipment > 1599 } }
+				CES = { NOT = { is_subject_of = ROOT } }
 			}
-			CES = {
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-					amount = -800
+			add_timed_idea = {
+				idea = mltd_ces_the_drowned_bull
+				days = 180
+			}
+			add_timed_idea = {
+				idea = mltd_the_first_wave
+				days = 60
+			}
+			set_temp_variable = { mltd_theft_infantry = 0 }
+			if = {
+				limit = {
+					country_exists = CES
+					CES = { has_equipment = { infantry_equipment > 99 } }
 				}
+				set_temp_variable = { mltd_theft_infantry = CES.num_equipment@infantry_equipment }
+				multiply_temp_variable = { mltd_theft_infantry = 0.25 }
+				round_temp_variable = mltd_theft_infantry
 			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = 800
-				producer = CES
-			}
-		}
-		else = {
-			set_temp_variable = { caps_to_add = 100 }
-			add_caps = yes
-		}
-		if = {
-			limit = {
-				country_exists = CES
-				CES = { has_equipment = { support_equipment > 399 } }
-			}
-			CES = {
-				add_equipment_to_stockpile = {
-					type = support_equipment
-					amount = -200
+			set_temp_variable = { mltd_theft_support = 0 }
+			if = {
+				limit = {
+					country_exists = CES
+					CES = { has_equipment = { support_equipment > 99 } }
 				}
+				set_temp_variable = { mltd_theft_support = CES.num_equipment@support_equipment }
+				multiply_temp_variable = { mltd_theft_support = 0.25 }
+				round_temp_variable = mltd_theft_support
 			}
-			add_equipment_to_stockpile = {
-				type = support_equipment
-				amount = 200
-				producer = CES
-			}
-		}
-		add_timed_idea = { idea = mltd_ces_the_drowned_bull days = 180 }
-		# OWB's own Legion scripting: Caesar's illness (CES_stress, nf_legion.26 from CES's first focus), his death (nf_legion.70 retires CES_caesar), the succession war (CES_civil_war)
-		if = {
-			limit = { NOT = { country_exists = CES } }
-			custom_effect_tooltip = mltd_ces_mars_fallen_tt
-			add_political_power = 50
-		}
-		else_if = {
-			limit = {
-				country_exists = CES
-				CES = {
-					OR = {
-						has_country_flag = CES_civil_war
-						NOT = { has_country_leader = { character = CES_caesar } }
+			set_temp_variable = { mltd_theft_brood = mltd_theft_infantry }
+			add_to_temp_variable = { mltd_theft_brood = mltd_theft_support }
+			divide_temp_variable = { mltd_theft_brood = 5 }
+			round_temp_variable = mltd_theft_brood
+			custom_effect_tooltip = mltd_ces_crates_theft_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						CES = { has_equipment = { infantry_equipment > 99 } }
+					}
+					set_temp_variable = { mltd_theft_negative = mltd_theft_infantry }
+					multiply_temp_variable = { mltd_theft_negative = -1 }
+					CES = {
+						add_equipment_to_stockpile = {
+							type = infantry_equipment
+							amount = mltd_theft_negative
+						}
+					}
+				}
+				if = {
+					limit = {
+						CES = { has_equipment = { support_equipment > 99 } }
+					}
+					set_temp_variable = { mltd_theft_negative = mltd_theft_support }
+					multiply_temp_variable = { mltd_theft_negative = -1 }
+					CES = {
+						add_equipment_to_stockpile = {
+							type = support_equipment
+							amount = mltd_theft_negative
+						}
+					}
+				}
+				if = {
+					limit = { check_variable = { mltd_theft_brood > 0 } }
+					add_equipment_to_stockpile = {
+						type = amphibious_beast_equipment
+						amount = mltd_theft_brood
 					}
 				}
 			}
-			custom_effect_tooltip = mltd_ces_mars_dead_tt
-			army_experience = 40
-			CES = { add_stability = -0.06 }
-		}
-		else_if = {
-			limit = {
-				country_exists = CES
-				CES = { has_country_flag = CES_stress }
-			}
-			custom_effect_tooltip = mltd_ces_mars_fever_tt
-			set_temp_variable = { caps_to_add = 150 }
-			add_caps = yes
-			CES = { add_war_support = -0.03 }
 		}
 		else = {
-			custom_effect_tooltip = mltd_ces_mars_hale_tt
 			add_political_power = 50
-		}
-		if = {
-			limit = {
-				country_exists = CES
-				CES = {
-					OR = {
-						has_idea = cultofmars
-						has_idea = cultofmars_principes
-						has_idea = cultofmars_triplex
-					}
-				}
-			}
-			custom_effect_tooltip = mltd_ces_mars_cult_tt
-			CES = { add_war_support = -0.02 }
 		}
 	}
 }
@@ -275,8 +342,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_bos_the_drowned_paladin
 	icon = GFX_goal_BOS_the_mojave_signal
-	cost = 35
+	cost = 30
 	prerequisite = { focus = mltd_mars_in_the_water }
+	# 2026-09-23: bypassed once BOS is gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = BOS }
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = -1
@@ -295,6 +366,9 @@ shared_focus = {
 				BOS = { set_country_flag = mltd_cult_sheltered }
 			}
 		}
+		# round 28c: the foothold and the sheltered cult above, then what the Paladin carries home, then our gain and what
+		# Lost Hills loses. The if/else below always renders one branch, so this spacer can stand outside it
+		custom_effect_tooltip = mltd_newline_tt
 		# one intelligence grant (the Paladin's civ 10 / army 10 and the Paladin Returns' civ 15, at the larger values), the
 		# Paladin Returns' army token and the Codex's stolen tech bonus (same folders as OWB's operation_steal_tech_civilian,
 		# 00_operations.txt:1891-1900); without the DLC, or with Lost Hills gone, the three fallbacks: 25 + 35 political power
@@ -333,6 +407,7 @@ shared_focus = {
 				category = electronics
 			}
 		}
+		custom_effect_tooltip = mltd_newline_tt
 		army_experience = 20
 		if = {
 			limit = { country_exists = BOS }
@@ -348,7 +423,7 @@ shared_focus = {
 shared_focus = {
 	id = mltd_bos_blood_in_the_water
 	icon = GFX_goal_BOS_ncr_diplomacy
-	cost = 45
+	cost = 30
 	prerequisite = { focus = mltd_bos_the_drowned_paladin }
 	available = {
 		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
@@ -360,6 +435,10 @@ shared_focus = {
 		# (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_bos_war = yes
 	}
+	# 2026-09-23: bypassed once BOS is gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = BOS }
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = -1
@@ -370,9 +449,6 @@ shared_focus = {
 	}
 	will_lead_to_war_with = BOS
 	completion_reward = {
-		# round 22: the branch ends in the war itself - the focus declares on each living target that is not already at war
-		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
-		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = BOS
@@ -384,133 +460,126 @@ shared_focus = {
 				target = BOS
 			}
 		}
-		# The Tide Takes the Armoury (merged). Paired transfers: Lost Hills loses exactly what we gain, best stock first (tiers
-		# as in OWB operations_bos.txt:307-404)
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
+		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
+		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and the theft, one line; with the
+		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
+		# (Lost Hills' quarrel with the NCR, its tension and the Maxson accords, round 28b-2026-09-23; the Red Tide idea came only
+		# on the quarrel's war branch and now comes with the war). The Tide Takes the Armoury (merged): a quarter of the best
+		# weapon store Lost Hills keeps 100 of - energy weapons, else the lesser ones, else rifles, the tiers of OWB's
+		# operations_bos.txt:307-404 - and a quarter of its power armour, paid as one mirelurk for every five weapons and one a
+		# suit; the quarter and the five are literals here and in mltd_bos_armoury_theft_tt. Its caps floor went with the rest
 		if = {
 			limit = {
 				country_exists = BOS
-				BOS = { has_equipment = { energy_equipment_2 > 800 } }
-			}
-			BOS = {
-				add_equipment_to_stockpile = {
-					type = energy_equipment_2
-					amount = -600
-				}
-			}
-			add_equipment_to_stockpile = {
-				type = energy_equipment_2
-				amount = 600
-				producer = BOS
-			}
-		}
-		else_if = {
-			limit = {
-				country_exists = BOS
-				BOS = { has_equipment = { energy_equipment_1 > 800 } }
-			}
-			BOS = {
-				add_equipment_to_stockpile = {
-					type = energy_equipment_1
-					amount = -600
-				}
-			}
-			add_equipment_to_stockpile = {
-				type = energy_equipment_1
-				amount = 600
-				producer = BOS
-			}
-		}
-		else_if = {
-			limit = {
-				country_exists = BOS
-				BOS = { has_equipment = { infantry_equipment > 800 } }
-			}
-			BOS = {
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-					amount = -600
-				}
-			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = 600
-				producer = BOS
-			}
-		}
-		else = {
-			custom_effect_tooltip = mltd_bos_armoury_bare_tt
-			set_temp_variable = { caps_to_add = 100 }
-			add_caps = yes
-		}
-		if = {
-			limit = {
-				country_exists = BOS
-				BOS = { has_equipment = { power_armor_equipment > 300 } }
-			}
-			BOS = {
-				add_equipment_to_stockpile = {
-					type = power_armor_equipment
-					amount = -80
-				}
-			}
-			add_equipment_to_stockpile = {
-				type = power_armor_equipment
-				amount = 80
-				producer = BOS
-			}
-		}
-		if = {
-			limit = {
-				country_exists = BOS
-				BOS = { has_war_with = NCR }
-			}
-			custom_effect_tooltip = mltd_bos_war_feeds_tt
-			BOS = { add_war_support = -0.03 }
-			if = {
-				limit = { country_exists = NCR }
-				NCR = { add_war_support = -0.03 }
+				BOS = { NOT = { is_subject_of = ROOT } }
 			}
 			add_timed_idea = {
 				idea = mltd_bos_red_tide
 				days = 180
 			}
-		}
-		else_if = {
-			limit = {
-				country_exists = BOS
-				BOS = { has_dynamic_modifier = { modifier = bos_tension_dynamic_modifier } }
+			add_timed_idea = {
+				idea = mltd_the_first_wave
+				days = 60
 			}
-			# OWB's own tension effect (BOS_scripted_effects.txt:296), applied to BOS and NCR as nf_brotherhood.txt:6838-6847 does;
-			# +10 matches Eureka's outsider push (Eureka (EUR) Focus.txt:3393-3397). OWB's tooltip for it reads BOS.BOS_tension_to_add,
-			# which the preview cannot see, so it is hidden and the literal 10 is repeated in mltd_bos_tension_rises_tt - change both
-			custom_effect_tooltip = mltd_bos_tension_rises_tt
+			if = {
+				limit = {
+					BOS = { has_equipment = { energy_equipment_2 > 99 } }
+				}
+				set_temp_variable = { mltd_theft_infantry = BOS.num_equipment@energy_equipment_2 }
+			}
+			else_if = {
+				limit = {
+					BOS = { has_equipment = { energy_equipment_1 > 99 } }
+				}
+				set_temp_variable = { mltd_theft_infantry = BOS.num_equipment@energy_equipment_1 }
+			}
+			else_if = {
+				limit = {
+					BOS = { has_equipment = { infantry_equipment > 99 } }
+				}
+				set_temp_variable = { mltd_theft_infantry = BOS.num_equipment@infantry_equipment }
+			}
+			else = {
+				set_temp_variable = { mltd_theft_infantry = 0 }
+			}
+			multiply_temp_variable = { mltd_theft_infantry = 0.25 }
+			round_temp_variable = mltd_theft_infantry
+			set_temp_variable = { mltd_theft_armour = 0 }
+			if = {
+				limit = {
+					country_exists = BOS
+					BOS = { has_equipment = { power_armor_equipment > 99 } }
+				}
+				set_temp_variable = { mltd_theft_armour = BOS.num_equipment@power_armor_equipment }
+				multiply_temp_variable = { mltd_theft_armour = 0.25 }
+				round_temp_variable = mltd_theft_armour
+			}
+			set_temp_variable = { mltd_theft_brood = mltd_theft_infantry }
+			divide_temp_variable = { mltd_theft_brood = 5 }
+			round_temp_variable = mltd_theft_brood
+			add_to_temp_variable = { mltd_theft_brood = mltd_theft_armour }
+			custom_effect_tooltip = mltd_bos_armoury_theft_tt
 			hidden_effect = {
-				BOS = {
-					set_temp_variable = { BOS_tension_to_add = 10 }
-					bos_change_tension = yes
+				set_temp_variable = { mltd_theft_negative = mltd_theft_infantry }
+				multiply_temp_variable = { mltd_theft_negative = -1 }
+				if = {
+					limit = {
+						BOS = { has_equipment = { energy_equipment_2 > 99 } }
+					}
+					BOS = {
+						add_equipment_to_stockpile = {
+							type = energy_equipment_2
+							amount = mltd_theft_negative
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						BOS = { has_equipment = { energy_equipment_1 > 99 } }
+					}
+					BOS = {
+						add_equipment_to_stockpile = {
+							type = energy_equipment_1
+							amount = mltd_theft_negative
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						BOS = { has_equipment = { infantry_equipment > 99 } }
+					}
+					BOS = {
+						add_equipment_to_stockpile = {
+							type = infantry_equipment
+							amount = mltd_theft_negative
+						}
+					}
 				}
 				if = {
-					limit = { country_exists = NCR }
-					NCR = {
-						set_temp_variable = { BOS_tension_to_add = 10 }
-						bos_change_tension = yes
+					limit = {
+						BOS = { has_equipment = { power_armor_equipment > 99 } }
+					}
+					set_temp_variable = { mltd_theft_negative = mltd_theft_armour }
+					multiply_temp_variable = { mltd_theft_negative = -1 }
+					BOS = {
+						add_equipment_to_stockpile = {
+							type = power_armor_equipment
+							amount = mltd_theft_negative
+						}
+					}
+				}
+				if = {
+					limit = { check_variable = { mltd_theft_brood > 0 } }
+					add_equipment_to_stockpile = {
+						type = amphibious_beast_equipment
+						amount = mltd_theft_brood
 					}
 				}
 			}
-			if = {
-				limit = { has_global_flag = bos_ncr_accepted_deal_for_maxson }
-				custom_effect_tooltip = mltd_bos_accords_betrayed_tt
-				BOS = { add_stability = -0.06 }
-			}
-			add_political_power = 25
 		}
 		else = {
-			custom_effect_tooltip = mltd_bos_no_quarrel_tt
 			add_political_power = 50
-			if = {
-				limit = { country_exists = BOS }
-				BOS = { add_stability = -0.06 }
-			}
 		}
 	}
 }
@@ -524,6 +593,11 @@ shared_focus = {
 	icon = GFX_goal_WHT_salt_upon
 	cost = 30
 	prerequisite = { focus = mltd_mars_in_the_water }
+	# 2026-09-23: bypassed once WHT and EHT are all gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = WHT }
+		NOT = { country_exists = EHT }
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = 1
@@ -554,25 +628,18 @@ shared_focus = {
 				}
 			}
 		}
-		# The Drowned Shamans (merged)
+		# round 28c: the foothold and the sheltered cults above, then the shamans, then the intelligence, then the guns, then
+		# the road war. The line below always renders, so this spacer never opens the tooltip
+		custom_effect_tooltip = mltd_newline_tt
+		# The Drowned Shamans (merged): +40 political power and the White Legs' -6 % stability. 2026-09-24 (the user: less
+		# text): the converts' +4 % stability and +2 % war support, previewed as a condition while the White Legs had not
+		# taken up their lake god, are gone
 		add_political_power = 40
 		if = {
 			limit = { country_exists = WHT }
 			WHT = { add_stability = -0.06 }
-			if = {
-				limit = {
-					WHT = {
-						OR = {
-							has_completed_focus = wht_god_lake
-							has_completed_focus = wht_god_old
-						}
-					}
-				}
-				custom_effect_tooltip = mltd_wht_shamans_converts_tt
-				add_stability = 0.04
-				add_war_support = 0.02
-			}
 		}
+		custom_effect_tooltip = mltd_newline_tt
 		# The lake god's intelligence (WHT civ 10, EHT army 10) and the shamans' WHT army token; the shamans' own civ 10 on WHT
 		# was a second grant to the same country and is dropped. The White Legs gone, the shamans' infantry-weapons bonus
 		# stands in for the token; without the DLC, the lake god's +25 as well.
@@ -616,72 +683,67 @@ shared_focus = {
 		}
 		# Guns for Both Sides (merged, with round 24's per-buyer fix): the focus is cancel_if_invalid = no /
 		# continue_if_invalid = yes, so either buyer can die inside its 30 days. 200 rifles to each living buyer we are not at
-		# war with, 100 caps from each; 80 caps if it can arm neither. (Merged into an ungated head that opens once the NCR is
-		# beaten - when the AI's WHT and EHT stages open too - the sale must never arm an enemy.)
-		set_temp_variable = { mltd_wht_sold = 0 }
+		# war with, 100 caps from each, while we hold at least 200. Who can buy is decided at completion, so one custom line
+		# over the hidden sale. 2026-09-24 (the user: less text): one line, and the 80 caps of salvage when neither side could
+		# buy, and the 30 army experience when the two were at war, are gone. The 200, the 100 and the guard are literals here
+		# and in mltd_wht_guns_sale_tt
 		if = {
 			limit = {
-				country_exists = WHT
-				NOT = { has_war_with = WHT }
-				has_equipment = { infantry_equipment > 199 }
-			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -200
-			}
-			WHT = {
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-					amount = 200
-					producer = MLT
+				OR = {
+					country_exists = WHT
+					country_exists = EHT
 				}
 			}
-			set_temp_variable = { caps_to_add = 100 }
-			add_caps = yes
-			add_to_temp_variable = { mltd_wht_sold = 1 }
+			custom_effect_tooltip = mltd_wht_guns_sale_tt
 		}
-		if = {
-			limit = {
-				country_exists = EHT
-				NOT = { has_war_with = EHT }
-				has_equipment = { infantry_equipment > 199 }
-			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -200
-			}
-			EHT = {
+		hidden_effect = {
+			if = {
+				limit = {
+					country_exists = WHT
+					NOT = { has_war_with = WHT }
+					has_equipment = { infantry_equipment > 199 }
+				}
 				add_equipment_to_stockpile = {
 					type = infantry_equipment
-					amount = 200
-					producer = MLT
+					amount = -200
 				}
+				WHT = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = 200
+						producer = MLT
+					}
+				}
+				set_temp_variable = { caps_to_add = 100 }
+				add_caps = yes
 			}
-			set_temp_variable = { caps_to_add = 100 }
-			add_caps = yes
-			add_to_temp_variable = { mltd_wht_sold = 1 }
-		}
-		if = {
-			limit = { check_variable = { mltd_wht_sold = 0 } }
-			set_temp_variable = { caps_to_add = 80 }
-			add_caps = yes
-		}
-		if = {
-			limit = {
-				country_exists = WHT
-				WHT = { has_war_with = EHT }
+			if = {
+				limit = {
+					country_exists = EHT
+					NOT = { has_war_with = EHT }
+					has_equipment = { infantry_equipment > 199 }
+				}
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -200
+				}
+				EHT = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = 200
+						producer = MLT
+					}
+				}
+				set_temp_variable = { caps_to_add = 100 }
+				add_caps = yes
 			}
-			custom_effect_tooltip = mltd_wht_guns_war_tt
-			army_experience = 30
 		}
 	}
 }
-
-# The war on the White Legs and the Eighties (merges Sand in the Engines)
 shared_focus = {
 	id = mltd_wht_rites_on_the_spiral_jetty
 	icon = GFX_goal_worship_poseidon
-	cost = 42
+	cost = 30
 	prerequisite = { focus = mltd_wht_the_lake_god_answers }
 	available = {
 		custom_trigger_tooltip = {
@@ -714,6 +776,11 @@ shared_focus = {
 		# (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_utah_war = yes
 	}
+	# 2026-09-23: bypassed once WHT and EHT are all gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = WHT }
+		NOT = { country_exists = EHT }
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = 1
@@ -725,9 +792,6 @@ shared_focus = {
 	will_lead_to_war_with = WHT
 	will_lead_to_war_with = EHT
 	completion_reward = {
-		# round 22: the branch ends in the war itself - the focus declares on each living target that is not already at war
-		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
-		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = WHT
@@ -750,52 +814,79 @@ shared_focus = {
 				target = EHT
 			}
 		}
-		# Sand in the Engines (merged): the Eighties' war-rides stall and their armouries grow light. Its army intel on EHT
-		# was a second grant to the same country (The Lake God Answers gives it) and is dropped, with its +20 fallback.
-		if = {
-			limit = { country_exists = EHT }
-			EHT = { add_war_support = -0.03 }
-		}
-		if = {
-			limit = {
-				country_exists = EHT
-				EHT = { has_equipment = { infantry_equipment > 599 } }
-			}
-			EHT = {
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-					amount = -600
-				}
-			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = 600
-				producer = EHT
-			}
-		}
-		else = {
-			add_political_power = 25
-		}
-		add_timed_idea = {
-			idea = mltd_wht_rites_on_the_jetty
-			days = 180
-		}
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
+		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
+		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and the theft, one line; with the
+		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
+		# (the White Legs' gods and the Eighties' -3 % war support, round 28b-2026-09-23). Sand in the Engines (merged): a quarter
+		# of the Eighties' rifles, a store of at least 100, paid as one mirelurk for every five; the quarter and the five are
+		# literals here and in mltd_wht_sand_theft_tt. Its political-power floor went with the rest
 		if = {
 			limit = {
-				country_exists = WHT
-				WHT = {
-					OR = {
-						has_completed_focus = wht_god_lake
-						has_completed_focus = wht_god_old
+				OR = {
+					AND = {
+						country_exists = WHT
+						WHT = { NOT = { is_subject_of = ROOT } }
+					}
+					AND = {
+						country_exists = EHT
+						EHT = { NOT = { is_subject_of = ROOT } }
 					}
 				}
 			}
-			custom_effect_tooltip = mltd_wht_jetty_old_ones_tt
-			add_political_power = 50
-			WHT = { add_stability = -0.04 }
+			add_timed_idea = {
+				idea = mltd_wht_rites_on_the_jetty
+				days = 180
+			}
+			add_timed_idea = {
+				idea = mltd_the_first_wave
+				days = 60
+			}
+			if = {
+				limit = {
+					country_exists = EHT
+					EHT = { NOT = { is_subject_of = ROOT } }
+				}
+				set_temp_variable = { mltd_theft_infantry = 0 }
+				if = {
+					limit = {
+						country_exists = EHT
+						EHT = { has_equipment = { infantry_equipment > 99 } }
+					}
+					set_temp_variable = { mltd_theft_infantry = EHT.num_equipment@infantry_equipment }
+					multiply_temp_variable = { mltd_theft_infantry = 0.25 }
+					round_temp_variable = mltd_theft_infantry
+				}
+				set_temp_variable = { mltd_theft_brood = mltd_theft_infantry }
+				divide_temp_variable = { mltd_theft_brood = 5 }
+				round_temp_variable = mltd_theft_brood
+				custom_effect_tooltip = mltd_wht_sand_theft_tt
+				hidden_effect = {
+					if = {
+						limit = {
+							EHT = { has_equipment = { infantry_equipment > 99 } }
+						}
+						set_temp_variable = { mltd_theft_negative = mltd_theft_infantry }
+						multiply_temp_variable = { mltd_theft_negative = -1 }
+						EHT = {
+							add_equipment_to_stockpile = {
+								type = infantry_equipment
+								amount = mltd_theft_negative
+							}
+						}
+					}
+					if = {
+						limit = { check_variable = { mltd_theft_brood > 0 } }
+						add_equipment_to_stockpile = {
+							type = amphibious_beast_equipment
+							amount = mltd_theft_brood
+						}
+					}
+				}
+			}
 		}
 		else = {
-			add_political_power = 30
+			add_political_power = 50
 		}
 	}
 }
@@ -808,6 +899,10 @@ shared_focus = {
 	icon = GFX_goal_HEA_focus_billowing_cathedral
 	cost = 30
 	prerequisite = { focus = mltd_mars_in_the_water }
+	# 2026-09-23: bypassed once HEA is gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = HEA }
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = 3
@@ -826,6 +921,9 @@ shared_focus = {
 				HEA = { set_country_flag = mltd_cult_sheltered }
 			}
 		}
+		# round 28c: the foothold and the sheltered cult above, then the schism, then the intelligence. The line below always
+		# renders, so this spacer never opens the tooltip
+		custom_effect_tooltip = mltd_newline_tt
 		# A Second Schism (merged)
 		add_political_power = 40
 		if = {
@@ -834,12 +932,8 @@ shared_focus = {
 				add_political_power = -35
 				add_stability = -0.06
 			}
-			if = {
-				limit = { HEA = { has_completed_focus = hea_war_in_heaven } }
-				custom_effect_tooltip = mltd_hea_schism_war_tt
-				HEA = { add_war_support = -0.02 }
-			}
 		}
+		custom_effect_tooltip = mltd_newline_tt
 		# one intelligence grant (the whispers' civ 10 / army 5; the schism's own civ 10 was a second grant to the same
 		# country) and the schism's army token; without the DLC, or with Heaven's Guard gone, the whispers' +25 and the
 		# schism's electronics bonus
@@ -874,7 +968,7 @@ shared_focus = {
 shared_focus = {
 	id = mltd_hea_the_crusade_turns_south
 	icon = GFX_goal_HEA_focus_declaration_of_crusade
-	cost = 42
+	cost = 30
 	prerequisite = { focus = mltd_hea_whispers_in_the_steam }
 	available = {
 		custom_trigger_tooltip = {
@@ -902,6 +996,10 @@ shared_focus = {
 		# (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_hea_war = yes
 	}
+	# 2026-09-23: bypassed once HEA is gone - with its nation gone it paid only its fallback
+	bypass = {
+		NOT = { country_exists = HEA }
+	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	x = 3
@@ -912,9 +1010,6 @@ shared_focus = {
 	}
 	will_lead_to_war_with = HEA
 	completion_reward = {
-		# round 22: the branch ends in the war itself - the focus declares on each living target that is not already at war
-		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them (round 17 granted a war
-		# goal the AI could sit on for years)
 		if = {
 			limit = {
 				country_exists = HEA
@@ -926,26 +1021,65 @@ shared_focus = {
 				target = HEA
 			}
 		}
-		# Steam for the Deep (merged): the storehouses of Idaho lose rifles, gauges and the plans that go with them
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
+		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
+		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and the theft, one line; with the
+		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
+		# (the gleanings of Heaven's Guard's Utah war, round 28b-2026-09-23). Steam for the Deep (merged): a quarter of its
+		# rifles, a store of at least 100, paid as one mirelurk for every five, and a stolen industry bonus; the quarter and
+		# the five are literals here and in mltd_hea_steam_theft_tt. Its political-power floor went with the rest
 		if = {
 			limit = {
 				country_exists = HEA
-				HEA = { has_equipment = { infantry_equipment > 599 } }
+				HEA = { NOT = { is_subject_of = ROOT } }
 			}
-			HEA = {
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-					amount = -600
+			add_timed_idea = {
+				idea = mltd_hea_pilgrims_of_the_steam
+				days = 180
+			}
+			add_timed_idea = {
+				idea = mltd_the_first_wave
+				days = 60
+			}
+			set_temp_variable = { mltd_theft_infantry = 0 }
+			if = {
+				limit = {
+					country_exists = HEA
+					HEA = { has_equipment = { infantry_equipment > 99 } }
 				}
+				set_temp_variable = { mltd_theft_infantry = HEA.num_equipment@infantry_equipment }
+				multiply_temp_variable = { mltd_theft_infantry = 0.25 }
+				round_temp_variable = mltd_theft_infantry
 			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = 600
-				producer = HEA
+			set_temp_variable = { mltd_theft_brood = mltd_theft_infantry }
+			divide_temp_variable = { mltd_theft_brood = 5 }
+			round_temp_variable = mltd_theft_brood
+			custom_effect_tooltip = mltd_hea_steam_theft_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						HEA = { has_equipment = { infantry_equipment > 99 } }
+					}
+					set_temp_variable = { mltd_theft_negative = mltd_theft_infantry }
+					multiply_temp_variable = { mltd_theft_negative = -1 }
+					HEA = {
+						add_equipment_to_stockpile = {
+							type = infantry_equipment
+							amount = mltd_theft_negative
+						}
+					}
+				}
+				if = {
+					limit = { check_variable = { mltd_theft_brood > 0 } }
+					add_equipment_to_stockpile = {
+						type = amphibious_beast_equipment
+						amount = mltd_theft_brood
+					}
+				}
 			}
 		}
 		else = {
-			add_political_power = 25
+			add_political_power = 50
 		}
 		if = {
 			limit = {
@@ -970,37 +1104,15 @@ shared_focus = {
 				category = industry
 			}
 		}
-		if = {
-			limit = {
-				country_exists = HEA
-				HEA = {
-					OR = {
-						has_war_with = WHT
-						has_war_with = EHT
-						has_war_with = NCN
-					}
-				}
-			}
-			custom_effect_tooltip = mltd_hea_crusade_loot_tt
-			army_experience = 40
-			set_temp_variable = { caps_to_add = 120 }
-			add_caps = yes
-		}
-		else = {
-			add_political_power = 50
-		}
-		add_timed_idea = {
-			idea = mltd_hea_pilgrims_of_the_steam
-			days = 180
-		}
 	}
 }
 
 ############ Act V - the close ############
 
-# The Legion is broken: the permanent idea mltd_mars_beneath_the_waves, event mltd.51 (the pens of Flagstaff: the same
-# 5,000 people either freed into the capital with +5 % stability, or fed to the pools as 5,000 manpower - option a merges
-# The Chained Are Given to the Tide) and world news mltd.52. Any one of the four wars opens it (one OR block).
+# The Legion is broken: the permanent idea mltd_mars_beneath_the_waves, event mltd.51 (the pens of Flagstaff: the chained
+# either freed into the tide - the permanent mltd_the_unchained - or fed to the spawning pools - mltd_the_pens_emptied for
+# 730 days, two years; option a merges The Chained Are Given to the Tide) and world news mltd.52. Any one of the four
+# wars opens it (one OR block).
 # mltd_ai_legion_beaten (common/scripted_triggers/mltd_ai_triggers.txt) is the Legion gone or capitulated now, and
 # has_capitulated clears once the country leaves its last war - so, as Act IV's close does for the NCR, the win is also
 # recorded: the country flag mltd_ces_capitulated, set on MLT by on_capitulation (common/on_actions/mltd_on_actions.txt)
@@ -1037,20 +1149,20 @@ shared_focus = {
 	completion_reward = {
 		add_ideas = mltd_mars_beneath_the_waves
 		custom_effect_tooltip = mltd_newline_tt
-		# the event's two options, previewed with their own native lines (effect_tooltip shows and does not execute); the
-		# numbers are the event's (events/mltd_events.txt, mltd.51 options a and b) - change both together
+		# the event's two options, previewed with their own native lines (effect_tooltip shows and does not execute). Round 28b:
+		# mltd.51's options are the scripted effects mltd_legion_pens_freed (the permanent mltd_the_unchained) and
+		# mltd_legion_pens_fed (mltd_the_pens_emptied for 730 days), in mltd_scripted_effects.txt, and the preview calls the same
+		# two effects, so their numbers live once, in the two ideas, and nothing here repeats them
 		custom_effect_tooltip = mltd_legion_breaks_choice_tt
 		custom_effect_tooltip = mltd_legion_breaks_freed_tt
 		effect_tooltip = {
-			capital_scope = {
-				set_temp_variable = { pop_add = 5000 }
-				add_state_population = yes
-			}
-			add_stability = 0.05
+			mltd_legion_pens_freed = yes
 		}
+		# round 28c: a block for each of the trophy's two options, as Act IV's close has
+		custom_effect_tooltip = mltd_newline_tt
 		custom_effect_tooltip = mltd_legion_breaks_pens_tt
 		effect_tooltip = {
-			add_manpower = 5000
+			mltd_legion_pens_fed = yes
 		}
 		custom_effect_tooltip = mltd_newline_tt
 		country_event = { id = mltd.51 days = 1 }

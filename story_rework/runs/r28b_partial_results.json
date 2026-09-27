@@ -1,0 +1,402 @@
+{
+ "build:rest": {
+  "area": "rest",
+  "files_changed": [
+   "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\events\\mltd_events.txt",
+   "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\decisions\\mltd_decisions.txt",
+   "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\scripted_effects\\mltd_scripted_effects.txt",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\rest\\ideas.txt (staged: mltd_the_unchained, mltd_the_pens_emptied)",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\rest\\loc.yml (staged: 10 new keys, 3 complete replacement lines)",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\rest\\notes.md (integrator, AI/plan and docs instructions)",
+   "Audited and unchanged: mod_folder\\common\\operations\\mltd_operations.txt and mod_folder\\common\\scripted_guis\\mltd_wet_market_gui.txt. The operations already preview through outcome_potential with custom tooltips. The GUI's buttons carry no effect previews, only price and lot text."
+  ],
+  "rescaled": [
+   {
+    "where": "event mltd.51 option a (Act V trophy, 'Strike off the collars'), via new scripted effect mltd_legion_pens_freed",
+    "was": "+5,000 population in the capital (OWB add_state_population) and +5 % stability, one-off",
+    "now": "permanent idea mltd_the_unchained: stability_factor +0.05 (replaces the old one-off +5 % one for one) and compliance_growth +0.10",
+    "why": "The event fires at about 2284-03, between the plan's 2282-05 snapshot (1.3-1.7M people, ~60 mil) and its 2285-12 snapshot (3-4M, ~110 mil), so MLT has about 2.5M people. 5,000 people is 0.2 % of that, which is noise. Compliance growth is OWB's conqueror lever: coring needs 95 % compliance, and by 2285 MLT is coring 300-400 states. So the modifier scales with the land MLT holds. 0.10 is inside OWB's own range (0.04-0.20) and matches mltd_the_drowned_harvest. Both modifiers stay inside the story acts' +-5-10 % band."
+   },
+   {
+    "where": "event mltd.51 option b ('The spawning pools are hungry'), via new scripted effect mltd_legion_pens_fed",
+    "was": "+5,000 manpower, one-off",
+    "now": "timed idea mltd_the_pens_emptied for 365 days: build_cost_ic -0.20 on amphibious_beast_equipment, mltd_deep_ones_equipment and mltd_star_spawn_equipment, keyed by archetype as continuous_mltd_spawning_pools is. It stacks with that idea's -15 %.",
+    "why": "Manpower is not MLT's bottleneck, and 5,000 is noise at about 2.5M people. By Act V MLT fields creatures: the plan turns its levies into Tide Walls once the NCR is beaten. At about 85 military factories (interpolated for 2284) on OWB's 5 IC a day and 50-70 % efficiency, a year's output is about 78,000-108,000 IC. A fifth off the creatures' price makes that about 20,000-27,000 IC more of them: 1,000-1,350 mirelurks, or five to seven Tide Walls. The idea grows with whatever industry it lands in, so it roughly matches the value of the permanent option a. The AI's weights stay a 2 : b 1."
+   },
+   {
+    "where": "decision mltd_cult_call_for_equipment (Cult Infiltration), complete_effect",
+    "was": "4 infantry_equipment + 1 support_equipment per point of total cult strength, for the whole game",
+    "now": "Unchanged until mltd_mars_in_the_water. From then on it pays 1 amphibious_beast_equipment per point. That is the archetype, so MLT gets the best breed it has unlocked. The if/else picks the branch, and each branch has its own tooltip.",
+    "why": "This is the user's Legion's Armouries complaint in decision form: from Act V the tribe no longer fields rifles. The plan converts its Shell Levies and Coral Hosts into all-mirelurk templates once the NCR is beaten, and so does the AI's mltd_ai_late_army. A point was worth 4 rifles at 2-3.5 IC and a support crate at 5 IC, about 13-19 IC. One mirelurk is 15-20 IC (cre_amphibious_eq.txt), so the call keeps its value and changes only what it pays in. It still scales with the cults the player keeps up."
+   },
+   {
+    "where": "event mltd.40 (Act IV trophy)",
+    "was": "a: +1 research slot; b: permanent mltd_the_drowned_rangers (+5 % attack, defence and organisation) + 50 army XP",
+    "now": "unchanged",
+    "why": "The research slot and the idea both scale. Army XP is a fixed-price currency: template edits cost the same in 2282 as in 2276. The 50 is a sweetener beside a permanent idea, against OWB's 650 XP cap (01_defines.lua:460). The close's preview in mltd_act4_focus.txt stays correct."
+   },
+   {
+    "where": "event mltd.61 (Act VI close) and endings mltd.72-74",
+    "was": "no effects in the events: the focuses pay (research slot + mltd_the_drowned_south; the three ending ideas; Return to the Sea's two Leviathans)",
+    "now": "unchanged",
+    "why": "No event reward to scale. The ideas are percentages and already scale. Suggestion for `late`, which owns the finale focus and the Leviathans: Return to the Sea (monthly population, recruitable population) is the weakest ending for an MLT that is not short of manpower. I left that idea alone to avoid two areas editing it."
+   },
+   {
+    "where": "refusal paths: mltd.21 b, mltd.24 b, mltd.32 b (and MLT's mltd.23, mltd.26, mltd.34)",
+    "was": "an annex_everything war goal expiring after 365 days, plus opinion penalties or flags",
+    "now": "unchanged",
+    "why": "Round 28's deliberately poor 'hunting licence' (ask 4): there is no reward to scale, and the odds were not to be touched. Only mltd.34.d's last paragraph was cut, because with Terms and The Tide-Wall now mutually exclusive there is no wall left to raise."
+   },
+   {
+    "where": "flavour events mltd.9-19, Book expeditions mltd.101-503, mltd.7/mltd.8, gifts, summons, offerings, Call for People, Indoctrinate the Faithful",
+    "was": "as before",
+    "now": "unchanged",
+    "why": "The flavour events are capped at OWB's flavour.2 size by CLAUDE.md's own rule. The expeditions, the Call and the Walk are Acts I-II (before 2278) and sized for their time. The gifts are percentages. Summons and the Leviathan are units. The Drowned Hoard's 100 caps keep their buying power, since Wet Market lots stay at 150-200 caps. The Tides' +4 water is about 1.5 mirelurk factory lines by the plan's reckoning. Call for People and Indoctrinate pay manpower, which is not MLT's bottleneck, and they already scale with cult strength or the target's manpower band."
+   }
+  ],
+  "tooltips_added": [
+   {
+    "where": "scripted effect mltd_brk_join_the_covenant (event mltd.21 option a)",
+    "says": "mltd_brk_joins_covenant_tt: '[BRK flag] The Broken Coast join the faction led by [MLT flag] M'lyeh'. It is shown under the test the join will pass once the faction exists (MLT free or leading its own faction, BRK free). The real add_to_faction and the mltd_brk_covenant_joined flag now sit in hidden_effect. Before, the preview was drawn before create_faction ran, so is_faction_leader failed and the preview showed a faction founded with nobody joining it."
+   },
+   {
+    "where": "scripted effect mltd_bdt_join_the_covenant (event mltd.24 option a)",
+    "says": "mltd_bdt_joins_covenant_tt: '[BDT flag] The Bone Dancers join the faction led by [MLT flag] M'lyeh'. Same structure as the Broken Coast's."
+   },
+   {
+    "where": "scripted effect mltd_wbh_join_the_covenant (event mltd.32 option a)",
+    "says": "mltd_wbh_joins_covenant_tt: '[ROOT flag] <the answering Brotherhood> joins the faction led by [MLT flag] M'lyeh and gives up every claim it holds on the land of M'lyeh'. The add_to_faction, the mltd_wbh_alliance flag and the claim removal now run in hidden_effect."
+   },
+   {
+    "where": "decision mltd_offering_of_the_drowned (The Drowned Hoard), complete_effect",
+    "says": "mltd_offering_drowned_toll_tt: '1,000 people are taken from one of our states that holds more than 3,000, chosen at random'. The random_owned_controlled_state pick moved into hidden_effect."
+   },
+   {
+    "where": "decision mltd_offering_of_the_tides (Drown the Fields), complete_effect",
+    "says": "mltd_offering_tides_toll_tt: '1,500 people are taken from one of our states that holds more than 3,000, chosen at random'. The random pick is hidden."
+   },
+   {
+    "where": "decision mltd_cult_call_for_equipment, the branch after mltd_mars_in_the_water",
+    "says": "mltd_cult_call_beasts_tt: 'Every cult abroad drives the mirelurks of its own rivers and lakes down to the sea: +N mirelurks, of the best breed we can field (1 for each point of cult strength across every country, now S)'. N and S are the live temp variables, set before the branch. Before that focus the old mltd_cult_call_equipment_tt shows. The decision's description (replaced) explains the switch."
+   }
+  ],
+  "positions": [
+   "None: no file I own has focus positions. Section 2 is the early and late areas' work."
+  ],
+  "loc_keys_new": [
+   "mltd_brk_joins_covenant_tt",
+   "mltd_bdt_joins_covenant_tt",
+   "mltd_wbh_joins_covenant_tt",
+   "mltd_offering_drowned_toll_tt",
+   "mltd_offering_tides_toll_tt",
+   "mltd_cult_call_beasts_tt",
+   "mltd_the_unchained",
+   "mltd_the_unchained_desc",
+   "mltd_the_pens_emptied",
+   "mltd_the_pens_emptied_desc"
+  ],
+  "loc_keys_replaced": [
+   "mltd.51.d (the two fates retold: the freed carry the tide back to the towns that sold them; the pools hatch the host faster for a year)",
+   "mltd.34.d (last paragraph about the wall's lost surprise removed: Terms and The Tide-Wall now exclude each other)",
+   "mltd_cult_call_for_equipment_desc (adds the switch to mirelurks from $mltd_mars_in_the_water$ on, one per point)"
+  ],
+  "literals_in_two_places": [
+   "The Drowned Hoard's 1,000 people and its 3,000 state floor: the decision's pop_add = -1000 and state_population > 3000, and mltd_offering_drowned_toll_tt",
+   "Drown the Fields' 1,500 people and its 3,000 floor: the decision's pop_add = -1500 and state_population > 3000, and mltd_offering_tides_toll_tt",
+   "Call for Equipment's 1 mirelurk per point: the decision's mltd_cult_call_beasts temp variable, mltd_cult_call_beasts_tt and mltd_cult_call_for_equipment_desc ('one for every point')",
+   "Removed from two places: mltd.51's numbers used to be both in the event and in the close's effect_tooltip preview. They now live only in the two ideas and in mltd_legion_pens_fed's days = 365, which the event runs and the preview calls, so no loc repeats them.",
+   "Unchanged and still repeated: the refusal war goal's expire = 365 in mltd.21, mltd.24 and mltd.32 and in mltd_refusal_wargoal_expires_tt"
+  ],
+  "for_ai_plan_and_docs": "INTEGRATOR (mltd_act5_focus.txt belongs to `late`): in mltd_when_the_legion_breaks, the two effect_tooltip blocks must become `effect_tooltip = { mltd_legion_pens_freed = yes }` and `effect_tooltip = { mltd_legion_pens_fed = yes }`, keeping the custom header tooltips.\n- Comments to update in that file: the header's 'same 5,000 people' and '+5,000 capital population' lines, and the comments above and inside the close.\n- If `late` staged its own numbers for that preview, the event wins: the preview calls the scripted effects and never restates them.\n- mltd.40's preview in act4 is unchanged and still correct.\n- Append ideas.txt's two blocks inside `country = { }` of mltd_ideas.txt.\n- Merge loc.yml (10 new keys, 3 replacements).\n- `early` must also rewrite or drop mltd_wbh_terms_if_refused_tt and mltd_wbh_tide_wall_refused_tt. Both still promise that The Tide-Wall loses its war bonus after a refusal, which is moot now the two focuses exclude each other.\n\nPLAN (CONQUEST_PLAN.txt):\n- Line 514: mltd.51 is now a) the permanent Unchained (+5 % stability, +10 % compliance growth) or b) the Emptied Pens (365 days of -20 % build cost on every creature). Keep 'choose a'.\n- Line 268: Call for Equipment pays 1 mirelurk (archetype) per point from mltd_mars_in_the_water on.\n- The offerings (lines 244 and 318) are unchanged.\n- No AI weight changed. mltd.51 stays a 2 : b 1. The Call's ai_will_do is unchanged and now yields mirelurks late.\n\nDOCS (CLAUDE.md):\n- Act V table row: mltd.51's options become the two ideas, through mltd_legion_pens_freed / mltd_legion_pens_fed, which the close previews. 'The numbers live in the option and in the preview' now applies only to mltd.40.\n- Layout rows: mltd_ideas.txt gains mltd_the_unchained (permanent) and mltd_the_pens_emptied (365 days); mltd_scripted_effects.txt gains mltd_legion_pens_freed / mltd_legion_pens_fed.\n- Testing > Round 27 > Act V: the '+0 population preview' check is moot.\n- Cult Infiltration: the Call for Equipment's late switch and its three literal places.\n- The offerings: each random state is now a custom tooltip with the pick in hidden_effect.\n- The Covenant joins: each is now a written line (mltd_<tag>_joins_covenant_tt) under the post-founding test, with add_to_faction, the flags and the Brotherhood's claims hidden.\n\nDetails are in r28b/rest/notes.md. check_plan_sync.py passed after my changes, run while other areas were mid-edit.",
+  "unverified": [
+   "add_equipment_to_stockpile with the creature archetype amphibious_beast_equipment gives the best unlocked variant. Vanilla does this for infantry_equipment, and this decision already relied on it for rifles, but no OWB file pays a creature archetype.",
+   "An idea's equipment_bonus lines print in an add_timed_idea / effect_tooltip preview. The mod's only precedent, continuous_mltd_spawning_pools, is a hidden idea.",
+   "[ROOT.GetFlag] and [ROOT.GetNameDefCap] in mltd_wbh_joins_covenant_tt resolve to the answering Brotherhood when read inside FROM = { } of mltd.32's option. The event's ROOT is the Brotherhood; the other two join tooltips name BRK and BDT by tag.",
+   "HOI4 draws only the branch of a tooltip `if` whose limit holds at preview time. This is the premise of the join fix: the old native add_to_faction under is_faction_leader could not show before create_faction ran.",
+   "The engine accepts a scripted effect call inside effect_tooltip, as the act5 preview will now do (effect_tooltip takes any effect block)."
+  ]
+ },
+ "build:early": {
+  "area": "early",
+  "files_changed": [
+   "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\Mirelurk Tribe (MLT) Focus.txt",
+   "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act2_focus.txt",
+   "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_act3_focus.txt",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\early\\loc.yml (staging)",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\early\\scripted_loc.txt (staging: defined_text GetMltdBunkerName)",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\early\\notes.md (staging: notes for the integrator, the AI/plan pass and the docs pass)",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\early\\backup\\ (pre-edit copies of the three focus files)"
+  ],
+  "rescaled": [
+   {
+    "where": "mltd_wbh_the_drowned_knights (Act II), the two thefts",
+    "was": "600 infantry equipment (if the Washington Brotherhood holds more than 1,200) and 60 power armour (if it holds more than 120), taken from whichever Brotherhood holds Washington",
+    "now": "Amounts unchanged. Only the presentation changed: one custom tooltip states both thefts with their conditions, over hidden effects.",
+    "why": "This is Act II, which the spec puts in the early band. The earliest the branch can be taken is ~2278-05 (the Walk plus 35 + 56 days; plan snapshot 2278-01-01: ~22 civilian / ~27 military factories, 55-60 divisions). The plan itself takes it during the NCR war, ~2280 (snapshot 2279-12: ~31 / ~36 factories, 66-72 divisions). By then WBH has been annexed in the plan, so the focus pays +25 PP and 30 army XP instead. Until the late army (after the NCR), MLT's Shell Levies and Coral Hosts still run on infantry equipment. 600 is about six battalions, roughly one division, and it also comes out of the enemy's stock. So I judged it not plainly out of scale. The power armour is mostly denial, since MLT fields no power-armour units."
+   },
+   {
+    "where": "mltd_bdt_the_dancers_hear_the_tide (Act II), the theft",
+    "was": "600 infantry equipment from the Bone Dancers if they hold more than 1,200, otherwise +25 political power",
+    "now": "Amounts unchanged. The custom tooltip now states both branches.",
+    "why": "The plan takes it at 2279-01 (day 1463; snapshot 2279-01-01: ~25 civilian / ~30 military factories, 60-65 divisions, ~10,000 free manpower). That army is still infantry-equipment based, so a division's worth taken from a neighbour is in scale for this early-band act."
+   },
+   {
+    "where": "mltd_wbh_the_tide_wall (Act III)",
+    "was": "The war, a level-2 bunker in one province and level-1 bunkers in three more at The Warren, the Brotherhood's claims on The Warren removed, -3 % war support on the Brotherhood and the 180-day idea mltd_wbh_tide_wall; 30 army XP if no Brotherhood is left",
+    "now": "Unchanged, apart from presentation (see tooltips) and the removal of the dead branch for a refused Terms.",
+    "why": "The plan takes it at 2279-04. The idea is modifiers (+5 % core defence, and attack/defence bonuses against WBH), which scale on their own. The bunkers are sized by level, not by amount. The 30 XP fallback matches vanilla's focus XP for a consolation when the target is gone."
+   },
+   {
+    "where": "mltd_bdt_drown_the_dance (Act III)",
+    "was": "The war, the Bone Dancers -6 % stability and -3 % war support, 40 army XP; +50 PP if they are gone or MLT's subject",
+    "now": "Unchanged",
+    "why": "Taken at 2279-04..07 (plan). Percentages scale on their own, and 40 army XP in 2279 is vanilla-sized. +50 PP is the target-gone consolation."
+   },
+   {
+    "where": "mltd_brk_the_drowned_covenant / mltd_wbh_terms_for_the_citadel (Act III), the fallbacks",
+    "was": "+50 political power when the invitee is gone or cannot join",
+    "now": "Unchanged",
+    "why": "A consolation when the invitation has no one to go to, not a reward. The real payoff is the faction."
+   },
+   {
+    "where": "mltd_the_tide_turns_south (Act III close)",
+    "was": "The permanent idea mltd_the_northern_waters (+5 % stability, +5 % war support, -25 % justification time)",
+    "now": "Unchanged",
+    "why": "Percentage modifiers, so they scale with the economy they land in, as spec 1 prefers."
+   },
+   {
+    "where": "mltd_the_grand_ritual / mltd_the_final_ritual (Act I), weekly manpower from the gifts",
+    "was": "+20 weekly manpower at the Grand Ritual, doubled to +40 at the Final Ritual (mltd_gift_manpower_var)",
+    "now": "Unchanged. Flagged for the user.",
+    "why": "It is flat and permanent, so it will not scale into the late game. But it is Act I (2277-79; snapshot 2279-01-01: ~10,000 free manpower), the user set it in round 16 (down from +50/+100), and the permanent gifts' +30 % recruitable population carries the scaling. It is not plainly out of scale for its moment. If the user wants it to scale, it could become a percentage."
+   }
+  ],
+  "tooltips_added": [
+   {
+    "where": "mlt_kingdom_of_mlyeh (override): after country_event mltd.1",
+    "says": "The lead-in mltd_event_brings_tt, \"The event brings:\" on a new line, then effect_tooltip { add_corps_commander_role for MLT_DROWNED_HERALD }. The engine draws this as \"[The Drowned Herald] becomes a General.\" (vanilla EFFECT_CREATE_CC_LEADER), with his traits and skills. Before this, the preview said only \"Gets event 'The Kingdom of M'lyeh'.\""
+   },
+   {
+    "where": "mltd_call_of_the_deep_ones (override): after country_event mltd.7",
+    "says": "\"The event brings:\", then \"Unlocks the Summon the Deep Ones decision.\", \"A division of Deep Ones (8 battalions, 20 combat width) rises from the water, fully armed, with 32 spare (a fifth of its need)\" and \"+25 Army Experience\". Before this, it showed only the event title."
+   },
+   {
+    "where": "mltd_the_deep_ones_walk (override): after country_event mltd.8",
+    "says": "\"The event brings:\", then the Deep Ones tech (warbike_unlock_tech), the idea Children of the Deep, \"The Deep Ones division template is unlocked...\", the Star Spawn division line (16 spare), \"Unlocks the Summon the Star Spawn decision.\" and \"Summon the Deep Ones is retired...\". Before this, it showed only the event title."
+   },
+   {
+    "where": "mltd_wbh_the_drowned_knights (Act II): the thefts (new key mltd_wbh_knights_theft_tt, shown while a Brotherhood holds Washington; the effects are hidden)",
+    "says": "\"The drowned knights carry off, from the Brotherhood that holds Washington - [WBH.GetName] or [TCA.GetName] - 600 infantry equipment if it holds more than 1,200, and 60 power armour if it holds more than 120\""
+   },
+   {
+    "where": "mltd_wbh_the_drowned_knights (Act II): the heresy",
+    "says": "No new key. The every_country became one block per tag, so the preview now reads natively as \"[Washington Brotherhood]: Political Power -40, Stability -6%\" (and the same for TCA once it is the Northwestern Brotherhood), where before it read \"Every country\"."
+   },
+   {
+    "where": "mltd_bdt_the_dancers_hear_the_tide (Act II): the theft (new key mltd_bdt_bone_road_theft_tt; both branches hidden)",
+    "says": "\"From the bone road, 600 infantry equipment taken from [the Bone Dancers] if they hold more than 1,200; otherwise +25 Political Power\""
+   },
+   {
+    "where": "mltd_wbh_the_tide_wall (Act III): the bunkers (new key mltd_wbh_tide_wall_bunkers_tt; the effect is hidden)",
+    "says": "\"[The Warren], while it is still ours, is walled at once: [Outpost] level 2 in one of its provinces and level 1 in each of the other three\". The building name comes from the new scripted loc GetMltdBunkerName, which reads OWB's replace/ key `bunker` (\"Outpost\")."
+   },
+   {
+    "where": "mltd_wbh_the_tide_wall (Act III): the claim removal (new key mltd_wbh_tide_wall_claims_tt, shown while a Brotherhood holds Washington; the effect is hidden)",
+    "says": "\"The Brotherhood in Washington - [WBH.GetName] or [TCA.GetName] - gives up any claim it holds on [The Warren]\""
+   },
+   {
+    "where": "mltd_wbh_the_tide_wall (Act III): the declarations and war-support loss",
+    "says": "No new key. The every_country became per-tag declare_war_on / add_war_support, so the preview names the Brotherhood it declares on, WBH and/or TCA, natively."
+   },
+   {
+    "where": "mltd_wbh_terms_for_the_citadel (Act III), replaced text of mltd_wbh_terms_if_accepted_tt / mltd_wbh_terms_if_refused_tt",
+    "says": "Accepted: \"If it accepts, we found The Drowned Covenant if we lead no faction, it joins, gives up every claim it holds on our land, and each of us gains +75 opinion of the other. [The Broken Coast] can then no longer be invited into it.\" Refused: \"If it refuses, we are left only a war goal against it, which expires after 365 days, and none of the bonuses a war focus brings.\" The old texts promised the wall's closure only on a yes, and a wall with no bonus on a no. Both are gone: the native mutual-exclusion line now says the wall is closed."
+   }
+  ],
+  "positions": [
+   "mltd_the_final_ritual: (0,3) -> (0,4) relative to mltd_the_deep_ones_walk, so absolute (15,24) -> (15,25). The override is CRLF; the comment above x/y gives the reason.",
+   "Rows 24 and 26 are now empty across the whole tree, around the Final Ritual's 266x253 icon. Row 23 (Act II ends at 13/15/17) and row 27 are the nearest occupied rows.",
+   "Act III: y 25 -> 27 for all five focuses. mltd_wbh_terms_for_the_citadel (10,27), mltd_wbh_the_tide_wall (12,27), mltd_brk_the_drowned_covenant (14,27), mltd_bdt_hail_the_drowned_king (16,27), mltd_bdt_drown_the_dance (18,27). Each nation's pair stays two columns apart, the house spacing.",
+   "mltd_the_tide_turns_south: (15,26) -> (15,28). Everything relative to it moves +2 automatically: Act IV chapter (15,29), Act IV rows 29-32, Act V rows 33-36, Act VI rows 37-39, and the spoils branches at x = 20 (north 29-31, California 33-35, interior 37-39, south 41-43).",
+   "The Last King Kneels (15,40) and R'lyeh Rises (15,41), as they currently resolve, are the late area's to move to (0,4) and (0,2). I did not touch them. My resolve shows Serpent Drowns (15,39) and R'lyeh Rises (15,41) still adjacent to it until late's change lands.",
+   "Grid resolve of mlt_nf (45 national + 32 lurk_ + 40 story + 12 spoils): 129 focuses in 129 distinct cells, x 0-28, rows 0-43, no collisions. No spoils cell falls on an empty row within x 13-17.",
+   "Left alone as the spec said: The Grand Ritual (GFX_goal_CHC_red_stone, 152x139) at (15,20), between Call (15,19) and the Walk (15,21) on the spine. It overlaps each by roughly 5 px, and the user did not ask for it. Salt on the Caravan Roads (149x154) belongs to the late area."
+  ],
+  "loc_keys_new": [
+   "mltd_event_brings_tt",
+   "mltd_wbh_knights_theft_tt",
+   "mltd_bdt_bone_road_theft_tt",
+   "mltd_wbh_tide_wall_bunkers_tt",
+   "mltd_wbh_tide_wall_claims_tt",
+   "(scripted loc, not a key) GetMltdBunkerName -> localization_key = bunker"
+  ],
+  "loc_keys_replaced": [
+   "mltd_wbh_terms_if_accepted_tt (full replacement line in loc.yml)",
+   "mltd_wbh_terms_if_refused_tt (full replacement line in loc.yml)",
+   "TO DELETE, now unreferenced: mltd_wbh_tide_wall_no_alliance_tt, mltd_wbh_tide_wall_refused_tt, and the comment line above mltd_wbh_terms_if_refused_tt",
+   "mltd.34.d: NOT staged by me. The rest area already staged the same fix (it drops the 'whatever wall we raise' paragraph); take theirs."
+  ],
+  "literals_in_two_places": [
+   "The Drowned Herald's general role (skill 4; attack 4, defence 2, planning 2, logistics 1; strong, enduring, swamp fox, animal friend): in both options of mltd.1 (events/mltd_events.txt) and in the Kingdom's effect_tooltip (override)",
+   "25 army experience: mltd.7's option and the Call's effect_tooltip (override)",
+   "mltd.8's option (warbike_unlock_tech, mltd_children_of_the_deep, the template unlock, the Star Spawn division, the two decision lines): the event and the Walk's effect_tooltip (override)",
+   "600 / 1,200 infantry equipment and 60 / 120 power armour: mltd_wbh_the_drowned_knights and mltd_wbh_knights_theft_tt",
+   "600 / 1,200 infantry equipment and +25 political power: mltd_bdt_the_dancers_hear_the_tide and mltd_bdt_bone_road_theft_tt",
+   "The Tide-Wall's bunker levels (level 2 in province 2158, level 1 in 2159-2161): mltd_wbh_the_tide_wall and mltd_wbh_tide_wall_bunkers_tt",
+   "Unchanged but still paired: 365 days of the refusal war goal (mltd.21/.24/.32 option b) in mltd_wbh_terms_if_refused_tt and mltd_invitation_if_refused_tt"
+  ],
+  "for_ai_plan_and_docs": "AI (mltd_ai_triggers.txt / ai_strategy):\n(1) Add NOT = { has_completed_focus = mltd_wbh_the_tide_wall } to mltd_ai_terms_pending. Terms is excluded for good once the wall is taken. Without the line, a wall war that ends with WBH alive and at peace leaves pending true forever on unhistorical games, so mltd_ai_hold_wbh_for_terms and mltd_ai_strike_wbh_at_war hold the Washington conquest off WBH permanently.\n(2) Reword the comments of mltd_ai_may_offer_the_citadel, mltd_ai_strike_wbh/tca_at_war and mltd_ai_hold_refusal_wargoal_wbh/tca. A refused Terms no longer 'costs The Tide-Wall its bonus': taking Terms forfeits the wall whatever the answer. Their logic still works. The mltd_wbh_refused_terms flag is still set by mltd.32 option b.\n(3) An AI that takes Hail can no longer take Drown the Dance. An AI Bone Dancers always accepts, so this bites only against a human BDT. That refusal leaves the 365-day war goal and sets mltd_bdt_refused_covenant, which already ends mltd_ai_courting_bdt. Confirm the BDT conquest block then uses the goal within the year.\n(4) The plans' order (Hail 300, Terms 310, Drown 311, Tide-Wall 312) still works: the AI takes the first available focus of each pair. Terms now also opens The Tide Turns South.\n\nCONQUEST_PLAN.txt:\n- 'any one of its four' becomes five.\n- The Terms paragraph: it and The Tide-Wall now exclude each other whatever the answer. Offering Terms forfeits the wall's bunkers, the claim removal and the 180-day idea. A no leaves only the expiring war goal. The line 'The Tide-Wall then gives ... only 30 army XP' goes.\n- The Hail paragraph: the exclusion is both ways now; delete 'since round 24 a refused Covenant no longer bars the war'. A refusal leaves the 365-day war goal.\n- The Covenant paragraph: Terms also opens the close.\n- Re-check the '# AI deviation: focus mltd_wbh_terms_for_the_citadel ... before The Tide-Wall' line.\n- No reward in my files changed, so no plan numbers move.\n\nCLAUDE.md:\n- Beat 5, the Layout row and the Positions table: the Final Ritual is (0,4) of the Walk, row 25; rows 24 and 26 are empty; Act III is row 27 (x 10/12/14/16/18); The Tide Turns South is row 28; every later row is +2.\n- Testing > Round 27 layout bullet (rows) and Testing > Round 22 ('greys out Hail... but not the other way round').\n- Act III table rows for Hail and Drown: the exclusion is both ways since round 28b. The Tide-Wall has no mltd_wbh_alliance gate and no refused-Terms branch. Terms and the Tide-Wall are mutually exclusive both ways. The cross-nation exclusion stays by flag. The close's OR names all five.\n- 'Never strand' Act III sentence: the path is now Hail completing, not Drown staying open.\n- New tooltip idiom: country_event + mltd_event_brings_tt + effect_tooltip, in the Kingdom, the Call and the Walk.\n- Add the new two-place literals listed in literals_in_two_places.\n\nIntegrator:\n- Delete mltd_wbh_tide_wall_no_alliance_tt and mltd_wbh_tide_wall_refused_tt.\n- Put GetMltdBunkerName beside GetMltdMirelurksName.\n- Take the rest area's mltd.34.d.\n- Stale comments in rest's files: events/mltd_events.txt ~1465 (the mltd.32 option b comment about the wall's bonus) and mltd_scripted_effects.txt:876 (mltd_wbh_alliance 'closes ... The Tide-Wall').\n- If rest changes the options of mltd.1, mltd.7 or mltd.8, the override's effect_tooltip previews must follow.\n\nFull detail is in staging notes.md.",
+  "unverified": [
+   "That the engine blocks each focus of a pair both ways now that both declare mutually_exclusive. It is standard: vanilla declares most of its pairs on both sides.",
+   "That add_corps_commander_role inside effect_tooltip draws '[Name] becomes a General.' with traits for a role-less character recruited in history. OWB's Twin Mothers (TTM) Focus.txt:1830-1838 does the same for another country's character.",
+   "That effect_tooltip previews mltd_spawn_deep_ones_division / mltd_spawn_star_spawn_division (a custom tooltip plus a division_template effect with no tooltip key) as cleanly as the event option does. effect_tooltip in a focus reward was already listed as unverified in round 27.",
+   "That [GetMltdBunkerName] prints OWB's 'Outpost' (a replace/ key read through localization_key, the same idiom as GetMltdMirelurksName).",
+   "The spec's claim that every_country with an unmatched limit previews as nothing. My files no longer use every_country in any visible reward, so they do not depend on it.",
+   "That declaring war on WBH while it is TCA's subject pulls TCA in, so the second per-tag block skips it (has_war_with). The old every_country did the same thing in one loop.",
+   "Not play-tested (like all of round 28b): the Final Ritual's big icon clearing rows 24 and 26, and the mutual-exclusion markers drawn at x 11 and x 17 on row 27."
+  ]
+ },
+ "build:spoils": {
+  "area": "spoils",
+  "files_changed": [
+   "C:\\Users\\jonat\\Documents\\rising-tide\\mod_folder\\common\\national_focus\\mltd_spoils_focus.txt",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\spoils\\loc.yml (staged: 6 complete replacement lines + 12 new keys, for mltd_l_english.yml)",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\spoils\\ideas.txt (staged: mltd_the_legions_steel, mltd_the_black_water_visions - into mltd_ideas.txt's country block after mltd_the_salt_road)",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\spoils\\scripted_loc.txt (staged: GetMltdArmsFactoryName, GetMltdCivilianFactoryName - end of mltd_scripted_localisation.txt)",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\spoils\\notes.md (integrator, plan and docs notes)",
+   "C:\\Users\\jonat\\AppData\\Local\\Temp\\claude\\c--Users-jonat-Documents-rising-tide\\71877056-fecf-418a-a4f4-50b7c28bba62\\scratchpad\\r28b\\spoils\\check_spoils.py (self-check; prints OK)"
+  ],
+  "rescaled": [
+   {
+    "where": "mltd_spoils_beyond_the_cascades (north, taken ~2280; snapshot 2279-12: ~31 civ / ~36 mil)",
+    "was": "+4 metal in each of Spokane (332) and Crowshaven (71) held; 50 % extraction_category bonus (else +50 PP once extraction_industry_tech_6 is done)",
+    "now": "+1 shared building slot and +1 arms factory (instant) in each of 332 and 71 held (up to +2 mil); 50 % tech bonus in `industry`, unguarded",
+    "why": "Metal was surplus. By 2280 the north alone gives 223 metal; creature lines use only water and infantry lines 1-3 metal each. OWB's extraction techs only add +12 % local resources, so that bonus was surplus too. +2 mil is about 4-5 months of MLT's own construction at ~31 civ (~22 free x 5 CIC x 365 / 7,200 = ~5.5 arms factories a year). `industry` keeps 97 techs open to 2284"
+   },
+   {
+    "where": "mltd_spoils_the_canals_run_salt, now 'Salt in the Canals' (California, taken ~2283; snapshot 2282-05: ~50 civ / ~60 mil, 140-170 states)",
+    "was": "+10 compliance in held NCR cores; +4 water in each of Shady Sands (253) and San Francisco (163)",
+    "now": "compliance kept; the water becomes 10 mirelurks (the amphibious_beast_equipment archetype, i.e. the best variant unlocked) for every held NCR core, counted at run time",
+    "why": "Water is plentiful by 2283: the north's 182, the NCR's 92 and Hoover's 132, against ~3-5 water per creature line. The plan's '+8 water = three mirelurk factories' holds only while water binds. About 50 of the NCR's 62 cores held gives ~500 mirelurks, ~10,000 IC at 20 IC each: about an eighth of a year's military output at ~70 mil and ~3 IC a factory-day [M]. It grows with how much of California is held"
+   },
+   {
+    "where": "mltd_spoils_the_legions_armouries (interior, taken ~2284-10 to 2285-03; snapshot 2285-12: ~90 civ / ~110 mil)",
+    "was": "500 infantry_equipment + 100 support_equipment; -10 resistance in held CES cores",
+    "now": "resistance kept; the equipment becomes the new timed idea mltd_the_legions_steel for 365 days: -10 % build_cost_ic on amphibious_beast_equipment, mltd_deep_ones_equipment and mltd_star_spawn_equipment (keyed by archetype, as continuous_mltd_spawning_pools)",
+    "why": "The user's case. The old gift was ~1-3k IC, under 1 % of a year's output at ~90-110 mil, and in equipment the late army (8-mirelurk templates since the NCR's fall) barely uses. -10 % cost is about +11 % creature output for a year: ~6-7 factory-years, ~7,000 IC with ~60 lines on creatures [M]. It scales with whatever is on creatures and stacks with Feed the Spawning Pools' -15 %"
+   },
+   {
+    "where": "mltd_spoils_the_forges_of_the_bull (interior, ~2285)",
+    "was": "+1 shared slot and +1 arms factory in each of Flagstaff (520), North Phoenix (518) and Red Sun City (522) held (up to +3 mil); 50 % production_and_construction bonus",
+    "now": "+2 shared slots and +2 arms factories (level 2, instant) in each (up to +6 mil); bonus kept",
+    "why": "+3 at ~90-110 mil was ~3 %, about 2.5 months of construction. +6 is about 5 months at ~80 civ (~56 free x 5 x 365 / 7,200 = ~14 arms factories a year). OWB precedent for two slots at level 2: Alamo Chapter (ACH) Focus.txt:1315, :1467-1468. production_and_construction still has techs to 2284 (the plan's fifth slot takes specialized_industry_tech_7 only at 2285-12)"
+   },
+   {
+    "where": "mltd_spoils_the_black_water_wells (south, taken ~2286-04 after the ending; snapshot 2285-12: ~90 civ / ~110 mil)",
+    "was": "+4 energy in each of Dallas (892) and Lone Star (921) held; 50 % extraction bonus - which in the plan's timeline is always the +50 PP fallback (extraction_industry_tech_6 is from 2284)",
+    "now": "the new timed idea mltd_the_black_water_visions for 365 days: +10 % research_speed_factor",
+    "why": "In the plan the old reward was +8 energy and 50 PP. A creature army uses no energy, and MLT holds 150+ by then (north 62, NCR 31, MOT 28, CES 55, Texas 26). Research is MLT's weakest point (3-5 slots): +10 % for a year is about half a research slot, and it scales with slots. Not factory output, because Black Water Rising's mltd_tex_black_water already turns Texan oil into output"
+   },
+   {
+    "where": "mltd_spoils_the_gulf_yards (south, ~2286)",
+    "was": "+1 shared slot and +1 dockyard in each held Gulf port - Port Lavaca 799, The Corpse 903, Richmond 904, Houston 880 (the plan: +3 dock); +100 caps",
+    "now": "200 mirelurks (archetype, best variant unlocked) for every held Gulf port, counted at run time; no dockyards, no caps",
+    "why": "The user's case. MLT has no navy to build (the plan: 'overland only (MLT has no navy)'; the Leviathan is summoned, never produced), so the dockyards were useless. 100 caps is half a Wet Market lot, ~2,500 IC. The plan's three Texan ports give 600 mirelurks, ~12,000 IC: about a tenth of a year's output at ~110 mil [M]"
+   },
+   {
+    "where": "judged and kept: Scribes' Vaults, The Foundries Relit, and the four permanent ideas (Drowned Sound, Drowned Harvest, Iron Tithe, Salt Road)",
+    "was": "Scribes: +10 compliance in held WBH/TCA/BDT cores + 50 % electronics. Foundries: +1 slot +1 civilian factory in each of 350/253/163 held + 50 % construction (guarded by construction_industry_tech_6, else +50 PP). The ideas: % modifiers",
+    "now": "unchanged rewards; only the previews changed (Scribes, Foundries)",
+    "why": "Compliance grows with land, and the tech bonuses and ideas' modifiers scale by construction. The Foundries' +3 civilian factories are about half a year of construction at ~50-55 civ in 2283 (~6.5 civilian factories a year): already sized to their moment"
+   }
+  ],
+  "tooltips_added": [
+   {
+    "where": "mltd_spoils_the_scribes_vaults completion_reward (mltd_spoils_scribes_compliance_tt; the state loop now in hidden_effect)",
+    "says": "Every state we hold that is a core of [WBH.GetNameDef], [TCA.GetNameDef] or [BDT.GetNameDef]: +10 Compliance"
+   },
+   {
+    "where": "mltd_spoils_beyond_the_cascades (mltd_spoils_cascades_works_tt; both owns-ifs in hidden_effect)",
+    "says": "In each of Spokane and Crowshaven that we hold: +1 shared building slot and +1 Arms Workshop, built at once"
+   },
+   {
+    "where": "mltd_spoils_the_canals_run_salt (mltd_spoils_canals_compliance_tt) - the reported case, which previewed nothing",
+    "says": "Every state we hold that is a core of the New California Republic: +10 Compliance"
+   },
+   {
+    "where": "mltd_spoils_the_canals_run_salt (mltd_spoils_canals_hatch_tt; the count and add_equipment_to_stockpile in hidden_effect)",
+    "says": "The brood hatches in the salted canals: +10 Mirelurks of the best breed we have for every state we hold that is a core of the New California Republic"
+   },
+   {
+    "where": "mltd_spoils_the_foundries_relit (mltd_spoils_foundries_works_tt; three owns-ifs in hidden_effect)",
+    "says": "In each of The Boneyard, Shady Sands and San Francisco that we hold: +1 shared building slot and +1 Civilian Workshop, built at once"
+   },
+   {
+    "where": "mltd_spoils_the_legions_armouries (mltd_spoils_armouries_resistance_tt; the state loop in hidden_effect)",
+    "says": "Every state we hold that is a core of Caesar's Legion: -10 Resistance (green)"
+   },
+   {
+    "where": "mltd_spoils_the_forges_of_the_bull (mltd_spoils_forges_works_tt; three owns-ifs in hidden_effect)",
+    "says": "In each of Flagstaff, North Phoenix and Red Sun City that we hold: +2 shared building slots and +2 Arms Workshops, built at once"
+   },
+   {
+    "where": "mltd_spoils_the_gulf_yards (mltd_spoils_gulf_hatch_tt; the count and add_equipment_to_stockpile in hidden_effect)",
+    "says": "The brood hatches in the flooded dry docks: +200 Mirelurks of the best breed we have for each of Port Lavaca, The Corpse, Richmond and Houston that we hold"
+   }
+  ],
+  "positions": [
+   "No edits were needed: every root is relative (5,1) to its act's close and every bead (0,1) to the focus above, so the branches followed the closes the early and late areas moved. story_rework/tools/grid.py on the tree as it now stands reports 129 focuses, no overlaps, last row 44.",
+   "The Drowned Sound (off The Tide Turns South, now at (15,28)): (20,29) (20,30) (20,31); was 27-29.",
+   "The Drowned Harvest (off When Shady Sands Falls, (15,32)): (20,33) (20,34) (20,35); was 31-33.",
+   "The Iron Tithe (off When the Legion Breaks, (15,36)): (20,37) (20,38) (20,39); was 35-37.",
+   "The Salt Road (off The Last King Kneels, (15,41)): (20,42) (20,43) (20,44); was 39-41. The tree now ends on row 44, with the endings.",
+   "Tall icons: rows 24, 26 and 40 are empty across the whole tree. Row 42 holds only The Black Water Wells at x = 20, five columns from the spine; the Kneels' 164 px icon is about 1.7 columns wide, so it reaches x 14-16 at most. No spoils cell is within x 13-17 of a row next to either tall icon.",
+   "The first three roots still sit level with the next act's chapter (rows 29, 33, 37). The south's root sits on the empty row between The Last King Kneels (41) and R'lyeh Rises (43).",
+   "The Grand Ritual (152x139) and Salt on the Caravan Roads (149x154) are left alone, as the spec says; neither is near x = 20.",
+   "The file's header comment is rewritten: its table of cells, the layout paragraph (the tall icons, the tree ending on row 44), the payoffs paragraph (sizes per moment) and a new paragraph on previews."
+  ],
+  "loc_keys_new": [
+   "mltd_spoils_scribes_compliance_tt",
+   "mltd_spoils_cascades_works_tt",
+   "mltd_spoils_canals_compliance_tt",
+   "mltd_spoils_canals_hatch_tt",
+   "mltd_spoils_foundries_works_tt",
+   "mltd_spoils_armouries_resistance_tt",
+   "mltd_spoils_forges_works_tt",
+   "mltd_spoils_gulf_hatch_tt",
+   "mltd_the_legions_steel",
+   "mltd_the_legions_steel_desc",
+   "mltd_the_black_water_visions",
+   "mltd_the_black_water_visions_desc",
+   "(scripted loc, staged in scripted_loc.txt) GetMltdArmsFactoryName -> arms_factory ('Arms Workshop') and GetMltdCivilianFactoryName -> industrial_complex ('Civilian Workshop'): OWB defines both only in localisation/replace/, so $key$ would print raw in a sentence"
+  ],
+  "loc_keys_replaced": [
+   "mltd_spoils_the_canals_run_salt ('The Canals Run Salt' -> 'Salt in the Canals')",
+   "mltd_spoils_the_canals_run_salt_desc (rewritten: the old text mixed singular and plural in 'the water in every ditch ... the farm towns along them' and read oddly in 'Ours open the sluices'; it now also carries the hatch: the brood follows the salt inland)",
+   "mltd_spoils_beyond_the_cascades_desc (the mines feed relit armouries, not a metal gift)",
+   "mltd_spoils_the_legions_armouries_desc (the racks are melted into harness and shell-plate for the brood: 'The tribe has little use for rifles now')",
+   "mltd_spoils_the_black_water_wells_desc (the black water goes north to the Coral Court's priestesses, whose visions the scribes copy)",
+   "mltd_spoils_the_gulf_yards_desc (the dry docks are flooded as spawning pens: 'the tribe has no need of hulls')"
+  ],
+  "literals_in_two_places": [
+   "The Scribes' Vaults: add_compliance = 10 <-> mltd_spoils_scribes_compliance_tt",
+   "Beyond the Cascades: add_extra_state_shared_building_slots = 1 and arms_factory level 1, states 332 and 71 <-> mltd_spoils_cascades_works_tt (the states also in the _desc)",
+   "Salt in the Canals: add_compliance = 10 <-> mltd_spoils_canals_compliance_tt; add_to_temp_variable { mltd_spoils_hatch = 10 } <-> mltd_spoils_canals_hatch_tt",
+   "The Foundries Relit: slots 1 and industrial_complex level 1, states 350, 253 and 163 <-> mltd_spoils_foundries_works_tt",
+   "The Legion's Armouries: add_resistance = -10 <-> mltd_spoils_armouries_resistance_tt",
+   "The Forges of the Bull: slots 2 and arms_factory level 2, states 520, 518 and 522 <-> mltd_spoils_forges_works_tt",
+   "The Gulf Yards: add_to_temp_variable { mltd_spoils_hatch = 200 }, and states 799, 903, 904 and 880 in the loop limit (and the gate) <-> mltd_spoils_gulf_hatch_tt",
+   "Unchanged from round 28: the size gates 80 / 120 / 180 / 250 <-> mltd_spoils_{sound,harvest,tithe,salt_road}_states_tt; construction_industry_tech_6 as the Foundries' guard. extraction_industry_tech_6 is no longer used anywhere in the file",
+   "The two timed ideas' 365 days and their modifiers are drawn by the engine (add_timed_idea); no loc repeats them"
+  ],
+  "for_ai_plan_and_docs": "AI: nothing to change. Ids, costs (35/42/49 per branch), gates, ai_will_do 2 and the plans' order are unchanged. No events, effects or triggers were added, and mltd.35-39 stay free. check_plan_sync.py passes.\n\nCONQUEST_PLAN.txt must requote the rewards:\n- :452-457 Beyond the Cascades: '+1 building slot and an arms factory built at once in each of Spokane (332) and Crowshaven (71) held (+1 if Crowshaven is the allied Bone Dancers'), and a 50 % industry bonus'. No metal, no extraction fallback.\n- :500-506 mltd_spoils_the_canals_run_salt is now 'Salt in the Canals': '+10 compliance and 10 of our best mirelurks for every NCR core held (~50 of 62: ~500)'. Drop the water and '(+8: nearly three more mirelurk factories)'.\n- :529-534 the Armouries: '-10 resistance in every Legion core held, and The Legion's Steel for 365 days (-10 % build cost on mirelurks, Deep Ones and Star Spawn)'. The Forges: 'two slots and two arms factories at once in each of Flagstaff, North Phoenix and Red Sun City (+6 mil)'.\n- :559-565 the Wells: 'Black Water Visions for 365 days (+10 % research speed)', with no energy and no extraction/PP. The Gulf Yards: '200 of our best mirelurks per Gulf port held (the three Texan ones: 600)', with no dockyards and no caps.\n- Snapshot 2285-12 ':546 (the spoils branches relit three of each)': three civilian and up to eight arms factories, no dockyards.\n- Note :700: four 50 % tech bonuses (not five), plus Black Water Visions' year of +10 % research.\n- Note :725-726: three civilian and up to eight arms factories, ~1,100 mirelurks hatched, a year of -10 % creature cost, no resources.\n\nCLAUDE.md:\n- :26 'down to row 41' -> 44. :41 (Beat 6a): rows 27-41 -> 29-44, and the payoffs list (resources, dockyards, salvage and caps gone; hatches and two timed ideas added).\n- :115 (mltd_ideas.txt row): add the 365-day mltd_the_legions_steel (equipment_bonus, -10 % build cost on the three creature archetypes) and mltd_the_black_water_visions (+10 % research speed); pictures salvaged_military_industry and tvt_the_directors_vision.\n- Layout, scripted_localisation row: add GetMltdArmsFactoryName and GetMltdCivilianFactoryName.\n- :337-339: spoils rows 29-31, 33-35, 37-39, 42-44; 'rows 0-44'.\n- *The spoils branches* (:557-577): cells in the table and under Layout; the Canals' new name at :569; rewrite Payoffs; only construction_category remains guarded; the Research filter is now also on the Black Water Wells; add that every effect previews, through custom_effect_tooltip + hidden_effect where the engine can't draw it.\n- :470 Numbers in two places: add the literals above.\n- Update process :1192: drop extraction_industry_tech_6 as a guard.\n- Testing: add the round-28b spoils checks:\n  - every spoils focus shows its whole reward before its land is held;\n  - the Canals give 10 mirelurks per held NCR core, and the Gulf Yards 200 per held port;\n  - The Legion's Steel shows -10 % on three archetypes for 365 days;\n  - the Forges build two arms factories per forge city.\n\nIntegrator: 6 replacement lines and 12 new keys in loc.yml; the 2 ideas go into mltd_ideas.txt's country block after mltd_the_salt_road; the 2 scripted-loc functions go at the end of mltd_scripted_localisation.txt. If another area stages a function for the same building key, keep one. Full detail in notes.md in the staging folder.",
+  "unverified": [
+   "That a focus's add_timed_idea preview lists the equipment_bonus lines of an idea that has no modifier block (mltd_the_legions_steel). continuous_mltd_spoils_pools relies on the same rendering and is not play-tested since round 9.",
+   "That add_to_temp_variable inside every_owned_state accumulates across states and can be read at country scope in the same hidden_effect (OWB precedent: Baggers (BAG) Focus.txt:12400-12418).",
+   "That add_equipment_to_stockpile accepts a temp-variable amount inside a focus completion_reward (our own Call for Equipment decision does it in a decision's complete_effect).",
+   "That the archetype amphibious_beast_equipment in add_equipment_to_stockpile gives MLT its best unlocked variant (the spec and the Call for Equipment precedent say so).",
+   "The [M] sizes rest on assumptions: ~3 IC per military factory-day, ~70 % of civilian factories free of consumer goods, the plan's factory snapshots, and ~50 NCR cores held by 2283.",
+   "The tooltips state rules ('for every state we hold that is a core of ...') rather than a live count; no current number is printed."
+  ]
+ }
+}

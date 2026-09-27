@@ -186,6 +186,77 @@ mltd_wbh_brotherhood = {
 	}
 }
 
+# The Brotherhood Terms for the Citadel (round 28, Act III) is offered to: the Brotherhood in Washington (mltd_wbh_brotherhood)
+# - the Washington Brotherhood unless it is gone or someone's subject, else the Northwestern Brotherhood (TCA), so that the one
+# offer goes to one Brotherhood and the focus's odds line (GetMltdWbhOdds) names the one that will answer. OWB lets TCA form
+# the Northwestern Brotherhood while WBH is its subject (form_northwestern_brotherhood, formable_nations.txt:737-770), and then
+# both pass mltd_wbh_brotherhood; the subject is never asked. It must be at peace with MLT, no one's subject, and in no faction
+# or its faction's leader, so that it can join the Drowned Covenant (mltd_wbh_join_the_covenant). Until 2026-09-25 it had to
+# be in no faction, which shut Terms for good in most games: WBH founds and leads OWB's Northern League in 2275, and nothing
+# makes it leave. Since then a yes brings the faction it leads over with it. Read by the focus's `available` and reward and
+# by the AI's hold, where ROOT is MLT. Country scope.
+mltd_wbh_terms_target = {
+	mltd_wbh_brotherhood = yes
+	OR = {
+		tag = WBH
+		NOT = {
+			WBH = {
+				exists = yes
+				is_subject = no
+			}
+		}
+	}
+	NOT = { has_war_with = ROOT }
+	is_subject = no
+	OR = {
+		is_in_faction = no
+		is_faction_leader = yes
+	}
+}
+
+# Whether each of Act III's three invitations can be sent now (2026-09-25): the invitee free, in no faction (the Brotherhood:
+# or leading its own, mltd_wbh_terms_target) and at peace with MLT, MLT free or leading its own faction, and the rival table
+# empty (the Covenant's the Brotherhood's alliance, Terms' the Broken Coast's oath). Each focus's completion_reward reads its own twice: the hidden if that sends the offer, or else pays
+# +50 political power, and the preview, which shows that +50 only while the focus runs and the offer can no longer go. Until
+# then the preview read the real if / else, and so showed only the +50 whenever the invitee was in a faction or at war with
+# MLT - the whole of a normal game for Terms, since OWB's WBH founds the Northern League in its 2275 history
+# (create_or_join_northern_league) - which hid the invitation the focus is for. MLT scope.
+mltd_brk_covenant_can_offer = {
+	country_exists = BRK
+	BRK = {
+		is_subject = no
+		is_in_faction = no
+	}
+	NOT = { has_war_with = BRK }
+	OR = {
+		is_in_faction = no
+		is_faction_leader = yes
+	}
+	NOT = { has_country_flag = mltd_wbh_alliance }
+}
+
+mltd_bdt_covenant_can_offer = {
+	country_exists = BDT
+	NOT = { has_war_with = BDT }
+	BDT = {
+		is_subject = no
+		is_in_faction = no
+	}
+	OR = {
+		is_in_faction = no
+		is_faction_leader = yes
+	}
+}
+
+mltd_wbh_terms_can_offer = {
+	any_country = { mltd_wbh_terms_target = yes }
+	OR = {
+		is_in_faction = no
+		is_faction_leader = yes
+	}
+	NOT = { has_country_flag = mltd_brk_covenant_joined }
+}
+
 # mltd_brk_on_haida_gwaii (round 25): the Broken Coast holds a foothold on Haida Gwaii - any of the nine land provinces of
 # the Haida Confederation, whose whole country is that one island (states 9 Gramshar and 398 Mores, a landmass of their own,
 # measured from OWB's map/provinces.bmp). Every one of the nine is coastal, so each is a valid beach for a naval invasion,

@@ -353,6 +353,26 @@ mltd_ai_save_for_castro = {
 	ai_strategy = { type = pp_spend_priority id = cultural_advisor value = 200 }
 }
 
+# ---- A4b. The Tide-Speaker (2026-09-24) -----------------------------------------------------------------------------------
+# The Tide-Speaker (-30 % justification time, from the Kingdom on) is a cultural advisor too, so the category the block above
+# raises could hire her in his place: their factors (10003 against 100, common/characters/MLT.txt) put him first when both
+# can be had, and this block raises the category for her only once he is in post - or from the Kingdom where there is no La
+# Resistance and so no Old Castro. The same human choice at the same price: fair play. The plan hires her after him too.
+mltd_ai_hire_tide_speaker = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_completed_focus = mlt_kingdom_of_mlyeh
+		MLT_TIDE_SPEAKER = { is_hired_as_advisor = no }
+		OR = {
+			NOT = { has_dlc = "La Resistance" }
+			MLT_OLD_CASTRO = { is_hired_as_advisor = yes }
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = pp_spend_priority id = cultural_advisor value = 100 }
+}
+
 # ---- A5. Book networks -----------------------------------------------------------------------------------------------------
 # A Book whose state MLT cannot take without a war it should not start - Arroyo once it stands on the NCR's side, The Maw
 # behind a strong ally - is read the other way the focus allows: a full (100 %) intelligence network in the state (La
@@ -519,14 +539,25 @@ mltd_ai_strike_kla_at_war = {
 	ai_strategy = { type = consider_weak id = "KLA" value = 300 }
 	ai_strategy = { type = prepare_for_war id = "KLA" value = 200 }
 }
+# Round 28 (Terms for the Citadel): the two Brotherhoods' strikes never fall on an ally in the Drowned Covenant, nor on a war
+# goal that a refused Terms handed MLT before The Tide-Wall's hold (mltd_ai_may_raise_the_tide_wall) would allow that war - the
+# wall itself is closed by then (round 28b: Terms and the wall exclude each other), but its hold still says when the war on
+# Washington may start, and the strike's +600 would otherwise outweigh mltd_ai_hold_refusal_wargoal_wbh / _tca. WBH's also
+# waits while Terms is still to be offered (mltd_ai_terms_pending, as mltd_ai_hold_wbh_for_terms).
 mltd_ai_strike_tca_at_war = {
 	allowed = { original_tag = MLT }
 	enable = {
 		country_exists = TCA
 		NOT = { has_war_with = TCA }
+		NOT = { is_in_faction_with = TCA }
 		has_wargoal_against = TCA
 		TCA = { has_war = yes }
 		TCA = { mltd_ai_safe_target = yes }
+		OR = {
+			NOT = { has_country_flag = mltd_wbh_refused_terms }
+			NOT = { TCA = { mltd_wbh_brotherhood = yes } }
+			mltd_ai_may_raise_the_tide_wall = yes
+		}
 	}
 	abort_when_not_enabled = yes
 
@@ -539,9 +570,15 @@ mltd_ai_strike_wbh_at_war = {
 	enable = {
 		country_exists = WBH
 		NOT = { has_war_with = WBH }
+		NOT = { is_in_faction_with = WBH }
 		has_wargoal_against = WBH
 		WBH = { has_war = yes }
 		WBH = { mltd_ai_safe_target = yes }
+		NOT = { mltd_ai_terms_pending = yes }
+		OR = {
+			NOT = { has_country_flag = mltd_wbh_refused_terms }
+			mltd_ai_may_raise_the_tide_wall = yes
+		}
 	}
 	abort_when_not_enabled = yes
 
@@ -2573,8 +2610,12 @@ mltd_ai_guard_the_warren = {
 # ---- C2. The Broken Coast, courted (round 21) -----------------------------------------------------------------------------
 # While MLT courts the Broken Coast (mltd_ai_courting_brk: Act II's mltd_brk_* branch, then the Covenant in Act III), no war
 # on it, no claim pressed, and better relations: the Drowned Covenant is worth more than its 47 states, which run 3 declared
-# on and lost to. A BRK war on MLT, a refusal of the Covenant or the end of the courtship turns the conquest block back on
-# (mltd_ai_safe_target).
+# on and lost to. The raiders are courted first and fought only by choice. The courtship pauses while BRK is at war with MLT,
+# sits in its faction or is another country's subject, and ends for good on a refusal of the Covenant, once the Brotherhood
+# in Washington has sworn to the Covenant (Terms for the Citadel, round 28), once MLT has taken the Covenant's war twin, The
+# Coast Goes Under (round 28c), or once no offer can come again - the Covenant completed without sending it, or the raiders
+# sworn to it (round 28c review). Without it the conquest block (mltd_ai_safe_target) and The Coast Goes Under
+# (mltd_ai_may_drown_the_coast) may take BRK on, and only while it is a safe target.
 mltd_ai_court_brk = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2609,7 +2650,8 @@ mltd_ai_help_brk = {
 }
 
 # The Bone Dancers while the invitation stands (round 22): no war, no claim pressed, better relations. Drown the Dance, a
-# refusal or a war of theirs ends it and the conquest block takes over again.
+# refusal, a war of theirs or (round 28c review) a Hail the Drowned King that completed without sending its offer ends it,
+# and the conquest block takes over again; it pauses while they are another country's subject.
 mltd_ai_court_bdt = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2620,6 +2662,105 @@ mltd_ai_court_bdt = {
 	ai_strategy = { type = ignore_claim id = "BDT" value = 200 }
 	ai_strategy = { type = declare_war id = "BDT" value = -1000 }
 	ai_strategy = { type = befriend id = "BDT" value = 100 }
+}
+
+# The refusals' war goals (round 28). A refused invitation hands MLT an annex_everything war goal on the refuser for 365 days
+# (mltd.21 option b, mltd.24 option b, mltd.32 option b) - an AI MLT as much as a human - and a war goal is enough for OWB's AI
+# to declare at once (run 4; mltd_ai_not_ready_for_war). A declaration on a war goal skips every conquest block's safe-target
+# test, and the refusal also ends the courtship whose -1000 was the only veto (mltd_ai_court_brk, mltd_ai_court_bdt). So while
+# MLT holds such a war goal and the war is not one its own gates would allow, the declaration is vetoed: while the hold on
+# that nation's war focus fails - The Coast Goes Under's for the Broken Coast (mltd_ai_may_drown_the_coast, round 28c: the
+# army ready, MLT not losing, a safe target, no NCR war; with the Broken Coast's stage too, as mltd_ai_conquer_brk asks - run
+# 3 declared on the 47-state Broken Coast and lost), Drown the Dance's for the Bone Dancers (mltd_ai_may_drown_the_dance) and
+# The Tide-Wall's for the Brotherhood (mltd_ai_may_raise_the_tide_wall). Since round 28b each invitation and its war twin
+# exclude each other both ways, so after a refusal that war focus is closed for good, but its hold still says when the war
+# may start. Each block holds only while the war goal exists, so it lasts at most the year. This only restricts the AI, so it
+# is fair play. unverified, as for every hold: that -1000 outweighs OWB's war-goal base and relative-force term.
+mltd_ai_hold_refusal_wargoal_brk = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_global_flag = mltd_brk_refused_covenant
+		country_exists = BRK
+		has_wargoal_against = BRK
+		NOT = { has_war_with = BRK }
+		NOT = {
+			AND = {
+				mltd_ai_stage_brk = yes
+				mltd_ai_may_drown_the_coast = yes
+			}
+		}
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "BRK" value = -1000 }
+}
+
+mltd_ai_hold_refusal_wargoal_bdt = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_global_flag = mltd_bdt_refused_covenant
+		country_exists = BDT
+		has_wargoal_against = BDT
+		NOT = { has_war_with = BDT }
+		NOT = { mltd_ai_may_drown_the_dance = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "BDT" value = -1000 }
+}
+
+# The Brotherhood that refused Terms for the Citadel: WBH, or TCA as the Northwestern Brotherhood (mltd_wbh_terms_target) -
+# one block each, so that a war goal on a plain TCA from anywhere else is left alone.
+mltd_ai_hold_refusal_wargoal_wbh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_wbh_refused_terms
+		country_exists = WBH
+		has_wargoal_against = WBH
+		NOT = { has_war_with = WBH }
+		NOT = { mltd_ai_may_raise_the_tide_wall = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "WBH" value = -1000 }
+}
+
+mltd_ai_hold_refusal_wargoal_tca = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_country_flag = mltd_wbh_refused_terms
+		country_exists = TCA
+		TCA = { mltd_wbh_brotherhood = yes }
+		has_wargoal_against = TCA
+		NOT = { has_war_with = TCA }
+		NOT = { mltd_ai_may_raise_the_tide_wall = yes }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = declare_war id = "TCA" value = -1000 }
+}
+
+# Terms for the Citadel before the war on Washington (AI/plan pass, round 28). Once the Drowned Covenant is off the table - the
+# Broken Coast has refused it, fought MLT or gone - an AI MLT on unhistorical focuses offers the Washington Brotherhood Terms
+# before it fights it: the late plan lists Eyes in the Sound and Terms above The Tide-Wall, its twin (round 28b: each closes the
+# other for good). But mltd_ai_conquer_wbh opens on the
+# same stage and would justify on WBH and declare on the war goal, and a Brotherhood at war with MLT can be offered nothing (the
+# focus then pays +50 political power). So while the offer is still to come (mltd_ai_terms_pending), no justification on WBH
+# (antagonize below OWB's MIN_ANTAGONIZE_FOR_WARGOAL_JUSTIFICATION of -1000, counting the conquest block's +150, as in
+# mltd_ai_opening_order_trl) and no declaration on a war goal already held. The war waits only for the answer: once Terms is
+# taken (or The Tide-Wall, which closes it) the hold lifts, and a refusal hands MLT a war goal for a year. Army and stage are not re-tested here: while Terms waits
+# on them (mltd_ai_may_offer_the_citadel), The Tide-Wall waits on the same ones. Nothing here touches a human, or an AI on
+# historical focuses, whose Brotherhood never accepts. This only restricts the AI, so it is fair play. unverified, as for every
+# hold: that -1000 outweighs OWB's war-goal base and relative-force term.
+mltd_ai_hold_wbh_for_terms = {
+	allowed = { original_tag = MLT }
+	enable = {
+		mltd_ai_terms_pending = yes
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = antagonize id = "WBH" value = -1200 }
+	ai_strategy = { type = declare_war id = "WBH" value = -1000 }
 }
 
 # The Covenant also asks for a network over 30 % of the raiders' land and a civilian infiltration token (La Resistance): an
@@ -2662,9 +2803,9 @@ mltd_ai_infiltrate_brk = {
 }
 
 # The Bone Dancers' invitation, Hail the Drowned King (Act III), asks for the same with La Resistance: their cult at 40 %, a
-# network over 25 % of their land and a civilian infiltration token. Once they have crowned the Odious King
-# (bdt_hail_to_the_king) and The Bone Shore (Act II) has opened the branch, an operative builds the network, as for the
-# Broken Coast, and the agency takes the token; the weekly on_action points the cult operations at them
+# network over 25 % of their land and a civilian infiltration token. Once The Bone Shore (Act II) has opened the branch and
+# they are still free of the seraph lords (mltd_ai_courting_bdt, round 28c: the Odious King is no longer asked), an operative
+# builds the network, as for the Broken Coast, and the agency takes the token; the weekly on_action points the cult operations at them
 # (common/on_actions/mltd_on_actions.txt). Until round 27's review no AI strategy did any of this, so Drown the Dance's hold
 # still gives up waiting in 2281 (mltd_ai_may_drown_the_dance).
 mltd_ai_network_bdt = {
@@ -2675,7 +2816,6 @@ mltd_ai_network_bdt = {
 		mltd_ai_courting_bdt = yes
 		has_completed_focus = mltd_bdt_the_bone_shore
 		NOT = { has_completed_focus = mltd_bdt_hail_the_drowned_king }
-		BDT = { has_completed_focus = bdt_hail_to_the_king }
 		NOT = { network_national_coverage = { target = BDT value > 0.3 } }
 	}
 	abort_when_not_enabled = yes
@@ -2691,7 +2831,6 @@ mltd_ai_infiltrate_bdt = {
 		mltd_ai_courting_bdt = yes
 		has_completed_focus = mltd_bdt_the_bone_shore
 		NOT = { has_completed_focus = mltd_bdt_hail_the_drowned_king }
-		BDT = { has_completed_focus = bdt_hail_to_the_king }
 		network_national_coverage = { target = BDT value > 0 }
 		NOT = { has_operation_token = { tag = BDT token = token_civilian } }
 		num_of_operatives > 1
@@ -2699,6 +2838,39 @@ mltd_ai_infiltrate_bdt = {
 	abort_when_not_enabled = yes
 
 	ai_strategy = { type = operative_operation operation = operation_infiltrate_civilian operation_target = BDT value = 960 }
+}
+
+# The Brotherhood in Washington, for Terms for the Citadel (Act III), which round 28c gave the same gates as the other two
+# invitations: its cult at 40 %, a network over 25 % of it and its civilian infiltration token. Only while the AI still means
+# to make that offer (mltd_ai_terms_pending: unhistorical focuses, the Washington Brotherhood itself, the Broken Coast out of
+# the running, the Final Ritual done), so an AI that will fight Washington instead spends no operative here. WBH only: TCA as
+# the Northwestern Brotherhood is never offered Terms by an AI (mltd_ai_may_offer_the_citadel)
+mltd_ai_network_wbh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_dlc = "La Resistance"
+		has_intelligence_agency = yes
+		mltd_ai_terms_pending = yes
+		NOT = { network_national_coverage = { target = WBH value > 0.3 } }
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = operative_mission mission = build_intel_network mission_target = WBH priority = 100 value = 800 }
+}
+
+mltd_ai_infiltrate_wbh = {
+	allowed = { original_tag = MLT }
+	enable = {
+		has_dlc = "La Resistance"
+		has_intelligence_agency = yes
+		mltd_ai_terms_pending = yes
+		network_national_coverage = { target = WBH value > 0 }
+		NOT = { has_operation_token = { tag = WBH token = token_civilian } }
+		num_of_operatives > 1
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = { type = operative_operation operation = operation_infiltrate_civilian operation_target = WBH value = 960 }
 }
 
 # ---- D. Cult operations (La Resistance) -------------------------------------------------------------------------------------

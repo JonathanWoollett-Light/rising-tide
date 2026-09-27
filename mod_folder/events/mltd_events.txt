@@ -177,7 +177,7 @@ country_event = {
 		custom_effect_tooltip = mltd_deep_ones_template_unlocked_tt
 		mltd_spawn_star_spawn_division = yes
 		custom_effect_tooltip = mltd_star_spawn_decision_unlocked_tt
-		custom_effect_tooltip = mltd_deep_ones_summon_replaced_tt
+		custom_effect_tooltip = mltd_deep_ones_summon_remains_tt
 		set_country_flag = mltd_star_spawn_summon_unlocked
 	}
 }
@@ -692,8 +692,25 @@ country_event = {
 	fire_only_once = yes
 	option = {
 		name = mltd.21.a
-		# an AI Broken Coast always swears: the cult, the volunteers and the intel have done the work by the time this arrives
-		ai_chance = { base = 100 }
+		# Round 28: offered only when the raiders can actually join - free, at peace with MLT, and MLT free or leading its own
+		# faction without the Brotherhood in Washington in it (mltd_wbh_alliance; the focus tested all of this when it sent
+		# the offer, but a human may take days to answer). Otherwise only the refusal is left.
+		trigger = {
+			is_subject = no
+			is_in_faction = no
+			NOT = { has_war_with = FROM }
+			FROM = {
+				OR = {
+					is_in_faction = no
+					is_faction_leader = yes
+				}
+				NOT = { has_country_flag = mltd_wbh_alliance }
+			}
+		}
+		# Round 28: a historical Broken Coast always swears (the refusal's weight drops to 0 below); an unhistorical one swears
+		# half the time. The weights are relative: 50 against 50, or 50 against 0. OWB's idiom, nevada_pact_events.txt:15-22.
+		# The odds are also in the focus's description (GetMltdBrkOdds); change both together.
+		ai_chance = { base = 50 }
 		FROM = { mltd_brk_join_the_covenant = yes }
 		hidden_effect = {
 			FROM = { country_event = { id = mltd.22 days = 1 } }
@@ -701,13 +718,33 @@ country_event = {
 	}
 	option = {
 		name = mltd.21.b
-		# only a human Broken Coast refuses
-		ai_chance = { base = 0 }
+		ai_chance = {
+			base = 50
+			modifier = {
+				is_historical_focus_on = yes
+				factor = 0
+			}
+		}
 		FROM = {
 			add_opinion_modifier = {
 				target = ROOT
 				modifier = mltd_drowned_covenant_refused
 			}
+		}
+		# Round 28: a refusal leaves MLT only a hunting licence - an annex_everything war goal on the raiders that expires after
+		# 365 days (vanilla's expire is in days: bulgaria.txt:8961-8966, with its own expiry tooltip). ROOT is BRK here.
+		# Since round 28c the Covenant and its war twin, The Coast Goes Under, exclude each other both ways, so after a refusal
+		# this war goal is the tree's one road to war with the raiders (as mltd.24's is with the Bone Dancers).
+		if = {
+			limit = { NOT = { has_war_with = FROM } }
+			FROM = {
+				create_wargoal = {
+					type = annex_everything
+					target = ROOT
+					expire = 365
+				}
+			}
+			custom_effect_tooltip = mltd_refusal_wargoal_expires_tt
 		}
 		hidden_effect = {
 			set_global_flag = mltd_brk_refused_covenant
@@ -1232,6 +1269,20 @@ country_event = {
 	fire_only_once = yes
 	option = {
 		name = mltd.24.a
+		# Round 28c review: offered only when the Bone Dancers can actually join - free, at peace with MLT, and MLT free or
+		# leading its own faction (Hail the Drowned King tested all of this when it sent the offer, but a human may take days to
+		# answer), as mltd.21 option a. Otherwise only the refusal is left.
+		trigger = {
+			is_subject = no
+			is_in_faction = no
+			NOT = { has_war_with = FROM }
+			FROM = {
+				OR = {
+					is_in_faction = no
+					is_faction_leader = yes
+				}
+			}
+		}
 		# an AI Bone Dancer always swears: the cult and the Order have done the work by the time this arrives
 		ai_chance = { base = 100 }
 		FROM = { mltd_bdt_join_the_covenant = yes }
@@ -1248,6 +1299,20 @@ country_event = {
 				target = ROOT
 				modifier = mltd_drowned_covenant_refused
 			}
+		}
+		# Round 28: a refusal leaves MLT only an annex_everything war goal on the Bone Dancers, expiring after 365 days - here,
+		# in the refuser's own option, as in mltd.21 and mltd.32, so that the Bone Dancers see it before they choose. ROOT is
+		# BDT here, FROM is MLT.
+		if = {
+			limit = { NOT = { has_war_with = FROM } }
+			FROM = {
+				create_wargoal = {
+					type = annex_everything
+					target = ROOT
+					expire = 365
+				}
+			}
+			custom_effect_tooltip = mltd_refusal_wargoal_expires_tt
 		}
 		hidden_effect = {
 			set_global_flag = mltd_bdt_refused_covenant
@@ -1292,10 +1357,19 @@ country_event = {
 # Fired to HAI so that it is both ROOT and the scope - the winner of the white peace (effects_documentation.md, white_peace),
 # which it is, having thrown the landing back. Hidden with immediate only, vanilla's own form for 108 of its hidden events,
 # because no human is on either side by the time it fires.
+# Round 28c: not while the Broken Coast is at war with MLT - The Coast Goes Under (mltd_act3_focus.txt) makes that war a road
+# of the tree. The peace was there to spare MLT's volunteers, who come home the day MLT goes to war, and ending the raiders'
+# other war would only free their army against MLT. on_daily_MLT's watch skips that war too (staged in round 28c's review);
+# this test is its backstop.
 country_event = {
 	immediate = {
 		log = "[GetDateText]: [Root.GetName]: event mltd.27"
-		white_peace = BRK
+		if = {
+			limit = {
+				BRK = { NOT = { has_war_with = MLT } }
+			}
+			white_peace = BRK
+		}
 	}
 	id = mltd.27
 	hidden = yes
@@ -1339,11 +1413,130 @@ news_event = {
 	}
 }
 
+# ---- Round 28: Terms for the Citadel. mltd.32 goes to the Brotherhood in Washington - WBH, or TCA as the Northwestern
+# Brotherhood (mltd_wbh_terms_target) - from MLT's focus mltd_wbh_terms_for_the_citadel (FROM = MLT); its answer reaches MLT
+# as mltd.33 (accepted) or mltd.34 (refused), where FROM = the Brotherhood. The Covenant's chain (mltd.21-23) is the model.
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.32" }
+	id = mltd.32
+	title = mltd.32.t
+	desc = mltd.32.d
+	picture = GFX_event_WBH_invitation
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.32.a
+		# offered only when the Brotherhood can actually join - free, in no faction or leading its own (2026-09-25: a yes brings
+		# that faction over, mltd_wbh_join_the_covenant), at peace with MLT, and MLT free or leading its own faction without
+		# the Broken Coast in it (mltd_brk_covenant_joined; the focus tested all of this when it sent the offer, but a human
+		# may take days to answer). Otherwise only the refusal is left.
+		trigger = {
+			is_subject = no
+			OR = {
+				is_in_faction = no
+				is_faction_leader = yes
+			}
+			NOT = { has_war_with = FROM }
+			FROM = {
+				OR = {
+					is_in_faction = no
+					is_faction_leader = yes
+				}
+				NOT = { has_country_flag = mltd_brk_covenant_joined }
+			}
+		}
+		# A historical Brotherhood never accepts: 0 against 50. Unhistorical, the Washington Brotherhood accepts half the time
+		# (50 against 50) and the Northwestern Brotherhood a tenth (10 against 90). The odds are also in the focus's
+		# description (GetMltdWbhOdds); change both together.
+		ai_chance = {
+			base = 0
+			modifier = {
+				NOT = { is_historical_focus_on = yes }
+				tag = WBH
+				add = 50
+			}
+			modifier = {
+				NOT = { is_historical_focus_on = yes }
+				tag = TCA
+				add = 10
+			}
+		}
+		# MLT scope; the effect reads ROOT, the Brotherhood answering
+		FROM = { mltd_wbh_join_the_covenant = yes }
+		hidden_effect = {
+			FROM = { country_event = { id = mltd.33 days = 1 } }
+		}
+	}
+	option = {
+		name = mltd.32.b
+		ai_chance = {
+			base = 50
+			modifier = {
+				NOT = { is_historical_focus_on = yes }
+				tag = TCA
+				add = 40
+			}
+		}
+		# a refusal leaves MLT only an annex_everything war goal on the Brotherhood, expiring after 365 days. ROOT is the
+		# Brotherhood here, FROM is MLT.
+		if = {
+			limit = { NOT = { has_war_with = FROM } }
+			FROM = {
+				create_wargoal = {
+					type = annex_everything
+					target = ROOT
+					expire = 365
+				}
+			}
+			custom_effect_tooltip = mltd_refusal_wargoal_expires_tt
+		}
+		# mltd_wbh_refused_terms records the refusal on MLT for MLT's AI (common/ai_strategy/mltd_MLT.txt); since round 28b no
+		# focus reads it - Terms and The Tide-Wall exclude each other, so the refused offer leaves MLT only the expiring war
+		# goal above
+		hidden_effect = {
+			FROM = {
+				set_country_flag = mltd_wbh_refused_terms
+				country_event = { id = mltd.34 days = 1 }
+			}
+		}
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.33" }
+	id = mltd.33
+	title = mltd.33.t
+	desc = mltd.33.d
+	picture = GFX_event_mnc_brotherhood_salute
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.33.a
+	}
+}
+
+country_event = {
+	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.34" }
+	id = mltd.34
+	title = mltd.34.t
+	desc = mltd.34.d
+	picture = GFX_event_BOS_bunker_door
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = mltd.34.a
+	}
+}
+
 # ---- Round 27, Act IV "The Drowned Republic" (mltd_act4_focus.txt): mltd.40 is the close, mltd_when_shady_sands_falls,
 # and mltd.41 its world news.
 
 # When Shady Sands Falls: the Republic is broken, and the Coral Court chooses its trophy - the scholars (a research slot) or
-# the Rangers (the idea mltd_the_drowned_rangers and 50 army experience). Fired by the focus; its tooltip previews both options
+# the Rangers (the idea mltd_the_drowned_rangers and 100 army experience; both doubled in the round-28c balance review, where
+# the option was a trap beside a research slot). Fired by the focus; its tooltip previews both options
 # with the same effects in effect_tooltip blocks (mltd_act4_focus.txt, mltd_when_shady_sands_falls) - change both together.
 country_event = {
 	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.40" }
@@ -1368,7 +1561,7 @@ country_event = {
 			base = 1
 		}
 		add_ideas = mltd_the_drowned_rangers
-		army_experience = 50
+		army_experience = 100
 	}
 }
 
@@ -1407,9 +1600,11 @@ country_event = {
 
 # When the Legion Breaks: the pens of Flagstaff - free the chained into the tide, or feed them to the spawning pools (fired
 # by focus mltd_when_the_legion_breaks, which also grants mltd_mars_beneath_the_waves and previews both options with
-# effect_tooltip: change the numbers in both places). The same 5,000 people either way: freed, they join the capital's
-# population (+5 % stability); fed to the pools, they are 5,000 manpower at once. Option a merges the old The Chained Are
-# Given to the Tide.
+# effect_tooltip). Option a merges the old The Chained Are Given to the Tide. Round 28b: the options' effects are the scripted
+# effects mltd_legion_pens_freed / mltd_legion_pens_fed (mltd_scripted_effects.txt), which the focus's preview calls too, so
+# the numbers live once, in the two ideas: freed, the chained rise as the faithful (the permanent mltd_the_unchained); fed to
+# the pools, two years of cheaper creatures (mltd_the_pens_emptied, 730 days since round 28c). Until then both options were
+# 5,000 people - into the capital with +5 % stability, or as manpower - which is noise at the Legion's fall (~2.5M people).
 country_event = {
 	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.51" }
 	id = mltd.51
@@ -1425,18 +1620,14 @@ country_event = {
 		ai_chance = {
 			base = 2
 		}
-		capital_scope = {
-			set_temp_variable = { pop_add = 5000 }
-			add_state_population = yes
-		}
-		add_stability = 0.05
+		mltd_legion_pens_freed = yes
 	}
 	option = {
 		name = mltd.51.b
 		ai_chance = {
 			base = 1
 		}
-		add_manpower = 5000
+		mltd_legion_pens_fed = yes
 	}
 }
 

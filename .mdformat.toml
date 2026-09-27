@@ -1,0 +1,9 @@
+# Markdown formatting for every .md in the repo (CLAUDE.md > Markdown). Run:
+#   uvx --from mdformat==1.0.0 --with mdformat-gfm==1.0.0 mdformat <files>
+# mdformat will not write a file whose rendered HTML would change: a reflow never alters content.
+# 99, one short of the limit: mdformat adds a backslash in front of a line-leading `-`, `+` or `40.`
+# after it has wrapped, so a line wrapped at 100 can come out at 101.
+wrap = 99
+number = true
+end_of_line = "lf"
+extensions = ["gfm", "tables"]

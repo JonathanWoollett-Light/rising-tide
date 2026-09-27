@@ -31,13 +31,25 @@ on_actions = {
 			# landing either, so a plain control test would end the war the day it began.
 			# The flag is cleared whenever that war is not running, so a later war starts clean. The watch starts with
 			# Salt on the Broken Coast, which since round 27 is an Act II head (mltd_act2_focus.txt), after The Deep Ones Walk.
+			# Round 28c: not while MLT is at war with the Broken Coast itself - The Coast Goes Under (mltd_act3_focus.txt) and a
+			# refused Covenant's war goal make that war a road of the tree. MLT's volunteers come home the day it starts, so there
+			# is nothing left to spare, and a peace with the Haida would only free the raiders' army against MLT. The flag is
+			# cleared during that war as well, so the watch starts clean when it ends; mltd.27 tests the same war as a backstop.
+			# "Not running" is NOT = { AND = { ... } }: a NOT over several triggers is a NOR (vanilla writes NOT = { has_government
+			# = X has_government = Y } over a hundred times), so until round 28c this cleared the flag only once both countries were
+			# gone, and a war that ended with the raiders still ashore left it set for the next one.
 			if = {
 				limit = {
 					has_global_flag = mltd_brk_landed_on_haida
-					NOT = {
-						country_exists = BRK
-						country_exists = HAI
-						BRK = { has_war_with = HAI }
+					OR = {
+						has_war_with = BRK
+						NOT = {
+							AND = {
+								country_exists = BRK
+								country_exists = HAI
+								BRK = { has_war_with = HAI }
+							}
+						}
 					}
 				}
 				clr_global_flag = mltd_brk_landed_on_haida
@@ -45,6 +57,7 @@ on_actions = {
 			if = {
 				limit = {
 					has_completed_focus = mltd_brk_salt_on_the_broken_coast
+					NOT = { has_war_with = BRK }
 					country_exists = BRK
 					country_exists = HAI
 					BRK = {
@@ -176,10 +189,13 @@ on_actions = {
 					var = mltd_ai_cult_target
 				}
 				# the Broken Coast while MLT courts it (round 21): the Drowned Covenant waits on a cult there at 50 %, and the
-				# scorer's arrays (neighbours, enemies, majors) seldom hold it. Not over the NCR's cult before the NCR's war.
+				# scorer's arrays (neighbours, enemies, majors) seldom hold it. Not over the NCR's cult before the NCR's war. Not once
+				# the Covenant is taken (round 28c review, as the Bone Dancers' branch below and mltd_ai_network_brk): its gates
+				# are read only when it starts
 				if = {
 					limit = {
 						mltd_ai_courting_brk = yes
+						NOT = { has_completed_focus = mltd_brk_the_drowned_covenant }
 						network_national_coverage = { target = BRK value > 0 }
 						BRK = {
 							OR = {
@@ -199,7 +215,7 @@ on_actions = {
 					}
 					set_variable = { mltd_ai_cult_target = BRK }
 				}
-				# else the Bone Dancers, once they have crowned the Odious King and The Bone Shore has opened their branch (round-27
+				# else the Bone Dancers, once The Bone Shore has opened their branch and they are still free of the seraph lords (round-27
 				# review): Hail the Drowned King waits on a cult there at 40 %, and the scorer seldom picks them either. Nurtured to
 				# 50 %, ten points over the gate as the Broken Coast's 60 is over its 50; the Broken Coast comes first, so the two
 				# never overwrite each other week to week. The same NCR-first guard.
@@ -208,7 +224,6 @@ on_actions = {
 						mltd_ai_courting_bdt = yes
 						has_completed_focus = mltd_bdt_the_bone_shore
 						NOT = { has_completed_focus = mltd_bdt_hail_the_drowned_king }
-						BDT = { has_completed_focus = bdt_hail_to_the_king }
 						network_national_coverage = { target = BDT value > 0 }
 						BDT = {
 							OR = {
@@ -227,6 +242,32 @@ on_actions = {
 						}
 					}
 					set_variable = { mltd_ai_cult_target = BDT }
+				}
+				# else the Washington Brotherhood, while the AI still means to offer it Terms for the Citadel (round 28c gave that
+				# invitation the same cult, token and coverage gates as the other two). mltd_ai_terms_pending is already narrow -
+				# unhistorical focuses, WBH itself, the Broken Coast out of the running - so this seldom fires, and never before
+				# the Final Ritual. Nurtured to 50 %, as the other two are, with the same NCR-first guard
+				else_if = {
+					limit = {
+						mltd_ai_terms_pending = yes
+						network_national_coverage = { target = WBH value > 0 }
+						WBH = {
+							OR = {
+								NOT = { has_variable = mltd_cult_strength }
+								check_variable = { mltd_cult_strength < 50 }
+							}
+						}
+						OR = {
+							NOT = { has_completed_focus = mltd_the_deep_ones_walk }
+							NOT = { country_exists = NCR }
+							has_war_with = NCR
+							NCR = {
+								has_variable = mltd_cult_strength
+								check_variable = { mltd_cult_strength > 39.9 }
+							}
+						}
+					}
+					set_variable = { mltd_ai_cult_target = WBH }
 				}
 			}
 
