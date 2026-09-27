@@ -102,16 +102,14 @@
 shared_focus = {
 	id = mltd_mars_in_the_water
 	icon = GFX_goal_CES_The_Rubicon
-	cost = 30
 	prerequisite = { focus = mltd_when_shady_sands_falls }
-	cancel_if_invalid = no
-	continue_if_invalid = yes
 	x = 0
 	y = 1
 	relative_position_id = mltd_when_shady_sands_falls
-	ai_will_do = {
-		factor = 10
-	}
+	cost = 30
+	ai_will_do = { factor = 10 }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
 	completion_reward = {
 		army_experience = 30
 		country_event = { id = mltd.50 days = 1 }
@@ -124,20 +122,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ces_what_the_river_carries
 	icon = GFX_goal_EXE_something_fishy
-	cost = 30
 	prerequisite = { focus = mltd_mars_in_the_water }
+	x = -3
+	y = 1
+	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once CES is gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = CES }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = -3
-	y = 1
-	relative_position_id = mltd_mars_in_the_water
-	ai_will_do = {
-		factor = 3
-	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
@@ -171,9 +167,7 @@ shared_focus = {
 			}
 			else = {
 				custom_effect_tooltip = mltd_ces_frumentarius_no_agency_tt
-				hidden_effect = {
-					add_political_power = 50
-				}
+				hidden_effect = { add_political_power = 50 }
 			}
 			# one intelligence grant (the river's civ 10 / army 10 and the frumentarius' civ 15, at the larger values) and the
 			# frumentarius' army token; the Legion gone, the river's +25 stands in for both
@@ -189,9 +183,7 @@ shared_focus = {
 					army_intel = 10
 				}
 			}
-			else = {
-				add_political_power = 25
-			}
+			else = { add_political_power = 25 }
 		}
 		else = {
 			# 25 (What the River Carries) + 50 (The Drowned Frumentarius), their two no-DLC fallbacks
@@ -211,8 +203,13 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ces_the_sea_against_mars
 	icon = GFX_goal_CES_Mars_God
-	cost = 30
 	prerequisite = { focus = mltd_ces_what_the_river_carries }
+	x = -3
+	y = 2
+	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	will_lead_to_war_with = CES
+	ai_will_do = { factor = 3 }
 	available = {
 		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
 		# war. Round 27: its stage term (mltd_ai_ncr_beaten) is gone - the chapter already needs Act IV's close, and the term
@@ -228,13 +225,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = -3
-	y = 2
-	relative_position_id = mltd_mars_in_the_water
-	ai_will_do = {
-		factor = 3
-	}
-	will_lead_to_war_with = CES
 	completion_reward = {
 		if = {
 			limit = {
@@ -329,9 +319,7 @@ shared_focus = {
 				}
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 	}
 }
 
@@ -342,20 +330,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_bos_the_drowned_paladin
 	icon = GFX_goal_BOS_the_mojave_signal
-	cost = 30
 	prerequisite = { focus = mltd_mars_in_the_water }
+	x = -1
+	y = 1
+	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once BOS is gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = BOS }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = -1
-	y = 1
-	relative_position_id = mltd_mars_in_the_water
-	ai_will_do = {
-		factor = 3
-	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
@@ -423,8 +409,13 @@ shared_focus = {
 shared_focus = {
 	id = mltd_bos_blood_in_the_water
 	icon = GFX_goal_BOS_ncr_diplomacy
-	cost = 30
 	prerequisite = { focus = mltd_bos_the_drowned_paladin }
+	x = -1
+	y = 2
+	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	will_lead_to_war_with = BOS
+	ai_will_do = { factor = 3 }
 	available = {
 		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
 		# war. Round 27: its stage term (mltd_ai_ncr_beaten) is gone - the chapter already needs Act IV's close, and the term
@@ -441,13 +432,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = -1
-	y = 2
-	relative_position_id = mltd_mars_in_the_water
-	ai_will_do = {
-		factor = 3
-	}
-	will_lead_to_war_with = BOS
 	completion_reward = {
 		if = {
 			limit = {
@@ -578,9 +562,7 @@ shared_focus = {
 				}
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 	}
 }
 
@@ -591,8 +573,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_wht_the_lake_god_answers
 	icon = GFX_goal_WHT_salt_upon
-	cost = 30
 	prerequisite = { focus = mltd_mars_in_the_water }
+	x = 1
+	y = 1
+	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once WHT and EHT are all gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = WHT }
@@ -600,12 +586,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 1
-	y = 1
-	relative_position_id = mltd_mars_in_the_water
-	ai_will_do = {
-		factor = 3
-	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
@@ -743,8 +723,14 @@ shared_focus = {
 shared_focus = {
 	id = mltd_wht_rites_on_the_spiral_jetty
 	icon = GFX_goal_worship_poseidon
-	cost = 30
 	prerequisite = { focus = mltd_wht_the_lake_god_answers }
+	x = 1
+	y = 2
+	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	will_lead_to_war_with = WHT
+	will_lead_to_war_with = EHT
+	ai_will_do = { factor = 3 }
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_wht_road_war_tt
@@ -783,14 +769,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 1
-	y = 2
-	relative_position_id = mltd_mars_in_the_water
-	ai_will_do = {
-		factor = 3
-	}
-	will_lead_to_war_with = WHT
-	will_lead_to_war_with = EHT
 	completion_reward = {
 		if = {
 			limit = {
@@ -885,9 +863,7 @@ shared_focus = {
 				}
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 	}
 }
 
@@ -897,20 +873,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_hea_whispers_in_the_steam
 	icon = GFX_goal_HEA_focus_billowing_cathedral
-	cost = 30
 	prerequisite = { focus = mltd_mars_in_the_water }
+	x = 3
+	y = 1
+	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once HEA is gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = HEA }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 3
-	y = 1
-	relative_position_id = mltd_mars_in_the_water
-	ai_will_do = {
-		factor = 3
-	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
@@ -968,8 +942,13 @@ shared_focus = {
 shared_focus = {
 	id = mltd_hea_the_crusade_turns_south
 	icon = GFX_goal_HEA_focus_declaration_of_crusade
-	cost = 30
 	prerequisite = { focus = mltd_hea_whispers_in_the_steam }
+	x = 3
+	y = 2
+	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	will_lead_to_war_with = HEA
+	ai_will_do = { factor = 3 }
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_hea_crusade_tt
@@ -1002,13 +981,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 3
-	y = 2
-	relative_position_id = mltd_mars_in_the_water
-	ai_will_do = {
-		factor = 3
-	}
-	will_lead_to_war_with = HEA
 	completion_reward = {
 		if = {
 			limit = {
@@ -1078,9 +1050,7 @@ shared_focus = {
 				}
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
@@ -1121,13 +1091,17 @@ shared_focus = {
 shared_focus = {
 	id = mltd_when_the_legion_breaks
 	icon = GFX_goal_CES_Free_Slaves
-	cost = 30
 	prerequisite = {
 		focus = mltd_ces_the_sea_against_mars
 		focus = mltd_bos_blood_in_the_water
 		focus = mltd_wht_rites_on_the_spiral_jetty
 		focus = mltd_hea_the_crusade_turns_south
 	}
+	x = 0
+	y = 3
+	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	ai_will_do = { factor = 10 }
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_legion_beaten_tt
@@ -1140,12 +1114,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 0
-	y = 3
-	relative_position_id = mltd_mars_in_the_water
-	ai_will_do = {
-		factor = 10
-	}
 	completion_reward = {
 		add_ideas = mltd_mars_beneath_the_waves
 		custom_effect_tooltip = mltd_newline_tt
@@ -1155,15 +1123,11 @@ shared_focus = {
 		# two effects, so their numbers live once, in the two ideas, and nothing here repeats them
 		custom_effect_tooltip = mltd_legion_breaks_choice_tt
 		custom_effect_tooltip = mltd_legion_breaks_freed_tt
-		effect_tooltip = {
-			mltd_legion_pens_freed = yes
-		}
+		effect_tooltip = { mltd_legion_pens_freed = yes }
 		# round 28c: a block for each of the trophy's two options, as Act IV's close has
 		custom_effect_tooltip = mltd_newline_tt
 		custom_effect_tooltip = mltd_legion_breaks_pens_tt
-		effect_tooltip = {
-			mltd_legion_pens_fed = yes
-		}
+		effect_tooltip = { mltd_legion_pens_fed = yes }
 		custom_effect_tooltip = mltd_newline_tt
 		country_event = { id = mltd.51 days = 1 }
 		hidden_effect = {

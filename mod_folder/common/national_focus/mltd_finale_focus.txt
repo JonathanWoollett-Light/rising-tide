@@ -21,8 +21,13 @@
 shared_focus = {
 	id = mltd_rlyeh_rises
 	icon = GFX_goal_mlt_mlyeh
-	cost = 60
 	prerequisite = { focus = mltd_the_last_king_kneels }
+	# round 28c: directly under The Last King Kneels (its tall icon needs room above, not below)
+	x = 0
+	y = 1
+	relative_position_id = mltd_the_last_king_kneels
+	cost = 60
+	ai_will_do = { factor = 10 }
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_rlyeh_rises_states_tt
@@ -31,11 +36,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	# round 28c: directly under The Last King Kneels (its tall icon needs room above, not below)
-	x = 0
-	y = 1
-	relative_position_id = mltd_the_last_king_kneels
-	ai_will_do = { factor = 10 }
 	completion_reward = {
 		# M'lyeh (province 1983, capital state 358); the Kingdom already gave it +15
 		add_victory_points = { province = 1983 value = 15 }
@@ -56,18 +56,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ending_the_dreamer_wakes
 	icon = GFX_goal_MDT_gorgon_eye	# round 28c: a normal-height icon (see the header) - a spoils focus sits directly above
-	cost = 30
 	prerequisite = { focus = mltd_rlyeh_rises }
 	mutually_exclusive = {
 		focus = mltd_ending_the_priestess_reigns
 		focus = mltd_ending_return_to_the_sea
 	}
-	cancel_if_invalid = no
-	continue_if_invalid = yes
 	x = -2
 	y = 1
 	relative_position_id = mltd_rlyeh_rises
+	cost = 30
 	ai_will_do = { factor = 3 }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
 	completion_reward = {
 		add_ideas = mltd_the_dreamer_wakes
 		country_event = { id = mltd.72 days = 1 }
@@ -78,18 +78,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ending_the_priestess_reigns
 	icon = GFX_goal_CHC_relic
-	cost = 30
 	prerequisite = { focus = mltd_rlyeh_rises }
 	mutually_exclusive = {
 		focus = mltd_ending_the_dreamer_wakes
 		focus = mltd_ending_return_to_the_sea
 	}
-	cancel_if_invalid = no
-	continue_if_invalid = yes
 	x = 0
 	y = 1
 	relative_position_id = mltd_rlyeh_rises
+	cost = 30
 	ai_will_do = { factor = 2 }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
 	completion_reward = {
 		add_ideas = mltd_the_priestess_reigns
 		country_event = { id = mltd.73 days = 1 }
@@ -106,18 +106,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ending_return_to_the_sea
 	icon = GFX_goal_TIM_patch_oceanography
-	cost = 30
 	prerequisite = { focus = mltd_rlyeh_rises }
 	mutually_exclusive = {
 		focus = mltd_ending_the_dreamer_wakes
 		focus = mltd_ending_the_priestess_reigns
 	}
-	cancel_if_invalid = no
-	continue_if_invalid = yes
 	x = 2
 	y = 1
 	relative_position_id = mltd_rlyeh_rises
-	ai_will_do = { factor = 1 }
+	cost = 30
+	# no ai_will_do: the default weight of 1, below The Dreamer Wakes' 3 and The Priestess Reigns' 2
+	cancel_if_invalid = no
+	continue_if_invalid = yes
 	completion_reward = {
 		add_ideas = mltd_the_return_to_the_sea
 		if = {
@@ -128,9 +128,7 @@ shared_focus = {
 				mltd_spawn_leviathan = yes
 			}
 		}
-		else = {
-			custom_effect_tooltip = mltd_return_to_the_sea_no_mireport_tt
-		}
+		else = { custom_effect_tooltip = mltd_return_to_the_sea_no_mireport_tt }
 		country_event = { id = mltd.74 days = 1 }
 	}
 }

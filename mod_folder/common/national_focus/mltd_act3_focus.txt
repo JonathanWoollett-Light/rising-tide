@@ -116,13 +116,17 @@
 shared_focus = {
 	id = mltd_wbh_terms_for_the_citadel
 	icon = GFX_goal_WBH_fellow_savages
-	# twice The Tide-Wall's 30 on purpose (63 against 45 until 2026-09-25, when every focus of ours became 7, 30, 60, 120 or
-	# 180 days): the offer is the slow road, and a refusal leaves only a war goal that expires
-	cost = 60
 	# 2026-09-24: its nation's Act II bead (The Final Ritual until then)
 	prerequisite = { focus = mltd_wbh_the_drowned_knights }
 	# round 28b: both ways, with The Tide-Wall's own line
 	mutually_exclusive = { focus = mltd_wbh_the_tide_wall }
+	# (10,23) since 2026-09-24, beside its bead; (10,26) until then
+	x = -1
+	y = 1
+	relative_position_id = mltd_wbh_the_drowned_knights
+	# twice The Tide-Wall's 30 on purpose (63 against 45 until 2026-09-25, when every focus of ours became 7, 30, 60, 120 or
+	# 180 days): the offer is the slow road, and a refusal leaves only a war goal that expires
+	cost = 60
 	available = {
 		# the Brotherhood that would be asked - WBH unless it is gone or someone's subject, else TCA as the Northwestern
 		# Brotherhood - at peace with us, no one's subject, and in no faction or leading its own (2026-09-25: a yes brings
@@ -179,12 +183,8 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	# (10,23) since 2026-09-24, beside its bead; (10,26) until then
-	x = -1
-	y = 1
-	relative_position_id = mltd_wbh_the_drowned_knights
-	# an AI's real gate is the hold above; below the war focuses' 3, so an AI running no plan prefers them
-	ai_will_do = { factor = 1 }
+	# no ai_will_do: the default weight of 1, below the war focuses' 3, so an AI running no plan prefers them; an AI's
+	# real gate is the hold above
 	completion_reward = {
 		# the target, MLT's own faction and the Covenant flag are tested again at completion (mltd_wbh_terms_can_offer), because
 		# the world can change while this focus runs (continue_if_invalid) - the Broken Coast can accept the Covenant, MLT can
@@ -220,9 +220,7 @@ shared_focus = {
 					}
 					add_to_faction = WBH
 				}
-				else = {
-					add_to_faction = TCA
-				}
+				else = { add_to_faction = TCA }
 			}
 			custom_effect_tooltip = mltd_wbh_terms_claims_tt
 			# 2026-09-25: a Brotherhood that leads a faction - WBH leads OWB's Northern League from 2275 - brings its members
@@ -287,9 +285,7 @@ shared_focus = {
 					country_event = { id = mltd.32 days = 1 }
 				}
 			}
-			else = {
-				add_political_power = 50
-			}
+			else = { add_political_power = 50 }
 		}
 	}
 }
@@ -299,11 +295,20 @@ shared_focus = {
 shared_focus = {
 	id = mltd_wbh_the_tide_wall
 	icon = GFX_goal_generic_walls_focus
-	cost = 30
 	# 2026-09-24: its nation's Act II bead (The Final Ritual until then)
 	prerequisite = { focus = mltd_wbh_the_drowned_knights }
 	# round 28b: both ways, with Terms' own line. It replaces round 28's gate on mltd_wbh_alliance, which only Terms could set
 	mutually_exclusive = { focus = mltd_wbh_terms_for_the_citadel }
+	# (12,23) since 2026-09-24, beside its bead; (12,26) until then
+	x = 1
+	y = 1
+	relative_position_id = mltd_wbh_the_drowned_knights
+	cost = 30
+	will_lead_to_war_with = WBH
+	# Round 24: the capstone declares on whichever Brotherhood holds Washington (mltd_wbh_brotherhood), so the warning
+	# has to name both - TCA is the branch round 22 was written for.
+	will_lead_to_war_with = TCA
+	ai_will_do = { factor = 3 }
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_wbh_crusade_turns_tt
@@ -336,15 +341,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	# (12,23) since 2026-09-24, beside its bead; (12,26) until then
-	x = 1
-	y = 1
-	relative_position_id = mltd_wbh_the_drowned_knights
-	ai_will_do = { factor = 3 }
-	will_lead_to_war_with = WBH
-	# Round 24: the capstone declares on whichever Brotherhood holds Washington (mltd_wbh_brotherhood), so the warning
-	# has to name both - TCA is the branch round 22 was written for.
-	will_lead_to_war_with = TCA
 	completion_reward = {
 		# round 22: the focus declares on each living Brotherhood that is not already at war with us, our subject or in our
 		# faction, so its own length is the run-up and will_lead_to_war_with warns them. Round 28b: one block per tag, WBH
@@ -398,9 +394,7 @@ shared_focus = {
 				days = 60
 			}
 		}
-		else = {
-			army_experience = 30
-		}
+		else = { army_experience = 30 }
 		# the bunkers: The Warren is in `available`, but it can be lost while the focus runs, and a preview taken before it is
 		# ours would show nothing (round 28b) - so one custom line; the four provinces and their levels are repeated in
 		# mltd_wbh_tide_wall_bunkers_tt
@@ -463,11 +457,16 @@ shared_focus = {
 shared_focus = {
 	id = mltd_brk_the_drowned_covenant
 	icon = GFX_goal_BRK_black_flag_fleets
-	cost = 60
 	# 2026-09-24: its nation's Act II bead (The Final Ritual until then)
 	prerequisite = { focus = mltd_brk_the_deep_ones_sail_north }
 	# round 28c: both ways, with The Coast Goes Under's own line
 	mutually_exclusive = { focus = mltd_brk_the_coast_goes_under }
+	# (14,23) since 2026-09-24, beside its bead; (14,26) until then
+	x = -1
+	y = 1
+	relative_position_id = mltd_brk_the_deep_ones_sail_north
+	cost = 60
+	ai_will_do = { factor = 3 }
 	available = {
 		# the courtship gates, while there is a Broken Coast to court; once it is gone, or is MLT's own subject, the focus pays
 		# political power instead
@@ -517,11 +516,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	# (14,23) since 2026-09-24, beside its bead; (14,26) until then
-	x = -1
-	y = 1
-	relative_position_id = mltd_brk_the_deep_ones_sail_north
-	ai_will_do = { factor = 3 }
 	completion_reward = {
 		# round 28: the invitee, MLT's own faction and the alliance flag are tested again at completion
 		# (mltd_brk_covenant_can_offer), because the world can change while this focus runs (continue_if_invalid) - the
@@ -586,13 +580,19 @@ shared_focus = {
 shared_focus = {
 	id = mltd_brk_the_coast_goes_under
 	icon = GFX_goal_BRK_war
-	# a war focus's length, as Drown the Dance's and The Tide-Wall's; the Covenant takes twice as long (2026-09-25: every focus
-	# of ours 7, 30, 60, 120 or 180 days - until then the Covenant and both twins took 49, and neither road was the quicker)
-	cost = 30
 	# 2026-09-24: its nation's Act II bead (The Final Ritual until then)
 	prerequisite = { focus = mltd_brk_the_deep_ones_sail_north }
 	# both ways, with the Covenant's own line
 	mutually_exclusive = { focus = mltd_brk_the_drowned_covenant }
+	# (16,23) since 2026-09-24, beside its bead; (16,26) until then
+	x = 1
+	y = 1
+	relative_position_id = mltd_brk_the_deep_ones_sail_north
+	# a war focus's length, as Drown the Dance's and The Tide-Wall's; the Covenant takes twice as long (2026-09-25: every focus
+	# of ours 7, 30, 60, 120 or 180 days - until then the Covenant and both twins took 49, and neither road was the quicker)
+	cost = 30
+	will_lead_to_war_with = BRK
+	ai_will_do = { factor = 3 }
 	available = {
 		# never on an ally; with the raiders gone, or MLT's own subject (who sit in its faction if it leads one), the focus is
 		# free and pays political power (as Drown the Dance does)
@@ -616,12 +616,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	# (16,23) since 2026-09-24, beside its bead; (16,26) until then
-	x = 1
-	y = 1
-	relative_position_id = mltd_brk_the_deep_ones_sail_north
-	ai_will_do = { factor = 3 }
-	will_lead_to_war_with = BRK
 	completion_reward = {
 		# never on a country in MLT's faction (a player can still invite one from the diplomacy screen while this focus runs)
 		if = {
@@ -654,9 +648,7 @@ shared_focus = {
 				days = 60
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 	}
 }
 
@@ -666,12 +658,19 @@ shared_focus = {
 shared_focus = {
 	id = mltd_bdt_hail_the_drowned_king
 	icon = GFX_goal_BDT_odious_king
-	cost = 60
 	# 2026-09-24: its nation's Act II bead (The Final Ritual until then)
 	prerequisite = { focus = mltd_bdt_the_dancers_hear_the_tide }
 	# both ways since round 28b, with Drown the Dance's own line (one-sided from round 24 to round 28: a refused invitation
 	# used to strand the war branch; since round 28 a refusal leaves an expiring war goal instead, mltd.24 option b)
 	mutually_exclusive = { focus = mltd_bdt_drown_the_dance }
+	# (18,23) since 2026-09-24, beside its bead; (18,26) until then
+	x = -1
+	y = 1
+	relative_position_id = mltd_bdt_the_dancers_hear_the_tide
+	cost = 60
+	# the late plan lists the invitation before Drown the Dance, and its order is what an AI with a plan follows; this 4
+	# (over the war's 3) only orders the two for an AI running no plan - a subject MLT, whose plans all abort
+	ai_will_do = { factor = 4 }
 	available = {
 		country_exists = BDT
 		NOT = { has_war_with = BDT }
@@ -711,13 +710,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	# (18,23) since 2026-09-24, beside its bead; (18,26) until then
-	x = -1
-	y = 1
-	relative_position_id = mltd_bdt_the_dancers_hear_the_tide
-	# the late plan lists the invitation before Drown the Dance, and its order is what an AI with a plan follows; this 4
-	# (over the war's 3) only orders the two for an AI running no plan - a subject MLT, whose plans all abort
-	ai_will_do = { factor = 4 }
 	completion_reward = {
 		# round 28c review: the invitee and MLT's own faction are tested again at completion (mltd_bdt_covenant_can_offer), as
 		# the Covenant and Terms test theirs, because the world can change during the focus's 60 days (continue_if_invalid) -
@@ -775,13 +767,19 @@ shared_focus = {
 shared_focus = {
 	id = mltd_bdt_drown_the_dance
 	icon = GFX_goal_BDT_bloody_skull
-	cost = 30
 	# 2026-09-24: its nation's Act II bead (The Final Ritual until then)
 	prerequisite = { focus = mltd_bdt_the_dancers_hear_the_tide }
 	# round 28b: both ways, with Hail the Drowned King's own line. From round 24 to round 28 this side was left out on purpose,
 	# so that a refused invitation did not strand the war branch; since round 28 the refusal leaves an annex_everything war goal
 	# that expires after 365 days (mltd.24 option b), and Hail itself completes and opens the close, so nothing strands
 	mutually_exclusive = { focus = mltd_bdt_hail_the_drowned_king }
+	# (20,23) since 2026-09-24, beside its bead; (20,26) until then
+	x = 1
+	y = 1
+	relative_position_id = mltd_bdt_the_dancers_hear_the_tide
+	cost = 30
+	will_lead_to_war_with = BDT
+	ai_will_do = { factor = 3 }
 	available = {
 		# never on an ally; with no Bone Dancers left, or with the Bone Dancers MLT's own subject (who sit in its faction if it
 		# leads one), the focus is free and pays political power (round 27)
@@ -805,12 +803,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	# (20,23) since 2026-09-24, beside its bead; (20,26) until then
-	x = 1
-	y = 1
-	relative_position_id = mltd_bdt_the_dancers_hear_the_tide
-	ai_will_do = { factor = 3 }
-	will_lead_to_war_with = BDT
 	completion_reward = {
 		# round 28c: never on a country in MLT's faction either (a player can still invite one from the diplomacy screen while
 		# this focus runs), as The Tide-Wall and The Coast Goes Under
@@ -844,9 +836,7 @@ shared_focus = {
 				days = 60
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 	}
 }
 
@@ -854,11 +844,16 @@ shared_focus = {
 shared_focus = {
 	id = mltd_the_tide_turns_south
 	icon = GFX_goal_BRK_drums_of_war
-	cost = 30
 	# The Final Ritual, since 2026-09-24: The Deep Ones Walk now reconverges on the act's six answers to the north (one OR
 	# block over them, in the override), the ritual follows the Walk and the close follows the ritual. From round 27 to
 	# 2026-09-23 this was that OR block itself. A national focus, so the override lists the close (`shared_focus`)
 	prerequisite = { focus = mltd_the_final_ritual }
+	# (15,28), directly under The Final Ritual on row 27 (since 2026-09-24, when the Walk and the ritual moved below Act III;
+	# (15,27) from round 28c to 2026-09-23, round 28b on (15,28))
+	x = 15
+	y = 28
+	cost = 30
+	ai_will_do = { factor = 10 }
 	available = {
 		# 50 or more, or from 2281 so that an MLT stalled in the north is not stranded short of the rest of the story (round-27
 		# review: run 8's AI held 35-39 states for the two years after its Final Ritual); both are repeated in
@@ -873,11 +868,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	# (15,28), directly under The Final Ritual on row 27 (since 2026-09-24, when the Walk and the ritual moved below Act III;
-	# (15,27) from round 28c to 2026-09-23, round 28b on (15,28))
-	x = 15
-	y = 28
-	ai_will_do = { factor = 10 }
 	completion_reward = {
 		# round-28c balance review: the fourth research slot, moved here from The Last King Kneels (mltd_act6_focus.txt).
 		# MLT fought the whole NCR war on three slots while every rival started on four or five

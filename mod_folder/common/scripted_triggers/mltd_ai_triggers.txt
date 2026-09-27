@@ -241,9 +241,7 @@ mltd_ai_frontier_target = {
 
 # The north consolidated: mltd_ai_survey sets the flag each week while MLT owns more than 70 of the 79 northern states, or no
 # northern state is left to a country MLT could safely attack. MLT scope.
-mltd_ai_north_done = {
-	has_country_flag = mltd_ai_north_done
-}
+mltd_ai_north_done = { has_country_flag = mltd_ai_north_done }
 
 # The NCR's cult is ready for the war: at 40 % or more - a war triples a cult's decay (mltd_cult_weekly), so it has to stand
 # before the war - or there is no cult to wait for: no La Resistance, no NCR, or it has had until 2283. MLT scope.
@@ -422,9 +420,7 @@ mltd_ai_army_ready = {
 
 # ---- B1. Oregon, 2275: CCW, then TRL, then RBT (CONQUEST_PLAN.txt, 2275) --------------------------------------------------
 # CCW from day 0: TRL's Wizard war (~day 133) can only target CCW, and finds nothing to take if CCW's land is already ours.
-mltd_ai_stage_ccw = {
-	always = yes
-}
+mltd_ai_stage_ccw = { always = yes }
 
 # TRL from the CCW war on (or April 2275): the plan justifies on The Warren while CCW falls. TRL turns on MLT itself once MDT
 # is gone (OWB TRL.txt:138-167).
@@ -476,9 +472,7 @@ mltd_ai_stage_mdt = {
 
 # ---- B4. The other Book states, after the Kingdom: The Maw (274, PMR) is Book 5's, Arroyo (337, ARR) Book 4's. --------------
 mltd_ai_stage_pmr = {
-	OR = {
-		has_completed_focus = mlt_kingdom_of_mlyeh
-	}
+	OR = { has_completed_focus = mlt_kingdom_of_mlyeh }
 }
 
 # Arroyo only while it stands apart from the NCR: once it has joined the NCR's side it waits for the NCR's stage, and Book 4
@@ -670,17 +664,11 @@ mltd_ai_stage_ncr = {
 	}
 }
 
-mltd_ai_stage_mot = {
-	mltd_ai_stage_ncr = yes
-}
+mltd_ai_stage_mot = { mltd_ai_stage_ncr = yes }
 
-mltd_ai_stage_nat = {
-	mltd_ai_stage_ncr = yes
-}
+mltd_ai_stage_nat = { mltd_ai_stage_ncr = yes }
 
-mltd_ai_stage_shi = {
-	mltd_ai_stage_ncr = yes
-}
+mltd_ai_stage_shi = { mltd_ai_stage_ncr = yes }
 
 # New Reno, before the NCR, when Vault City, Elko or S'Lanter stands on the NCR's side and New Reno does not: its land is the
 # only way to them. New Reno borders The Den (TDN, part of the north) and the NCR.

@@ -97,9 +97,7 @@ mltd_ai_survey = {
 		}
 		set_country_flag = mltd_ai_north_done
 	}
-	else = {
-		clr_country_flag = mltd_ai_north_done
-	}
+	else = { clr_country_flag = mltd_ai_north_done }
 
 	# The Broken Coast's volunteers: weeks with at least four of MLT's divisions fighting for it (mltd_ai_brk_helped)
 	if = {
@@ -121,9 +119,7 @@ mltd_ai_survey = {
 			set_country_flag = mltd_ai_pocket
 		}
 	}
-	else = {
-		clr_country_flag = mltd_ai_pocket
-	}
+	else = { clr_country_flag = mltd_ai_pocket }
 }
 
 # ---- The line's equipment from OWB's Organization Marketplace ----------------------------------------------------------------

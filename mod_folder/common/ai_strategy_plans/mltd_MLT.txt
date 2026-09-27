@@ -21,9 +21,7 @@ mltd_MLT_oregon_opening = {
 	name = "Mirelurk Tribe - Oregon opening"
 	desc = "The Coral Court, the shared Oregon industry, the Barrows and their eggs, Black Hollows Night, the Kingdom of M'lyeh"
 
-	allowed = {
-		original_tag = MLT
-	}
+	allowed = { original_tag = MLT }
 	enable = {
 		original_tag = MLT
 		is_subject = no
@@ -142,9 +140,7 @@ mltd_MLT_kingdom_and_books = {
 	name = "Mirelurk Tribe - Kingdom and Books"
 	desc = "Gifts from the Deep, the five Books, the Deep Ones, Acts II and III (the Broken Coast first) and both rituals"
 
-	allowed = {
-		original_tag = MLT
-	}
+	allowed = { original_tag = MLT }
 	enable = {
 		original_tag = MLT
 		is_subject = no
@@ -286,17 +282,13 @@ mltd_MLT_late_game = {
 	name = "Mirelurk Tribe - late game"
 	desc = "The story acts in order: Act III's close and what the north has left, the NCR (Act IV), the Legion and the interior (Act V), the south (Act VI), R'lyeh Rises and an ending, with the spoils in the waits"
 
-	allowed = {
-		original_tag = MLT
-	}
+	allowed = { original_tag = MLT }
 	enable = {
 		original_tag = MLT
 		is_subject = no
 		has_completed_focus = mltd_the_final_ritual
 	}
-	abort = {
-		is_subject = yes
-	}
+	abort = { is_subject = yes }
 
 	# The story acts are one spine (common/national_focus/mltd_act3..6_focus.txt, mltd_finale_focus.txt): each act's chapter
 	# needs the previous act's close, so the list below only orders the beads within an act; the tree enforces the rest.

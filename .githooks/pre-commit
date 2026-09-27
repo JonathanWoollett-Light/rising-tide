@@ -1,0 +1,14 @@
+#!/bin/sh
+# Checks what is being committed with hearty: the formatting and lints of mod_folder's script files, OWB's
+# overrides left out (hearty_mod.py --staged). Nothing to do when no script or localisation file is staged.
+# To fix what it reports: python hearty_mod.py, then stage the result. To skip it once: git commit --no-verify.
+# Enabled per clone with: git config core.hooksPath .githooks
+root=$(git rev-parse --show-toplevel) || exit 1
+for py in python3 python py; do
+	# The -c test also rejects Windows' python3 stub, which only opens the Microsoft Store.
+	if "$py" -c 'import sys; sys.exit(sys.version_info < (3, 8))' >/dev/null 2>&1; then
+		exec "$py" "$root/hearty_mod.py" --staged
+	fi
+done
+echo "pre-commit: no Python 3.8 or later found to run hearty_mod.py" >&2
+exit 1

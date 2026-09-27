@@ -8,18 +8,12 @@
 # the three mltd_telemetry_* files removes the telemetry and touches nothing else.
 on_actions = {
 	on_daily_MLT = {
-		effect = {
-			mltd_tm_daily = yes
-		}
+		effect = { mltd_tm_daily = yes }
 	}
 	on_weekly_MLT = {
-		effect = {
-			mltd_tm_weekly = yes
-		}
+		effect = { mltd_tm_weekly = yes }
 	}
 	on_monthly_MLT = {
-		effect = {
-			mltd_tm_monthly = yes
-		}
+		effect = { mltd_tm_monthly = yes }
 	}
 }

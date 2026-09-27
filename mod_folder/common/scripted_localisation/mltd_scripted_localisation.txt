@@ -12,9 +12,7 @@ defined_text = {
 		}
 		localization_key = mltd_cult_list_rows
 	}
-	text = {
-		localization_key = mltd_cult_list_empty
-	}
+	text = { localization_key = mltd_cult_list_empty }
 }
 defined_text = {
 	name = GetMltdCultRow1
@@ -24,9 +22,7 @@ defined_text = {
 		}
 		localization_key = mltd_cult_list_row_1
 	}
-	text = {
-		localization_key = ""
-	}
+	text = { localization_key = "" }
 }
 defined_text = {
 	name = GetMltdCultRow2
@@ -36,9 +32,7 @@ defined_text = {
 		}
 		localization_key = mltd_cult_list_row_2
 	}
-	text = {
-		localization_key = ""
-	}
+	text = { localization_key = "" }
 }
 defined_text = {
 	name = GetMltdCultRow3
@@ -48,9 +42,7 @@ defined_text = {
 		}
 		localization_key = mltd_cult_list_row_3
 	}
-	text = {
-		localization_key = ""
-	}
+	text = { localization_key = "" }
 }
 defined_text = {
 	name = GetMltdCultRow4
@@ -60,9 +52,7 @@ defined_text = {
 		}
 		localization_key = mltd_cult_list_row_4
 	}
-	text = {
-		localization_key = ""
-	}
+	text = { localization_key = "" }
 }
 defined_text = {
 	name = GetMltdCultRow5
@@ -72,9 +62,7 @@ defined_text = {
 		}
 		localization_key = mltd_cult_list_row_5
 	}
-	text = {
-		localization_key = ""
-	}
+	text = { localization_key = "" }
 }
 defined_text = {
 	name = GetMltdCultRow6
@@ -84,9 +72,7 @@ defined_text = {
 		}
 		localization_key = mltd_cult_list_row_6
 	}
-	text = {
-		localization_key = ""
-	}
+	text = { localization_key = "" }
 }
 defined_text = {
 	name = GetMltdCultRow7
@@ -96,9 +82,7 @@ defined_text = {
 		}
 		localization_key = mltd_cult_list_row_7
 	}
-	text = {
-		localization_key = ""
-	}
+	text = { localization_key = "" }
 }
 defined_text = {
 	name = GetMltdCultRow8
@@ -108,9 +92,7 @@ defined_text = {
 		}
 		localization_key = mltd_cult_list_row_8
 	}
-	text = {
-		localization_key = ""
-	}
+	text = { localization_key = "" }
 }
 defined_text = {
 	name = GetMltdCultMore
@@ -120,9 +102,7 @@ defined_text = {
 		}
 		localization_key = mltd_cult_list_more
 	}
-	text = {
-		localization_key = ""
-	}
+	text = { localization_key = "" }
 }
 
 # GetMltdWmRequirement: the requirement line of The Wet Market's rows, where OWB's rows show "Minimum Opinion": green once
@@ -130,14 +110,10 @@ defined_text = {
 defined_text = {
 	name = GetMltdWmRequirement
 	text = {
-		trigger = {
-			has_global_flag = mltd_wet_market_open
-		}
+		trigger = { has_global_flag = mltd_wet_market_open }
 		localization_key = mltd_wm_requirement_open
 	}
-	text = {
-		localization_key = mltd_wm_requirement_closed
-	}
+	text = { localization_key = mltd_wm_requirement_closed }
 }
 
 # GetMltdWmMarketOpen / GetMltdWmAvailability: The Wet Market tab's tooltip, in the shape of OWB's seller tabs
@@ -147,14 +123,10 @@ defined_text = {
 defined_text = {
 	name = GetMltdWmMarketOpen
 	text = {
-		trigger = {
-			has_global_flag = mltd_wet_market_open
-		}
+		trigger = { has_global_flag = mltd_wet_market_open }
 		localization_key = org_available
 	}
-	text = {
-		localization_key = mltd_wm_market_closed
-	}
+	text = { localization_key = mltd_wm_market_closed }
 }
 defined_text = {
 	name = GetMltdWmAvailability
@@ -164,9 +136,7 @@ defined_text = {
 		}
 		localization_key = org_available
 	}
-	text = {
-		localization_key = mltd_wm_unavailable
-	}
+	text = { localization_key = mltd_wm_unavailable }
 }
 
 # GetMltd<creature>Name: OWB's names for the four mirelurk equipment variants (Mirelurks, Killclaws, Bloodrage Mirelurks,
@@ -175,27 +145,19 @@ defined_text = {
 # text is drawn, the way OWB's own [GetMarketInventory] names its items.
 defined_text = {
 	name = GetMltdMirelurksName
-	text = {
-		localization_key = amphibious_beast_equipment_1_short
-	}
+	text = { localization_key = amphibious_beast_equipment_1_short }
 }
 defined_text = {
 	name = GetMltdKillclawsName
-	text = {
-		localization_key = amphibious_beast_equipment_2_short
-	}
+	text = { localization_key = amphibious_beast_equipment_2_short }
 }
 defined_text = {
 	name = GetMltdBloodrageName
-	text = {
-		localization_key = amphibious_beast_equipment_armor_short
-	}
+	text = { localization_key = amphibious_beast_equipment_armor_short }
 }
 defined_text = {
 	name = GetMltdMirelurkKingsName
-	text = {
-		localization_key = amphibious_beast_equipment_king_short
-	}
+	text = { localization_key = amphibious_beast_equipment_king_short }
 }
 
 # Round 28b (early): OWB's name for the bunker building ("Outpost", OWB replace/replace_buildings_l_english.yml:20). A replace/
@@ -203,9 +165,7 @@ defined_text = {
 # through this function, as the Wet Market reads the mirelurk names (GetMltdMirelurksName and its siblings, above).
 defined_text = {
 	name = GetMltdBunkerName
-	text = {
-		localization_key = bunker
-	}
+	text = { localization_key = bunker }
 }
 
 # Rising Tide round 28b (spoils): OWB's building names. OWB renames them in its localisation/replace/ folder
@@ -213,15 +173,11 @@ defined_text = {
 # sentence - the same reason as GetMltdMirelurksName above. The spoils' works tooltips (mltd_spoils_*_works_tt) read them.
 defined_text = {
 	name = GetMltdArmsFactoryName
-	text = {
-		localization_key = arms_factory
-	}
+	text = { localization_key = arms_factory }
 }
 defined_text = {
 	name = GetMltdCivilianFactoryName
-	text = {
-		localization_key = industrial_complex
-	}
+	text = { localization_key = industrial_complex }
 }
 
 # GetMltd<Brk|Bdt|Wbh>Odds (round 28): how likely an invitation's answer is, at the end of the invitation's description -
@@ -252,14 +208,10 @@ defined_text = {
 		localization_key = mltd_brk_odds_human
 	}
 	text = {
-		trigger = {
-			is_historical_focus_on = yes
-		}
+		trigger = { is_historical_focus_on = yes }
 		localization_key = mltd_brk_odds_historical
 	}
-	text = {
-		localization_key = mltd_brk_odds_unhistorical
-	}
+	text = { localization_key = mltd_brk_odds_unhistorical }
 }
 defined_text = {
 	name = GetMltdBdtOdds
@@ -270,9 +222,7 @@ defined_text = {
 		}
 		localization_key = mltd_bdt_odds_human
 	}
-	text = {
-		localization_key = mltd_bdt_odds
-	}
+	text = { localization_key = mltd_bdt_odds }
 }
 defined_text = {
 	name = GetMltdWbhOdds
@@ -313,9 +263,7 @@ defined_text = {
 		localization_key = mltd_wbh_odds_human
 	}
 	text = {
-		trigger = {
-			is_historical_focus_on = yes
-		}
+		trigger = { is_historical_focus_on = yes }
 		localization_key = mltd_wbh_odds_historical
 	}
 	text = {
@@ -329,7 +277,5 @@ defined_text = {
 		}
 		localization_key = mltd_wbh_odds_tca
 	}
-	text = {
-		localization_key = mltd_wbh_odds_wbh
-	}
+	text = { localization_key = mltd_wbh_odds_wbh }
 }

@@ -22,9 +22,7 @@ sub_units = {
 		priority = 600
 		active = no
 
-		type = {
-			infantry
-		}
+		type = { infantry }
 
 		group = mutant_group
 
@@ -85,9 +83,7 @@ sub_units = {
 
 		transport = mltd_deep_ones_equipment
 
-		need = {
-			mltd_deep_ones_equipment = 20
-		}
+		need = { mltd_deep_ones_equipment = 20 }
 	}
 
 	mltd_star_spawn = {
@@ -100,9 +96,7 @@ sub_units = {
 		priority = 601
 		active = no
 
-		type = {
-			infantry
-		}
+		type = { infantry }
 
 		group = mutant_group
 
@@ -163,9 +157,7 @@ sub_units = {
 
 		transport = mltd_star_spawn_equipment
 
-		need = {
-			mltd_star_spawn_equipment = 10
-		}
+		need = { mltd_star_spawn_equipment = 10 }
 	}
 
 	# The Leviathan (common/units/equipment/mltd_equipment.txt). A capital ship like OWB's heavy_ship_unit
@@ -181,9 +173,7 @@ sub_units = {
 		active = yes
 		type = { capital_ship }
 		need = { mltd_leviathan_hull = 1 }
-		categories = {
-			category_capital_ship
-		}
+		categories = { category_capital_ship }
 
 		max_organisation = 60
 

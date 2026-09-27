@@ -964,6 +964,11 @@ consequence, and for less text. Five changes:
 - `.mdformat.toml`, `.markdownlint-cli2.jsonc`: The configs of mdformat, which formats every `.md`
   in the repo, and of markdownlint-cli2, which lints them - no line over 100 characters, table rows
   included (Markdown). Repo-only.
+- `hearty_mod.py`, `.githooks/pre-commit`, `.hearty-cache/`: hearty, the formatter and linter of
+  the mod's script files, run on `mod_folder` without OWB's overrides (Script formatting):
+  `python hearty_mod.py` fixes and formats, `--check` only checks, and the pre-commit hook runs
+  `--staged`. `.hearty-cache/` (gitignored) holds hearty's cache of HOI4's latest version.
+  Repo-only.
 - `event_images/workshop/`: `owb_wordmark.png` (the shared OWB marquee wordmark, matted out of *OWB
   \- Fountain of Dreams*' thumbnail - the only submod thumbnail with light lettering on a dark
   panel, so the only one that mattes cleanly) and the 128/77 px thumbnail previews.
@@ -1962,7 +1967,8 @@ focuses.
   none. No invitation grants an idea (round 28: the war focuses keep the bonuses).
 - **Focus AI.** `ai_will_do` is 3 for heads, beads and wars (The Coast Goes Under included), 10 for
   chapters, closes and R'lyeh Rises, 4 for Hail the Drowned King (above Drown the Dance's 3), 1 for
-  Terms for the Citadel, 3 / 2 / 1 for the three endings, and 2 for every spoils focus. Those
+  Terms for the Citadel, 3 / 2 / 1 for the three endings, and 2 for every spoils focus - the 1s are
+  the default, so Terms and Return to the Sea carry no `ai_will_do` (Script formatting). Those
   weights are tie-breaks only: an AI with a plan takes the first *listed* focus that is available,
   so what orders the invitations before the wars, and The Dreamer Wakes before the other endings,
   is the late plan's own order (MLT's AI > Focus order). A weight decides only between focuses no
@@ -3109,10 +3115,10 @@ it rolls only while the tag is literally `MLT`.
 `trigger = { mltd_flavour_can_fire = yes ... }` (`mltd_scripted_triggers.txt:7-12`:
 `original_tag = MLT`, Kingdom complete, `has_capitulated = no`, no `mltd_flavour_cooldown`). Its
 `immediate` sets `mltd_flavour_cooldown` for 120 days inside `hidden_effect`. `mltd.1` sets the
-same flag for 90 days (`mltd_events.txt:8`), so no flavour event lands on top of the Kingdom beats.
-Four events add a gate of their own: `mltd.11` and `mltd.16` need `mltd_deep_ones_summon_unlocked`
-(set by `mltd.7`, the Call); `mltd.14` needs `mltd_books_read > 0`; `mltd.18` needs
-`capital_scope = { is_fully_controlled_by = ROOT }`.
+same flag for 90 days (`mltd_events.txt:15`), so no flavour event lands on top of the Kingdom
+beats. Four events add a gate of their own: `mltd.11` and `mltd.16` need
+`mltd_deep_ones_summon_unlocked` (set by `mltd.7`, the Call); `mltd.14` needs
+`mltd_books_read > 0`; `mltd.18` needs `capital_scope = { is_fully_controlled_by = ROOT }`.
 
 *Pacing.* From a 20,000-run simulation, medians counted from when the 90-day guard lapses, assuming
 a roll that picks an already-fired or blocked event fires nothing (unverified): first event after
@@ -3128,7 +3134,8 @@ power 10-40, stability and war support 0.01-0.03, caps 10-20 through `add_caps`,
 +20 / -50, +500 capital population (`add_state_population`, OWB `00_scripted_effects.txt:509`), and
 two timed ideas (`mltd_flavour_strange_harvest` 90 days, `mltd_flavour_unnamed_colour` 120 days).
 The one caps cost (`mltd.9` option c) is gated by `caps_cost_trigger` with a `caps_diff` temp
-variable (OWB `nf_bis.txt:721-723`). The safer option carries `ai_chance` base 2, the rest base 1.
+variable (OWB `nf_bis.txt:721-723`). The safer option carries `ai_chance` base 2; the rest carry
+none, the default weight of 1 (hearty removes a written `base = 1`: Script formatting).
 
 *Presentation.* Pictures are reused OWB `GFX_event_*` sprites, so nothing new goes into
 `event_images/SOURCES.md`; `mltd.8`'s `GFX_event_mirelurk_red_death_shipwrecker` is deliberately
@@ -3806,6 +3813,58 @@ Tooling traps, both verified in this environment:
   **no** `pixel_format` kwarg (`'RGBA'`/`'A8R8G8B8'` raise and truncate the file to 0 bytes).
   `DXT1/3/5` strings also work; `build_portrait.py` patches the DXT1 header dwords to OWB's values.
 
+## Script formatting
+
+Every script file of ours under `mod_folder`'s `common/`, `events/` and `history/` is kept as
+[hearty](https://github.com/JonathanWoollett-Light/hearty) formats it (2026-09-27, hearty 0.2.0;
+`cargo install hearty`). hearty puts the fields of a definition block - a focus, decision, decision
+category, event, event option, idea, character or technology - in vanilla's order, sorts events
+into natural id order and focuses after their prerequisites, joins a block holding one
+`key = value` onto one line when the line fits in 100 columns (a tab counts 4), and normalises
+spacing. It also removes fields set to their default - here `fire_only_once = no`,
+`selectable_mission = no`, `ai_chance = { base = 1 }` and `ai_will_do = { factor = 1 }` - and lints
+for missing localisation and redundant fields. Nothing it does changes what the game runs: in an
+event option only `name`, `trigger` and `ai_chance` move, never an effect.
+
+- **Run it through `hearty_mod.py`, never bare.** hearty cannot skip a file, and the seven
+  overrides must stay OWB's bytes plus our listed edits (Overriding OWB). Formatted, they would
+  also fail its lint on OWB's own keys, which live in OWB's folder, where hearty does not look. So
+  `hearty_mod.py` runs it on a mirror of `mod_folder` without them and copies back what changed:
+
+  - `python hearty_mod.py` fixes and formats, then lints;
+  - `python hearty_mod.py --check` checks the working tree and changes nothing;
+  - `python hearty_mod.py --staged` checks what is staged: the whole staged `mod_folder`, not only
+    the staged files. It does nothing while no script file, localisation file or `descriptor.mod`
+    is staged.
+
+  The cost: hearty's lint checks no key of the twelve focuses we append to the MLT focus override.
+  `story_rework/tools/locaudit.py` still does.
+
+- **The pre-commit hook.** `.githooks/pre-commit` runs `hearty_mod.py --staged` and refuses the
+  commit on a formatting drift or a lint finding. It is enabled per clone with
+  `git config core.hooksPath .githooks` (done on this machine), and `git commit --no-verify` skips
+  it once. It needs hearty on the PATH or in `~/.cargo/bin`, and Python 3.8 or later.
+
+- **Generated files.** `build_telemetry.py` writes a one-entry block as hearty would
+  (`one_entry_block`), and `build_ai_frontage.py`'s output needs no change, so a rebuild passes as
+  it is. After changing a generator, run `python hearty_mod.py --check`.
+
+- **Write as hearty would**, or its next run moves things:
+
+  - A comment goes directly above what it describes. A field or an event moves with the comment
+    lines directly above it; a comment a blank line away stays where it is. Most section headers in
+    `mltd_events.txt` stand a blank line above their first event, so its events stay in natural id
+    order. Sorted by hearty, the file had `mltd.24-74` moved up past the Book expeditions
+    (`mltd.101-503`), which stood after `mltd.23`, and every section header left behind over the
+    wrong events; so on 2026-09-27 the expeditions were moved to the end by hand, their header with
+    them.
+  - Leave a default out rather than write it. hearty keeps a comment written above a default it
+    removes, so reword that comment (Terms for the Citadel's and Return to the Sea's `ai_will_do`).
+
+- **The version check.** hearty compares `descriptor.mod`'s `supported_version` with HOI4's latest
+  release, which it reads through steamcmd (downloaded on first use) and caches in `.hearty-cache`
+  for a day. So the day's first run takes about 20 seconds, the rest a fraction of one.
+
 ## Markdown
 
 Every `.md` in the repo - this file, `README.md`, the specs and notes under `story_rework/`,
@@ -4402,7 +4461,7 @@ does: `[GetMltdMirelurksName]`, `[GetMltdKillclawsName]`, `[GetMltdBloodrageName
 
 - **The flavour guard has a one-day gap.** `mltd_flavour_can_fire` opens as soon as the Kingdom
   completes, but the 90-day `mltd_flavour_cooldown` is set by `mltd.1`'s `immediate`
-  (`mltd_events.txt:8`), and the Kingdom fires `mltd.1` with `days = 1` (override `:1181`). A
+  (`mltd_events.txt:15`), and the Kingdom fires `mltd.1` with `days = 1` (override `:1181`). A
   monthly roll inside that day can still land a flavour event before `mltd.1`. Setting the flag in
   the Kingdom's `completion_reward` would close the gap, at the cost of one more override line.
 
@@ -4635,7 +4694,8 @@ does: `[GetMltdMirelurksName]`, `[GetMltdKillclawsName]`, `[GetMltdBloodrageName
 
 ## Testing
 
-After every change, launch the game and read
+After every change to a script file, run `python hearty_mod.py` (Script formatting); the pre-commit
+hook refuses a commit that skipped it. Then launch the game and read
 `C:\Users\jonat\Documents\Paradox Interactive\Hearts of Iron IV\logs\error.log` (truncated each
 launch). Localisation key collisions go to `text.log` - the `warbike_unlock_tech` / `_desc`
 collision there is the intentional `replace/` override. `system.log` lists `Active Mod:` lines,

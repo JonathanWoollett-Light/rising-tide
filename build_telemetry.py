@@ -392,6 +392,16 @@ def gen_advisor():
     return out
 
 
+def one_entry_block(n, key, entry):
+    """`key = { entry }` as `hearty --format` writes it (hearty_mod.py): on one line while that fits in 100 columns,
+    a tab counting 4, else over three."""
+    t = '\t' * n
+    joined = '%s = { %s }' % (key, entry)
+    if 4 * n + len(joined) <= 100:
+        return [t + joined]
+    return [t + key + ' = {', t + '\t' + entry, t + '}']
+
+
 def with_caps(n, text):
     """The log line twice: with caps= while OWB's caps rule is on, without it while it is off."""
     t = '\t' * n
@@ -399,9 +409,7 @@ def with_caps(n, text):
             t + '\tlimit = { has_global_flag = caps_enabled_global_flag }',
             t + '\tlog = "%s caps=[?mltd_tm_caps|0]"' % text,
             t + '}',
-            t + 'else = {',
-            t + '\tlog = "%s"' % text,
-            t + '}']
+            *one_entry_block(n, 'else', 'log = "%s"' % text)]
 
 
 def gen_decisions():
@@ -643,9 +651,7 @@ mltd_tm_poll_wars = {
                 limit = { exists = yes }
                 log = "MLTD [?ROOT.mltd_tm_day|0] WAR_END tag=[THIS.GetTag] exists=yes"
             }
-            else = {
-                log = "MLTD [?ROOT.mltd_tm_day|0] WAR_END tag=[THIS.GetTag] exists=no"
-            }
+            else = { log = "MLTD [?ROOT.mltd_tm_day|0] WAR_END tag=[THIS.GetTag] exists=no" }
         }
         if = {
             limit = {

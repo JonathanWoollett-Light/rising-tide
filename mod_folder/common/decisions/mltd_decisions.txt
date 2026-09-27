@@ -4,9 +4,7 @@
 mltd_gifts_from_the_deep_cat = {
 	mltd_gift_of_the_tide = {
 		icon = GFX_decision_generic_naval
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		visible = {
 			has_country_flag = mltd_first_book_found
 			NOT = { has_country_flag = mltd_gifts_permanent }
@@ -20,7 +18,6 @@ mltd_gifts_from_the_deep_cat = {
 			NOT = { has_active_mission = mltd_gift_of_the_tide_mission }
 		}
 		cost = 25
-		fire_only_once = no
 		ai_will_do = {
 			factor = 20
 			modifier = {
@@ -35,37 +32,24 @@ mltd_gifts_from_the_deep_cat = {
 		complete_effect = {
 			add_manpower = -500
 			mltd_gift_tide_on = yes
-			hidden_effect = {
-				activate_mission = mltd_gift_of_the_tide_mission
-			}
+			hidden_effect = { activate_mission = mltd_gift_of_the_tide_mission }
 			custom_effect_tooltip = mltd_gift_lasts_30_days_tt
 		}
 	}
 	mltd_gift_of_the_tide_mission = {
 		icon = GFX_decision_generic_naval
-		allowed = {
-			original_tag = MLT
-		}
-		activation = {
-			always = no
-		}
+		allowed = { original_tag = MLT }
 		available = {
-			hidden_trigger = {
-				always = no
-			}
+			hidden_trigger = { always = no }
 		}
-		selectable_mission = no
-		is_good = yes
 		days_mission_timeout = 30
-		timeout_effect = {
-			mltd_gift_tide_off = yes
-		}
+		activation = { always = no }
+		is_good = yes
+		timeout_effect = { mltd_gift_tide_off = yes }
 	}
 	mltd_gift_of_the_shell = {
 		icon = GFX_decision_generic_protection
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		visible = {
 			has_country_flag = mltd_second_book_found
 			NOT = { has_country_flag = mltd_gifts_permanent }
@@ -79,7 +63,6 @@ mltd_gifts_from_the_deep_cat = {
 			NOT = { has_active_mission = mltd_gift_of_the_shell_mission }
 		}
 		cost = 25
-		fire_only_once = no
 		ai_will_do = {
 			factor = 20
 			modifier = {
@@ -94,37 +77,24 @@ mltd_gifts_from_the_deep_cat = {
 		complete_effect = {
 			add_manpower = -500
 			mltd_gift_shell_on = yes
-			hidden_effect = {
-				activate_mission = mltd_gift_of_the_shell_mission
-			}
+			hidden_effect = { activate_mission = mltd_gift_of_the_shell_mission }
 			custom_effect_tooltip = mltd_gift_lasts_30_days_tt
 		}
 	}
 	mltd_gift_of_the_shell_mission = {
 		icon = GFX_decision_generic_protection
-		allowed = {
-			original_tag = MLT
-		}
-		activation = {
-			always = no
-		}
+		allowed = { original_tag = MLT }
 		available = {
-			hidden_trigger = {
-				always = no
-			}
+			hidden_trigger = { always = no }
 		}
-		selectable_mission = no
-		is_good = yes
 		days_mission_timeout = 30
-		timeout_effect = {
-			mltd_gift_shell_off = yes
-		}
+		activation = { always = no }
+		is_good = yes
+		timeout_effect = { mltd_gift_shell_off = yes }
 	}
 	mltd_gift_of_the_current = {
 		icon = GFX_decision_generic_army_support
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		visible = {
 			has_country_flag = mltd_third_book_found
 			NOT = { has_country_flag = mltd_gifts_permanent }
@@ -138,7 +108,6 @@ mltd_gifts_from_the_deep_cat = {
 			NOT = { has_active_mission = mltd_gift_of_the_current_mission }
 		}
 		cost = 25
-		fire_only_once = no
 		ai_will_do = {
 			factor = 20
 			modifier = {
@@ -153,37 +122,24 @@ mltd_gifts_from_the_deep_cat = {
 		complete_effect = {
 			add_manpower = -500
 			mltd_gift_current_on = yes
-			hidden_effect = {
-				activate_mission = mltd_gift_of_the_current_mission
-			}
+			hidden_effect = { activate_mission = mltd_gift_of_the_current_mission }
 			custom_effect_tooltip = mltd_gift_lasts_30_days_tt
 		}
 	}
 	mltd_gift_of_the_current_mission = {
 		icon = GFX_decision_generic_army_support
-		allowed = {
-			original_tag = MLT
-		}
-		activation = {
-			always = no
-		}
+		allowed = { original_tag = MLT }
 		available = {
-			hidden_trigger = {
-				always = no
-			}
+			hidden_trigger = { always = no }
 		}
-		selectable_mission = no
-		is_good = yes
 		days_mission_timeout = 30
-		timeout_effect = {
-			mltd_gift_current_off = yes
-		}
+		activation = { always = no }
+		is_good = yes
+		timeout_effect = { mltd_gift_current_off = yes }
 	}
 	mltd_gift_of_the_brood = {
 		icon = GFX_decision_conscription_slaves
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		visible = {
 			has_country_flag = mltd_fourth_book_found
 			NOT = { has_country_flag = mltd_gifts_permanent }
@@ -197,7 +153,6 @@ mltd_gifts_from_the_deep_cat = {
 			NOT = { has_active_mission = mltd_gift_of_the_brood_mission }
 		}
 		cost = 25
-		fire_only_once = no
 		ai_will_do = {
 			factor = 20
 			modifier = {
@@ -212,37 +167,24 @@ mltd_gifts_from_the_deep_cat = {
 		complete_effect = {
 			add_manpower = -500
 			mltd_gift_brood_on = yes
-			hidden_effect = {
-				activate_mission = mltd_gift_of_the_brood_mission
-			}
+			hidden_effect = { activate_mission = mltd_gift_of_the_brood_mission }
 			custom_effect_tooltip = mltd_gift_lasts_30_days_tt
 		}
 	}
 	mltd_gift_of_the_brood_mission = {
 		icon = GFX_decision_conscription_slaves
-		allowed = {
-			original_tag = MLT
-		}
-		activation = {
-			always = no
-		}
+		allowed = { original_tag = MLT }
 		available = {
-			hidden_trigger = {
-				always = no
-			}
+			hidden_trigger = { always = no }
 		}
-		selectable_mission = no
-		is_good = yes
 		days_mission_timeout = 30
-		timeout_effect = {
-			mltd_gift_brood_off = yes
-		}
+		activation = { always = no }
+		is_good = yes
+		timeout_effect = { mltd_gift_brood_off = yes }
 	}
 	mltd_gift_of_the_abyss = {
 		icon = GFX_decision_nor_horror_eye
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		visible = {
 			has_country_flag = mltd_fifth_book_found
 			NOT = { has_country_flag = mltd_gifts_permanent }
@@ -256,7 +198,6 @@ mltd_gifts_from_the_deep_cat = {
 			NOT = { has_active_mission = mltd_gift_of_the_abyss_mission }
 		}
 		cost = 25
-		fire_only_once = no
 		ai_will_do = {
 			factor = 20
 			modifier = {
@@ -271,44 +212,29 @@ mltd_gifts_from_the_deep_cat = {
 		complete_effect = {
 			add_manpower = -500
 			mltd_gift_abyss_on = yes
-			hidden_effect = {
-				activate_mission = mltd_gift_of_the_abyss_mission
-			}
+			hidden_effect = { activate_mission = mltd_gift_of_the_abyss_mission }
 			custom_effect_tooltip = mltd_gift_lasts_30_days_tt
 		}
 	}
 	mltd_gift_of_the_abyss_mission = {
 		icon = GFX_decision_nor_horror_eye
-		allowed = {
-			original_tag = MLT
-		}
-		activation = {
-			always = no
-		}
+		allowed = { original_tag = MLT }
 		available = {
-			hidden_trigger = {
-				always = no
-			}
+			hidden_trigger = { always = no }
 		}
-		selectable_mission = no
-		is_good = yes
 		days_mission_timeout = 30
-		timeout_effect = {
-			mltd_gift_abyss_off = yes
-		}
+		activation = { always = no }
+		is_good = yes
+		timeout_effect = { mltd_gift_abyss_off = yes }
 	}
 }
 mltd_children_of_the_deep_cat = {
 	mltd_summon_the_deep_ones = {
 		icon = GFX_decision_nor_horror_eye
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		# stays open once the Deep Ones can be trained (2026-09-23; until then it hid at The Deep Ones Walk): the sea
 		# answers in days what the barracks take months over, and at a price in people rather than manpower
-		visible = {
-			has_country_flag = mltd_deep_ones_summon_unlocked
-		}
+		visible = { has_country_flag = mltd_deep_ones_summon_unlocked }
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = mltd_summon_state_pop_deep_ones_tt
@@ -366,13 +292,9 @@ mltd_children_of_the_deep_cat = {
 	}
 	mltd_summon_the_star_spawn = {
 		icon = GFX_decision_nor_horror_eye
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		# stays open once the Star Spawn can be trained (2026-09-23; until then it hid at The Final Ritual)
-		visible = {
-			has_country_flag = mltd_star_spawn_summon_unlocked
-		}
+		visible = { has_country_flag = mltd_star_spawn_summon_unlocked }
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = mltd_summon_state_pop_star_spawn_tt
@@ -425,12 +347,8 @@ mltd_children_of_the_deep_cat = {
 	# mltd_summon_state_pop_leviathan_tt, mltd_summon_the_leviathan_desc and mltd_leviathan_summon_cooldown_after_tt.
 	mltd_summon_the_leviathan = {
 		icon = GFX_decision_nor_horror_eye
-		allowed = {
-			original_tag = MLT
-		}
-		visible = {
-			has_country_flag = mltd_leviathan_summon_unlocked
-		}
+		allowed = { original_tag = MLT }
+		visible = { has_country_flag = mltd_leviathan_summon_unlocked }
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = mltd_leviathan_mireport_tt
@@ -489,9 +407,7 @@ mltd_children_of_the_deep_cat = {
 	# caps game rule is off). Both are on a visible timed-flag cooldown rather than days_re_enable.
 	mltd_offering_of_the_drowned = {
 		icon = GFX_decision_skull
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = mltd_offering_state_pop_3000_tt
@@ -506,7 +422,6 @@ mltd_children_of_the_deep_cat = {
 			}
 		}
 		cost = 25
-		fire_only_once = no
 		ai_will_do = {
 			factor = 10
 			modifier = {
@@ -559,9 +474,7 @@ mltd_children_of_the_deep_cat = {
 	}
 	mltd_offering_of_the_tides = {
 		icon = GFX_decision_water_pump
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = mltd_offering_state_pop_3000_tt
@@ -576,7 +489,6 @@ mltd_children_of_the_deep_cat = {
 			}
 		}
 		cost = 35
-		fire_only_once = no
 		ai_will_do = {
 			factor = 5
 			modifier = {
@@ -642,9 +554,7 @@ mltd_cult_infiltration_cat = {
 
 	mltd_cult_call_for_people = {
 		icon = GFX_decision_mltd_cult_hood
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = mltd_cult_any_tt
@@ -656,7 +566,6 @@ mltd_cult_infiltration_cat = {
 			}
 		}
 		cost = 25
-		fire_only_once = no
 		ai_will_do = {
 			factor = 5
 			modifier = {
@@ -683,9 +592,7 @@ mltd_cult_infiltration_cat = {
 
 	mltd_cult_call_for_equipment = {
 		icon = GFX_decision_generic_army_support
-		allowed = {
-			original_tag = MLT
-		}
+		allowed = { original_tag = MLT }
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = mltd_cult_any_tt
@@ -697,7 +604,6 @@ mltd_cult_infiltration_cat = {
 			}
 		}
 		cost = 25
-		fire_only_once = no
 		ai_will_do = {
 			factor = 20
 			modifier = {

@@ -92,14 +92,14 @@
 shared_focus = {
 	id = mltd_the_southern_deep
 	icon = GFX_goal_ITZ_navigate_the_gulf
-	cost = 30
 	prerequisite = { focus = mltd_when_the_legion_breaks }
 	x = 0
 	y = 1
 	relative_position_id = mltd_when_the_legion_breaks
+	cost = 30
+	ai_will_do = { factor = 10 }
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 10 }
 	completion_reward = {
 		add_political_power = 50
 		country_event = { id = mltd.60 days = 1 }
@@ -112,11 +112,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_tex_all_waters_are_one
 	icon = GFX_goal_LNS_texan_dollar	# round 28c: a normal-height icon (see the header) - a spoils focus sits directly above
-	cost = 30
 	prerequisite = { focus = mltd_the_southern_deep }
 	x = -2
 	y = 1
 	relative_position_id = mltd_the_southern_deep
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once TBH and LNS are all gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = TBH }
@@ -124,7 +125,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
 		if = {
@@ -204,11 +204,14 @@ shared_focus = {
 shared_focus = {
 	id = mltd_tex_black_water_rising
 	icon = GFX_goal_ACH_texico_rig
-	cost = 30
 	prerequisite = { focus = mltd_tex_all_waters_are_one }
 	x = -2
 	y = 2
 	relative_position_id = mltd_the_southern_deep
+	cost = 30
+	will_lead_to_war_with = TBH
+	will_lead_to_war_with = LNS
+	ai_will_do = { factor = 3 }
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_tex_one_master_tt
@@ -233,9 +236,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 3 }
-	will_lead_to_war_with = TBH
-	will_lead_to_war_with = LNS
 	completion_reward = {
 		if = {
 			limit = {
@@ -347,9 +347,7 @@ shared_focus = {
 				}
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 		if = {
 			limit = { has_dlc = "La Resistance" }
 			if = {
@@ -378,18 +376,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ate_the_feathered_tide
 	icon = GFX_goal_ATE_empress
-	cost = 30
 	prerequisite = { focus = mltd_the_southern_deep }
 	x = 0
 	y = 1
 	relative_position_id = mltd_the_southern_deep
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once ATE is gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = ATE }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
 		if = {
@@ -410,16 +408,12 @@ shared_focus = {
 					army_intel = 10
 				}
 			}
-			else = {
-				add_political_power = 25
-			}
+			else = { add_political_power = 25 }
 			ATE = { add_stability = -0.04 }
 			# 2026-09-24 (the user: less text): the Speaker's dream (-2 % war support while OWB's blind Speaker,
 			# ATE_speaker_yesenia_aztlanl, still ruled, previewed as a condition) is gone
 		}
-		else = {
-			add_political_power = 25
-		}
+		else = { add_political_power = 25 }
 	}
 }
 
@@ -427,11 +421,13 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ate_the_serpent_drowns
 	icon = GFX_goal_ATE_focus_the_serpent_rises
-	cost = 30
 	prerequisite = { focus = mltd_ate_the_feathered_tide }
 	x = 0
 	y = 2
 	relative_position_id = mltd_the_southern_deep
+	cost = 30
+	will_lead_to_war_with = ATE
+	ai_will_do = { factor = 3 }
 	available = {
 		# the focus is the declaration, so an AI takes it only when its stage has come and the army is ready, only against a
 		# safe target, as mltd_ai_conquer_ate demands (common/ai_strategy/mltd_MLT.txt; round 21: no war on a stronger country
@@ -448,8 +444,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 3 }
-	will_lead_to_war_with = ATE
 	completion_reward = {
 		if = {
 			limit = {
@@ -482,9 +476,7 @@ shared_focus = {
 				days = 60
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 	}
 }
 
@@ -494,11 +486,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_tla_the_iron_god_dreams
 	icon = GFX_goal_generic_tlaloc_aztec
-	cost = 30
 	prerequisite = { focus = mltd_the_southern_deep }
 	x = 2
 	y = 1
 	relative_position_id = mltd_the_southern_deep
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once TLA, MAX, MOC, ZAP and ARM are all gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = TLA }
@@ -509,7 +502,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh). Round 28c: the
@@ -553,9 +545,7 @@ shared_focus = {
 			limit = { country_exists = TLA }
 			custom_effect_tooltip = mltd_tla_databanks_tt
 		}
-		else = {
-			custom_effect_tooltip = mltd_tla_iron_god_dead_tt
-		}
+		else = { custom_effect_tooltip = mltd_tla_iron_god_dead_tt }
 		# The Three Voices: Tlaloc while he lives, else each of his heirs, else ARM
 		if = {
 			limit = { country_exists = TLA }
@@ -691,11 +681,16 @@ shared_focus = {
 shared_focus = {
 	id = mltd_tla_the_drowned_god_sleeps
 	icon = GFX_goal_cip_memory_core
-	cost = 30
 	prerequisite = { focus = mltd_tla_the_iron_god_dreams }
 	x = 2
 	y = 2
 	relative_position_id = mltd_the_southern_deep
+	cost = 30
+	will_lead_to_war_with = TLA
+	will_lead_to_war_with = MAX
+	will_lead_to_war_with = MOC
+	will_lead_to_war_with = ZAP
+	ai_will_do = { factor = 3 }
 	available = {
 		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
 		# war. Round 27: its stage term (mltd_ai_legion_beaten) is gone, as on Act V's wars - the chapter already needs Act V's
@@ -714,11 +709,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 3 }
-	will_lead_to_war_with = TLA
-	will_lead_to_war_with = MAX
-	will_lead_to_war_with = MOC
-	will_lead_to_war_with = ZAP
 	completion_reward = {
 		if = {
 			limit = {
@@ -912,9 +902,7 @@ shared_focus = {
 				}
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 		if = {
 			limit = {
 				country_exists = TLA
@@ -1024,7 +1012,6 @@ shared_focus = {
 shared_focus = {
 	id = mltd_the_last_king_kneels
 	icon = GFX_goal_TBH_The_Last_Piece
-	cost = 30
 	prerequisite = {
 		focus = mltd_tex_black_water_rising
 		focus = mltd_ate_the_serpent_drowns
@@ -1033,6 +1020,8 @@ shared_focus = {
 	x = 0
 	y = 3
 	relative_position_id = mltd_the_southern_deep
+	cost = 30
+	ai_will_do = { factor = 10 }
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_texas_beaten_tt
@@ -1041,7 +1030,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	ai_will_do = { factor = 10 }
 	completion_reward = {
 		# round-28c balance review: the research slot moved to Act III's close, The Tide Turns South, so that the NCR's war
 		# is fought on four slots. This close still leaves MLT on five

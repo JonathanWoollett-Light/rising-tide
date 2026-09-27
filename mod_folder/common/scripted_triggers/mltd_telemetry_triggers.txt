@@ -4,6 +4,4 @@
 # game.log from MLT's daily, weekly and monthly pulses (common/on_actions/mltd_telemetry_on_actions.txt) for the AI
 # report. Set it to always = no to silence the telemetry before a release; deleting the three mltd_telemetry_* files
 # removes it altogether.
-mltd_telemetry_on = {
-	always = yes
-}
+mltd_telemetry_on = { always = yes }

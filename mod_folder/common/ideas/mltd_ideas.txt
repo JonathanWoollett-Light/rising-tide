@@ -7,13 +7,9 @@ ideas = {
 	# (OWB tried: kha_dynamic_modifier.txt:10 is commented out).
 	hidden_ideas = {
 		continuous_mltd_spawning_pools = {
-			allowed = {
-				always = no
-			}
+			allowed = { always = no }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -37,13 +33,9 @@ ideas = {
 		mltd_the_grand_ritual = {
 			picture = black_sea_of_nothingness
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -58,13 +50,9 @@ ideas = {
 		mltd_the_final_ritual = {
 			picture = str_watchers_of_the_stars
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -82,19 +70,13 @@ ideas = {
 		mltd_children_of_the_deep = {
 			picture = generic_mirelurk_king
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
-			modifier = {
-				special_forces_min = 80
-			}
+			modifier = { special_forces_min = 80 }
 		}
 		# ---- Rising Tide round 13: timed ideas from the war capstones (in the story acts since round 27) and the flavour events.
 		# 2026-09-24: every story war focus grants a 180-day idea that carries +10 % attack and +10 % defence against the
@@ -109,13 +91,9 @@ ideas = {
 		mltd_tex_black_water = {
 			picture = generic_fuel
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -141,19 +119,13 @@ ideas = {
 		mltd_wbh_tide_wall = {
 			picture = generic_improv_barricade
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
-			modifier = {
-				army_core_defence_factor = 0.05
-			}
+			modifier = { army_core_defence_factor = 0.05 }
 
 			# 2026-09-24: +10 % attack (+5 % until then) and +10 % defence, as every war focus's idea
 			targeted_modifier = {
@@ -174,13 +146,9 @@ ideas = {
 		mltd_ces_the_drowned_bull = {
 			picture = brk_coastal_terror
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -200,13 +168,9 @@ ideas = {
 		mltd_bos_red_tide = {
 			picture = generic_blood
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -225,19 +189,13 @@ ideas = {
 		mltd_tla_dreams_of_wire = {
 			picture = generic_circuit
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
-			modifier = {
-				research_speed_factor = 0.05
-			}
+			modifier = { research_speed_factor = 0.05 }
 
 			targeted_modifier = {
 				tag = TLA
@@ -268,31 +226,21 @@ ideas = {
 		mltd_flavour_strange_harvest = {
 			picture = generic_meat_cleaver
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
-			modifier = {
-				conscription_factor = 0.05
-			}
+			modifier = { conscription_factor = 0.05 }
 		}
 		# Timed, 120 days (event mltd.12, option b): the oracles drink from the pool the star-stone fell into.
 		mltd_flavour_unnamed_colour = {
 			picture = horror_mask
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -305,13 +253,9 @@ ideas = {
 		mltd_hea_pilgrims_of_the_steam = {
 			picture = HEA_idea_pilgrims
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -330,13 +274,9 @@ ideas = {
 		mltd_wht_rites_on_the_jetty = {
 			picture = generic_salt
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -364,13 +304,9 @@ ideas = {
 		mltd_brk_the_raiders_hunted = {
 			picture = brk_master_of_sea
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -384,13 +320,9 @@ ideas = {
 		mltd_bdt_the_dance_drowned = {
 			picture = BDT_realm_of_bone
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -404,13 +336,9 @@ ideas = {
 		mltd_ncr_the_turbines_silenced = {
 			picture = generic_dam
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -424,13 +352,9 @@ ideas = {
 		mltd_ate_the_serpent_hunted = {
 			picture = ATE_serpent
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -448,13 +372,9 @@ ideas = {
 		mltd_the_first_wave = {
 			picture = lightning_raids_spirit
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -469,12 +389,8 @@ ideas = {
 		# base (civilian_economy 0.30, gov_economic.txt:129). +20 % / +4 % since round 16 (round 14 had +15 % / +5 %).
 		mltd_the_wet_market = {
 			picture = CHI_illicit_trade_1
-			allowed = {
-				original_tag = MLT
-			}
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed = { original_tag = MLT }
+			allowed_civil_war = { always = yes }
 			removal_cost = -1
 			modifier = {
 				caps_income_modifier = 0.20
@@ -493,13 +409,9 @@ ideas = {
 			# dynamic modifier (Act II's The Deep Ones Sail North)
 			picture = generic_coast_guard
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -514,13 +426,9 @@ ideas = {
 		mltd_the_drowned_rangers = {
 			picture = generic_ranger_helm
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -537,13 +445,9 @@ ideas = {
 		mltd_mars_beneath_the_waves = {
 			picture = generic_legion
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -558,13 +462,9 @@ ideas = {
 		mltd_the_drowned_south = {
 			picture = generic_gulf_treaty
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -578,12 +478,8 @@ ideas = {
 		# Permanent, from mltd_ending_the_dreamer_wakes: war.
 		mltd_the_dreamer_wakes = {
 			picture = apocalypse_now
-			allowed = {
-				original_tag = MLT
-			}
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed = { original_tag = MLT }
+			allowed_civil_war = { always = yes }
 			removal_cost = -1
 			modifier = {
 				army_attack_factor = 0.15
@@ -595,12 +491,8 @@ ideas = {
 		# Permanent, from mltd_ending_the_priestess_reigns: rule. consumer_goods_factor as in mltd_the_wet_market, here a cut.
 		mltd_the_priestess_reigns = {
 			picture = IRN_throne
-			allowed = {
-				original_tag = MLT
-			}
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed = { original_tag = MLT }
+			allowed_civil_war = { always = yes }
 			removal_cost = -1
 			modifier = {
 				stability_factor = 0.20
@@ -615,16 +507,10 @@ ideas = {
 		# ending; it stacks with Feed the Spawning Pools' -15 %. The focus also raises two Leviathans at Mireport when it is held.
 		mltd_the_return_to_the_sea = {
 			picture = TIM_patch_oceanography
-			allowed = {
-				original_tag = MLT
-			}
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed = { original_tag = MLT }
+			allowed_civil_war = { always = yes }
 			removal_cost = -1
-			modifier = {
-				monthly_population = 0.2
-			}
+			modifier = { monthly_population = 0.2 }
 			equipment_bonus = {
 				amphibious_beast_equipment = {
 					instant = yes
@@ -649,13 +535,9 @@ ideas = {
 		mltd_the_drowned_sound = {
 			picture = generic_BOS_idea_scribes
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -672,13 +554,9 @@ ideas = {
 		mltd_the_drowned_harvest = {
 			picture = generic_food_good
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -694,13 +572,9 @@ ideas = {
 		mltd_the_iron_tithe = {
 			picture = legion_smiths
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -717,13 +591,9 @@ ideas = {
 		mltd_the_salt_road = {
 			picture = KHA_a_new_silk_road
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -740,13 +610,9 @@ ideas = {
 		mltd_the_office_of_salt = {
 			picture = generic_research_boost
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -767,13 +633,9 @@ ideas = {
 		mltd_the_legions_steel = {
 			picture = salvaged_military_industry
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -799,19 +661,13 @@ ideas = {
 		mltd_the_black_water_visions = {
 			picture = tvt_the_directors_vision
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
-			modifier = {
-				research_speed_factor = 0.10
-			}
+			modifier = { research_speed_factor = 0.10 }
 		}
 		# ---- Rising Tide rounds 28b-28c: the pens of Flagstaff (event mltd.51, the trophy of Act V's close mltd_when_the_legion_breaks,
 		# through the scripted effects mltd_legion_pens_freed / mltd_legion_pens_fed). Until round 28b the two options were 5,000
@@ -823,13 +679,9 @@ ideas = {
 		mltd_the_unchained = {
 			picture = NPC_freed_workers_production
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 
@@ -852,13 +704,9 @@ ideas = {
 		mltd_the_pens_emptied = {
 			picture = generic_egg
 
-			allowed = {
-				original_tag = MLT
-			}
+			allowed = { original_tag = MLT }
 
-			allowed_civil_war = {
-				always = yes
-			}
+			allowed_civil_war = { always = yes }
 
 			removal_cost = -1
 

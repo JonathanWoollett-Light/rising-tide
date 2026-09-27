@@ -55,9 +55,12 @@
 shared_focus = {
 	id = mltd_wbh_eyes_in_the_sound
 	icon = GFX_goal_generic_esp_cam
-	cost = 30
 	# The Grand Ritual since 2026-09-24 (The Deep Ones Walk, which now follows Act III, until then)
 	prerequisite = { focus = mltd_the_grand_ritual }
+	x = 11
+	y = 21
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only its fallback
 	bypass = {
 		custom_trigger_tooltip = {
@@ -67,9 +70,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 11
-	y = 21
-	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in the Brotherhood's lands wither half as fast (mltd_cult_refresh)
@@ -106,9 +106,7 @@ shared_focus = {
 				}
 			}
 		}
-		else = {
-			add_political_power = 25
-		}
+		else = { add_political_power = 25 }
 	}
 }
 
@@ -116,8 +114,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_wbh_the_drowned_knights
 	icon = GFX_goal_WBH_black_paladins_2
-	cost = 60
 	prerequisite = { focus = mltd_wbh_eyes_in_the_sound }
+	x = 0
+	y = 1
+	relative_position_id = mltd_wbh_eyes_in_the_sound
+	cost = 60
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only its fallback
 	bypass = {
 		custom_trigger_tooltip = {
@@ -127,10 +129,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 0
-	y = 1
-	relative_position_id = mltd_wbh_eyes_in_the_sound
-	ai_will_do = { factor = 3 }
 	completion_reward = {
 		# Round 28c: three blocks, parted by the house spacer mltd_newline_tt - the heresy the Brotherhood suffers, what the
 		# Order learns of it, and what the knights carry off. Each spacer is the first line inside the branch it introduces,
@@ -212,9 +210,7 @@ shared_focus = {
 				}
 			}
 		}
-		else = {
-			add_political_power = 25
-		}
+		else = { add_political_power = 25 }
 		# the theft is taken from whichever Brotherhood holds the stock (round 17's pair: the victim loses it from every
 		# producer, ROOT gains it under the victim's name). Round 28b: whether the victim has the stock to spare is known only
 		# when the focus completes, and a preview read while it has not showed nothing at all - so one custom tooltip states
@@ -331,18 +327,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_brk_salt_on_the_broken_coast
 	icon = GFX_goal_BRK_naval_raiders
-	cost = 60
 	# The Grand Ritual since 2026-09-24 (The Deep Ones Walk, which now follows Act III, until then)
 	prerequisite = { focus = mltd_the_grand_ritual }
+	x = 15
+	y = 21
+	cost = 60
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once BRK is gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = BRK }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 15
-	y = 21
-	ai_will_do = { factor = 3 }
 	completion_reward = {
 		# Round 28c: three blocks, parted by the house spacer mltd_newline_tt - the Order's foothold and the cult among the
 		# crews, what the Order learns of the raiders, and the envoys. Each spacer is the first line inside the branch it
@@ -383,9 +379,7 @@ shared_focus = {
 				token = token_army
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 		# OWB's start-of-game scorn between the Broken Coast and the world (on_startup, amfo_opinion_modifiers.txt:72-73),
 		# lifted the way OWB lifts it, and replaced by our envoys' goodwill both ways
 		if = {
@@ -421,8 +415,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_brk_the_deep_ones_sail_north
 	icon = GFX_goal_BRK_masters_of_the_waves
-	cost = 60
 	prerequisite = { focus = mltd_brk_salt_on_the_broken_coast }
+	x = 0
+	y = 1
+	relative_position_id = mltd_brk_salt_on_the_broken_coast
+	cost = 60
+	ai_will_do = { factor = 3 }
 	available = {
 		if = {
 			limit = { country_exists = BRK }
@@ -435,10 +433,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 0
-	y = 1
-	relative_position_id = mltd_brk_salt_on_the_broken_coast
-	ai_will_do = { factor = 3 }
 	completion_reward = {
 		# +3 volunteer divisions MLT may send per call (send_volunteer_size, the dynamic modifier mltd_brk_volunteers): the
 		# player sends them through the diplomacy screen's Send Volunteers, whichever divisions they choose. Both calls sit
@@ -451,9 +445,7 @@ shared_focus = {
 				mltd_brk_add_volunteer_size = yes
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 	}
 }
 
@@ -464,18 +456,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_bdt_the_bone_shore
 	icon = GFX_goal_BDT_holy_skull
-	cost = 30
 	# The Grand Ritual since 2026-09-24 (The Deep Ones Walk, which now follows Act III, until then)
 	prerequisite = { focus = mltd_the_grand_ritual }
+	x = 19
+	y = 21
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once BDT is gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = BDT }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 19
-	y = 21
-	ai_will_do = { factor = 3 }
 	completion_reward = {
 		mltd_intel_foothold = yes
 		if = {
@@ -496,9 +488,7 @@ shared_focus = {
 				army_intel = 10
 			}
 		}
-		else = {
-			add_political_power = 25
-		}
+		else = { add_political_power = 25 }
 		if = {
 			limit = { country_exists = BDT }
 			add_opinion_modifier = {
@@ -517,18 +507,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_bdt_the_dancers_hear_the_tide
 	icon = GFX_goal_BDT_skeleton_king
-	cost = 60
 	prerequisite = { focus = mltd_bdt_the_bone_shore }
+	x = 0
+	y = 1
+	relative_position_id = mltd_bdt_the_bone_shore
+	cost = 60
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once BDT is gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = BDT }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 0
-	y = 1
-	relative_position_id = mltd_bdt_the_bone_shore
-	ai_will_do = { factor = 3 }
 	completion_reward = {
 		if = {
 			limit = { country_exists = BDT }
@@ -560,9 +550,7 @@ shared_focus = {
 				token = token_army
 			}
 		}
-		else = {
-			add_political_power = 25
-		}
+		else = { add_political_power = 25 }
 		# from Salt on the Bone Road: the victim loses the crates from every producer, ROOT gains them under its name. Round 28b:
 		# the preview used to show only the branch the Bone Dancers' stock picked that day - the theft, or the +25 political
 		# power - so one custom tooltip states both, and the effects are hidden. Its 600 / 1,200 / 25 are repeated in
@@ -590,9 +578,7 @@ shared_focus = {
 					producer = BDT
 				}
 			}
-			else = {
-				add_political_power = 25
-			}
+			else = { add_political_power = 25 }
 		}
 		army_experience = 30
 	}

@@ -69,9 +69,7 @@ mltd_coral_host_templates = {
 			has_equipment = { amphibious_beast_equipment > 1000 }
 		}
 		target_template = {
-			support = {
-				anti_tank_company = 1
-			}
+			support = { anti_tank_company = 1 }
 			regiments = {
 				amphibious_beast_creature = 4
 				infantry = 5
@@ -93,12 +91,8 @@ mltd_coral_host_templates = {
 			}
 		}
 		target_template = {
-			support = {
-				anti_tank_company = 1
-			}
-			regiments = {
-				amphibious_beast_creature = 8
-			}
+			support = { anti_tank_company = 1 }
+			regiments = { amphibious_beast_creature = 8 }
 		}
 	}
 }
@@ -132,9 +126,7 @@ mltd_shell_levy_templates = {
 			}
 		}
 		target_template = {
-			regiments = {
-				militia = 12
-			}
+			regiments = { militia = 12 }
 		}
 		replace_at_match = 1.5
 		replace_with = mltd_shell_levy_target
@@ -180,9 +172,7 @@ mltd_shell_levy_templates = {
 			has_equipment = { amphibious_beast_equipment > 1000 }
 		}
 		target_template = {
-			support = {
-				anti_tank_company = 1
-			}
+			support = { anti_tank_company = 1 }
 			regiments = {
 				amphibious_beast_creature = 1
 				militia = 11
@@ -204,12 +194,8 @@ mltd_shell_levy_templates = {
 			}
 		}
 		target_template = {
-			support = {
-				anti_tank_company = 1
-			}
-			regiments = {
-				amphibious_beast_creature = 8
-			}
+			support = { anti_tank_company = 1 }
+			regiments = { amphibious_beast_creature = 8 }
 		}
 	}
 }
@@ -239,9 +225,7 @@ mltd_tide_wall_templates = {
 			}
 		}
 		target_template = {
-			regiments = {
-				amphibious_beast_creature = 5
-			}
+			regiments = { amphibious_beast_creature = 5 }
 		}
 		replace_at_match = 1.5
 		replace_with = mltd_tide_wall_target
@@ -258,12 +242,8 @@ mltd_tide_wall_templates = {
 			}
 		}
 		target_template = {
-			support = {
-				anti_tank_company = 1
-			}
-			regiments = {
-				amphibious_beast_creature = 8
-			}
+			support = { anti_tank_company = 1 }
+			regiments = { amphibious_beast_creature = 8 }
 		}
 	}
 }
@@ -286,13 +266,9 @@ mltd_deep_ones_templates = {
 
 	mltd_deep_ones_target = {
 		reinforce_prio = 2
-		upgrade_prio = {
-			factor = 2
-		}
+		upgrade_prio = { factor = 2 }
 		target_template = {
-			regiments = {
-				mltd_deep_ones = 8
-			}
+			regiments = { mltd_deep_ones = 8 }
 		}
 	}
 }
@@ -311,13 +287,9 @@ mltd_star_spawn_templates = {
 
 	mltd_star_spawn_target = {
 		reinforce_prio = 2
-		upgrade_prio = {
-			factor = 2
-		}
+		upgrade_prio = { factor = 2 }
 		target_template = {
-			regiments = {
-				mltd_star_spawn = 8
-			}
+			regiments = { mltd_star_spawn = 8 }
 		}
 	}
 }

@@ -10,90 +10,70 @@ mltd_gift_tide_on = {
 	custom_effect_tooltip = mltd_gift_tide_on_tt
 	set_variable = { mltd_gift_tide_var = 0.20 }
 	add_to_variable = { mltd_gifts_active = 1 }
-	hidden_effect = {
-		force_update_dynamic_modifier = yes
-	}
+	hidden_effect = { force_update_dynamic_modifier = yes }
 }
 mltd_gift_tide_off = {
 	custom_effect_tooltip = mltd_gift_tide_off_tt
 	set_variable = { mltd_gift_tide_var = 0 }
 	subtract_from_variable = { mltd_gifts_active = 1 }
 	clamp_variable = { var = mltd_gifts_active min = 0 }
-	hidden_effect = {
-		force_update_dynamic_modifier = yes
-	}
+	hidden_effect = { force_update_dynamic_modifier = yes }
 }
 mltd_gift_shell_on = {
 	set_temp_variable = { mltd_gift_value_temp = 0.20 }
 	custom_effect_tooltip = mltd_gift_shell_on_tt
 	set_variable = { mltd_gift_shell_var = 0.20 }
 	add_to_variable = { mltd_gifts_active = 1 }
-	hidden_effect = {
-		force_update_dynamic_modifier = yes
-	}
+	hidden_effect = { force_update_dynamic_modifier = yes }
 }
 mltd_gift_shell_off = {
 	custom_effect_tooltip = mltd_gift_shell_off_tt
 	set_variable = { mltd_gift_shell_var = 0 }
 	subtract_from_variable = { mltd_gifts_active = 1 }
 	clamp_variable = { var = mltd_gifts_active min = 0 }
-	hidden_effect = {
-		force_update_dynamic_modifier = yes
-	}
+	hidden_effect = { force_update_dynamic_modifier = yes }
 }
 mltd_gift_current_on = {
 	set_temp_variable = { mltd_gift_value_temp = 0.20 }
 	custom_effect_tooltip = mltd_gift_current_on_tt
 	set_variable = { mltd_gift_current_var = 0.20 }
 	add_to_variable = { mltd_gifts_active = 1 }
-	hidden_effect = {
-		force_update_dynamic_modifier = yes
-	}
+	hidden_effect = { force_update_dynamic_modifier = yes }
 }
 mltd_gift_current_off = {
 	custom_effect_tooltip = mltd_gift_current_off_tt
 	set_variable = { mltd_gift_current_var = 0 }
 	subtract_from_variable = { mltd_gifts_active = 1 }
 	clamp_variable = { var = mltd_gifts_active min = 0 }
-	hidden_effect = {
-		force_update_dynamic_modifier = yes
-	}
+	hidden_effect = { force_update_dynamic_modifier = yes }
 }
 mltd_gift_brood_on = {
 	set_temp_variable = { mltd_gift_value_temp = 0.30 }
 	custom_effect_tooltip = mltd_gift_brood_on_tt
 	set_variable = { mltd_gift_brood_var = 0.30 }
 	add_to_variable = { mltd_gifts_active = 1 }
-	hidden_effect = {
-		force_update_dynamic_modifier = yes
-	}
+	hidden_effect = { force_update_dynamic_modifier = yes }
 }
 mltd_gift_brood_off = {
 	custom_effect_tooltip = mltd_gift_brood_off_tt
 	set_variable = { mltd_gift_brood_var = 0 }
 	subtract_from_variable = { mltd_gifts_active = 1 }
 	clamp_variable = { var = mltd_gifts_active min = 0 }
-	hidden_effect = {
-		force_update_dynamic_modifier = yes
-	}
+	hidden_effect = { force_update_dynamic_modifier = yes }
 }
 mltd_gift_abyss_on = {
 	set_temp_variable = { mltd_gift_value_temp = 0.20 }
 	custom_effect_tooltip = mltd_gift_abyss_on_tt
 	set_variable = { mltd_gift_abyss_var = 0.20 }
 	add_to_variable = { mltd_gifts_active = 1 }
-	hidden_effect = {
-		force_update_dynamic_modifier = yes
-	}
+	hidden_effect = { force_update_dynamic_modifier = yes }
 }
 mltd_gift_abyss_off = {
 	custom_effect_tooltip = mltd_gift_abyss_off_tt
 	set_variable = { mltd_gift_abyss_var = 0 }
 	subtract_from_variable = { mltd_gifts_active = 1 }
 	clamp_variable = { var = mltd_gifts_active min = 0 }
-	hidden_effect = {
-		force_update_dynamic_modifier = yes
-	}
+	hidden_effect = { force_update_dynamic_modifier = yes }
 }
 
 # The Final Ritual: every gift becomes permanent. remove_mission skips timeout_effect, so the
@@ -256,9 +236,7 @@ mltd_spawn_deep_ones_division = {
 	mltd_ensure_deep_ones_template = yes
 	custom_effect_tooltip = mltd_spawn_deep_ones_tt
 	hidden_effect = {
-		capital_scope = {
-			mltd_raise_deep_ones_here = yes
-		}
+		capital_scope = { mltd_raise_deep_ones_here = yes }
 	}
 	mltd_add_summoned_room = yes
 }
@@ -266,9 +244,7 @@ mltd_spawn_star_spawn_division = {
 	mltd_ensure_star_spawn_template = yes
 	custom_effect_tooltip = mltd_spawn_star_spawn_tt
 	hidden_effect = {
-		capital_scope = {
-			mltd_raise_star_spawn_here = yes
-		}
+		capital_scope = { mltd_raise_star_spawn_here = yes }
 	}
 	mltd_add_summoned_room = yes
 }
@@ -297,9 +273,7 @@ mltd_spawn_leviathan = {
 				set_country_flag = mltd_leviathan_raised
 				load_oob = "mltd_leviathan_first"
 			}
-			else = {
-				load_oob = "mltd_leviathan"
-			}
+			else = { load_oob = "mltd_leviathan" }
 		}
 	}
 }
@@ -446,13 +420,9 @@ mltd_intel_foothold = {
 			has_intelligence_agency = no
 		}
 		custom_effect_tooltip = mltd_intel_foothold_no_agency_tt
-		hidden_effect = {
-			add_political_power = 50
-		}
+		hidden_effect = { add_political_power = 50 }
 	}
-	else = {
-		add_political_power = 50
-	}
+	else = { add_political_power = 50 }
 }
 
 # ---------------------------------------------------------------- Cult Infiltration
@@ -554,9 +524,7 @@ mltd_cult_weekly = {
 		limit = { check_variable = { mltd_cult_strength < 1 } }
 		mltd_cult_dissolve = yes
 	}
-	else = {
-		mltd_cult_refresh = yes
-	}
+	else = { mltd_cult_refresh = yes }
 }
 
 # mltd_cult_rebuild_list: the cults abroad, strongest first, for the Cult Infiltration category's description
@@ -730,9 +698,7 @@ mltd_indoctrinate_defector = {
 			}
 			else = {
 				random_army_leader = {
-					limit = {
-						mltd_defector_candidate = yes
-					}
+					limit = { mltd_defector_candidate = yes }
 					set_character_flag = mltd_defector_new
 					set_nationality = ROOT
 				}
@@ -741,9 +707,7 @@ mltd_indoctrinate_defector = {
 	}
 	if = {
 		limit = {
-			any_army_leader = {
-				has_character_flag = mltd_defector_new
-			}
+			any_army_leader = { has_character_flag = mltd_defector_new }
 		}
 		hidden_effect = {
 			set_variable = { mltd_defector_origin = FROM }
@@ -754,9 +718,7 @@ mltd_indoctrinate_defector = {
 		hidden_effect = {
 			random_army_leader = {
 				include_invisible = yes
-				limit = {
-					has_character_flag = mltd_defector_new
-				}
+				limit = { has_character_flag = mltd_defector_new }
 				clr_character_flag = mltd_defector_new
 				set_nationality = FROM
 			}
@@ -805,9 +767,7 @@ mltd_bdt_join_the_covenant = {
 				icon = GFX_faction_logo_cascadia_pirates
 			}
 		}
-		else = {
-			create_faction = mltd_drowned_covenant
-		}
+		else = { create_faction = mltd_drowned_covenant }
 	}
 	if = {
 		limit = {
@@ -862,9 +822,7 @@ mltd_brk_join_the_covenant = {
 				icon = GFX_faction_logo_cascadia_pirates
 			}
 		}
-		else = {
-			create_faction = mltd_drowned_covenant
-		}
+		else = { create_faction = mltd_drowned_covenant }
 	}
 	if = {
 		limit = {
@@ -988,9 +946,7 @@ mltd_wbh_join_the_covenant = {
 				icon = GFX_faction_logo_cascadia_pirates
 			}
 		}
-		else = {
-			create_faction = mltd_drowned_covenant
-		}
+		else = { create_faction = mltd_drowned_covenant }
 	}
 	if = {
 		limit = {
@@ -1114,9 +1070,7 @@ mltd_wbh_join_the_covenant = {
 # The options are called by the event and by the close's preview (mltd_act5_focus.txt), and nowhere else.
 # The freed rise as the faithful: the permanent idea mltd_the_unchained (stability, and compliance growth in the towns the
 # faithful walk back to - OWB cores a state at 95 % compliance, coring_button_scripted_triggers.txt:52).
-mltd_legion_pens_freed = {
-	add_ideas = mltd_the_unchained
-}
+mltd_legion_pens_freed = { add_ideas = mltd_the_unchained }
 # The pens feed the spawning pools: the timed idea mltd_the_pens_emptied, a cheaper build of every creature the tribe fields
 # for 730 days (its native tooltip prints the days; the loc says "two years" in mltd_the_pens_emptied_desc and mltd.51.d).
 # Round 28c: -10 % for two years in place of 28b's -20 % for one - the same worth, inside the story acts' +-5-10 % band for

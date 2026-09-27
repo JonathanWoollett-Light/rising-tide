@@ -2618,9 +2618,7 @@ mltd_ai_guard_the_warren = {
 # (mltd_ai_may_drown_the_coast) may take BRK on, and only while it is a safe target.
 mltd_ai_court_brk = {
 	allowed = { original_tag = MLT }
-	enable = {
-		mltd_ai_courting_brk = yes
-	}
+	enable = { mltd_ai_courting_brk = yes }
 	abort_when_not_enabled = yes
 
 	ai_strategy = { type = ignore_claim id = "BRK" value = 200 }
@@ -2654,9 +2652,7 @@ mltd_ai_help_brk = {
 # and the conquest block takes over again; it pauses while they are another country's subject.
 mltd_ai_court_bdt = {
 	allowed = { original_tag = MLT }
-	enable = {
-		mltd_ai_courting_bdt = yes
-	}
+	enable = { mltd_ai_courting_bdt = yes }
 	abort_when_not_enabled = yes
 
 	ai_strategy = { type = ignore_claim id = "BDT" value = 200 }
@@ -2754,9 +2750,7 @@ mltd_ai_hold_refusal_wargoal_tca = {
 # hold: that -1000 outweighs OWB's war-goal base and relative-force term.
 mltd_ai_hold_wbh_for_terms = {
 	allowed = { original_tag = MLT }
-	enable = {
-		mltd_ai_terms_pending = yes
-	}
+	enable = { mltd_ai_terms_pending = yes }
 	abort_when_not_enabled = yes
 
 	ai_strategy = { type = antagonize id = "WBH" value = -1200 }

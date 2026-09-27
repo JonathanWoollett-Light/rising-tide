@@ -68,8 +68,12 @@
 shared_focus = {
 	id = mltd_ncr_a_mole_in_shady_sands
 	icon = GFX_goal_NCR_Shady_Sands
-	cost = 30
 	prerequisite = { focus = mltd_the_tide_turns_south }
+	x = 0
+	y = 1
+	relative_position_id = mltd_the_tide_turns_south
+	cost = 30
+	ai_will_do = { factor = 10 }
 	# 2026-09-23: bypassed once NCR and MOT are all gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = NCR }
@@ -77,12 +81,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 0
-	y = 1
-	relative_position_id = mltd_the_tide_turns_south
-	ai_will_do = {
-		factor = 10
-	}
 	completion_reward = {
 		mltd_intel_foothold = yes
 		# round 17: the cults of M'lyeh in the Republic and the Mojave wither half as fast (mltd_cult_refresh)
@@ -116,9 +114,7 @@ shared_focus = {
 				army_intel = 5
 			}
 		}
-		else = {
-			add_political_power = 25
-		}
+		else = { add_political_power = 25 }
 	}
 }
 
@@ -127,20 +123,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ncr_drowned_delegates
 	icon = GFX_goal_NCR_Council_Hill
-	cost = 30
 	prerequisite = { focus = mltd_ncr_a_mole_in_shady_sands }
+	x = -2
+	y = 1
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once NCR is gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = NCR }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = -2
-	y = 1
-	relative_position_id = mltd_ncr_a_mole_in_shady_sands
-	ai_will_do = {
-		factor = 3
-	}
 	completion_reward = {
 		add_political_power = 40
 		if = {
@@ -185,8 +179,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ncr_sleepers_on_the_long_15
 	icon = GFX_goal_NCR_Long15
-	cost = 30
 	prerequisite = { focus = mltd_ncr_a_mole_in_shady_sands }
+	x = 0
+	y = 1
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once NCR and MOT are all gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = NCR }
@@ -194,12 +192,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 0
-	y = 1
-	relative_position_id = mltd_ncr_a_mole_in_shady_sands
-	ai_will_do = {
-		factor = 3
-	}
 	completion_reward = {
 		army_experience = 30
 		if = {
@@ -228,29 +220,25 @@ shared_focus = {
 				}
 			}
 		}
-		else = {
-			add_political_power = 25
-		}
+		else = { add_political_power = 25 }
 	}
 }
 
 shared_focus = {
 	id = mltd_ncr_salt_on_the_caravan_roads
 	icon = GFX_goal_MOJ_ncr_trade	# round 28c: a normal-height icon (see the header) - The Drowned Sound sits directly above
-	cost = 30
 	prerequisite = { focus = mltd_ncr_a_mole_in_shady_sands }
+	x = 2
+	y = 1
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	cost = 30
+	ai_will_do = { factor = 3 }
 	# 2026-09-23: bypassed once NCR is gone - with its nation gone it paid only its fallback
 	bypass = {
 		NOT = { country_exists = NCR }
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 2
-	y = 1
-	relative_position_id = mltd_ncr_a_mole_in_shady_sands
-	ai_will_do = {
-		factor = 3
-	}
 	completion_reward = {
 		# theft without producer: the NCR loses the rifles whoever made them (CLAUDE.md > The story acts > Theft without
 		# producer). Round 28b: a fifth of each store (it was 800 rifles, or 400, and 200 support), read now for the preview
@@ -323,9 +311,7 @@ shared_focus = {
 			}
 		}
 		# round 27: the NCR gone, there are no caravans left to lose
-		else = {
-			add_political_power = 25
-		}
+		else = { add_political_power = 25 }
 		set_temp_variable = { caps_to_add = 100 }
 		add_caps = yes
 	}
@@ -336,13 +322,18 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ncr_the_turbines_sing
 	icon = GFX_goal_generic_dam
-	cost = 30
 	# round 27: any bead of the fan opens the war (one OR block); it used to hang off the Sleepers alone
 	prerequisite = {
 		focus = mltd_ncr_drowned_delegates
 		focus = mltd_ncr_sleepers_on_the_long_15
 		focus = mltd_ncr_salt_on_the_caravan_roads
 	}
+	x = 0
+	y = 2
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	cost = 30
+	will_lead_to_war_with = NCR
+	ai_will_do = { factor = 3 }
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_ncr_hoover_contested_tt
@@ -381,13 +372,6 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 0
-	y = 2
-	relative_position_id = mltd_ncr_a_mole_in_shady_sands
-	ai_will_do = {
-		factor = 3
-	}
-	will_lead_to_war_with = NCR
 	completion_reward = {
 		# round 22: the branch ends in the war itself - the focus declares on each living target that is not already at war
 		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them
@@ -422,9 +406,7 @@ shared_focus = {
 				days = 60
 			}
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
@@ -463,8 +445,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_when_shady_sands_falls
 	icon = GFX_goal_NCR_FO2_Tattered_Flag
-	cost = 30
 	prerequisite = { focus = mltd_ncr_the_turbines_sing }
+	x = 0
+	y = 3
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	cost = 30
+	ai_will_do = { factor = 10 }
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_ncr_beaten_tt
@@ -477,20 +463,12 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 0
-	y = 3
-	relative_position_id = mltd_ncr_a_mole_in_shady_sands
-	ai_will_do = {
-		factor = 10
-	}
 	completion_reward = {
 		# the event's two options, previewed with their own native lines (effect_tooltip shows and does not execute): the same
 		# effects as mltd.40's options a and b (events/mltd_events.txt) - change both together
 		custom_effect_tooltip = mltd_shady_sands_falls_choice_tt
 		custom_effect_tooltip = mltd_shady_sands_falls_scholars_tt
-		effect_tooltip = {
-			add_research_slot = 1
-		}
+		effect_tooltip = { add_research_slot = 1 }
 		# round 28c: a block for each of the trophy's two options
 		custom_effect_tooltip = mltd_newline_tt
 		custom_effect_tooltip = mltd_shady_sands_falls_rangers_tt

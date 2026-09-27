@@ -1072,9 +1072,7 @@ mltd_tm_poll_wars = {
 				limit = { exists = yes }
 				log = "MLTD [?ROOT.mltd_tm_day|0] WAR_END tag=[THIS.GetTag] exists=yes"
 			}
-			else = {
-				log = "MLTD [?ROOT.mltd_tm_day|0] WAR_END tag=[THIS.GetTag] exists=no"
-			}
+			else = { log = "MLTD [?ROOT.mltd_tm_day|0] WAR_END tag=[THIS.GetTag] exists=no" }
 		}
 		if = {
 			limit = {
@@ -3991,9 +3989,7 @@ mltd_tm_poll_market = {
 			limit = { has_global_flag = caps_enabled_global_flag }
 			log = "MLTD [?mltd_tm_day|0] MARKET caps=[?mltd_tm_caps|0]"
 		}
-		else = {
-			log = "MLTD [?mltd_tm_day|0] MARKET"
-		}
+		else = { log = "MLTD [?mltd_tm_day|0] MARKET" }
 	}
 }
 

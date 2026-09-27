@@ -12,16 +12,12 @@ leader_traits = {
 	mltd_keeper_of_the_order = {
 		random = no
 		operative_slot = 2
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 	}
 
 	mltd_claims_of_the_tide = {
 		random = no
 		justify_war_goal_time = -0.3
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 	}
 }

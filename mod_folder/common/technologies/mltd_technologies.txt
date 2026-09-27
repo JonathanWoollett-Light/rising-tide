@@ -33,16 +33,18 @@ technologies = {
 	# The Deep Ones. Id deliberately reuses OWB's orphaned reward-tab gridbox "warbike_unlock_tech_tree"
 	# so the tech renders in the Reward Technologies tab without overriding countrytechtreeview.gui.
 	warbike_unlock_tech = {
-		research_cost = 6.0
+		enable_equipments = { mltd_deep_ones_equipment_1 }
 
-		dependencies = {
-			blocked_unit_tech = 1
-		}
+		enable_subunits = { mltd_deep_ones }
 
 		path = {
 			leads_to_tech = mltd_star_spawn_tech
 			research_cost_coeff = 1
 		}
+
+		dependencies = { blocked_unit_tech = 1 }
+
+		research_cost = 6.0
 
 		folder = {
 			name = fallout_focus_tree_folder
@@ -51,26 +53,18 @@ technologies = {
 			position = { x = 4 y = 24 }
 		}
 
-		enable_subunits = {
-			mltd_deep_ones
-		}
-
-		enable_equipments = {
-			mltd_deep_ones_equipment_1
-		}
-
-		ai_will_do = {
-			factor = 0
-		}
+		ai_will_do = { factor = 0 }
 	}
 
 	# The Star Spawn. Child of warbike_unlock_tech so it shares that gridbox.
 	mltd_star_spawn_tech = {
-		research_cost = 7.0
+		enable_equipments = { mltd_star_spawn_equipment_1 }
 
-		dependencies = {
-			blocked_unit_tech = 1
-		}
+		enable_subunits = { mltd_star_spawn }
+
+		dependencies = { blocked_unit_tech = 1 }
+
+		research_cost = 7.0
 
 		folder = {
 			name = fallout_focus_tree_folder
@@ -79,17 +73,7 @@ technologies = {
 			position = { x = 4 y = 28 }
 		}
 
-		enable_subunits = {
-			mltd_star_spawn
-		}
-
-		enable_equipments = {
-			mltd_star_spawn_equipment_1
-		}
-
-		ai_will_do = {
-			factor = 0
-		}
+		ai_will_do = { factor = 0 }
 	}
 
 	# Hidden: unlocks the equipment the moment the first Deep Ones division is raised (granted by
@@ -98,36 +82,20 @@ technologies = {
 	# allow = { always = no } + enable_equipments, no folder). Key layout copied from
 	# tech_access.txt blocked_unit_tech.
 	mltd_deep_ones_equipment_tech = {
+		allow = { always = no }
+		enable_equipments = { mltd_deep_ones_equipment_1 }
+		dependencies = { blocked_tech = 1 }
 		research_cost = 1.0
-		dependencies = {
-			blocked_tech = 1
-		}
-		allow = {
-			always = no
-		}
-		enable_equipments = {
-			mltd_deep_ones_equipment_1
-		}
-		ai_will_do = {
-			factor = 0
-		}
+		ai_will_do = { factor = 0 }
 	}
 
 	# Hidden: same for the Star Spawn (granted by mltd_ensure_star_spawn_template).
 	mltd_star_spawn_equipment_tech = {
+		allow = { always = no }
+		enable_equipments = { mltd_star_spawn_equipment_1 }
+		dependencies = { blocked_tech = 1 }
 		research_cost = 1.0
-		dependencies = {
-			blocked_tech = 1
-		}
-		allow = {
-			always = no
-		}
-		enable_equipments = {
-			mltd_star_spawn_equipment_1
-		}
-		ai_will_do = {
-			factor = 0
-		}
+		ai_will_do = { factor = 0 }
 	}
 
 	# The Leviathan (common/units/equipment/mltd_equipment.txt, sub-unit mltd_leviathan). Never researched: focus
@@ -145,38 +113,25 @@ technologies = {
 	# carries it, -0.4) - no ship or sub-unit stat reaches weather - so it applies to MLT's whole navy, which is a
 	# handful of river boats and whatever the sea gives up.
 	mltd_leviathan_tech = {
+		allow_branch = { original_tag = MLT }
+
+		allow = { always = no }
+
+		enable_equipments = { mltd_leviathan_1 }
+
+		dependencies = { blocked_unit_tech = 1 }
+
 		research_cost = 6.0
-
-		dependencies = {
-			blocked_unit_tech = 1
-		}
-
-		allow = {
-			always = no
-		}
-
-		allow_branch = {
-			original_tag = MLT
-		}
 
 		folder = {
 			name = fallout_naval_folder
 			position = { x = 6 y = 36 }
 		}
 
-		enable_equipments = {
-			mltd_leviathan_1
-		}
-
 		navy_weather_penalty = -0.5
 
-		categories = {
-			naval_tech_category
-			naval_hull_tech_category
-		}
+		categories = { naval_tech_category naval_hull_tech_category }
 
-		ai_will_do = {
-			factor = 0
-		}
+		ai_will_do = { factor = 0 }
 	}
 }

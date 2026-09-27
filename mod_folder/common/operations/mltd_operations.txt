@@ -27,32 +27,22 @@ mltd_op_indoctrinate_the_faithful_5000 = {
 	network_strength = 30
 	operatives = 2
 
-	allowed = {
-		original_tag = MLT
-	}
+	allowed = { original_tag = MLT }
 
 	visible = {
-		ROOT = {
-			original_tag = MLT
-		}
+		ROOT = { original_tag = MLT }
 		network_national_coverage = {
 			target = FROM
 			value > 0
 		}
-		FROM = {
-			has_manpower > 50000
-		}
+		FROM = { has_manpower > 50000 }
 	}
 
 	available = {
-		FROM = {
-			has_manpower > 50000
-		}
+		FROM = { has_manpower > 50000 }
 	}
 
-	equipment = {
-		support_equipment = 500
-	}
+	equipment = { support_equipment = 500 }
 	cost_multiplier = 0
 
 	experience = 2.5
@@ -77,18 +67,12 @@ mltd_op_indoctrinate_the_faithful_5000 = {
 		}
 	}
 	outcome_potential = {
-		FROM = {
-			add_manpower = -5000
-		}
-		ROOT = {
-			add_manpower = 5000
-		}
+		FROM = { add_manpower = -5000 }
+		ROOT = { add_manpower = 5000 }
 		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
 	}
 
-	ai_will_do = {
-		base = 5
-	}
+	ai_will_do = { base = 5 }
 
 	phases = { #make contact with the disaffected
 		infiltrate_military_ideological_supporter = { base = 100 }
@@ -113,14 +97,10 @@ mltd_op_indoctrinate_the_faithful_2500 = {
 	network_strength = 30
 	operatives = 2
 
-	allowed = {
-		original_tag = MLT
-	}
+	allowed = { original_tag = MLT }
 
 	visible = {
-		ROOT = {
-			original_tag = MLT
-		}
+		ROOT = { original_tag = MLT }
 		network_national_coverage = {
 			target = FROM
 			value > 0
@@ -132,14 +112,10 @@ mltd_op_indoctrinate_the_faithful_2500 = {
 	}
 
 	available = {
-		FROM = {
-			has_manpower > 25000
-		}
+		FROM = { has_manpower > 25000 }
 	}
 
-	equipment = {
-		support_equipment = 250
-	}
+	equipment = { support_equipment = 250 }
 	cost_multiplier = 0
 
 	experience = 2.5
@@ -164,18 +140,12 @@ mltd_op_indoctrinate_the_faithful_2500 = {
 		}
 	}
 	outcome_potential = {
-		FROM = {
-			add_manpower = -2500
-		}
-		ROOT = {
-			add_manpower = 2500
-		}
+		FROM = { add_manpower = -2500 }
+		ROOT = { add_manpower = 2500 }
 		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
 	}
 
-	ai_will_do = {
-		base = 5
-	}
+	ai_will_do = { base = 5 }
 
 	phases = { #make contact with the disaffected
 		infiltrate_military_ideological_supporter = { base = 100 }
@@ -200,14 +170,10 @@ mltd_op_indoctrinate_the_faithful_1000 = {
 	network_strength = 30
 	operatives = 2
 
-	allowed = {
-		original_tag = MLT
-	}
+	allowed = { original_tag = MLT }
 
 	visible = {
-		ROOT = {
-			original_tag = MLT
-		}
+		ROOT = { original_tag = MLT }
 		network_national_coverage = {
 			target = FROM
 			value > 0
@@ -219,14 +185,10 @@ mltd_op_indoctrinate_the_faithful_1000 = {
 	}
 
 	available = {
-		FROM = {
-			has_manpower > 10000
-		}
+		FROM = { has_manpower > 10000 }
 	}
 
-	equipment = {
-		support_equipment = 100
-	}
+	equipment = { support_equipment = 100 }
 	cost_multiplier = 0
 
 	experience = 2.5
@@ -251,18 +213,12 @@ mltd_op_indoctrinate_the_faithful_1000 = {
 		}
 	}
 	outcome_potential = {
-		FROM = {
-			add_manpower = -1000
-		}
-		ROOT = {
-			add_manpower = 1000
-		}
+		FROM = { add_manpower = -1000 }
+		ROOT = { add_manpower = 1000 }
 		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
 	}
 
-	ai_will_do = {
-		base = 5
-	}
+	ai_will_do = { base = 5 }
 
 	phases = { #make contact with the disaffected
 		infiltrate_military_ideological_supporter = { base = 100 }
@@ -287,14 +243,10 @@ mltd_op_indoctrinate_the_faithful_250 = {
 	network_strength = 30
 	operatives = 2
 
-	allowed = {
-		original_tag = MLT
-	}
+	allowed = { original_tag = MLT }
 
 	visible = {
-		ROOT = {
-			original_tag = MLT
-		}
+		ROOT = { original_tag = MLT }
 		network_national_coverage = {
 			target = FROM
 			value > 0
@@ -306,14 +258,10 @@ mltd_op_indoctrinate_the_faithful_250 = {
 	}
 
 	available = {
-		FROM = {
-			has_manpower > 5000
-		}
+		FROM = { has_manpower > 5000 }
 	}
 
-	equipment = {
-		support_equipment = 25
-	}
+	equipment = { support_equipment = 25 }
 	cost_multiplier = 0
 
 	experience = 2.5
@@ -338,18 +286,12 @@ mltd_op_indoctrinate_the_faithful_250 = {
 		}
 	}
 	outcome_potential = {
-		FROM = {
-			add_manpower = -250
-		}
-		ROOT = {
-			add_manpower = 250
-		}
+		FROM = { add_manpower = -250 }
+		ROOT = { add_manpower = 250 }
 		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
 	}
 
-	ai_will_do = {
-		base = 5
-	}
+	ai_will_do = { base = 5 }
 
 	phases = { #make contact with the disaffected
 		infiltrate_military_ideological_supporter = { base = 100 }
@@ -374,14 +316,10 @@ mltd_op_indoctrinate_the_faithful_100 = {
 	network_strength = 30
 	operatives = 2
 
-	allowed = {
-		original_tag = MLT
-	}
+	allowed = { original_tag = MLT }
 
 	visible = {
-		ROOT = {
-			original_tag = MLT
-		}
+		ROOT = { original_tag = MLT }
 		network_national_coverage = {
 			target = FROM
 			value > 0
@@ -392,14 +330,10 @@ mltd_op_indoctrinate_the_faithful_100 = {
 	}
 
 	available = {
-		FROM = {
-			has_manpower > 1000
-		}
+		FROM = { has_manpower > 1000 }
 	}
 
-	equipment = {
-		support_equipment = 10
-	}
+	equipment = { support_equipment = 10 }
 	cost_multiplier = 0
 
 	experience = 2.5
@@ -424,18 +358,12 @@ mltd_op_indoctrinate_the_faithful_100 = {
 		}
 	}
 	outcome_potential = {
-		FROM = {
-			add_manpower = -100
-		}
-		ROOT = {
-			add_manpower = 100
-		}
+		FROM = { add_manpower = -100 }
+		ROOT = { add_manpower = 100 }
 		custom_effect_tooltip = mltd_op_indoctrinate_the_faithful_tt
 	}
 
-	ai_will_do = {
-		base = 5
-	}
+	ai_will_do = { base = 5 }
 
 	phases = { #make contact with the disaffected
 		infiltrate_military_ideological_supporter = { base = 100 }
@@ -466,9 +394,7 @@ mltd_op_found_a_cult = {
 	network_strength = 20
 	operatives = 1
 
-	allowed = {
-		original_tag = MLT
-	}
+	allowed = { original_tag = MLT }
 
 	visible = {
 		ROOT = {
@@ -509,27 +435,19 @@ mltd_op_found_a_cult = {
 			set_temp_variable = { mltd_cult_gain = 10 }
 			mltd_cult_add_strength = yes
 		}
-		ROOT = {
-			mltd_cult_rebuild_list = yes
-		}
+		ROOT = { mltd_cult_rebuild_list = yes }
 	}
 	outcome_extra_execute = {
 		FROM = {
 			set_temp_variable = { mltd_cult_gain = 20 }
 			mltd_cult_add_strength = yes
 		}
-		ROOT = {
-			mltd_cult_rebuild_list = yes
-		}
+		ROOT = { mltd_cult_rebuild_list = yes }
 	}
-	outcome_potential = {
-		custom_effect_tooltip = mltd_op_found_a_cult_tt
-	}
+	outcome_potential = { custom_effect_tooltip = mltd_op_found_a_cult_tt }
 
 	# over OPERATION_AI_MINIMUM_SCORE (10, vanilla 00_defines.lua:3728), below which the AI scraps an operation it prepares
-	ai_will_do = {
-		base = 20
-	}
+	ai_will_do = { base = 20 }
 
 	phases = { #make contact with the disaffected
 		infiltrate_military_ideological_supporter = { base = 100 }
@@ -554,9 +472,7 @@ mltd_op_nurture_the_cult = {
 	network_strength = 20
 	operatives = 1
 
-	allowed = {
-		original_tag = MLT
-	}
+	allowed = { original_tag = MLT }
 
 	visible = {
 		ROOT = {
@@ -567,9 +483,7 @@ mltd_op_nurture_the_cult = {
 			target = FROM
 			value > 0
 		}
-		FROM = {
-			has_variable = mltd_cult_strength
-		}
+		FROM = { has_variable = mltd_cult_strength }
 	}
 
 	available = {
@@ -605,27 +519,19 @@ mltd_op_nurture_the_cult = {
 			set_temp_variable = { mltd_cult_gain = 12 }
 			mltd_cult_add_strength = yes
 		}
-		ROOT = {
-			mltd_cult_rebuild_list = yes
-		}
+		ROOT = { mltd_cult_rebuild_list = yes }
 	}
 	outcome_extra_execute = {
 		FROM = {
 			set_temp_variable = { mltd_cult_gain = 20 }
 			mltd_cult_add_strength = yes
 		}
-		ROOT = {
-			mltd_cult_rebuild_list = yes
-		}
+		ROOT = { mltd_cult_rebuild_list = yes }
 	}
-	outcome_potential = {
-		custom_effect_tooltip = mltd_op_nurture_the_cult_tt
-	}
+	outcome_potential = { custom_effect_tooltip = mltd_op_nurture_the_cult_tt }
 
 	# over OPERATION_AI_MINIMUM_SCORE (10, vanilla 00_defines.lua:3728), as Found a Cult
-	ai_will_do = {
-		base = 20
-	}
+	ai_will_do = { base = 20 }
 
 	phases = { #make contact with the disaffected
 		infiltrate_military_ideological_supporter = { base = 100 }

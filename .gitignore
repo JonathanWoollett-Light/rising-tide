@@ -12,6 +12,9 @@
 # Event picture sources are versioned - they rebuild mod_folder/gfx/event_pictures via build_event_pictures.py.
 !event_images/**
 
+# hearty's cache of HOI4's latest version (hearty_mod.py, or hearty run from the repo root).
+.hearty-cache/
+
 # Python bytecode from importing the build scripts.
 __pycache__/
 *.pyc

@@ -28,9 +28,7 @@ equipments = {
 		#Space taken in convoy
 		lend_lease_cost = 1
 
-		resources = {
-			water = 3
-		}
+		resources = { water = 3 }
 	}
 
 	# Deep Ones Equipment
@@ -55,9 +53,7 @@ equipments = {
 		hard_attack = 13
 		ap_attack = 10
 
-		resources = {
-			water = 5
-		}
+		resources = { water = 5 }
 	}
 
 	mltd_star_spawn_equipment = {
@@ -72,9 +68,7 @@ equipments = {
 		#Space taken in convoy
 		lend_lease_cost = 1
 
-		resources = {
-			water = 5
-		}
+		resources = { water = 5 }
 	}
 
 	# Star Spawn Equipment
@@ -102,9 +96,7 @@ equipments = {
 		# a little below a demolition team (inf_demolitions_eq.txt:207 is 12).
 		air_attack = 10
 
-		resources = {
-			water = 8
-		}
+		resources = { water = 8 }
 	}
 }
 
@@ -140,9 +132,7 @@ equipments = {
 		interface_category = interface_category_capital_ships
 		priority = 2000
 
-		can_be_produced = {
-			always = no
-		}
+		can_be_produced = { always = no }
 
 		lg_armor_piercing = 12
 		lg_attack = 100
@@ -170,9 +160,7 @@ equipments = {
 		fuel_consumption = 0
 
 		build_cost_ic = 6400
-		resources = {
-			water = 4
-		}
+		resources = { water = 4 }
 
 		manpower = 60
 		naval_dominance_factor = 300

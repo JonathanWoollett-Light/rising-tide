@@ -97,8 +97,12 @@
 shared_focus = {
 	id = mltd_spoils_the_scribes_vaults
 	icon = GFX_goal_MOJ_scribal_thought
-	cost = 30
 	prerequisite = { focus = mltd_the_tide_turns_south }
+	x = -2
+	y = 0
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	cost = 30
+	ai_will_do = { factor = 2 }
 	# land held, as every spoils gate asks. A Brotherhood sworn to the Covenant keeps its vaults: after an accepted Terms for
 	# the Citadel from the Northwestern Brotherhood (TCA holds both citadels once it has formed) the focus stays shut while
 	# the alliance lasts - by design, the knights are not "dead, drowned or fled" (round 28c review)
@@ -110,13 +114,7 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = -2
-	y = 0
-	relative_position_id = mltd_ncr_a_mole_in_shady_sands
 	search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
-	ai_will_do = {
-		factor = 2
-	}
 	completion_reward = {
 		# +10 compliance; the 10 is repeated in mltd_spoils_scribes_compliance_tt
 		custom_effect_tooltip = mltd_spoils_scribes_compliance_tt
@@ -147,8 +145,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_spoils_the_drowned_sound
 	icon = GFX_goal_generic_harbours_focus
-	cost = 60
 	prerequisite = { focus = mltd_the_tide_turns_south }
+	x = 2
+	y = 0
+	relative_position_id = mltd_ncr_a_mole_in_shady_sands
+	cost = 60
+	ai_will_do = { factor = 2 }
 	available = {
 		# 80 controlled states (the plan holds 80-95 as the NCR war begins); repeated in mltd_spoils_sound_states_tt
 		custom_trigger_tooltip = {
@@ -158,13 +160,7 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 2
-	y = 0
-	relative_position_id = mltd_ncr_a_mole_in_shady_sands
 	search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
-	ai_will_do = {
-		factor = 2
-	}
 	completion_reward = {
 		add_ideas = mltd_the_drowned_sound
 		custom_effect_tooltip = mltd_newline_tt
@@ -208,8 +204,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_spoils_the_canals_run_salt
 	icon = GFX_goal_NCR_Calhoun_Water_Tower
-	cost = 30
 	prerequisite = { focus = mltd_when_shady_sands_falls }
+	x = -4
+	y = 0
+	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	ai_will_do = { factor = 2 }
 	available = {
 		OR = {
 			owns_state = 253
@@ -218,13 +218,7 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = -4
-	y = 0
-	relative_position_id = mltd_mars_in_the_water
 	search_filters = { FOCUS_FILTER_INDUSTRY }
-	ai_will_do = {
-		factor = 2
-	}
 	completion_reward = {
 		# +10 compliance and 10 mirelurks for each held Republic core (the plan holds ~50 of its 56 core states by 2283: ~500,
 		# about a tenth of a year's military output then [M]; at most 560); both 10s are repeated in
@@ -259,20 +253,16 @@ shared_focus = {
 shared_focus = {
 	id = mltd_spoils_the_foundries_relit
 	icon = GFX_goal_NCR_Rebuild_the_13
-	cost = 30
 	prerequisite = { focus = mltd_when_shady_sands_falls }
-	available = {
-		owns_state = 350
-	}
-	cancel_if_invalid = no
-	continue_if_invalid = yes
 	x = -2
 	y = 0
 	relative_position_id = mltd_mars_in_the_water
+	cost = 30
+	ai_will_do = { factor = 2 }
+	available = { owns_state = 350 }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
 	search_filters = { FOCUS_FILTER_INDUSTRY }
-	ai_will_do = {
-		factor = 2
-	}
 	completion_reward = {
 		# up to +3 civilian factories, about five months of MLT's own construction in 2283 [M]; the 1 and 1 are repeated in
 		# mltd_spoils_foundries_works_tt
@@ -338,9 +328,7 @@ shared_focus = {
 			custom_effect_tooltip = mltd_spoils_foundries_bonus_else_tt
 			effect_tooltip = { add_political_power = 50 }
 		}
-		else = {
-			add_political_power = 50
-		}
+		else = { add_political_power = 50 }
 	}
 }
 
@@ -349,8 +337,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_spoils_the_office_of_salt
 	icon = GFX_goal_NCR_Hayes_Science
-	cost = 60
 	prerequisite = { focus = mltd_when_shady_sands_falls }
+	x = 2
+	y = 0
+	relative_position_id = mltd_mars_in_the_water
+	cost = 60
+	ai_will_do = { factor = 2 }
 	available = {
 		OR = {
 			owns_state = 1
@@ -359,24 +351,20 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 2
-	y = 0
-	relative_position_id = mltd_mars_in_the_water
 	search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
-	ai_will_do = {
-		factor = 2
-	}
-	completion_reward = {
-		add_ideas = mltd_the_office_of_salt
-	}
+	completion_reward = { add_ideas = mltd_the_office_of_salt }
 }
 
 # The group's first idea: the Republic's larder feeds the tribe
 shared_focus = {
 	id = mltd_spoils_the_drowned_harvest
 	icon = GFX_goal_NCR_Agricultural_Research
-	cost = 60
 	prerequisite = { focus = mltd_when_shady_sands_falls }
+	x = 4
+	y = 0
+	relative_position_id = mltd_mars_in_the_water
+	cost = 60
+	ai_will_do = { factor = 2 }
 	available = {
 		# 120 controlled states (the plan holds 140-170 at Act IV's close); repeated in mltd_spoils_harvest_states_tt
 		custom_trigger_tooltip = {
@@ -386,16 +374,8 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 4
-	y = 0
-	relative_position_id = mltd_mars_in_the_water
 	search_filters = { FOCUS_FILTER_INDUSTRY }
-	ai_will_do = {
-		factor = 2
-	}
-	completion_reward = {
-		add_ideas = mltd_the_drowned_harvest
-	}
+	completion_reward = { add_ideas = mltd_the_drowned_harvest }
 }
 
 ############ The interior - after Act V's close, flanking The Southern Deep ############
@@ -404,20 +384,16 @@ shared_focus = {
 shared_focus = {
 	id = mltd_spoils_the_legions_armouries
 	icon = GFX_goal_v100_weapon_salvage
-	cost = 30
 	prerequisite = { focus = mltd_when_the_legion_breaks }
-	available = {
-		owns_state = 520
-	}
-	cancel_if_invalid = no
-	continue_if_invalid = yes
 	x = -2
 	y = 0
 	relative_position_id = mltd_the_southern_deep
+	cost = 30
+	ai_will_do = { factor = 2 }
+	available = { owns_state = 520 }
+	cancel_if_invalid = no
+	continue_if_invalid = yes
 	search_filters = { FOCUS_FILTER_INDUSTRY }
-	ai_will_do = {
-		factor = 2
-	}
 	completion_reward = {
 		# -10 resistance; the 10 is repeated in mltd_spoils_armouries_resistance_tt
 		custom_effect_tooltip = mltd_spoils_armouries_resistance_tt
@@ -445,8 +421,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_spoils_the_iron_tithe
 	icon = GFX_goal_CES_Industry_Miner
-	cost = 60
 	prerequisite = { focus = mltd_when_the_legion_breaks }
+	x = 2
+	y = 0
+	relative_position_id = mltd_the_southern_deep
+	cost = 60
+	ai_will_do = { factor = 2 }
 	available = {
 		# 180 controlled states (the plan holds 140-170 before Act V's conquests); repeated in mltd_spoils_tithe_states_tt
 		custom_trigger_tooltip = {
@@ -456,13 +436,7 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 2
-	y = 0
-	relative_position_id = mltd_the_southern_deep
 	search_filters = { FOCUS_FILTER_INDUSTRY }
-	ai_will_do = {
-		factor = 2
-	}
 	completion_reward = {
 		add_ideas = mltd_the_iron_tithe
 		custom_effect_tooltip = mltd_newline_tt
@@ -519,8 +493,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_spoils_the_black_water_wells
 	icon = GFX_goal_generic_generic_oil_rig
-	cost = 30
 	prerequisite = { focus = mltd_the_last_king_kneels }
+	x = -2
+	y = 0
+	relative_position_id = mltd_rlyeh_rises
+	cost = 30
+	ai_will_do = { factor = 2 }
 	available = {
 		OR = {
 			owns_state = 892
@@ -529,13 +507,7 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = -2
-	y = 0
-	relative_position_id = mltd_rlyeh_rises
 	search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
-	ai_will_do = {
-		factor = 2
-	}
 	completion_reward = {
 		# In place of +4 energy in each well state and an extraction bonus (round 28), which a creature army could not use and
 		# which the plan's timeline turned into +50 PP: a year of faster research, scaling with MLT's slots. The engine draws
@@ -552,8 +524,12 @@ shared_focus = {
 shared_focus = {
 	id = mltd_spoils_the_salt_road
 	icon = GFX_goal_RRG_texan_trade
-	cost = 60
 	prerequisite = { focus = mltd_the_last_king_kneels }
+	x = 2
+	y = 0
+	relative_position_id = mltd_rlyeh_rises
+	cost = 60
+	ai_will_do = { factor = 2 }
 	available = {
 		# 250 controlled states (the plan holds 300-400 at Act VI's close; R'lyeh Rises needs 300); repeated in
 		# mltd_spoils_salt_road_states_tt
@@ -564,13 +540,7 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	x = 2
-	y = 0
-	relative_position_id = mltd_rlyeh_rises
 	search_filters = { FOCUS_FILTER_INDUSTRY }
-	ai_will_do = {
-		factor = 2
-	}
 	completion_reward = {
 		add_ideas = mltd_the_salt_road
 		custom_effect_tooltip = mltd_newline_tt
