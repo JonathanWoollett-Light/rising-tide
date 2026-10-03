@@ -1,15 +1,17 @@
 # Rising Tide - The Wet Market, M'lyeh's black market: a seller in OWB's Organization Marketplace (the window
-# trade_ledger_window, OWB common/scripted_guis/__trade_ledger_gui.txt), built beside OWB's five organisations rather
-# than as a sixth one, which would mean overriding OWB's _organization_scripted_localization.txt whole-file.
+# trade_ledger_window, OWB common/scripted_guis/__trade_ledger_gui.txt), built beside OWB's five
+# organisations rather than as a sixth one, which would mean overriding OWB's
+# _organization_scripted_localization.txt whole-file.
 # Layout: interface/mltd_wet_market.gui. Conditions and payment: mltd_wet_market_can_buy / _can_sell and
 # mltd_wet_market_pay / _receive (common/scripted_triggers, common/scripted_effects).
 # OWB names this relies on: trade_ledger_window, selected_market_organization, temp_selected_org_inventory,
 # caps_market_prevented (re-check after OWB updates). We never write a value of our own into selected_market_organization:
-# OWB's organisation events (caps_organization_flavor.txt .11-.13) read it back as an index when their option is chosen.
+# OWB's organisation events (caps_organization_flavor.txt .11-.13) read it back as an index when
+# their option is chosen.
 scripted_gui = {
-	# The tab. Selecting it sets our own mltd_wm_selected and clears OWB's selection and item list; clicking it again
-	# (with no OWB seller selected) closes the panel. Everyone sees it once the market is open; the Mirelurk Tribe also
-	# before, with every item locked.
+	# The tab. Selecting it sets our own mltd_wm_selected and clears OWB's selection and item list;
+	# clicking it again (with no OWB seller selected) closes the panel. Everyone sees it once the
+	# market is open; the Mirelurk Tribe also before, with every item locked.
 	mltd_wet_market_tab = {
 		context_type = player_context
 		window_name = "mltd_wet_market_tab_window"
@@ -40,10 +42,12 @@ scripted_gui = {
 			}
 		}
 	}
-	# The wares, drawn over OWB's (empty) item list while our tab is selected and no OWB seller is, so selecting an OWB
-	# seller hides it. Closing the window keeps mltd_wm_selected, so the panel is back when the window reopens.
-	# Each buy price is a literal twice here (the button's trigger and effect) and once in mltd_wm_buy_<n>_text; each
-	# sell price (30 % of the buy price, OWB's base rate, __trade_ledger_gui.txt:244) once here and in mltd_wm_sell_<n>_text.
+	# The wares, drawn over OWB's (empty) item list while our tab is selected and no OWB seller is,
+	# so selecting an OWB seller hides it. Closing the window keeps mltd_wm_selected, so the panel
+	# is back when the window reopens.
+	# Each buy price is a literal twice here (the button's trigger and effect) and once in
+	# mltd_wm_buy_<n>_text; each sell price (30 % of the buy price, OWB's base rate,
+	# __trade_ledger_gui.txt:244) once here and in mltd_wm_sell_<n>_text.
 	mltd_wet_market_panel = {
 		context_type = player_context
 		window_name = "mltd_wet_market_panel_window"

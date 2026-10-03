@@ -1,13 +1,13 @@
 ﻿add_namespace = nf_mlt
 
 country_event = {
-	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.1" }
 	id = nf_mlt.1
 	title = nf_mlt.1.t
 	desc = nf_mlt.1.d
 	picture = GFX_event_art_wassily_kandinsky_1
-
 	is_triggered_only = yes
+
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.1" }
 
 	option = {
 		name = nf_mlt.1.a
@@ -26,55 +26,47 @@ country_event = {
 }
 
 country_event = {
-	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.2" }
 	id = nf_mlt.2
 	title = nf_mlt.2.t
 	desc = nf_mlt.2.d
 	picture = GFX_event_art_joan_miro_1
-
 	is_triggered_only = yes
+
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.2" }
 
 	option = {
 		name = nf_mlt.2.a
 		ai_chance = { factor = 3 } # Rising Tide: the AI takes this option
-		capital_scope = {
-			add_extra_state_shared_building_slots = 1
-		}
+		capital_scope = { add_extra_state_shared_building_slots = 1 }
 		set_temp_variable = { caps_to_add = 200 }
 		add_caps = yes
 	}
 	option = {
 		name = nf_mlt.2.b
-		capital_scope = {
-			add_extra_state_shared_building_slots = 2
-		}
+		capital_scope = { add_extra_state_shared_building_slots = 2 }
 		set_temp_variable = { caps_to_add = 100 }
 		add_caps = yes
 	}
 	option = {
 		name = nf_mlt.2.c
-		capital_scope = {
-			add_extra_state_shared_building_slots = 3
-		}
+		capital_scope = { add_extra_state_shared_building_slots = 3 }
 	}
 }
 
 country_event = {
-	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.3" }
 	id = nf_mlt.3
 	title = nf_mlt.3.t
 	desc = nf_mlt.3.d
 	picture = GFX_event_art_francis_picabia_1
-
 	is_triggered_only = yes
+
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.3" }
 
 	option = {
 		name = nf_mlt.3.a
 		capital_scope = {
 			if = {
-				limit = {
-					is_valid_state_for_civilian_factory = yes
-				}
+				limit = { is_valid_state_for_civilian_factory = yes }
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = industrial_complex
@@ -89,9 +81,7 @@ country_event = {
 		ai_chance = { factor = 3 } # Rising Tide: the AI takes this option
 		capital_scope = {
 			if = {
-				limit = {
-					is_valid_state_for_arms_factory = yes
-				}
+				limit = { is_valid_state_for_arms_factory = yes }
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = arms_factory
@@ -105,12 +95,12 @@ country_event = {
 
 #Mirelurk Trade Offer
 country_event = {
-	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.4" }
 	id = nf_mlt.4
 	title = nf_mlt.4.t
 	desc = nf_mlt.4.d
-
 	is_triggered_only = yes
+
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.4" }
 
 	option = {
 		name = nf_mlt.4.a
@@ -156,9 +146,7 @@ country_event = {
 			}
 		}
 		if = {
-			limit = {
-				owns_state = 186
-			}
+			limit = { owns_state = 186 }
 			MLT = {
 				capital_scope = {
 					add_resource = {
@@ -181,18 +169,14 @@ country_event = {
 				transfer_state = 186
 				186 = {
 					if = {
-						limit = {
-							is_core_of = RBT
-						}
+						limit = { is_core_of = RBT }
 						remove_core_of = RBT
 					}
 				}
 			}
 		}
 		if = {
-			limit = {
-				owns_state = 450
-			}
+			limit = { owns_state = 450 }
 			MLT = {
 				capital_scope = {
 					add_resource = {
@@ -215,18 +199,14 @@ country_event = {
 				transfer_state = 450
 				450 = {
 					if = {
-						limit = {
-							is_core_of = RBT
-						}
+						limit = { is_core_of = RBT }
 						remove_core_of = RBT
 					}
 				}
 			}
 		}
 		if = {
-			limit = {
-				owns_state = 493
-			}
+			limit = { owns_state = 493 }
 			MLT = {
 				capital_scope = {
 					add_resource = {
@@ -249,9 +229,7 @@ country_event = {
 				transfer_state = 493
 				493 = {
 					if = {
-						limit = {
-							is_core_of = RBT
-						}
+						limit = { is_core_of = RBT }
 						remove_core_of = RBT
 					}
 				}
@@ -267,12 +245,12 @@ country_event = {
 
 #Mirelurk Trade Offer Declined
 country_event = {
-	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.5" }
 	id = nf_mlt.5
 	title = nf_mlt.5.t
 	desc = nf_mlt.5.d
-
 	is_triggered_only = yes
+
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.5" }
 	option = {
 		name = nf_mlt.5.a
 		add_stability = -0.05
@@ -282,12 +260,12 @@ country_event = {
 
 #Mirelurk Trade Offer Accepted
 country_event = {
-	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.6" }
 	id = nf_mlt.6
 	title = nf_mlt.6.t
 	desc = nf_mlt.6.d
-
 	is_triggered_only = yes
+
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.6" }
 	option = {
 		name = nf_mlt.6.a
 		add_stability = 0.05
@@ -296,26 +274,25 @@ country_event = {
 
 #The Hatching
 country_event = {
-	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.7" }
 	id = nf_mlt.7
 	title = nf_mlt.7.t
 	desc = nf_mlt.7.d
-
 	is_triggered_only = yes
+
+	immediate = { log = "[GetDateText]: [Root.GetName]: event nf_mlt.7" }
 	option = {
 		name = nf_mlt.7.a
 		custom_effect_tooltip = mlt_eggs_hatch
 		hidden_effect = {
 			remove_ideas = mlt_egg_counter
 			add_manpower = mlt_eggs
-			358 = {
-				add_manpower = mlt_eggs
-			}
+			358 = { add_manpower = mlt_eggs }
 			set_variable = { mlt_eggs = 0 }
 		}
-		# Rising Tide: OWB's version forced war_economy, children_and_mothers and closed_economy here
-		# (three law swaps at -5 % stability each, or +15 % stability if the country already held all
-		# three). The hatching now pays political capital instead and leaves the tribe's laws alone.
+		# Rising Tide: OWB's version forced war_economy, children_and_mothers and closed_economy
+		# here (three law swaps at -5 % stability each, or +15 % stability if the country already
+		# held all three). The hatching now pays political capital instead and leaves the tribe's
+		# laws alone.
 		add_political_power = 300
 	}
 }

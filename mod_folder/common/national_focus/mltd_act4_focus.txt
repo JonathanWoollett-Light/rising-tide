@@ -1,11 +1,13 @@
 # Rising Tide (MLT) - Act IV, "The Drowned Republic" (round 27, the story acts).
 # Shared focuses, pulled into mlt_nf through their prerequisites: the chapter, mltd_ncr_a_mole_in_shady_sands, hangs off
 # Act III's close, mltd_the_tide_turns_south (mltd_act3_focus.txt), which the override lists (it hangs off the national
-# Final Ritual); everything else here hangs off the chapter. No focus in this file is listed in the override.
+# Final Ritual); everything else here hangs off the chapter. No focus in this file is listed in the
+# override.
 #
 # The act is the old NCR sub-tree (round 13) turned into one chapter of the spine (x = 15). Rows as of 2026-09-24, which
 # put Act III's close at (15,28) (row 27 The Final Ritual, row 25 The Deep Ones Walk, each under an empty row, row 23 Act
-# III; round 28c had the close on row 27 and every row below one higher); every cell here is relative, so it follows:
+# III; round 28c had the close on row 27 and every row below one higher); every cell here is
+# relative, so it follows:
 #   row 29  the chapter        A Mole in Shady Sands       (0,1) of mltd_the_tide_turns_south; the north's two spoils
 #                              (mltd_spoils_focus.txt) flank it at (-2,0) and (2,0)
 #   row 30  the fan            Drowned Delegates (-2,1), Sleepers on the Long 15 (0,1), Salt on the Caravan Roads (2,1)
@@ -15,8 +17,8 @@
 #                              gone, or is our subject; event mltd.40 (the trophy: a research slot, or the Drowned Rangers) and world
 #                              news mltd.41
 # Round 28c: Salt on the Caravan Roads now sits directly under a spoils focus (The Drowned Sound, 17,28), so its icon is
-# OWB's GFX_goal_MOJ_ncr_trade (92x80, an NCR caravan) in place of GFX_goal_NCR_Caravan (149x154): a tall icon grows upward
-# into the focus above it.
+# OWB's GFX_goal_MOJ_ncr_trade (92x80, an NCR caravan) in place of GFX_goal_NCR_Caravan (149x154): a
+# tall icon grows upward into the focus above it.
 # Nothing was merged into this act: its five kept focuses keep their ids, costs, icons and rewards. What changed (rules in
 # the round-27 build spec): the root is now the chapter (no Kingdom or NCR gate, ai_will_do 10); the three beads lost their
 # intelligence gates (the intel rewards stay, inside has_dlc = "La Resistance") and pay a fallback when the NCR is gone;
@@ -33,34 +35,42 @@
 #   (~36 military factories, CONQUEST_PLAN.txt's 2279-12 snapshot) and less every year after; a share of the victim's own
 #   reserve weighs the same in any year, on both sides of the war. Each share is read into a temp variable for the preview
 #   (the tooltip prints it) and read again at completion; the transfer itself is hidden (CLAUDE.md > Theft without producer).
-# - Round 28c (the review): the thefts pay in mirelurks, as Act V's and VI's do and as round 28b's spec asks from Act IV on.
-#   The NCR still loses its rifles and crates, with no producer on the removal, but the haul is melted down into harness
-#   and shell-plate for the brood - one mirelurk (the archetype amphibious_beast_equipment, our best unlocked breed) for
-#   every five pieces taken, about their worth in IC. Rifles would still arm the plan's Shell Levies and Coral Hosts until
-#   the NCR falls, but any factory makes rifles, while the creature lines are held to the water the tribe has
-#   (CONQUEST_PLAN.txt's "mirelurk line 12 (36 water: the cap)") and the Tide Walls are bought mostly from the Wet Market:
-#   mirelurks are what the tribe is short of in every act, and the levies and Coral Hosts field them too. A theft's
-#   fallback is its floor: The Turbines Sing's rout pays 30 army experience whenever its haul comes to fewer than 30
-#   mirelurks (Salt on the Caravan Roads has no fallback: its +100 caps come either way).
-# - Every effect that hangs on a condition that can still change while the focus runs (the NCR's crisis, the Hoover outcome,
-#   the second battle) is previewed as a condition with its native lines (effect_tooltip) and applied in hidden_effect, so the
-#   tooltip is true whichever way the condition falls.
+# - Round 28c (the review): the thefts pay in mirelurks, as Act V's and VI's do and as round 28b's
+#   spec asks from Act IV on.
+#   The NCR still loses its rifles and crates, with no producer on the removal, but the haul is
+#   melted down into harness and shell-plate for the brood - one mirelurk (the archetype
+#   amphibious_beast_equipment, our best unlocked breed) for every five pieces taken, about their
+#   worth in IC. Rifles would still arm the plan's Shell Levies and Coral Hosts until the NCR falls,
+#   but any factory makes rifles, while the creature lines are held to the water the tribe has
+#   (CONQUEST_PLAN.txt's "mirelurk line 12 (36 water: the cap)") and the Tide Walls are bought
+#   mostly from the Wet Market: mirelurks are what the tribe is short of in every act, and the
+#   levies and Coral Hosts field them too. A theft's fallback is its floor: The Turbines Sing's rout
+#   pays 30 army experience whenever its haul comes to fewer than 30 mirelurks (Salt on the Caravan
+#   Roads has no fallback: its +100 caps come either way).
+# - Every effect that hangs on a condition that can still change while the focus runs (the NCR's
+#   crisis, the Hoover outcome, the second battle) is previewed as a condition with its native lines
+#   (effect_tooltip) and applied in hidden_effect, so the tooltip is true whichever way the
+#   condition falls.
 #
 # Round 28c (readability): a reward that renders more than about six lines is broken into blocks with the house spacer,
 # custom_effect_tooltip = mltd_newline_tt (loc " \n"; CLAUDE.md > The rituals, and the invitations in mltd_act3_focus.txt).
-# The order of the blocks is what we gain, what the target loses, the intelligence, the war, then the event - never a
-# reordering of the effects themselves, only blank lines between them. A spacer sits inside the branch it separates
-# wherever the branch can fail, so it never prints for a branch that did not fire, and never last in a reward or a branch.
-# Where a preview lists several outcomes of one condition ("if the battle has gone this way..."), each outcome is a block of
-# its own: that is what tells the reader where one outcome ends. Presentation only - no number, gate or effect changed.
-# Left alone, at four lines or fewer: the chapter, Sleepers on the Long 15 and Salt on the Caravan Roads.
+# The order of the blocks is what we gain, what the target loses, the intelligence, the war, then
+# the event - never a reordering of the effects themselves, only blank lines between them. A spacer
+# sits inside the branch it separates wherever the branch can fail, so it never prints for a branch
+# that did not fire, and never last in a reward or a branch.
+# Where a preview lists several outcomes of one condition ("if the battle has gone this way..."),
+# each outcome is a block of its own: that is what tells the reader where one outcome ends.
+# Presentation only - no number, gate or effect changed.
+# Left alone, at four lines or fewer: the chapter, Sleepers on the Long 15 and Salt on the Caravan
+# Roads.
 #
 # 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
 # war-support losses of little consequence; and too much text): The Turbines Sing declares, steals its industry bonus and
 # grants mltd_ncr_the_turbines_silenced (180 days, +10 % attack and defence against the NCR) and the shared 60-day
-# mltd_the_first_wave (+10 % division recovery rate, +5 % breakthrough). The Hoover outcome's payouts (the Legion's rout, the
-# held wall) and the second battle's -3 % war support, each previewed as a condition, are gone. Drowned Delegates lost its
-# crisis line (-4 % more stability under ncr_crisis / ncr_emergency).
+# mltd_the_first_wave (+10 % division recovery rate, +5 % breakthrough). The Hoover outcome's
+# payouts (the Legion's rout, the held wall) and the second battle's -3 % war support, each
+# previewed as a condition, are gone. Drowned Delegates lost its crisis line (-4 % more stability
+# under ncr_crisis / ncr_emergency).
 
 ############ Act IV - the chapter ############
 
@@ -74,7 +84,8 @@ shared_focus = {
 	relative_position_id = mltd_the_tide_turns_south
 	cost = 30
 	ai_will_do = { factor = 10 }
-	# 2026-09-23: bypassed once NCR and MOT are all gone - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once NCR and MOT are all gone - with its nation gone it paid only its
+	# fallback
 	bypass = {
 		NOT = { country_exists = NCR }
 		NOT = { country_exists = MOT }
@@ -83,7 +94,8 @@ shared_focus = {
 	continue_if_invalid = yes
 	completion_reward = {
 		mltd_intel_foothold = yes
-		# round 17: the cults of M'lyeh in the Republic and the Mojave wither half as fast (mltd_cult_refresh)
+		# round 17: the cults of M'lyeh in the Republic and the Mojave wither half as fast
+		# (mltd_cult_refresh)
 		if = {
 			limit = {
 				OR = {
@@ -139,16 +151,16 @@ shared_focus = {
 		add_political_power = 40
 		if = {
 			limit = { country_exists = NCR }
-			# round 28c: what the Republic loses reads as its own block. The spacer sits inside this branch, so nothing is
-			# separated off when there is no Republic left to lose anything
+			# round 28c: what the Republic loses reads as its own block. The spacer sits inside this
+			# branch, so nothing is separated off when there is no Republic left to lose anything
 			custom_effect_tooltip = mltd_newline_tt
 			NCR = {
 				add_political_power = -35
 				add_stability = -0.06
 			}
 		}
-		# round 28c: the intelligence is the last block; the if/else below always renders one branch, so the spacer can stand
-		# outside it
+		# round 28c: the intelligence is the last block; the if/else below always renders one
+		# branch, so the spacer can stand outside it
 		custom_effect_tooltip = mltd_newline_tt
 		# the NCR gone (or no La Resistance): the tech bonus stands in for the token and the intel
 		if = {
@@ -185,7 +197,8 @@ shared_focus = {
 	relative_position_id = mltd_ncr_a_mole_in_shady_sands
 	cost = 30
 	ai_will_do = { factor = 3 }
-	# 2026-09-23: bypassed once NCR and MOT are all gone - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once NCR and MOT are all gone - with its nation gone it paid only its
+	# fallback
 	bypass = {
 		NOT = { country_exists = NCR }
 		NOT = { country_exists = MOT }
@@ -241,12 +254,14 @@ shared_focus = {
 	continue_if_invalid = yes
 	completion_reward = {
 		# theft without producer: the NCR loses the rifles whoever made them (CLAUDE.md > The story acts > Theft without
-		# producer). Round 28b: a fifth of each store (it was 800 rifles, or 400, and 200 support), read now for the preview
-		# and again at completion; only a store of at least 100 is worth a lost caravan. Round 28c (the review): we are paid in
-		# mirelurks, as the Act V and VI thefts are (SPEC_R28B, rule 1: from Act IV on, pay in creature equipment). The
-		# creature lines are what the tribe cannot build enough of - they are held to the water it has - while rifles come
-		# from any factory; so the haul is melted down into harness and shell-plate for the brood, one mirelurk (the
-		# archetype amphibious_beast_equipment, our best unlocked breed) for every five pieces taken, about their worth in IC.
+		# producer). Round 28b: a fifth of each store (it was 800 rifles, or 400, and 200 support),
+		# read now for the preview and again at completion; only a store of at least 100 is worth a
+		# lost caravan. Round 28c (the review): we are paid in mirelurks, as the Act V and VI thefts
+		# are (SPEC_R28B, rule 1: from Act IV on, pay in creature equipment). The creature lines are
+		# what the tribe cannot build enough of - they are held to the water it has - while rifles
+		# come from any factory; so the haul is melted down into harness and shell-plate for the
+		# brood, one mirelurk (the archetype amphibious_beast_equipment, our best unlocked breed)
+		# for every five pieces taken, about their worth in IC.
 		# No fallback: the +100 caps below come either way. The fifth and the five are literals here and in
 		# mltd_ncr_caravan_theft_tt - change both.
 		if = {
@@ -322,7 +337,8 @@ shared_focus = {
 shared_focus = {
 	id = mltd_ncr_the_turbines_sing
 	icon = GFX_goal_generic_dam
-	# round 27: any bead of the fan opens the war (one OR block); it used to hang off the Sleepers alone
+	# round 27: any bead of the fan opens the war (one OR block); it used to hang off the Sleepers
+	# alone
 	prerequisite = {
 		focus = mltd_ncr_drowned_delegates
 		focus = mltd_ncr_sleepers_on_the_long_15
@@ -359,11 +375,12 @@ shared_focus = {
 			}
 		}
 		# round 22: the focus is the declaration, so an AI takes it only when its stage has come and the army is ready. Round
-		# 27: the war is now a node of the spine, and the close needs it, so the hold lifts once there is no war left to start
-		# early - the NCR already at war with us (the conquest block got there first), gone, our subject or capitulated to us
-		# (not to anyone else: a capitulated NCR whose allies fight on would still be declared on). Since the round-27 review
-		# the hold sits here, hidden and AI-only, because an AI takes any listed focus that is available whatever its
-		# ai_will_do reads (mltd_ai_triggers.txt, section W)
+		# 27: the war is now a node of the spine, and the close needs it, so the hold lifts once
+		# there is no war left to start early - the NCR already at war with us (the conquest block
+		# got there first), gone, our subject or capitulated to us (not to anyone else: a
+		# capitulated NCR whose allies fight on would still be declared on). Since the round-27
+		# review the hold sits here, hidden and AI-only, because an AI takes any listed focus that
+		# is available whatever its ai_will_do reads (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_ncr_war = yes
 	}
 	# 2026-09-23: bypassed once NCR is gone - with its nation gone it paid only its fallback
@@ -373,8 +390,9 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	completion_reward = {
-		# round 22: the branch ends in the war itself - the focus declares on each living target that is not already at war
-		# with us or our subject, so its own length is the run-up and will_lead_to_war_with warns them
+		# round 22: the branch ends in the war itself - the focus declares on each living target
+		# that is not already at war with us or our subject, so its own length is the run-up and
+		# will_lead_to_war_with warns them
 		if = {
 			limit = {
 				country_exists = NCR
@@ -386,12 +404,14 @@ shared_focus = {
 				target = NCR
 			}
 		}
-		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
-		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
-		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and a stolen industry bonus; with the
-		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
-		# (the first Battle for Hoover Dam's rout and wall, previewed with every outcome while undecided, and the second battle's
-		# war-support loss: round 28b-2026-09-23)
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an
+		# immediate buff, not stability and war-support losses of little consequence; and less
+		# text): the war, then - against a target that is not MLT's subject - the 180-day idea with
+		# +10 % attack and defence against it, The First Wave (60 days) and a stolen industry bonus;
+		# with the target MLT's subject, +50 political power. The side branches keyed to the
+		# target's own story went with the losses (the first Battle for Hoover Dam's rout and wall,
+		# previewed with every outcome while undecided, and the second battle's war-support loss:
+		# round 28b-2026-09-23)
 		if = {
 			limit = {
 				country_exists = NCR
@@ -439,9 +459,9 @@ shared_focus = {
 # world news (mltd.41). mltd_ai_ncr_beaten (common/scripted_triggers/mltd_ai_triggers.txt) is the NCR gone or capitulated
 # now. has_capitulated clears when the country leaves its last war, so an NCR that survives the peace as a rump (a human
 # who takes only some states, or allies who share the peace) would fail it for good although we won; the country flag
-# mltd_ncr_capitulated, set on MLT by on_capitulation (common/on_actions/mltd_on_actions.txt) when the NCR capitulates while
-# at war with MLT, keeps the win. A subject NCR counts as beaten too: a human who puppets it at the peace would otherwise
-# wait for ever.
+# mltd_ncr_capitulated, set on MLT by on_capitulation (common/on_actions/mltd_on_actions.txt) when
+# the NCR capitulates while at war with MLT, keeps the win. A subject NCR counts as beaten too: a
+# human who puppets it at the peace would otherwise wait for ever.
 shared_focus = {
 	id = mltd_when_shady_sands_falls
 	icon = GFX_goal_NCR_FO2_Tattered_Flag
@@ -464,8 +484,9 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	completion_reward = {
-		# the event's two options, previewed with their own native lines (effect_tooltip shows and does not execute): the same
-		# effects as mltd.40's options a and b (events/mltd_events.txt) - change both together
+		# the event's two options, previewed with their own native lines (effect_tooltip shows and
+		# does not execute): the same effects as mltd.40's options a and b
+		# (events/mltd_events.txt) - change both together
 		custom_effect_tooltip = mltd_shady_sands_falls_choice_tt
 		custom_effect_tooltip = mltd_shady_sands_falls_scholars_tt
 		effect_tooltip = { add_research_slot = 1 }

@@ -1,13 +1,16 @@
 # Rising Tide - AI strategy for the Mirelurk Tribe (MLT)
 #
 # Every block is allowed only for original_tag = MLT (the Kingdom of M'lyeh is a cosmetic tag, so the tag stays MLT). OWB
-# replace_paths common/ai_strategy, so this file only exists when Rising Tide loads after OWB (the descriptor's dependencies).
-# Values of one type add up across every active block, OWB's generic ones included (vanilla _documentation.md:158-162, :202).
+# replace_paths common/ai_strategy, so this file only exists when Rising Tide loads after OWB (the
+# descriptor's dependencies).
+# Values of one type add up across every active block, OWB's generic ones included (vanilla
+# _documentation.md:158-162, :202).
 #
 # The conquest order is CONQUEST_PLAN.txt's (repo root): CCW, TRL, RBT; DIS through its schism offer when it holds
 # DIS_mend_schism, else by force; MDT; the Kingdom; the Book states' owners (PMR, and ARR while it stands apart from the
-# NCR); the Oregon ring; Cascadia; the route to the NCR - the whole north first, whoever holds it by then; New Reno when it
-# stands between MLT and the NCR's Nevada allies; the NCR; then the Legion and the interior; then Texas, Mexico and the north.
+# NCR); the Oregon ring; Cascadia; the route to the NCR - the whole north first, whoever holds it by
+# then; New Reno when it stands between MLT and the NCR's Nevada allies; the NCR; then the Legion
+# and the interior; then Texas, Mexico and the north.
 # Conquests no stage schedules - the north's land in other hands, and countries that cut MLT off from an enemy - are in
 # mltd_MLT_frontier.txt.
 #
@@ -23,7 +26,8 @@
 # Infantry, Motorized Infantry and Special Ops templates beside our roles. OWB's amphibious_beast keeps a share: its
 # divisions are mirelurks. Creature archetypes are type = infantry (cre_amphibious_eq.txt:6), so OWB's
 # equipment_production_factor infantry -15 also cut mirelurk production; +15 undoes it. unverified:
-# equipment_variant_production_factor on a modded archetype (OWB's only use is anti_air_equipment, default.txt:323-327).
+# equipment_variant_production_factor on a modded archetype (OWB's only use is anti_air_equipment,
+# default.txt:323-327).
 mltd_ai_unit_mix = {
 	allowed = { original_tag = MLT }
 	enable = { always = yes }
@@ -54,7 +58,8 @@ mltd_ai_unit_mix_line = {
 }
 
 # The late army: the line becomes mirelurks - Tide Walls, and the Shell Levies and Coral Hosts upgraded in the field
-# (common/ai_templates/mltd_MLT.txt) - and the factories and the Wet Market's caps go on mirelurk equipment.
+# (common/ai_templates/mltd_MLT.txt) - and the factories and the Wet Market's caps go on mirelurk
+# equipment.
 mltd_ai_unit_mix_late = {
 	allowed = { original_tag = MLT }
 	enable = { mltd_ai_late_army = yes }
@@ -73,8 +78,9 @@ mltd_ai_unit_mix_levies = {
 	ai_strategy = { type = role_ratio id = mltd_shell_levy value = 200 }
 }
 
-# Militia first while the line is short (round 22): the cheapest division that fills combat width is the Shell Levy, and run 4
-# was training infantry-heavy Coral Hosts while its border stood at 45 % of the frontage target.
+# Militia first while the line is short (round 22): the cheapest division that fills combat width is
+# the Shell Levy, and run 4 was training infantry-heavy Coral Hosts while its border stood at 45 %
+# of the frontage target.
 mltd_ai_unit_mix_fill = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -111,7 +117,8 @@ mltd_ai_unit_mix_star = {
 
 # Research: the plan's picks. research_tech forces a tech "ASAP (if able)" and its value only needs to be positive (vanilla
 # _documentation.md:593-601; OWB COW.txt:160-174). The exclusive alternatives maketool_engineering_1 (XOR with scavtool),
-# generalized_industry_tech_1 (XOR with specialized) and amphibious_beast_armor_form (XOR with king_form) are left out.
+# generalized_industry_tech_1 (XOR with specialized) and amphibious_beast_armor_form (XOR with
+# king_form) are left out.
 mltd_ai_research = {
 	allowed = { original_tag = MLT }
 	enable = { always = yes }
@@ -127,10 +134,11 @@ mltd_ai_research = {
 	ai_strategy = { type = research_tech id = we_are_special_doctrine value = 100 }
 }
 
-# Anti-tank (round 23): MLT starts with support_tech_level_tribal, so the support company that pierces OWB's power armour is
-# two cheap techs away (anti_tank_equipment_tech_1 opens in 2276, anti_tank_tech_1 adds its piercing). Without them militia,
-# infantry and even mirelurks bounce off WBH's Paladins and the NCR's rangers. The line roles carry the company from the
-# moment the first tech lands (common/ai_templates/mltd_MLT.txt).
+# Anti-tank (round 23): MLT starts with support_tech_level_tribal, so the support company that
+# pierces OWB's power armour is two cheap techs away (anti_tank_equipment_tech_1 opens in 2276,
+# anti_tank_tech_1 adds its piercing). Without them militia, infantry and even mirelurks bounce off
+# WBH's Paladins and the NCR's rangers. The line roles carry the company from the moment the first
+# tech lands (common/ai_templates/mltd_MLT.txt).
 mltd_ai_research_anti_tank = {
 	allowed = { original_tag = MLT }
 	enable = { date > 2276.1.1 }
@@ -141,8 +149,9 @@ mltd_ai_research_anti_tank = {
 }
 
 # The mirelurk line, each tech from about when the plan starts it (CONQUEST_PLAN.txt's research lines; start years 2277,
-# 2279, 2280, 2282, 2283). unverified: whether research_tech weighs the ahead-of-time penalty (NAI.RESEARCH_AHEAD_OF_TIME_FACTOR,
-# vanilla 00_defines.lua:2397, left alone by OWB); the dates keep each tech off the forced list until then.
+# 2279, 2280, 2282, 2283). unverified: whether research_tech weighs the ahead-of-time penalty
+# (NAI.RESEARCH_AHEAD_OF_TIME_FACTOR, vanilla 00_defines.lua:2397, left alone by OWB); the dates
+# keep each tech off the forced list until then.
 mltd_ai_research_mirelurk_1 = {
 	allowed = { original_tag = MLT }
 	enable = { date > 2276.4.1 }
@@ -204,8 +213,9 @@ mltd_ai_research_king_form = {
 	ai_strategy = { type = research_weight_factor id = amphibious_beast_armor_form value = -90 }
 }
 
-# Political power for our decisions once the Kingdom opens them (gifts, summons, offerings, the cult calls): OWB's ARR.txt:1-24
-# idiom. OWB's default_ai_pp_priority already gives idea 100 and decision 20 (default.txt:206-234).
+# Political power for our decisions once the Kingdom opens them (gifts, summons, offerings, the cult
+# calls): OWB's ARR.txt:1-24 idiom. OWB's default_ai_pp_priority already gives idea 100 and decision
+# 20 (default.txt:206-234).
 mltd_ai_pp_decisions = {
 	allowed = { original_tag = MLT }
 	enable = { has_completed_focus = mlt_kingdom_of_mlyeh }
@@ -215,9 +225,10 @@ mltd_ai_pp_decisions = {
 	ai_strategy = { type = pp_spend_priority id = decision value = 30 }
 }
 
-# Stay on the plan: avoid_starting_wars is targetless and adds to every conquer weight (vanilla _documentation.md:197-209), so
-# every country outside the current stage reads -150 while each stage's targets (conquer 200-400) stay positive. Off from The
-# Final Ritual on, when the late stages open.
+# Stay on the plan: avoid_starting_wars is targetless and adds to every conquer weight (vanilla
+# _documentation.md:197-209), so every country outside the current stage reads -150 while each
+# stage's targets (conquer 200-400) stay positive. Off from The Final Ritual on, when the late
+# stages open.
 mltd_ai_stay_on_plan = {
 	allowed = { original_tag = MLT }
 	enable = { NOT = { has_completed_focus = mltd_the_final_ritual } }
@@ -226,13 +237,15 @@ mltd_ai_stay_on_plan = {
 	ai_strategy = { type = avoid_starting_wars value = -150 }
 }
 
-# No new war before the army can fight one (round 22). A war goal - a justification, a frontier claim, until round 22 a
-# capstone's - is enough for OWB's AI to declare at once: run 4 took The Tide-Wall's war goal on the Washington Brotherhood
-# and declared seven days later with 35 divisions of a target of 78, none of them on that border. Below the readiness line
-# (mltd_ai_army_ready: half the frontage target, at most 20 divisions) a new war is discouraged rather than forbidden - -200
-# against OWB's war-goal base of 500 and each conquest's own declare_war - so a weak neighbour at war with someone else is
-# still fair game; prepare_for_war keeps moving the army to the border meanwhile. The Oregon opening is exempt - it is fought
-# with what MLT starts with - so this begins at the Kingdom.
+# No new war before the army can fight one (round 22). A war goal - a justification, a frontier
+# claim, until round 22 a capstone's - is enough for OWB's AI to declare at once: run 4 took The
+# Tide-Wall's war goal on the Washington Brotherhood and declared seven days later with 35 divisions
+# of a target of 78, none of them on that border. Below the readiness line (mltd_ai_army_ready: half
+# the frontage target, at most 20 divisions) a new war is discouraged rather than forbidden - -200
+# against OWB's war-goal base of 500 and each conquest's own declare_war - so a weak neighbour at
+# war with someone else is still fair game; prepare_for_war keeps moving the army to the border
+# meanwhile. The Oregon opening is exempt - it is fought with what MLT starts with - so this begins
+# at the Kingdom.
 mltd_ai_not_ready_for_war = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -257,7 +270,8 @@ mltd_ai_no_new_wars_when_losing = {
 # mltd_ai_survey (on_weekly_MLT) sets mltd_ai_army_target from the frontage: two divisions an 80-wide border province, three
 # at war, at least 12, and mltd_ai_army_cap a quarter above it. Below the target the AI wants more divisions; above the cap it wants fewer, trains no
 # more of its line roles and spends army experience on its templates instead (the upgrades). The Deep Ones and Star Spawn, capped by special_forces_min, keep training. unverified:
-# ai_wanted_divisions_factor's unit - read as a percentage change, as HUN.txt:788-791 (240) and CHI.txt:1133-1151 use it.
+# ai_wanted_divisions_factor's unit - read as a percentage change, as HUN.txt:788-791 (240) and
+# CHI.txt:1133-1151 use it.
 mltd_ai_army_short = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -269,7 +283,8 @@ mltd_ai_army_short = {
 	ai_strategy = { type = ai_wanted_divisions_factor value = 50 }
 }
 
-# Under half the target the army is the priority (round 22): run 4 sat at 0.31-0.47 of its target for a year.
+# Under half the target the army is the priority (round 22): run 4 sat at 0.31-0.47 of its target
+# for a year.
 mltd_ai_army_very_short = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -299,9 +314,10 @@ mltd_ai_army_full = {
 }
 
 # ---- A3. Every front ---------------------------------------------------------------------------------------------------------
-# At war, man the front against every enemy still standing, and push against the weak ones: run 2 left Baja's front
-# unmanned for over a year after the NCR capitulated, because only its conquest targets asked for troops. country_trigger's
-# scope is the enemy and FROM is MLT (vanilla _documentation.md:315-333, :276-298).
+# At war, man the front against every enemy still standing, and push against the weak ones: run 2
+# left Baja's front unmanned for over a year after the NCR capitulated, because only its conquest
+# targets asked for troops. country_trigger's scope is the enemy and FROM is MLT (vanilla
+# _documentation.md:315-333, :276-298).
 mltd_ai_every_front = {
 	allowed = { original_tag = MLT }
 	enable = { has_war = yes }
@@ -327,9 +343,10 @@ mltd_ai_every_front = {
 }
 
 # ---- A4. Old Castro --------------------------------------------------------------------------------------------------------
-# With La Resistance, save political power for Old Castro (+2 operative slots, 150 PP) once the agency exists: run 2 never
-# hired him and ran its cults and networks on 2 operatives all game. Our decisions give way to him (mltd_ai_pp_decisions'
-# +30 cancelled); the focus plans weight him too (ideas, common/ai_strategy_plans/mltd_MLT.txt).
+# With La Resistance, save political power for Old Castro (+2 operative slots, 150 PP) once the
+# agency exists: run 2 never hired him and ran its cults and networks on 2 operatives all game. Our
+# decisions give way to him (mltd_ai_pp_decisions' +30 cancelled); the focus plans weight him too
+# (ideas, common/ai_strategy_plans/mltd_MLT.txt).
 mltd_ai_save_for_castro = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -339,17 +356,21 @@ mltd_ai_save_for_castro = {
 	}
 	abort_when_not_enabled = yes
 
-	# Hold political power back from our decisions until he is in post: cancel mltd_ai_pp_decisions' +30 priority and share.
+	# Hold political power back from our decisions until he is in post: cancel mltd_ai_pp_decisions'
+	# +30 priority and share.
 	ai_strategy = { type = pp_spend_priority id = decision value = -30 }
 	ai_strategy = { type = pp_spend_amount id = decision value = -30 }
 	# Round 25: and spend it on his slot. Each advisor slot is a pp_spend category of its own, named after the slot - vanilla
 	# hires a navy chief with `pp_spend_priority id = navy_chief value = 200` (JAP.txt:2697-2701, USA.txt:1674-1678), and
-	# navy_chief is declared exactly as cultural_advisor is, a character_slot in common/idea_tags (OWB 00_idea.txt:18, :62-64).
-	# Round 24 boosted `idea` instead, which is not his category: run 20260918-170847 then spent its political power on other
-	# ideas and a military advisor, holding 7-75 and never the 150 he costs. Neither run hired him - run 20260917-212246 with
-	# 853 banked, this one spending freely - because nothing ever raised the cultural_advisor category itself. He is MLT's only
-	# civilian advisor, so no run had shown that a civilian hire works for this AI at all. unverified: that cultural_advisor
-	# is accepted as a pp_spend id (no vanilla or OWB file uses it; navy_chief and supportive_scientist are the precedent).
+	# navy_chief is declared exactly as cultural_advisor is, a character_slot in common/idea_tags
+	# (OWB 00_idea.txt:18, :62-64).
+	# Round 24 boosted `idea` instead, which is not his category: run 20260918-170847 then spent its
+	# political power on other ideas and a military advisor, holding 7-75 and never the 150 he
+	# costs. Neither run hired him - run 20260917-212246 with 853 banked, this one spending freely -
+	# because nothing ever raised the cultural_advisor category itself. He is MLT's only civilian
+	# advisor, so no run had shown that a civilian hire works for this AI at all. unverified: that
+	# cultural_advisor is accepted as a pp_spend id (no vanilla or OWB file uses it; navy_chief and
+	# supportive_scientist are the precedent).
 	ai_strategy = { type = pp_spend_priority id = cultural_advisor value = 200 }
 }
 
@@ -357,7 +378,8 @@ mltd_ai_save_for_castro = {
 # The Tide-Speaker (-30 % justification time, from the Kingdom on) is a cultural advisor too, so the category the block above
 # raises could hire her in his place: their factors (10003 against 100, common/characters/MLT.txt) put him first when both
 # can be had, and this block raises the category for her only once he is in post - or from the Kingdom where there is no La
-# Resistance and so no Old Castro. The same human choice at the same price: fair play. The plan hires her after him too.
+# Resistance and so no Old Castro. The same human choice at the same price: fair play. The plan
+# hires her after him too.
 mltd_ai_hire_tide_speaker = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -377,7 +399,8 @@ mltd_ai_hire_tide_speaker = {
 # A Book whose state MLT cannot take without a war it should not start - Arroyo once it stands on the NCR's side, The Maw
 # behind a strong ally - is read the other way the focus allows: a full (100 %) intelligence network in the state (La
 # Resistance). The agency builds one in the owner's land, in the Book's state (operative_mission's state, vanilla
-# _documentation.md:418-429). unverified: that a network the AI builds there reaches the full 100 % the focus asks.
+# _documentation.md:418-429). unverified: that a network the AI builds there reaches the full 100 %
+# the focus asks.
 mltd_ai_book_network_arr = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -416,9 +439,10 @@ mltd_ai_book_network_pmr = {
 # ---- B0. The opening's order and the enemy's other wars (round 23) -----------------------------------------------------------
 # Strike a target that is already fighting someone else. OWB's AI weighs relative force heavily
 # (DECLARE_WAR_RELATIVE_FORCE_FACTOR = 500), but it counts the whole army, not what is free: run 6 held a war goal on The
-# Warren from day 630 while TRL fought Medford, and declared on Medford first. While a target of ours is at war with a third
-# country, is not at war with us and we already hold the war goal, its war is the moment to use it. One block per opening
-# target; the later stages have their own conquest weights.
+# Warren from day 630 while TRL fought Medford, and declared on Medford first. While a target of
+# ours is at war with a third country, is not at war with us and we already hold the war goal, its
+# war is the moment to use it. One block per opening target; the later stages have their own
+# conquest weights.
 mltd_ai_strike_ccw_at_war = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -542,8 +566,9 @@ mltd_ai_strike_kla_at_war = {
 # Round 28 (Terms for the Citadel): the two Brotherhoods' strikes never fall on an ally in the Drowned Covenant, nor on a war
 # goal that a refused Terms handed MLT before The Tide-Wall's hold (mltd_ai_may_raise_the_tide_wall) would allow that war - the
 # wall itself is closed by then (round 28b: Terms and the wall exclude each other), but its hold still says when the war on
-# Washington may start, and the strike's +600 would otherwise outweigh mltd_ai_hold_refusal_wargoal_wbh / _tca. WBH's also
-# waits while Terms is still to be offered (mltd_ai_terms_pending, as mltd_ai_hold_wbh_for_terms).
+# Washington may start, and the strike's +600 would otherwise outweigh
+# mltd_ai_hold_refusal_wargoal_wbh / _tca. WBH's also waits while Terms is still to be offered
+# (mltd_ai_terms_pending, as mltd_ai_hold_wbh_for_terms).
 mltd_ai_strike_tca_at_war = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -586,9 +611,10 @@ mltd_ai_strike_wbh_at_war = {
 	ai_strategy = { type = consider_weak id = "WBH" value = 300 }
 	ai_strategy = { type = prepare_for_war id = "WBH" value = 200 }
 }
-# The Warren before Medford, and Medford last: while TRL stands unfought and its stage is open, the AI is kept from
-# fabricating on RBT and MDT at all (antagonize below OWB's MIN_ANTAGONIZE_FOR_WARGOAL_JUSTIFICATION of -1000, counting each
-# conquest block's own +100/+150), so the opening keeps the plan's order instead of opening a second front first.
+# The Warren before Medford, and Medford last: while TRL stands unfought and its stage is open, the
+# AI is kept from fabricating on RBT and MDT at all (antagonize below OWB's
+# MIN_ANTAGONIZE_FOR_WARGOAL_JUSTIFICATION of -1000, counting each conquest block's own +100/+150),
+# so the opening keeps the plan's order instead of opening a second front first.
 mltd_ai_opening_order_trl = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -624,23 +650,28 @@ mltd_ai_opening_order_rbt = {
 }
 
 # ---- B. Conquest ------------------------------------------------------------------------------------------------------------
-# Each block's stage is the scripted trigger mltd_ai_stage_<tag> (common/scripted_triggers/mltd_ai_triggers.txt).
-# One block per target, the shape of OWB's TRL.txt:50-77, CES.txt:110-148 and BRA.txt:198-229. The target must exist, not be
-# our subject and not share our faction. A war already under way with it switches the block on; so does its stage, while it
-# is a target MLT can take on (mltd_ai_safe_target: not on the NCR's side before the NCR's stage, no ally at half MLT's
-# strength); so does the frontier (mltd_ai_frontier_target: it holds land of the north, or stands between MLT and an enemy
-# MLT cannot reach), as for the countries in mltd_MLT_frontier.txt.
-# - conquer: what makes the AI justify war goals (wiki; unverified in files - no strategy is verified to force a justification).
-# - antagonize: lowers the tension bar for a war goal (GENERATE_WARGOAL_ANTAGONIZE_SCALE, vanilla 00_defines.lua:2629).
+# Each block's stage is the scripted trigger mltd_ai_stage_<tag>
+# (common/scripted_triggers/mltd_ai_triggers.txt).
+# One block per target, the shape of OWB's TRL.txt:50-77, CES.txt:110-148 and BRA.txt:198-229. The
+# target must exist, not be our subject and not share our faction. A war already under way with it
+# switches the block on; so does its stage, while it is a target MLT can take on
+# (mltd_ai_safe_target: not on the NCR's side before the NCR's stage, no ally at half MLT's
+# strength); so does the frontier (mltd_ai_frontier_target: it holds land of the north, or stands
+# between MLT and an enemy MLT cannot reach), as for the countries in mltd_MLT_frontier.txt.
+# - conquer: what makes the AI justify war goals (wiki; unverified in files - no strategy is
+#   verified to force a justification).
+# - antagonize: lowers the tension bar for a war goal (GENERATE_WARGOAL_ANTAGONIZE_SCALE, vanilla
+#   00_defines.lua:2629).
 # - consider_weak: large, because OWB's DECLARE_WAR_RELATIVE_FORCE_FACTOR = 500 (01_defines.lua:292) lets relative force
 #   dominate the decision to declare.
-# - declare_war: only acts once a war goal exists - a justification (the story acts' war focuses declare their wars
-#   themselves; until round 22 each granted a war goal instead).
+# - declare_war: only acts once a war goal exists - a justification (the story acts' war focuses
+#   declare their wars themselves; until round 22 each granted a war goal instead).
 # - prepare_for_war: moves troops to the border; the primary target of each stage only.
 # - front_unit_request: takes a country_trigger, not an id (TRL.txt:65-71).
 
 # ---- B1. Oregon, 2275: CCW, then TRL, then RBT (CONQUEST_PLAN.txt, 2275) --------------------------------------------------
-# CCW from day 0: TRL's Wizard war (~day 133) can only target CCW, and finds nothing to take if CCW's land is already ours.
+# CCW from day 0: TRL's Wizard war (~day 133) can only target CCW, and finds nothing to take if
+# CCW's land is already ours.
 mltd_ai_conquer_ccw = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -666,8 +697,8 @@ mltd_ai_conquer_ccw = {
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = CCW } value = 200 }
 }
 
-# TRL from the CCW war on (or April 2275): the plan justifies on The Warren while CCW falls. TRL turns on MLT itself once MDT
-# is gone (OWB TRL.txt:138-167).
+# TRL from the CCW war on (or April 2275): the plan justifies on The Warren while CCW falls. TRL
+# turns on MLT itself once MDT is gone (OWB TRL.txt:138-167).
 mltd_ai_conquer_trl = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -693,7 +724,8 @@ mltd_ai_conquer_trl = {
 	ai_strategy = { type = front_unit_request country_trigger = { original_tag = TRL } value = 200 }
 }
 
-# RBT from the TRL war on (or September 2275), before MDT can make it a puppet (OWB ai_strategy_plans/MDT.txt:89-165).
+# RBT from the TRL war on (or September 2275), before MDT can make it a puppet (OWB
+# ai_strategy_plans/MDT.txt:89-165).
 mltd_ai_conquer_rbt = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -720,9 +752,10 @@ mltd_ai_conquer_rbt = {
 }
 
 # ---- B2. The Apostles (DIS) -------------------------------------------------------------------------------------------------
-# DIS offers itself through lake_mend_the_lurker_schism (nf_dis.4), which it only takes while it holds DIS_mend_schism and is
-# not at war with MLT (The Apostles (DIS) Focus.txt:243-256). By force: without the flag, once DIS has chosen
-# lake_preemptive_defenses (exclusive with the offer), or when no offer has come by October 2276 - and only after RBT.
+# DIS offers itself through lake_mend_the_lurker_schism (nf_dis.4), which it only takes while it
+# holds DIS_mend_schism and is not at war with MLT (The Apostles (DIS) Focus.txt:243-256). By force:
+# without the flag, once DIS has chosen lake_preemptive_defenses (exclusive with the offer), or when
+# no offer has come by October 2276 - and only after RBT.
 mltd_ai_conquer_dis = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -1068,7 +1101,8 @@ mltd_ai_conquer_brk = {
 
 # ---- B7. The route to the NCR, after The Deep Ones Walk (or from 2279), never while the Final Ritual runs: MXS, FOU, TDN.
 # OWB only lets an AI justify on a neighbour (diplomacy_scripted_triggers.txt:1210-1216), so these are the stepping stones:
-# MXS borders KLA and ARR, and FOU and TDN border the NCR (FOU's 369 and TDN's 57 touch Redding, 141).
+# MXS borders KLA and ARR, and FOU and TDN border the NCR (FOU's 369 and TDN's 57 touch Redding,
+# 141).
 mltd_ai_conquer_mxs = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -1142,11 +1176,12 @@ mltd_ai_conquer_tdn = {
 }
 
 # ---- B8. The NCR and its side, never while the Final Ritual runs: after The Final Ritual, once the north is consolidated, the
-# NCR's cult stands at 40 % and New Reno no longer stands in the way (or from 2284; mltd_ai_stage_ncr). The Turbines Sing,
-# whose war goal would start the war sooner, waits for the late-game plan (ai_strategy_plans/mltd_MLT.txt), and B12 holds
-# every country on the NCR's side until this stage. SHI (San Francisco, 163) borders only NAT and the NCR, so it opens with
-# them. New Reno comes first when Vault City, Elko or S'Lanter stands on the NCR's side and New Reno does not: its land is
-# the only way to them (run 2's war never ended for want of it).
+# NCR's cult stands at 40 % and New Reno no longer stands in the way (or from 2284;
+# mltd_ai_stage_ncr). The Turbines Sing, whose war goal would start the war sooner, waits for the
+# late-game plan (ai_strategy_plans/mltd_MLT.txt), and B12 holds every country on the NCR's side
+# until this stage. SHI (San Francisco, 163) borders only NAT and the NCR, so it opens with them.
+# New Reno comes first when Vault City, Elko or S'Lanter stands on the NCR's side and New Reno does
+# not: its land is the only way to them (run 2's war never ended for want of it).
 mltd_ai_conquer_ncr = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2179,9 +2214,10 @@ mltd_ai_hold_south_wargoals = {
 # Until the NCR's stage opens, no war on any country on the NCR's side (mltd_ai_in_ncr_bloc: its faction, subjects and
 # guarantees): a claim from Cascadian Current or Sea of Cortez would otherwise make an OWB AI justify on it (claims drive AI
 # justification, GENERATE_WARGOAL_THREAT_BASELINE = 0, OWB 01_defines.lua:286), and a war on one is a war on all. ignore_claim is
-# how vanilla and OWB stop a claim being pressed (vanilla GER.txt:2361-2384, PRU.txt:13-27); a negative declare_war vetoes the
-# declaration, as in B11. One block per country OWB can bring into the NCR's faction (create_or_join_new_california and
-# ask_to_join_new_california, faction_effects.txt, called for these countries) or that run 2 saw there.
+# how vanilla and OWB stop a claim being pressed (vanilla GER.txt:2361-2384, PRU.txt:13-27); a
+# negative declare_war vetoes the declaration, as in B11. One block per country OWB can bring into
+# the NCR's faction (create_or_join_new_california and ask_to_join_new_california,
+# faction_effects.txt, called for these countries) or that run 2 saw there.
 mltd_ai_hold_ncr_side_arr = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2608,13 +2644,15 @@ mltd_ai_guard_the_warren = {
 }
 
 # ---- C2. The Broken Coast, courted (round 21) -----------------------------------------------------------------------------
-# While MLT courts the Broken Coast (mltd_ai_courting_brk: Act II's mltd_brk_* branch, then the Covenant in Act III), no war
-# on it, no claim pressed, and better relations: the Drowned Covenant is worth more than its 47 states, which run 3 declared
-# on and lost to. The raiders are courted first and fought only by choice. The courtship pauses while BRK is at war with MLT,
-# sits in its faction or is another country's subject, and ends for good on a refusal of the Covenant, once the Brotherhood
-# in Washington has sworn to the Covenant (Terms for the Citadel, round 28), once MLT has taken the Covenant's war twin, The
-# Coast Goes Under (round 28c), or once no offer can come again - the Covenant completed without sending it, or the raiders
-# sworn to it (round 28c review). Without it the conquest block (mltd_ai_safe_target) and The Coast Goes Under
+# While MLT courts the Broken Coast (mltd_ai_courting_brk: Act II's mltd_brk_* branch, then the
+# Covenant in Act III), no war on it, no claim pressed, and better relations: the Drowned Covenant
+# is worth more than its 47 states, which run 3 declared on and lost to. The raiders are courted
+# first and fought only by choice. The courtship pauses while BRK is at war with MLT, sits in its
+# faction or is another country's subject, and ends for good on a refusal of the Covenant, once the
+# Brotherhood in Washington has sworn to the Covenant (Terms for the Citadel, round 28), once MLT
+# has taken the Covenant's war twin, The Coast Goes Under (round 28c), or once no offer can come
+# again - the Covenant completed without sending it, or the raiders sworn to it (round 28c review).
+# Without it the conquest block (mltd_ai_safe_target) and The Coast Goes Under
 # (mltd_ai_may_drown_the_coast) may take BRK on, and only while it is a safe target.
 mltd_ai_court_brk = {
 	allowed = { original_tag = MLT }
@@ -2647,9 +2685,10 @@ mltd_ai_help_brk = {
 	ai_strategy = { type = send_volunteers_desire id = "BRK" value = 300 }
 }
 
-# The Bone Dancers while the invitation stands (round 22): no war, no claim pressed, better relations. Drown the Dance, a
-# refusal, a war of theirs or (round 28c review) a Hail the Drowned King that completed without sending its offer ends it,
-# and the conquest block takes over again; it pauses while they are another country's subject.
+# The Bone Dancers while the invitation stands (round 22): no war, no claim pressed, better
+# relations. Drown the Dance, a refusal, a war of theirs or (round 28c review) a Hail the Drowned
+# King that completed without sending its offer ends it, and the conquest block takes over again; it
+# pauses while they are another country's subject.
 mltd_ai_court_bdt = {
 	allowed = { original_tag = MLT }
 	enable = { mltd_ai_courting_bdt = yes }
@@ -2668,10 +2707,11 @@ mltd_ai_court_bdt = {
 # that nation's war focus fails - The Coast Goes Under's for the Broken Coast (mltd_ai_may_drown_the_coast, round 28c: the
 # army ready, MLT not losing, a safe target, no NCR war; with the Broken Coast's stage too, as mltd_ai_conquer_brk asks - run
 # 3 declared on the 47-state Broken Coast and lost), Drown the Dance's for the Bone Dancers (mltd_ai_may_drown_the_dance) and
-# The Tide-Wall's for the Brotherhood (mltd_ai_may_raise_the_tide_wall). Since round 28b each invitation and its war twin
-# exclude each other both ways, so after a refusal that war focus is closed for good, but its hold still says when the war
-# may start. Each block holds only while the war goal exists, so it lasts at most the year. This only restricts the AI, so it
-# is fair play. unverified, as for every hold: that -1000 outweighs OWB's war-goal base and relative-force term.
+# The Tide-Wall's for the Brotherhood (mltd_ai_may_raise_the_tide_wall). Since round 28b each
+# invitation and its war twin exclude each other both ways, so after a refusal that war focus is
+# closed for good, but its hold still says when the war may start. Each block holds only while the
+# war goal exists, so it lasts at most the year. This only restricts the AI, so it is fair play.
+# unverified, as for every hold: that -1000 outweighs OWB's war-goal base and relative-force term.
 mltd_ai_hold_refusal_wargoal_brk = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2705,8 +2745,9 @@ mltd_ai_hold_refusal_wargoal_bdt = {
 	ai_strategy = { type = declare_war id = "BDT" value = -1000 }
 }
 
-# The Brotherhood that refused Terms for the Citadel: WBH, or TCA as the Northwestern Brotherhood (mltd_wbh_terms_target) -
-# one block each, so that a war goal on a plain TCA from anywhere else is left alone.
+# The Brotherhood that refused Terms for the Citadel: WBH, or TCA as the Northwestern Brotherhood
+# (mltd_wbh_terms_target) - one block each, so that a war goal on a plain TCA from anywhere else is
+# left alone.
 mltd_ai_hold_refusal_wargoal_wbh = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2757,9 +2798,9 @@ mltd_ai_hold_wbh_for_terms = {
 	ai_strategy = { type = declare_war id = "WBH" value = -1000 }
 }
 
-# The Covenant also asks for a network over 30 % of the raiders' land and a civilian infiltration token (La Resistance): an
-# operative builds the network there while MLT courts them, below the Book networks (900), and mltd_ai_infiltrate_brk below
-# takes the token.
+# The Covenant also asks for a network over 30 % of the raiders' land and a civilian infiltration
+# token (La Resistance): an operative builds the network there while MLT courts them, below the Book
+# networks (900), and mltd_ai_infiltrate_brk below takes the token.
 mltd_ai_network_brk = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2775,10 +2816,11 @@ mltd_ai_network_brk = {
 }
 
 # The Covenant's civilian infiltration token (round-27 review): OWB's own operation_infiltrate_civilian (00_operations.txt:
-# 90 days, two operatives, network strength 35) at the player's price, once Salt on the Broken Coast (Act II) has opened the
-# branch and a network reaches the raiders. Nothing else takes it for an AI: OWB's generic operation picker
-# (operation_strat_effects.txt) seldom names a courted Broken Coast at peace, and Hail M'lyeh draws a random country. Above
-# the cult operations (950 / 940), so that the one-off operation is not starved behind them; below OWB's operative rescue.
+# 90 days, two operatives, network strength 35) at the player's price, once Salt on the Broken Coast
+# (Act II) has opened the branch and a network reaches the raiders. Nothing else takes it for an AI:
+# OWB's generic operation picker (operation_strat_effects.txt) seldom names a courted Broken Coast
+# at peace, and Hail M'lyeh draws a random country. Above the cult operations (950 / 940), so that
+# the one-off operation is not starved behind them; below OWB's operative rescue.
 mltd_ai_infiltrate_brk = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2796,12 +2838,14 @@ mltd_ai_infiltrate_brk = {
 	ai_strategy = { type = operative_operation operation = operation_infiltrate_civilian operation_target = BRK value = 960 }
 }
 
-# The Bone Dancers' invitation, Hail the Drowned King (Act III), asks for the same with La Resistance: their cult at 40 %, a
-# network over 25 % of their land and a civilian infiltration token. Once The Bone Shore (Act II) has opened the branch and
-# they are still free of the seraph lords (mltd_ai_courting_bdt, round 28c: the Odious King is no longer asked), an operative
-# builds the network, as for the Broken Coast, and the agency takes the token; the weekly on_action points the cult operations at them
-# (common/on_actions/mltd_on_actions.txt). Until round 27's review no AI strategy did any of this, so Drown the Dance's hold
-# still gives up waiting in 2281 (mltd_ai_may_drown_the_dance).
+# The Bone Dancers' invitation, Hail the Drowned King (Act III), asks for the same with La
+# Resistance: their cult at 40 %, a network over 25 % of their land and a civilian infiltration
+# token. Once The Bone Shore (Act II) has opened the branch and they are still free of the seraph
+# lords (mltd_ai_courting_bdt, round 28c: the Odious King is no longer asked), an operative builds
+# the network, as for the Broken Coast, and the agency takes the token; the weekly on_action points
+# the cult operations at them (common/on_actions/mltd_on_actions.txt). Until round 27's review no AI
+# strategy did any of this, so Drown the Dance's hold still gives up waiting in 2281
+# (mltd_ai_may_drown_the_dance).
 mltd_ai_network_bdt = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2834,11 +2878,13 @@ mltd_ai_infiltrate_bdt = {
 	ai_strategy = { type = operative_operation operation = operation_infiltrate_civilian operation_target = BDT value = 960 }
 }
 
-# The Brotherhood in Washington, for Terms for the Citadel (Act III), which round 28c gave the same gates as the other two
-# invitations: its cult at 40 %, a network over 25 % of it and its civilian infiltration token. Only while the AI still means
-# to make that offer (mltd_ai_terms_pending: unhistorical focuses, the Washington Brotherhood itself, the Broken Coast out of
-# the running, the Final Ritual done), so an AI that will fight Washington instead spends no operative here. WBH only: TCA as
-# the Northwestern Brotherhood is never offered Terms by an AI (mltd_ai_may_offer_the_citadel)
+# The Brotherhood in Washington, for Terms for the Citadel (Act III), which round 28c gave the same
+# gates as the other two invitations: its cult at 40 %, a network over 25 % of it and its civilian
+# infiltration token. Only while the AI still means to make that offer (mltd_ai_terms_pending:
+# unhistorical focuses, the Washington Brotherhood itself, the Broken Coast out of the running, the
+# Final Ritual done), so an AI that will fight Washington instead spends no operative here. WBH
+# only: TCA as the Northwestern Brotherhood is never offered Terms by an AI
+# (mltd_ai_may_offer_the_citadel)
 mltd_ai_network_wbh = {
 	allowed = { original_tag = MLT }
 	enable = {
@@ -2869,9 +2915,11 @@ mltd_ai_infiltrate_wbh = {
 
 # ---- D. Cult operations (La Resistance) -------------------------------------------------------------------------------------
 # mltd_ai_cult_target is written weekly in on_weekly_MLT from a scorer. The var: guard copies OWB's run_generic_operation
-# (generic_operation_strats.txt:1-33); 950 / 940 outrank its generic operation (900) but not its operative rescue (1000).
+# (generic_operation_strats.txt:1-33); 950 / 940 outrank its generic operation (900) but not its
+# operative rescue (1000).
 # One operation per block, each switched on by that operation's own condition on the target, as vanilla does
-# (ENG_operation_strats.txt:44-73): Found a Cult where there is no cult, Nurture the Cult where one is under 100 %.
+# (ENG_operation_strats.txt:44-73): Found a Cult where there is no cult, Nurture the Cult where one
+# is under 100 %.
 mltd_ai_cult_found = {
 	allowed = { original_tag = MLT }
 	enable = {

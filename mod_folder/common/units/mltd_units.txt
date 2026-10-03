@@ -164,7 +164,8 @@ sub_units = {
 	# (common/units/ship_heavy.txt), with its own sub-unit so that OWB's per-unit sea-terrain penalties (fjords,
 	# common/terrain/00_terrain.txt, keyed on heavy_ship_unit / super_heavy_ship_unit) do not reach it, while every
 	# category_capital_ship tech and doctrine still does. It reuses the super-heavy hull's 3D model (sprite) and, in
-	# interface/mltd.gfx, its icons. No critical parts: a beast has no rudder to jam or magazine to cook off.
+	# interface/mltd.gfx, its icons. No critical parts: a beast has no rudder to jam or magazine to
+	# cook off.
 	# hit_profile_mult 2.5 offsets its very low surface visibility (see the equipment file).
 	mltd_leviathan = {
 		sprite = super_heavy_ship_unit

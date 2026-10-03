@@ -5,9 +5,10 @@
 # AGENCY_UPGRADE_PER_OPERATIVE_SLOT to 4), so a fully upgraded MLT has 2. This makes it 4, enough for
 # OWB's steal-tech operations (3 operatives). OWB's own +2 precedents: CHC_vanishing_act,
 # loi_terror (LOI_leader_traits.txt), ORO_selene_blackheart_trait.
-# mltd_claims_of_the_tide is the Tide-Speaker's (2026-09-24): -30 % justification time, OWB's own figure for its
-# conquering leaders (false_khan, gorgon_queen, skeleton_king, lanius_monster_world in 00_traits.txt). It stacks with
-# The Northern Waters' -25 % (The Tide Turns South) to -55 %; the 30 is repeated in no loc key (the engine draws it).
+# mltd_claims_of_the_tide is the Tide-Speaker's (2026-09-24): -30 % justification time, OWB's own
+# figure for its conquering leaders (false_khan, gorgon_queen, skeleton_king, lanius_monster_world
+# in 00_traits.txt). It stacks with The Northern Waters' -25 % (The Tide Turns South) to -55 %; the
+# 30 is repeated in no loc key (the engine draws it).
 leader_traits = {
 	mltd_keeper_of_the_order = {
 		random = no

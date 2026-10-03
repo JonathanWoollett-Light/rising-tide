@@ -36,6 +36,8 @@ technologies = {
 
 	nautics_tech_1 = {
 
+		allow_branch = { has_dlc = "Man the Guns" }
+
 		enable_equipment_modules = {
 			light_ship_oars_module
 			medium_ship_oars_module
@@ -45,7 +47,6 @@ technologies = {
 			ship_medium_mounted_gun_module
 			ship_heavy_mounted_gun_module
 		}
-
 		path = {
 			leads_to_tech = light_navy_hull_tech_1
 			research_cost_coeff = 1
@@ -58,18 +59,13 @@ technologies = {
 			leads_to_tech = heavy_navy_hull_tech_1
 			research_cost_coeff = 1
 		}
+
 		path = {
 			leads_to_tech = naval_invasion_tech_1
 			research_cost_coeff = 1
 		}
 
-		allow_branch = {
-			has_dlc = "Man the Guns"
-		}
-
-		dependencies = {
-			naval_tech_level_tribal = 1
-		}
+		dependencies = { naval_tech_level_tribal = 1 }
 
 		research_cost = 1.2
 		start_year = 2275
@@ -79,24 +75,16 @@ technologies = {
 			position = { x = @Row_0 y = @Col_0 }
 		}
 
-		categories = {
-			naval_tech_category
-			naval_engine_module_tech_category
-			tribal_tech_category
-		}
+		categories = { naval_tech_category naval_engine_module_tech_category tribal_tech_category }
 
-		ai_will_do = {
-			factor = 1.25
-		}
+		ai_will_do = { factor = 1.25 }
 
 	}
 
 
 	light_navy_hull_tech_1 = {
 
-		enable_equipments = {
-			ship_hull_light_1
-		}
+		enable_equipments = { ship_hull_light_1 }
 		enable_equipment_modules = {
 			light_ship_oars_module
 			ship_light_mounted_gun_module
@@ -109,9 +97,7 @@ technologies = {
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_tribal = 1
-		}
+		dependencies = { naval_tech_level_tribal = 1 }
 
 		research_cost = 1.5
 		start_year = 2275
@@ -136,29 +122,21 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	light_navy_hull_tech_2 = {
 
-		enable_equipments = {
-			ship_hull_light_2
-		}
-		enable_equipment_modules = {
-			light_ship_sail_module
-		}
+		enable_equipments = { ship_hull_light_2 }
+		enable_equipment_modules = { light_ship_sail_module }
 
 		path = {
 			leads_to_tech = light_navy_hull_tech_3
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_tribal = 1
-		}
+		dependencies = { naval_tech_level_tribal = 1 }
 
 		research_cost = 1.5
 		start_year = 2276
@@ -183,20 +161,14 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	light_navy_hull_tech_3 = {
 
-		enable_equipments = {
-			ship_hull_light_3
-		}
-		enable_equipment_modules = {
-			light_ship_paddle_module
-		}
+		enable_equipments = { ship_hull_light_3 }
+		enable_equipment_modules = { light_ship_paddle_module }
 
 		path = {
 			leads_to_tech = light_navy_hull_tech_4
@@ -208,9 +180,7 @@ technologies = {
 			#research_cost_coeff = 1
 		#}
 
-		dependencies = {
-			naval_tech_level_settler = 1
-		}
+		dependencies = { naval_tech_level_settler = 1 }
 
 		research_cost = 1.5
 		start_year = 2278
@@ -235,29 +205,21 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	light_navy_hull_tech_4 = {
 
-		enable_equipments = {
-			ship_hull_light_4
-		}
-		enable_equipment_modules = {
-			light_ship_propeller_module
-		}
+		enable_equipments = { ship_hull_light_4 }
+		enable_equipment_modules = { light_ship_propeller_module }
 
 		path = {
 			leads_to_tech = light_navy_hull_tech_5
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_settler = 1
-		}
+		dependencies = { naval_tech_level_settler = 1 }
 
 		research_cost = 1.5
 		start_year = 2280
@@ -282,25 +244,16 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 	}
 
 	light_navy_hull_tech_5 = {
 
-		enable_equipments = {
-			ship_hull_light_5
-		}
+		enable_equipments = { ship_hull_light_5 }
 
-		enable_equipment_modules = {
-			light_ship_torpedoes_module
-			light_ship_hydrojet_module
-		}
+		enable_equipment_modules = { light_ship_torpedoes_module light_ship_hydrojet_module }
 
-		dependencies = {
-			naval_tech_level_scientific = 1
-		}
+		dependencies = { naval_tech_level_scientific = 1 }
 
 		research_cost = 1.5
 		start_year = 2282
@@ -325,17 +278,13 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	medium_navy_hull_tech_1 = {
 
-		enable_equipments = {
-			ship_hull_medium_1
-		}
+		enable_equipments = { ship_hull_medium_1 }
 		enable_equipment_modules = {
 			medium_ship_oars_module
 			ship_medium_mounted_gun_module
@@ -348,9 +297,7 @@ technologies = {
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_tribal = 1
-		}
+		dependencies = { naval_tech_level_tribal = 1 }
 
 		research_cost = 1.5
 		start_year = 2276
@@ -375,29 +322,21 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	medium_navy_hull_tech_2 = {
 
-		enable_equipments = {
-			ship_hull_medium_2
-		}
-		enable_equipment_modules = {
-			medium_ship_sail_module
-		}
+		enable_equipments = { ship_hull_medium_2 }
+		enable_equipment_modules = { medium_ship_sail_module }
 
 		path = {
 			leads_to_tech = medium_navy_hull_tech_3
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_tribal = 1
-		}
+		dependencies = { naval_tech_level_tribal = 1 }
 
 		research_cost = 1.5
 		start_year = 2276
@@ -422,20 +361,14 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	medium_navy_hull_tech_3 = {
 
-		enable_equipments = {
-			ship_hull_medium_3
-		}
-		enable_equipment_modules = {
-			medium_ship_paddle_module
-		}
+		enable_equipments = { ship_hull_medium_3 }
+		enable_equipment_modules = { medium_ship_paddle_module }
 
 		path = {
 			leads_to_tech = medium_navy_hull_tech_4
@@ -448,9 +381,7 @@ technologies = {
 		#	research_cost_coeff = 1
 		#}
 
-		dependencies = {
-			naval_tech_level_settler = 1
-		}
+		dependencies = { naval_tech_level_settler = 1 }
 
 		research_cost = 1.5
 		start_year = 2278
@@ -475,29 +406,21 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	medium_navy_hull_tech_4 = {
 
-		enable_equipments = {
-			ship_hull_medium_4
-		}
-		enable_equipment_modules = {
-			medium_ship_propeller_module
-		}
+		enable_equipments = { ship_hull_medium_4 }
+		enable_equipment_modules = { medium_ship_propeller_module }
 
 		path = {
 			leads_to_tech = medium_navy_hull_tech_5
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_settler = 1
-		}
+		dependencies = { naval_tech_level_settler = 1 }
 
 		research_cost = 1.5
 		start_year = 2280
@@ -522,24 +445,16 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	medium_navy_hull_tech_5 = {
 
-		enable_equipments = {
-			ship_hull_medium_5
-		}
-		enable_equipment_modules = {
-			medium_ship_hydrojet_module
-		}
+		enable_equipments = { ship_hull_medium_5 }
+		enable_equipment_modules = { medium_ship_hydrojet_module }
 
-		dependencies = {
-			naval_tech_level_scientific = 1
-		}
+		dependencies = { naval_tech_level_scientific = 1 }
 
 		research_cost = 1.5
 		start_year = 2282
@@ -564,17 +479,13 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	heavy_navy_hull_tech_1 = {
 
-		enable_equipments = {
-			ship_hull_heavy_1
-		}
+		enable_equipments = { ship_hull_heavy_1 }
 		enable_equipment_modules = {
 			heavy_ship_oars_module
 			ship_heavy_mounted_gun_module
@@ -587,9 +498,7 @@ technologies = {
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_tribal = 1
-		}
+		dependencies = { naval_tech_level_tribal = 1 }
 
 		research_cost = 1.5
 		start_year = 2275
@@ -614,30 +523,21 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	heavy_navy_hull_tech_2 = {
 
-		enable_equipments = {
-			ship_hull_heavy_2
-		}
-		enable_equipment_modules = {
-			heavy_ship_sail_module
-			super_heavy_ship_sail_module
-		}
+		enable_equipments = { ship_hull_heavy_2 }
+		enable_equipment_modules = { heavy_ship_sail_module super_heavy_ship_sail_module }
 
 		path = {
 			leads_to_tech = heavy_navy_hull_tech_3
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_tribal = 1
-		}
+		dependencies = { naval_tech_level_tribal = 1 }
 
 		research_cost = 1.5
 		start_year = 2276
@@ -662,30 +562,21 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	heavy_navy_hull_tech_3 = {
 
-		enable_equipments = {
-			ship_hull_heavy_3
-		}
-		enable_equipment_modules = {
-			heavy_ship_paddle_module
-			super_heavy_ship_paddle_module
-		}
+		enable_equipments = { ship_hull_heavy_3 }
+		enable_equipment_modules = { heavy_ship_paddle_module super_heavy_ship_paddle_module }
 
 		path = {
 			leads_to_tech = heavy_navy_hull_tech_4
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_settler = 1
-		}
+		dependencies = { naval_tech_level_settler = 1 }
 
 		research_cost = 1.5
 		start_year = 2278
@@ -710,21 +601,14 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	heavy_navy_hull_tech_4 = {
 
-		enable_equipments = {
-			ship_hull_heavy_4
-		}
-		enable_equipment_modules = {
-			heavy_ship_propeller_module
-			super_heavy_ship_propeller_module
-		}
+		enable_equipments = { ship_hull_heavy_4 }
+		enable_equipment_modules = { heavy_ship_propeller_module super_heavy_ship_propeller_module }
 
 		path = {
 			leads_to_tech = heavy_navy_hull_tech_5
@@ -736,9 +620,7 @@ technologies = {
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_settler = 1
-		}
+		dependencies = { naval_tech_level_settler = 1 }
 
 		research_cost = 1.5
 		start_year = 2280
@@ -763,28 +645,20 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 
 	}
 
 	heavy_navy_hull_tech_5 = {
 
-		enable_equipments = {
-			ship_hull_heavy_5
-		}
-		enable_equipment_modules = {
-			heavy_ship_hydrojet_module
-		}
+		enable_equipments = { ship_hull_heavy_5 }
+		enable_equipment_modules = { heavy_ship_hydrojet_module }
 		path = {
 			#leads_to_tech = naval_emergency_sealing_tech
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_scientific = 1
-		}
+		dependencies = { naval_tech_level_scientific = 1 }
 
 		research_cost = 1.5
 		start_year = 2282
@@ -809,29 +683,23 @@ technologies = {
 				is_naval_tag = yes
 			}
 		}
-		ai_research_weights = {
-			naval_equipment = 1.2
-		}
+		ai_research_weights = { naval_equipment = 1.2 }
 	}
 
 	naval_wonders_of_the_past_tech = {
 
-		category_screen_ship = {
-			naval_range = 0.05
-		}
-		category_capital_ship = {
-			naval_range = 0.05
-		}
-		category_carrier_ship = {
-			naval_range = 0.05
-		}
+		category_screen_ship = { naval_range = 0.05 }
+		category_capital_ship = { naval_range = 0.05 }
+		category_carrier_ship = { naval_range = 0.05 }
 
 		path = {
 			leads_to_tech = super_heavy_navy_hull_tech_1
 			research_cost_coeff = 1
 		}
 
+		dependencies = { naval_tech_level_settler = 1 }
 		research_cost = 1.5
+
 		start_year = 2282
 
 		folder = {
@@ -839,41 +707,25 @@ technologies = {
 			position = { x = @Row_4 y = @Col_5 }
 		}
 
-		dependencies = {
-			naval_tech_level_settler = 1
-		}
+		categories = { naval_tech_category naval_hull_tech_category civilized_tech_category }
 
-		categories = {
-			naval_tech_category
-			naval_hull_tech_category
-			civilized_tech_category
-		}
-
-		ai_will_do = {
-			factor = 0.5
-		}
+		ai_will_do = { factor = 0.5 }
 
 	}
 
 	super_heavy_navy_hull_tech_1 = {
 
-		enable_equipments = {
-			ship_hull_super_heavy_1
-		}
-		enable_equipment_modules = {
-			super_heavy_ship_hydrojet_module
-		}
+		enable_equipments = { ship_hull_super_heavy_1 }
+		enable_equipment_modules = { super_heavy_ship_hydrojet_module }
 
+		dependencies = { naval_tech_level_scientific = 1 }
 		research_cost = 1.5
+
 		start_year = 2283
 
 		folder = {
 			name = fallout_naval_folder
 			position = { x = @Row_4 y = @Col_7 }
-		}
-
-		dependencies = {
-			naval_tech_level_scientific = 1
 		}
 
 		categories = {
@@ -883,9 +735,7 @@ technologies = {
 			scientific_tech_category
 		}
 
-		ai_will_do = {
-			factor = 0.5
-		}
+		ai_will_do = { factor = 0.5 }
 
 	}
 
@@ -1000,9 +850,7 @@ technologies = {
 			research_cost_coeff = 1
 		}
 
-		dependencies = {
-			naval_tech_level_settler = 1
-		}
+		dependencies = { naval_tech_level_settler = 1 }
 
 		research_cost = 1.2
 		start_year = 2279
@@ -1044,16 +892,14 @@ technologies = {
 		naval_invasion_division_cap = 10
 		naval_invasion_plan_cap = 2
 
+		dependencies = { naval_tech_level_settler = 1 }
 		research_cost = 1.2
+
 		start_year = 2281
 
 		folder = {
 			name = fallout_naval_folder
 			position = { x = @Row_5 y = @Col_6 }
-		}
-
-		dependencies = {
-			naval_tech_level_settler = 1
 		}
 
 		categories = {
@@ -1079,24 +925,22 @@ technologies = {
 
 	naval_invasion_support_tech_1 = {
 
-		enable_subunits = {
-			marine_support
-		}
+		enable_subunits = { marine_support }
 
 		xp_research_type = navy
 		xp_boost_cost = 50
 		xp_research_bonus = 0.3
 
-		research_cost = 1.4
-		start_year = 2278
-		folder = {
-			name = fallout_naval_folder
-			position = { x = @Row_6 y = @Col_4 }
-		}
-
 		dependencies = {
 			naval_tech_level_settler = 1
 			support_weaponry = 1
+		}
+		research_cost = 1.4
+		start_year = 2278
+
+		folder = {
+			name = fallout_naval_folder
+			position = { x = @Row_6 y = @Col_4 }
 		}
 
 		categories = {
@@ -1116,16 +960,14 @@ technologies = {
 	}
 
 	brk_black_flag_ships_tech = {
-		research_cost = 6.0
+		enable_equipments = { ship_hull_medium_brk_raiding }
 		dependencies = {
 			blocked_unit_tech = 1
 			naval_tech_level_scientific = 1
 		}
-		start_year = 2280
+		research_cost = 6.0
 
-		enable_equipments = {
-			ship_hull_medium_brk_raiding
-		}
+		start_year = 2280
 
 		folder = {
 			name = fallout_naval_folder
@@ -1138,33 +980,28 @@ technologies = {
 			naval_medium_hull_tech_category
 		}
 
-		ai_will_do = {
-			factor = 0
-		}
+		ai_will_do = { factor = 0 }
 	}
 
 	brk_palace_ships_tech = {
-		research_cost = 6.0
-		dependencies = {
-			blocked_unit_tech = 1
-			naval_tech_level_scientific = 1
-		}
-		start_year = 2280
-
-		# Rising Tide: the one change to OWB's file. mltd_leviathan_tech (common/technologies/mltd_technologies.txt)
-		# renders beside the Palace only as a path child of a root with a gridbox - see that file.
+		allow = { always = no }
+		enable_equipments = { ship_hull_super_heavy_brk_palace }
+		# Rising Tide: the one change to OWB's file. mltd_leviathan_tech
+		# (common/technologies/mltd_technologies.txt) renders beside the Palace only as a path child
+		# of a root with a gridbox - see that file.
 		path = {
 			leads_to_tech = mltd_leviathan_tech
 			research_cost_coeff = 1
 		}
 
-		enable_equipments = {
-			ship_hull_super_heavy_brk_palace
+		dependencies = {
+			blocked_unit_tech = 1
+			naval_tech_level_scientific = 1
 		}
 
-		allow = {
-			always = no
-		}
+		research_cost = 6.0
+
+		start_year = 2280
 
 		folder = {
 			name = fallout_naval_folder
@@ -1178,9 +1015,7 @@ technologies = {
 			scientific_tech_category
 		}
 
-		ai_will_do = {
-			factor = 0
-		}
+		ai_will_do = { factor = 0 }
 	}
 
 }

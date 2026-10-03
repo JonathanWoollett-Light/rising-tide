@@ -16,20 +16,22 @@ mltd_gifts_from_the_deep = {
 }
 
 # Rising Tide - the summoned host (2026-09-23)
-# Added by mltd_add_summoned_room (mltd_scripted_effects.txt), which every summoned Deep Ones or Star Spawn division
-# calls: each adds its own 8 battalions to mltd_summoned_sf_var, so a summoned division never takes a place under the
-# special-forces cap that a trained one could have used. For MLT the cap is the floor - OWB's 20 plus special_forces_min
-# - because OWB's other term, 2 % of the non-special battalions (01_defines.lua:126-127), would need 5,000 of them to
-# pass it. The room stays if the division is lost.
+# Added by mltd_add_summoned_room (mltd_scripted_effects.txt), which every summoned Deep Ones or
+# Star Spawn division calls: each adds its own 8 battalions to mltd_summoned_sf_var, so a summoned
+# division never takes a place under the special-forces cap that a trained one could have used. For
+# MLT the cap is the floor - OWB's 20 plus special_forces_min - because OWB's other term, 2 % of the
+# non-special battalions (01_defines.lua:126-127), would need 5,000 of them to pass it. The room
+# stays if the division is lost.
 mltd_summoned_host = {
 	icon = GFX_idea_monstrous_horrors_beyond_comprehension_spirit
 	special_forces_min = mltd_summoned_sf_var
 }
 
 # Rising Tide - the Broken Coast's volunteers (round 21)
-# Added by mltd_brk_add_volunteer_size, which The Deep Ones Sail North calls twice (+3 volunteer divisions each), and
-# no world-tension requirement to send them (OWB's economic laws can add one, gov_economic.txt:38), as OWB's Brotherhood
-# expeditionary departments do (bos_dynamic_modifiers.txt:46-47).
+# Added by mltd_brk_add_volunteer_size, which The Deep Ones Sail North calls twice (+3 volunteer
+# divisions each), and no world-tension requirement to send them (OWB's economic laws can add one,
+# gov_economic.txt:38), as OWB's Brotherhood expeditionary departments do
+# (bos_dynamic_modifiers.txt:46-47).
 mltd_brk_volunteers = {
 	icon = GFX_idea_brk_master_of_sea
 	send_volunteer_size = mltd_brk_volunteer_size_var
@@ -38,10 +40,10 @@ mltd_brk_volunteers = {
 
 # Rising Tide - Cult Infiltration
 # Added to a foreign country by mltd_cult_add_strength when MLT founds a cult there; removed by
-# mltd_cult_dissolve. It bites only while that country is at war with MLT (enable), and its five inputs
-# are 0 outside such a war anyway (mltd_cult_refresh). At war they scale with mltd_cult_strength:
-# per point, -0.25 % stability and war support, -0.15 % division organisation and factory output, and
-# +0.5 % air accidents.
+# mltd_cult_dissolve. It bites only while that country is at war with MLT (enable), and its five
+# inputs are 0 outside such a war anyway (mltd_cult_refresh). At war they scale with
+# mltd_cult_strength: per point, -0.25 % stability and war support, -0.15 % division organisation
+# and factory output, and +0.5 % air accidents.
 mltd_cult_infiltration = {
 	icon = GFX_idea_PLT_whisperer
 	enable = { has_war_with = MLT }

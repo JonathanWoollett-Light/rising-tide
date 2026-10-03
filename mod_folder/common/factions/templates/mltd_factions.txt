@@ -1,6 +1,6 @@
-# Rising Tide - the Drowned Covenant, the faction MLT founds when the Broken Coast accepts its invitation (event mltd.21,
-# effect mltd_brk_join_the_covenant). Shaped like OWB's own templates (OWB_factions.txt). New file; OWB replace_paths the
-# folder, so it needs load-after-OWB.
+# Rising Tide - the Drowned Covenant, the faction MLT founds when the Broken Coast accepts its
+# invitation (event mltd.21, effect mltd_brk_join_the_covenant). Shaped like OWB's own templates
+# (OWB_factions.txt). New file; OWB replace_paths the folder, so it needs load-after-OWB.
 mltd_drowned_covenant_template = {
 	name = mltd_drowned_covenant
 	manifest = faction_manifest_conquest_of_territory

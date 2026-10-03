@@ -1,10 +1,12 @@
 # Rising Tide (MLT) - Act III, "The Stars Are Right" (round 27, the story acts; round 28 adds Terms for the Citadel; round
 # 28b makes each nation's pair exclude the other both ways; round 28c adds the Broken Coast's war twin, The Coast Goes Under;
 # 2026-09-24 puts the act before The Deep Ones Walk and The Final Ritual).
-# The north is decided. Six shared focuses - one pair per northern nation, an invitation and a war - each pair under its own
-# nation's Act II bead (mltd_act2_focus.txt), so every northern nation is one column: spy, rob or court, then invite or fight.
-# The Deep Ones Walk (a national focus in "Mirelurk Tribe (MLT) Focus.txt") reconverges on the six through one OR
-# prerequisite, The Final Ritual follows the Walk, and the act's close, The Tide Turns South, follows the ritual:
+# The north is decided. Six shared focuses - one pair per northern nation, an invitation and a war -
+# each pair under its own nation's Act II bead (mltd_act2_focus.txt), so every northern nation is
+# one column: spy, rob or court, then invite or fight.
+# The Deep Ones Walk (a national focus in "Mirelurk Tribe (MLT) Focus.txt") reconverges on the six
+# through one OR prerequisite, The Final Ritual follows the Walk, and the act's close, The Tide
+# Turns South, follows the ritual:
 #
 #   row 20                                   [The Grand Ritual]                            national
 #   row 21   [Eyes in the Sound]          [Salt on the Broken Coast]         [The Bone Shore]      Act II heads
@@ -20,87 +22,104 @@
 #
 # (x marks a mutual exclusion; the two focuses of a pair name each other.) 2026-09-24 (the user: after the Kingdom the tribe
 # stood still through the long ritual column while its neighbours grew, the wars that need no justification sat behind
-# The Final Ritual, and the Walk belongs just before the ritual): the act moved above both. Each pair sits one column either
-# side of its bead, (-1,1) and (1,1). The Walk's icon (GFX_goal_CHC_mother, 152x171) and the ritual's (GFX_goal_CHC_cultists,
-# 266x253) grow upward, so rows 24 and 26 stay empty above them; the close sits directly below the ritual. From round 28b to
-# 2026-09-23 the Walk sat on row 21 under The Grand Ritual, the ritual on row 25 and Act III under it on row 26; the close
-# moved from (15,27) to (15,28), and everything below it with it.
+# The Final Ritual, and the Walk belongs just before the ritual): the act moved above both. Each
+# pair sits one column either side of its bead, (-1,1) and (1,1). The Walk's icon
+# (GFX_goal_CHC_mother, 152x171) and the ritual's (GFX_goal_CHC_cultists, 266x253) grow upward, so
+# rows 24 and 26 stay empty above them; the close sits directly below the ritual. From round 28b to
+# 2026-09-23 the Walk sat on row 21 under The Grand Ritual, the ritual on row 25 and Act III under
+# it on row 26; the close moved from (15,27) to (15,28), and everything below it with it.
 #
-# Pull-in: the six name a shared focus - their bead - in their prerequisite, so the engine pulls them in with the Act II
-# heads the override lists; from round 27 to 2026-09-23 their prerequisite was the national Final Ritual and the override
-# listed each of them. The Tide Turns South names the national Final Ritual, so the override lists it instead, and it keeps
-# absolute x/y. The six take relative_position_id to their bead.
+# Pull-in: the six name a shared focus - their bead - in their prerequisite, so the engine pulls
+# them in with the Act II heads the override lists; from round 27 to 2026-09-23 their prerequisite
+# was the national Final Ritual and the override listed each of them. The Tide Turns South names the
+# national Final Ritual, so the override lists it instead, and it keeps absolute x/y. The six take
+# relative_position_id to their bead.
 #
 # Four of the fan focuses are kept from the old conflict sub-trees (rounds 17-24) and do what they did there. What changed:
-# - Each hangs off its nation's Act II bead (from round 27 to 2026-09-23, off The Final Ritual, with the three invitations
-#   naming their Act II head in `available` instead - a condition the bead's own prerequisite now carries).
-# - Never strand: the close needs any one of the six, and every one completes whatever its target answers. Drown the Dance
-#   and The Coast Goes Under are takeable whenever their target is gone or is MLT's subject (+50 political power instead of
-#   the war), or is not MLT's ally. The three invitations pay +50 political power once their invitee is gone or cannot join
-#   by the time they complete (Hail the Drowned King since round 28c's review). The Tide-Wall pays 30 army experience
-#   instead of its penalty and idea when no Brotherhood, or only a subject or allied one, holds Washington. The three
-#   invitations ask one set since round 28c: the invitee's cult at 40 %, its civilian infiltration token and 25 % network
-#   coverage, plus a rival gate (no alliance with the other nation's enemy; for the Bone Dancers, that they have not taken
-#   the pilgrims' road to the seraph lords). No invitation tests civilian intel or the invitee's own conquests any more.
-# - The three wars keep their AI holds (stage, readiness, courtship, safe target), now only while the focus would actually
-#   start a war, so an AI is not held off a fallback it can take for free. Since the round-27 review the holds sit in
-#   `available` (mltd_ai_may_raise_the_tide_wall, mltd_ai_may_drown_the_coast, mltd_ai_may_drown_the_dance - hidden, AI-only),
-#   not in ai_will_do: an AI takes any listed focus that is available, whatever its ai_will_do reads. All three also wait
-#   while MLT is losing a war; the two raider wars never open a front in the middle of a war with an NCR that has not
-#   capitulated.
+# - Each hangs off its nation's Act II bead (from round 27 to 2026-09-23, off The Final Ritual, with
+#   the three invitations naming their Act II head in `available` instead - a condition the bead's
+#   own prerequisite now carries).
+# - Never strand: the close needs any one of the six, and every one completes whatever its target
+#   answers. Drown the Dance and The Coast Goes Under are takeable whenever their target is gone or
+#   is MLT's subject (+50 political power instead of the war), or is not MLT's ally. The three
+#   invitations pay +50 political power once their invitee is gone or cannot join by the time they
+#   complete (Hail the Drowned King since round 28c's review). The Tide-Wall pays 30 army experience
+#   instead of its penalty and idea when no Brotherhood, or only a subject or allied one, holds
+#   Washington. The three invitations ask one set since round 28c: the invitee's cult at 40 %, its
+#   civilian infiltration token and 25 % network coverage, plus a rival gate (no alliance with the
+#   other nation's enemy; for the Bone Dancers, that they have not taken the pilgrims' road to the
+#   seraph lords). No invitation tests civilian intel or the invitee's own conquests any more.
+# - The three wars keep their AI holds (stage, readiness, courtship, safe target), now only while
+#   the focus would actually start a war, so an AI is not held off a fallback it can take for free.
+#   Since the round-27 review the holds sit in `available` (mltd_ai_may_raise_the_tide_wall,
+#   mltd_ai_may_drown_the_coast, mltd_ai_may_drown_the_dance - hidden, AI-only), not in ai_will_do:
+#   an AI takes any listed focus that is available, whatever its ai_will_do reads. All three also
+#   wait while MLT is losing a war; the two raider wars never open a front in the middle of a war
+#   with an NCR that has not capitulated.
 #
 # Round 28: a third invitation, Terms for the Citadel (mltd_wbh_terms_for_the_citadel), offers the Brotherhood in Washington
-# (mltd_wbh_terms_target: WBH unless it is gone or someone's subject, else TCA as the Northwestern Brotherhood - OWB lets TCA
-# form it while WBH is its subject) a seat in the Drowned Covenant through event mltd.32. Since 2026-09-24 it hangs off The
-# Drowned Knights, the Washington branch's bead.
-# - The answers' odds (mltd.21, mltd.24, mltd.32 ai_chance) read the game rule; each invitation's description ends with them
-#   (GetMltdBrkOdds, GetMltdBdtOdds, GetMltdWbhOdds). A historical Broken Coast always accepts, an unhistorical one half the
-#   time; a historical Brotherhood never accepts, an unhistorical Washington Brotherhood half the time, the Northwestern one
-#   a tenth. The Bone Dancers' odds are unchanged.
+# (mltd_wbh_terms_target: WBH unless it is gone or someone's subject, else TCA as the Northwestern
+# Brotherhood - OWB lets TCA form it while WBH is its subject) a seat in the Drowned Covenant
+# through event mltd.32. Since 2026-09-24 it hangs off The Drowned Knights, the Washington branch's
+# bead.
+# - The answers' odds (mltd.21, mltd.24, mltd.32 ai_chance) read the game rule; each invitation's
+#   description ends with them (GetMltdBrkOdds, GetMltdBdtOdds, GetMltdWbhOdds). A historical Broken
+#   Coast always accepts, an unhistorical one half the time; a historical Brotherhood never accepts,
+#   an unhistorical Washington Brotherhood half the time, the Northwestern one a tenth. The Bone
+#   Dancers' odds are unchanged.
 # - A refusal costs more than the war: Terms takes 60 days against The Tide-Wall's 30, no invitation grants a timed idea, and
 #   a refusal leaves MLT an annex_everything war goal that expires after 365 days, created in the refuser's own option
 #   (mltd.21 option b, mltd.24 option b, mltd.32 option b).
 #
-# Round 28b, the pairs. The two focuses aimed at one nation sit side by side and are mutually exclusive BOTH ways: MLT either
-# courts a nation or fights it. Terms for the Citadel (10) and The Tide-Wall (12) for the Brotherhood in Washington; Hail the
-# Drowned King and Drown the Dance for the Bone Dancers (18 and 20 since round 28c). Until round 28b Hail -> Drown was
-# one-sided (round 24), because a refused invitation used to strand the war branch; since round 28 a refusal leaves the
-# expiring war goal instead, and the invitation's focus still completes and opens the close, so nothing strands.
+# Round 28b, the pairs. The two focuses aimed at one nation sit side by side and are mutually
+# exclusive BOTH ways: MLT either courts a nation or fights it. Terms for the Citadel (10) and The
+# Tide-Wall (12) for the Brotherhood in Washington; Hail the Drowned King and Drown the Dance for
+# the Bone Dancers (18 and 20 since round 28c). Until round 28b Hail -> Drown was one-sided (round
+# 24), because a refused invitation used to strand the war branch; since round 28 a refusal leaves
+# the expiring war goal instead, and the invitation's focus still completes and opens the close, so
+# nothing strands.
 # - Across nations the exclusion stays a flag, because only an ACCEPTED offer closes the other nation's door:
 #   mltd_wbh_alliance (set by mltd_wbh_join_the_covenant) closes the Covenant, and mltd_brk_covenant_joined (set by
 #   mltd_brk_join_the_covenant) closes Terms. A refusal leaves both open. The Tide-Wall's own round-28 gate on
-#   mltd_wbh_alliance is gone: only Terms can set that flag, and Terms now excludes the wall outright - and so is the wall's
-#   round-28 no-bonus branch for a refused Terms (mltd_wbh_refused_terms), which can no longer be reached.
-# - The race: a focus can be picked while the other nation's answer is still on its way (a day for an AI, as long as a human
-#   takes to reply), and continue_if_invalid lets the world change while a focus runs. So all three invitations' rewards test
-#   the invitee and MLT's own faction again before sending their offer, the Covenant and Terms the other flag too (else +50
-#   political power; Hail the Drowned King since round 28c's review - the Bone Dancers can be annexed, bound, allied
-#   elsewhere or at war with MLT by the time it completes); the acceptance options of all three events test the same, those
-#   of mltd.21 and mltd.32 the other flag too (mltd.24's since round 28c's review), so an invitee that can no longer join is
-#   left only the refusal; and the three wars never declare on, or penalise, a country in MLT's faction (a player can still
-#   invite one from the diplomacy screen; Drown the Dance since round 28c).
+#   mltd_wbh_alliance is gone: only Terms can set that flag, and Terms now excludes the wall
+#   outright - and so is the wall's round-28 no-bonus branch for a refused Terms
+#   (mltd_wbh_refused_terms), which can no longer be reached.
+# - The race: a focus can be picked while the other nation's answer is still on its way (a day for
+#   an AI, as long as a human takes to reply), and continue_if_invalid lets the world change while a
+#   focus runs. So all three invitations' rewards test the invitee and MLT's own faction again
+#   before sending their offer, the Covenant and Terms the other flag too (else +50 political power;
+#   Hail the Drowned King since round 28c's review - the Bone Dancers can be annexed, bound, allied
+#   elsewhere or at war with MLT by the time it completes); the acceptance options of all three
+#   events test the same, those of mltd.21 and mltd.32 the other flag too (mltd.24's since round
+#   28c's review), so an invitee that can no longer join is left only the refusal; and the three
+#   wars never declare on, or penalise, a country in MLT's faction (a player can still invite one
+#   from the diplomacy screen; Drown the Dance since round 28c).
 # - Every effect shows before the focus is taken (the round-28b tooltip rule): The Tide-Wall's bunkers and its claim removal
 #   sit behind limits that may not hold yet (The Warren's owner, a claim that comes later), so each is one custom line over a
 #   hidden effect; its declarations are written per Brotherhood, WBH then TCA, so the preview names the country rather than
 #   "every country".
-# - A fallback of the Covenant or of Hail sets mltd_brk_covenant_lapsed / mltd_bdt_covenant_lapsed on MLT: no offer can come
-#   again, so the flag ends the AI's courtship of that nation (mltd_ai_courting_brk / _bdt), which nothing else would. From
-#   round 28c's review to 2026-09-23 each preview also showed the fallback under a line saying when it is paid.
+# - A fallback of the Covenant or of Hail sets mltd_brk_covenant_lapsed / mltd_bdt_covenant_lapsed
+#   on MLT: no offer can come again, so the flag ends the AI's courtship of that nation
+#   (mltd_ai_courting_brk / _bdt), which nothing else would. From round 28c's review to 2026-09-23
+#   each preview also showed the fallback under a line saying when it is paid.
 #
-# 2026-09-24, the user's notes: too much text, and war focuses whose targets' stability and war support are of little
-# consequence.
-# - The invitations read as the offer, then "If they accept:" over the answer's own native lines (the faction founded, the
-#   invitee joining it) and "If they refuse:" over the war goal (mltd_invitation_if_accepted_tt / _refused_tt, Terms' own
-#   pair and its claims line). The opinion modifiers and the flags still come with the answer; they are no longer
-#   previewed. The preview read the real if / else, so the +50 fallback showed whenever the invitee could not be asked -
-#   from game start for Terms, WBH leading OWB's Northern League - and hid the offer; since 2026-09-25 each invitation
-#   previews through an if of its own (the offer, unless the focus runs and the offer can no longer go) beside the real
-#   if / else in hidden_effect, both reading its mltd_*_can_offer trigger (mltd_scripted_triggers.txt).
+# 2026-09-24, the user's notes: too much text, and war focuses whose targets' stability and war
+# support are of little consequence.
+# - The invitations read as the offer, then "If they accept:" over the answer's own native lines
+#   (the faction founded, the invitee joining it) and "If they refuse:" over the war goal
+#   (mltd_invitation_if_accepted_tt / _refused_tt, Terms' own pair and its claims line). The opinion
+#   modifiers and the flags still come with the answer; they are no longer previewed. The preview
+#   read the real if / else, so the +50 fallback showed whenever the invitee could not be asked -
+#   from game start for Terms, WBH leading OWB's Northern League - and hid the offer; since
+#   2026-09-25 each invitation previews through an if of its own (the offer, unless the focus runs
+#   and the offer can no longer go) beside the real if / else in hidden_effect, both reading its
+#   mltd_*_can_offer trigger (mltd_scripted_triggers.txt).
 # - The three wars no longer cost their target stability or war support: each grants a 180-day idea with +10 % attack and
 #   +10 % defence against it (mltd_wbh_tide_wall, mltd_brk_the_raiders_hunted, mltd_bdt_the_dance_drowned) and the shared
-#   60-day mltd_the_first_wave (+10 % division recovery rate, +5 % breakthrough) - against a target that is neither MLT's
-#   subject nor its ally, whether the focus declared the war or one already runs. The raiders' and the Bone Dancers' 40 army
-#   experience went with the losses; the fallbacks stay.
+#   60-day mltd_the_first_wave (+10 % division recovery rate, +5 % breakthrough) - against a target
+#   that is neither MLT's subject nor its ally, whether the focus declared the war or one already
+#   runs. The raiders' and the Bone Dancers' 40 army experience went with the losses; the fallbacks
+#   stay.
 #
 # Round 28c, the Broken Coast's war twin (the user: the Covenant "needs its mutually exclusive counterpart that declares war
 # on the Broken Coast"). The Coast Goes Under (mltd_brk_the_coast_goes_under, x = 16) declares an annex_everything war on the
@@ -111,8 +130,9 @@
 # once its courtship has ended (mltd_ai_may_drown_the_coast, section W), because run 3's AI declared on the raiders - 47
 # states - and lost. It hangs off The Deep Ones Sail North, as the Covenant does.
 
-# Terms for the Citadel (round 28): the Brotherhood in Washington is offered a seat in the Drowned Covenant (event mltd.32,
-# which it will most likely refuse). Mutually exclusive with The Tide-Wall (round 28b): the Brotherhood is courted or fought.
+# Terms for the Citadel (round 28): the Brotherhood in Washington is offered a seat in the Drowned
+# Covenant (event mltd.32, which it will most likely refuse). Mutually exclusive with The Tide-Wall
+# (round 28b): the Brotherhood is courted or fought.
 shared_focus = {
 	id = mltd_wbh_terms_for_the_citadel
 	icon = GFX_goal_WBH_fellow_savages
@@ -129,8 +149,8 @@ shared_focus = {
 	cost = 60
 	available = {
 		# the Brotherhood that would be asked - WBH unless it is gone or someone's subject, else TCA as the Northwestern
-		# Brotherhood - at peace with us, no one's subject, and in no faction or leading its own (2026-09-25: a yes brings
-		# that faction over), so that it can join ours
+		# Brotherhood - at peace with us, no one's subject, and in no faction or leading its own
+		# (2026-09-25: a yes brings that faction over), so that it can join ours
 		custom_trigger_tooltip = {
 			tooltip = mltd_wbh_terms_brotherhood_tt
 			any_country = { mltd_wbh_terms_target = yes }
@@ -139,15 +159,17 @@ shared_focus = {
 			is_in_faction = no
 			is_faction_leader = yes
 		}
-		# never beside the Broken Coast: once the raiders have sworn to the Covenant, the Brotherhood will not share a table
-		# with them (mltd_brk_join_the_covenant sets the flag). A refused Covenant leaves this open.
+		# never beside the Broken Coast: once the raiders have sworn to the Covenant, the
+		# Brotherhood will not share a table with them (mltd_brk_join_the_covenant sets the flag). A
+		# refused Covenant leaves this open.
 		custom_trigger_tooltip = {
 			tooltip = mltd_wbh_terms_no_covenant_tt
 			NOT = { has_country_flag = mltd_brk_covenant_joined }
 		}
-		# round 28c: the same set the other two invitations ask - a cult at 40 %, the civilian infiltration token and a
-		# quarter of the country covered - against whichever Brotherhood would be asked. One branch per tag, the house
-		# idiom for this pair (The Drowned Knights and The Tide-Wall), since the target is decided at completion
+		# round 28c: the same set the other two invitations ask - a cult at 40 %, the civilian
+		# infiltration token and a quarter of the country covered - against whichever Brotherhood
+		# would be asked. One branch per tag, the house idiom for this pair (The Drowned Knights and
+		# The Tide-Wall), since the target is decided at completion
 		if = {
 			limit = { has_dlc = "La Resistance" }
 			custom_trigger_tooltip = {
@@ -170,11 +192,13 @@ shared_focus = {
 		}
 		# an AI offers only when the answer can be yes (not on historical focuses), only to the Washington Brotherhood itself
 		# (not the Northwestern one, which accepts a tenth of the time), not while it courts the Broken Coast, and only when The
-		# Tide-Wall's war could be fought - Washington's stage, the army ready, a safe target (from 2281 only while no Act III
-		# focus is done) - since a refusal hands it a war goal (mltd_ai_triggers.txt, section W)
+		# Tide-Wall's war could be fought - Washington's stage, the army ready, a safe target (from
+		# 2281 only while no Act III focus is done) - since a refusal hands it a war goal
+		# (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_offer_the_citadel = yes
 	}
-	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only
+	# its fallback
 	bypass = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_wbh_no_brotherhood_tt
@@ -183,19 +207,21 @@ shared_focus = {
 	}
 	cancel_if_invalid = no
 	continue_if_invalid = yes
-	# no ai_will_do: the default weight of 1, below the war focuses' 3, so an AI running no plan prefers them; an AI's
-	# real gate is the hold above
+	# no ai_will_do: the default weight of 1, below the war focuses' 3, so an AI running no plan
+	# prefers them; an AI's real gate is the hold above
 	completion_reward = {
 		# the target, MLT's own faction and the Covenant flag are tested again at completion (mltd_wbh_terms_can_offer), because
 		# the world can change while this focus runs (continue_if_invalid) - the Broken Coast can accept the Covenant, MLT can
 		# join someone else's faction - and an offer that cannot be accepted must not be sent; one offer, to one Brotherhood
-		# (mltd_wbh_terms_target picks WBH unless it is gone or someone's subject). 2026-09-24 (the user: too much text): the
-		# offer, then "If it accepts:" and "If it refuses:" over the answer's own native lines - the faction, the join, the war
-		# goal - and the claims it drops. 2026-09-25 (the user: it showed only the +50): the preview is an if of its own, which
-		# shows the offer unless the focus is running and the offer can no longer go - the one time the +50 is due. Read off
-		# the real if / else it showed only the +50 whenever no Brotherhood could be asked, and with WBH leading the Northern
-		# League from 2275 that is most of the game. The real if / else is hidden below it. Since the same day a Brotherhood that
-		# leads a faction may be asked, and a yes brings the faction's members over with it
+		# (mltd_wbh_terms_target picks WBH unless it is gone or someone's subject). 2026-09-24 (the
+		# user: too much text): the offer, then "If it accepts:" and "If it refuses:" over the
+		# answer's own native lines - the faction, the join, the war goal - and the claims it drops.
+		# 2026-09-25 (the user: it showed only the +50): the preview is an if of its own, which
+		# shows the offer unless the focus is running and the offer can no longer go - the one time
+		# the +50 is due. Read off the real if / else it showed only the +50 whenever no Brotherhood
+		# could be asked, and with WBH leading the Northern League from 2275 that is most of the
+		# game. The real if / else is hidden below it. Since the same day a Brotherhood that leads a
+		# faction may be asked, and a yes brings the faction's members over with it
 		if = {
 			limit = {
 				OR = {
@@ -210,7 +236,8 @@ shared_focus = {
 					limit = { is_in_faction = no }
 					create_faction = mltd_drowned_covenant
 				}
-				# the Brotherhood that would be asked, by mltd_wbh_terms_target's own rule, whatever its faction or war
+				# the Brotherhood that would be asked, by mltd_wbh_terms_target's own rule, whatever
+				# its faction or war
 				if = {
 					limit = {
 						WBH = {
@@ -223,8 +250,9 @@ shared_focus = {
 				else = { add_to_faction = TCA }
 			}
 			custom_effect_tooltip = mltd_wbh_terms_claims_tt
-			# 2026-09-25: a Brotherhood that leads a faction - WBH leads OWB's Northern League from 2275 - brings its members
-			# over (mltd_wbh_join_the_covenant); the faction's name prints, its members show on the faction screen
+			# 2026-09-25: a Brotherhood that leads a faction - WBH leads OWB's Northern League from
+			# 2275 - brings its members over (mltd_wbh_join_the_covenant); the faction's name
+			# prints, its members show on the faction screen
 			if = {
 				limit = {
 					WBH = {
@@ -290,14 +318,16 @@ shared_focus = {
 	}
 }
 
-# The Tide-Wall of The Warren: war on whichever Brotherhood holds Washington, bunkers in The Warren, its claims gone.
+# The Tide-Wall of The Warren: war on whichever Brotherhood holds Washington, bunkers in The Warren,
+# its claims gone.
 # Mutually exclusive with Terms for the Citadel (round 28b): the Brotherhood is courted or fought.
 shared_focus = {
 	id = mltd_wbh_the_tide_wall
 	icon = GFX_goal_generic_walls_focus
 	# 2026-09-24: its nation's Act II bead (The Final Ritual until then)
 	prerequisite = { focus = mltd_wbh_the_drowned_knights }
-	# round 28b: both ways, with Terms' own line. It replaces round 28's gate on mltd_wbh_alliance, which only Terms could set
+	# round 28b: both ways, with Terms' own line. It replaces round 28's gate on mltd_wbh_alliance,
+	# which only Terms could set
 	mutually_exclusive = { focus = mltd_wbh_terms_for_the_citadel }
 	# (12,23) since 2026-09-24, beside its bead; (12,26) until then
 	x = 1
@@ -305,8 +335,9 @@ shared_focus = {
 	relative_position_id = mltd_wbh_the_drowned_knights
 	cost = 30
 	will_lead_to_war_with = WBH
-	# Round 24: the capstone declares on whichever Brotherhood holds Washington (mltd_wbh_brotherhood), so the warning
-	# has to name both - TCA is the branch round 22 was written for.
+	# Round 24: the capstone declares on whichever Brotherhood holds Washington
+	# (mltd_wbh_brotherhood), so the warning has to name both - TCA is the branch round 22 was
+	# written for.
 	will_lead_to_war_with = TCA
 	ai_will_do = { factor = 3 }
 	available = {
@@ -325,14 +356,17 @@ shared_focus = {
 			}
 		}
 		235 = { is_owned_and_controlled_by = ROOT }
-		# round 22: the focus is the declaration, so an AI takes it only when its stage has come and the army is ready - only
-		# while it would start a war (with no Brotherhood left to declare on it pays 30 army experience and nothing waits).
-		# Round 27 review: the hold sits here, hidden and AI-only, because an AI takes any listed focus that is available
-		# whatever its ai_will_do reads; it also waits while MLT is losing and for every Brotherhood it would declare on to be
-		# a safe target - from 2281 only while no Act III focus is done (mltd_ai_triggers.txt, section W)
+		# round 22: the focus is the declaration, so an AI takes it only when its stage has come and
+		# the army is ready - only while it would start a war (with no Brotherhood left to declare
+		# on it pays 30 army experience and nothing waits).
+		# Round 27 review: the hold sits here, hidden and AI-only, because an AI takes any listed
+		# focus that is available whatever its ai_will_do reads; it also waits while MLT is losing
+		# and for every Brotherhood it would declare on to be a safe target - from 2281 only while
+		# no Act III focus is done (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_raise_the_tide_wall = yes
 	}
-	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only
+	# its fallback
 	bypass = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_wbh_no_brotherhood_tt
@@ -342,10 +376,11 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	completion_reward = {
-		# round 22: the focus declares on each living Brotherhood that is not already at war with us, our subject or in our
-		# faction, so its own length is the run-up and will_lead_to_war_with warns them. Round 28b: one block per tag, WBH
-		# first, so the preview names the country; the second limit is read after the first declaration, so a TCA drawn in as
-		# WBH's overlord is not declared on twice
+		# round 22: the focus declares on each living Brotherhood that is not already at war with
+		# us, our subject or in our faction, so its own length is the run-up and
+		# will_lead_to_war_with warns them. Round 28b: one block per tag, WBH first, so the preview
+		# names the country; the second limit is read after the first declaration, so a TCA drawn in
+		# as WBH's overlord is not declared on twice
 		if = {
 			limit = {
 				WBH = {
@@ -374,9 +409,10 @@ shared_focus = {
 				target = TCA
 			}
 		}
-		# 2026-09-24: the war's bonuses - the Tide-Wall idea (+10 % attack and defence against both Brotherhoods beside its core
-		# defence) and The First Wave - against a Brotherhood that is neither MLT's subject nor its ally, whether this focus
-		# declared the war or one already runs; they replace the Brotherhood's -3 % war support. Otherwise 30 army experience
+		# 2026-09-24: the war's bonuses - the Tide-Wall idea (+10 % attack and defence against both
+		# Brotherhoods beside its core defence) and The First Wave - against a Brotherhood that is
+		# neither MLT's subject nor its ally, whether this focus declared the war or one already
+		# runs; they replace the Brotherhood's -3 % war support. Otherwise 30 army experience
 		if = {
 			limit = {
 				any_country = {
@@ -430,9 +466,10 @@ shared_focus = {
 				}
 			}
 		}
-		# the Brotherhood's claim on The Warren: WBH gets it when TRL dies (Shared Brotherhood Focus.txt:2113), TCA when it
-		# forms the Northwestern Brotherhood (every Washington state, formable_nations.txt). Either can come after the preview
-		# is read, which would then show nothing (round 28b): one custom line over the hidden removal
+		# the Brotherhood's claim on The Warren: WBH gets it when TRL dies (Shared Brotherhood
+		# Focus.txt:2113), TCA when it forms the Northwestern Brotherhood (every Washington state,
+		# formable_nations.txt). Either can come after the preview is read, which would then show
+		# nothing (round 28b): one custom line over the hidden removal
 		if = {
 			limit = { any_country = { mltd_wbh_brotherhood = yes } }
 			custom_effect_tooltip = mltd_wbh_tide_wall_claims_tt
@@ -452,8 +489,10 @@ shared_focus = {
 	}
 }
 
-# The Drowned Covenant: the Broken Coast is invited into a faction led by MLT (event mltd.21, which BRK may refuse).
-# Mutually exclusive with The Coast Goes Under (round 28c: both ways): the raiders are courted or fought.
+# The Drowned Covenant: the Broken Coast is invited into a faction led by MLT (event mltd.21, which
+# BRK may refuse).
+# Mutually exclusive with The Coast Goes Under (round 28c: both ways): the raiders are courted or
+# fought.
 shared_focus = {
 	id = mltd_brk_the_drowned_covenant
 	icon = GFX_goal_BRK_black_flag_fleets
@@ -468,8 +507,8 @@ shared_focus = {
 	cost = 60
 	ai_will_do = { factor = 3 }
 	available = {
-		# the courtship gates, while there is a Broken Coast to court; once it is gone, or is MLT's own subject, the focus pays
-		# political power instead
+		# the courtship gates, while there is a Broken Coast to court; once it is gone, or is MLT's
+		# own subject, the focus pays political power instead
 		if = {
 			limit = {
 				country_exists = BRK
@@ -492,10 +531,11 @@ shared_focus = {
 				tooltip = mltd_brk_no_brotherhood_table_tt
 				NOT = { has_country_flag = mltd_wbh_alliance }
 			}
-			# round 28c: the three invitations ask the same of the faithful - a cult at 40 %, that country's civilian
-			# infiltration token and a quarter of it covered by our network. The Covenant's own gates were the tree's
-			# heaviest (a cult at 50 %, 30 % coverage, civilian intel over 50 %, and brk_nf_pirate_coast's VIC and DRE
-			# coast, which rests on the raiders' own conquests: the spectator runs never saw them take VIC)
+			# round 28c: the three invitations ask the same of the faithful - a cult at 40 %, that
+			# country's civilian infiltration token and a quarter of it covered by our network. The
+			# Covenant's own gates were the tree's heaviest (a cult at 50 %, 30 % coverage, civilian
+			# intel over 50 %, and brk_nf_pirate_coast's VIC and DRE coast, which rests on the
+			# raiders' own conquests: the spectator runs never saw them take VIC)
 			if = {
 				limit = { has_dlc = "La Resistance" }
 				custom_trigger_tooltip = {
@@ -523,9 +563,10 @@ shared_focus = {
 		# that cannot be accepted must not be sent. The else keeps the old fallback: +50 political power, as with the Broken
 		# Coast gone or MLT's subject. 2026-09-24 (the user: too much text): the invitation, then "If they accept:" and "If they
 		# refuse:" over the answer's own native lines - the faction, the join, the war goal. 2026-09-25: the preview is an if of
-		# its own, as Terms' is: the offer, unless the focus is running and the offer can no longer go, or the raiders are
-		# already MLT's subject - the times the +50 is due. Read off the real if / else it showed only the +50 whenever the
-		# raiders were in a faction or at war with MLT. The real if / else is hidden below it
+		# its own, as Terms' is: the offer, unless the focus is running and the offer can no longer
+		# go, or the raiders are already MLT's subject - the times the +50 is due. Read off the real
+		# if / else it showed only the +50 whenever the raiders were in a faction or at war with
+		# MLT. The real if / else is hidden below it
 		if = {
 			limit = {
 				OR = {
@@ -565,18 +606,20 @@ shared_focus = {
 			}
 			else = {
 				add_political_power = 50
-				# round 28c review: no offer is sent, and none can come again (mltd.21 is fire_only_once, and this focus is
-				# done), so the flag ends the AI's courtship of the raiders (mltd_ai_courting_brk), which would otherwise run for
-				# the rest of the game once they were at peace, free and out of every faction again
+				# round 28c review: no offer is sent, and none can come again (mltd.21 is
+				# fire_only_once, and this focus is done), so the flag ends the AI's courtship of
+				# the raiders (mltd_ai_courting_brk), which would otherwise run for the rest of the
+				# game once they were at peace, free and out of every faction again
 				set_country_flag = mltd_brk_covenant_lapsed
 			}
 		}
 	}
 }
 
-# The Coast Goes Under (round 28c): war on the Broken Coast (an annex_everything declaration), or political power once the
-# raiders are gone. The Covenant's war twin, mutually exclusive with it both ways: the raiders are courted or fought. Sized
-# like Drown the Dance. It hangs off The Deep Ones Sail North, the Broken Coast branch's bead, as the Covenant does.
+# The Coast Goes Under (round 28c): war on the Broken Coast (an annex_everything declaration), or
+# political power once the raiders are gone. The Covenant's war twin, mutually exclusive with it
+# both ways: the raiders are courted or fought. Sized like Drown the Dance. It hangs off The Deep
+# Ones Sail North, the Broken Coast branch's bead, as the Covenant does.
 shared_focus = {
 	id = mltd_brk_the_coast_goes_under
 	icon = GFX_goal_BRK_war
@@ -588,14 +631,15 @@ shared_focus = {
 	x = 1
 	y = 1
 	relative_position_id = mltd_brk_the_deep_ones_sail_north
-	# a war focus's length, as Drown the Dance's and The Tide-Wall's; the Covenant takes twice as long (2026-09-25: every focus
-	# of ours 7, 30, 60, 120 or 180 days - until then the Covenant and both twins took 49, and neither road was the quicker)
+	# a war focus's length, as Drown the Dance's and The Tide-Wall's; the Covenant takes twice as
+	# long (2026-09-25: every focus of ours 7, 30, 60, 120 or 180 days - until then the Covenant and
+	# both twins took 49, and neither road was the quicker)
 	cost = 30
 	will_lead_to_war_with = BRK
 	ai_will_do = { factor = 3 }
 	available = {
-		# never on an ally; with the raiders gone, or MLT's own subject (who sit in its faction if it leads one), the focus is
-		# free and pays political power (as Drown the Dance does)
+		# never on an ally; with the raiders gone, or MLT's own subject (who sit in its faction if
+		# it leads one), the focus is free and pays political power (as Drown the Dance does)
 		if = {
 			limit = {
 				country_exists = BRK
@@ -605,9 +649,9 @@ shared_focus = {
 		}
 		# the focus is the declaration, so an AI takes it only once it has stopped courting the raiders (mltd_ai_courting_brk:
 		# the Brotherhood in Washington sworn to the Covenant, or a war with them already running - run 3's AI declared on the
-		# Broken Coast, 47 states, and lost), with the army ready, MLT not losing, the raiders a safe target and no war running
-		# with an NCR that has not capitulated - and only while there are raiders to declare on (mltd_ai_triggers.txt,
-		# section W; hidden, AI-only)
+		# Broken Coast, 47 states, and lost), with the army ready, MLT not losing, the raiders a
+		# safe target and no war running with an NCR that has not capitulated - and only while there
+		# are raiders to declare on (mltd_ai_triggers.txt, section W; hidden, AI-only)
 		mltd_ai_may_drown_the_coast = yes
 	}
 	# 2026-09-23: bypassed once BRK is gone - with its nation gone it paid only its fallback
@@ -617,7 +661,8 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	completion_reward = {
-		# never on a country in MLT's faction (a player can still invite one from the diplomacy screen while this focus runs)
+		# never on a country in MLT's faction (a player can still invite one from the diplomacy
+		# screen while this focus runs)
 		if = {
 			limit = {
 				country_exists = BRK
@@ -652,24 +697,27 @@ shared_focus = {
 	}
 }
 
-# Hail the Drowned King: the Bone Dancers, once they have crowned the Odious King, are invited into the Covenant (event mltd.24),
-# or political power if they can no longer join by the time it completes (round 28c review). Mutually exclusive with Drown
-# the Dance (round 28b: both ways): the Bone Dancers are courted or fought.
+# Hail the Drowned King: the Bone Dancers, once they have crowned the Odious King, are invited into
+# the Covenant (event mltd.24), or political power if they can no longer join by the time it
+# completes (round 28c review). Mutually exclusive with Drown the Dance (round 28b: both ways): the
+# Bone Dancers are courted or fought.
 shared_focus = {
 	id = mltd_bdt_hail_the_drowned_king
 	icon = GFX_goal_BDT_odious_king
 	# 2026-09-24: its nation's Act II bead (The Final Ritual until then)
 	prerequisite = { focus = mltd_bdt_the_dancers_hear_the_tide }
-	# both ways since round 28b, with Drown the Dance's own line (one-sided from round 24 to round 28: a refused invitation
-	# used to strand the war branch; since round 28 a refusal leaves an expiring war goal instead, mltd.24 option b)
+	# both ways since round 28b, with Drown the Dance's own line (one-sided from round 24 to round
+	# 28: a refused invitation used to strand the war branch; since round 28 a refusal leaves an
+	# expiring war goal instead, mltd.24 option b)
 	mutually_exclusive = { focus = mltd_bdt_drown_the_dance }
 	# (18,23) since 2026-09-24, beside its bead; (18,26) until then
 	x = -1
 	y = 1
 	relative_position_id = mltd_bdt_the_dancers_hear_the_tide
 	cost = 60
-	# the late plan lists the invitation before Drown the Dance, and its order is what an AI with a plan follows; this 4
-	# (over the war's 3) only orders the two for an AI running no plan - a subject MLT, whose plans all abort
+	# the late plan lists the invitation before Drown the Dance, and its order is what an AI with a
+	# plan follows; this 4 (over the war's 3) only orders the two for an AI running no plan - a
+	# subject MLT, whose plans all abort
 	ai_will_do = { factor = 4 }
 	available = {
 		country_exists = BDT
@@ -682,10 +730,11 @@ shared_focus = {
 			is_in_faction = no
 			is_faction_leader = yes
 		}
-		# round 28c: the rival gate every invitation carries, in place of this one's old demand that the Bone Dancers had
-		# already crowned OWB's Odious King (bdt_hail_to_the_king). Their own tree offers three exclusive roads, and one of
-		# them, bdt_listen_to_the_pilgrims, swears them to Heaven's Guard's seraph lords: a people already sworn to another
-		# god has no use for a drowned one, and neither will they kneel beside their enemy's ally
+		# round 28c: the rival gate every invitation carries, in place of this one's old demand that
+		# the Bone Dancers had already crowned OWB's Odious King (bdt_hail_to_the_king). Their own
+		# tree offers three exclusive roads, and one of them, bdt_listen_to_the_pilgrims, swears
+		# them to Heaven's Guard's seraph lords: a people already sworn to another god has no use
+		# for a drowned one, and neither will they kneel beside their enemy's ally
 		custom_trigger_tooltip = {
 			tooltip = mltd_bdt_not_pilgrims_tt
 			BDT = { NOT = { has_completed_focus = bdt_listen_to_the_pilgrims } }
@@ -711,14 +760,16 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	completion_reward = {
-		# round 28c review: the invitee and MLT's own faction are tested again at completion (mltd_bdt_covenant_can_offer), as
-		# the Covenant and Terms test theirs, because the world can change during the focus's 60 days (continue_if_invalid) -
-		# the Bone Dancers can be annexed, made someone's subject, join another faction - the Northern League, through their
-		# own tree - or go to war with MLT, and MLT can join someone else's faction - and an offer that cannot be accepted must
-		# not be sent. Otherwise +50 political power, the Covenant's and Terms' fallback. 2026-09-24 (the user: too much text):
-		# the invitation, then "If they accept:" and "If they refuse:" over the answer's own native lines. 2026-09-25: the
-		# preview is an if of its own, as Terms' is: the offer, unless the focus is running and the offer can no longer go -
-		# the one time the +50 is due. The real if / else is hidden below it
+		# round 28c review: the invitee and MLT's own faction are tested again at completion
+		# (mltd_bdt_covenant_can_offer), as the Covenant and Terms test theirs, because the world
+		# can change during the focus's 60 days (continue_if_invalid) - the Bone Dancers can be
+		# annexed, made someone's subject, join another faction - the Northern League, through their
+		# own tree - or go to war with MLT, and MLT can join someone else's faction - and an offer
+		# that cannot be accepted must not be sent. Otherwise +50 political power, the Covenant's
+		# and Terms' fallback. 2026-09-24 (the user: too much text): the invitation, then "If they
+		# accept:" and "If they refuse:" over the answer's own native lines. 2026-09-25: the preview
+		# is an if of its own, as Terms' is: the offer, unless the focus is running and the offer
+		# can no longer go - the one time the +50 is due. The real if / else is hidden below it
 		if = {
 			limit = {
 				OR = {
@@ -754,24 +805,28 @@ shared_focus = {
 			}
 			else = {
 				add_political_power = 50
-				# round 28c review: no offer is sent, and none can come again (mltd.24 is fire_only_once, and this focus is
-				# done), so the flag ends the AI's courtship of the Bone Dancers (mltd_ai_courting_bdt)
+				# round 28c review: no offer is sent, and none can come again (mltd.24 is
+				# fire_only_once, and this focus is done), so the flag ends the AI's courtship of
+				# the Bone Dancers (mltd_ai_courting_bdt)
 				set_country_flag = mltd_bdt_covenant_lapsed
 			}
 		}
 	}
 }
 
-# Drown the Dance: war on the Bone Dancers (an annex_everything declaration), or political power once they are gone.
-# Mutually exclusive with Hail the Drowned King (round 28b: both ways): the Bone Dancers are courted or fought.
+# Drown the Dance: war on the Bone Dancers (an annex_everything declaration), or political power
+# once they are gone.
+# Mutually exclusive with Hail the Drowned King (round 28b: both ways): the Bone Dancers are courted
+# or fought.
 shared_focus = {
 	id = mltd_bdt_drown_the_dance
 	icon = GFX_goal_BDT_bloody_skull
 	# 2026-09-24: its nation's Act II bead (The Final Ritual until then)
 	prerequisite = { focus = mltd_bdt_the_dancers_hear_the_tide }
-	# round 28b: both ways, with Hail the Drowned King's own line. From round 24 to round 28 this side was left out on purpose,
-	# so that a refused invitation did not strand the war branch; since round 28 the refusal leaves an annex_everything war goal
-	# that expires after 365 days (mltd.24 option b), and Hail itself completes and opens the close, so nothing strands
+	# round 28b: both ways, with Hail the Drowned King's own line. From round 24 to round 28 this
+	# side was left out on purpose, so that a refused invitation did not strand the war branch;
+	# since round 28 the refusal leaves an annex_everything war goal that expires after 365 days
+	# (mltd.24 option b), and Hail itself completes and opens the close, so nothing strands
 	mutually_exclusive = { focus = mltd_bdt_hail_the_drowned_king }
 	# (20,23) since 2026-09-24, beside its bead; (20,26) until then
 	x = 1
@@ -781,8 +836,9 @@ shared_focus = {
 	will_lead_to_war_with = BDT
 	ai_will_do = { factor = 3 }
 	available = {
-		# never on an ally; with no Bone Dancers left, or with the Bone Dancers MLT's own subject (who sit in its faction if it
-		# leads one), the focus is free and pays political power (round 27)
+		# never on an ally; with no Bone Dancers left, or with the Bone Dancers MLT's own subject
+		# (who sit in its faction if it leads one), the focus is free and pays political power
+		# (round 27)
 		if = {
 			limit = {
 				country_exists = BDT
@@ -791,10 +847,11 @@ shared_focus = {
 			NOT = { is_in_faction_with = BDT }
 		}
 		# round 22: the focus is the declaration, so an AI takes it only with the army ready and not while it courts the Bone
-		# Dancers (until 2281) - only while there are Bone Dancers to declare on. Round 27 review: the hold sits here, hidden
-		# and AI-only, because an AI takes any listed focus that is available whatever its ai_will_do reads; it also waits
-		# while MLT is losing, for a safe target (from 2281 only while no Act III focus is done), and while MLT fights an NCR
-		# that has not capitulated (mltd_ai_triggers.txt, section W)
+		# Dancers (until 2281) - only while there are Bone Dancers to declare on. Round 27 review:
+		# the hold sits here, hidden and AI-only, because an AI takes any listed focus that is
+		# available whatever its ai_will_do reads; it also waits while MLT is losing, for a safe
+		# target (from 2281 only while no Act III focus is done), and while MLT fights an NCR that
+		# has not capitulated (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_drown_the_dance = yes
 	}
 	# 2026-09-23: bypassed once BDT is gone - with its nation gone it paid only its fallback
@@ -804,8 +861,8 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	completion_reward = {
-		# round 28c: never on a country in MLT's faction either (a player can still invite one from the diplomacy screen while
-		# this focus runs), as The Tide-Wall and The Coast Goes Under
+		# round 28c: never on a country in MLT's faction either (a player can still invite one from
+		# the diplomacy screen while this focus runs), as The Tide-Wall and The Coast Goes Under
 		if = {
 			limit = {
 				country_exists = BDT
@@ -818,9 +875,10 @@ shared_focus = {
 				target = BDT
 			}
 		}
-		# 2026-09-24: the war's bonuses - 180 days of +10 % attack and defence against the Bone Dancers, and The First Wave - in
-		# place of their -6 % stability and -3 % war support and the 40 army experience; only against Bone Dancers that are
-		# neither MLT's subject nor its allies, otherwise the fallback
+		# 2026-09-24: the war's bonuses - 180 days of +10 % attack and defence against the Bone
+		# Dancers, and The First Wave - in place of their -6 % stability and -3 % war support and
+		# the 40 army experience; only against Bone Dancers that are neither MLT's subject nor its
+		# allies, otherwise the fallback
 		if = {
 			limit = {
 				country_exists = BDT
@@ -840,16 +898,18 @@ shared_focus = {
 	}
 }
 
-# The Tide Turns South (round 27, Act III's close): the north is the tribe's, and the drums turn toward California
+# The Tide Turns South (round 27, Act III's close): the north is the tribe's, and the drums turn
+# toward California
 shared_focus = {
 	id = mltd_the_tide_turns_south
 	icon = GFX_goal_BRK_drums_of_war
-	# The Final Ritual, since 2026-09-24: The Deep Ones Walk now reconverges on the act's six answers to the north (one OR
-	# block over them, in the override), the ritual follows the Walk and the close follows the ritual. From round 27 to
-	# 2026-09-23 this was that OR block itself. A national focus, so the override lists the close (`shared_focus`)
+	# The Final Ritual, since 2026-09-24: The Deep Ones Walk now reconverges on the act's six
+	# answers to the north (one OR block over them, in the override), the ritual follows the Walk
+	# and the close follows the ritual. From round 27 to 2026-09-23 this was that OR block itself. A
+	# national focus, so the override lists the close (`shared_focus`)
 	prerequisite = { focus = mltd_the_final_ritual }
-	# (15,28), directly under The Final Ritual on row 27 (since 2026-09-24, when the Walk and the ritual moved below Act III;
-	# (15,27) from round 28c to 2026-09-23, round 28b on (15,28))
+	# (15,28), directly under The Final Ritual on row 27 (since 2026-09-24, when the Walk and the
+	# ritual moved below Act III; (15,27) from round 28c to 2026-09-23, round 28b on (15,28))
 	x = 15
 	y = 28
 	cost = 30
@@ -869,7 +929,8 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	completion_reward = {
-		# round-28c balance review: the fourth research slot, moved here from The Last King Kneels (mltd_act6_focus.txt).
+		# round-28c balance review: the fourth research slot, moved here from The Last King Kneels
+		# (mltd_act6_focus.txt).
 		# MLT fought the whole NCR war on three slots while every rival started on four or five
 		add_research_slot = 1
 		add_ideas = mltd_the_northern_waters

@@ -1,12 +1,16 @@
 # Rising Tide (MLT) - Act V, "The Sea Against Mars" (round 27, the story acts).
-# (2026-09-24: The Deep Ones Walk and The Final Ritual moved below Act III, and Act III's close with them to (15,28), so every
-# row this header names is one lower in the tree today; every cell here is relative and followed.)
-# Shared focuses, pulled into mlt_nf through their prerequisites: the chapter, mltd_mars_in_the_water, hangs off Act IV's
-# close, mltd_when_shady_sands_falls (mltd_act4_focus.txt), which reaches the listed Act III roots through Act IV's chapter
-# and mltd_the_tide_turns_south; everything else here hangs off the chapter. No focus in this file is listed in the override.
+# (2026-09-24: The Deep Ones Walk and The Final Ritual moved below Act III, and Act III's close with
+# them to (15,28), so every row this header names is one lower in the tree today; every cell here is
+# relative and followed.)
+# Shared focuses, pulled into mlt_nf through their prerequisites: the chapter,
+# mltd_mars_in_the_water, hangs off Act IV's close, mltd_when_shady_sands_falls
+# (mltd_act4_focus.txt), which reaches the listed Act III roots through Act IV's chapter and
+# mltd_the_tide_turns_south; everything else here hangs off the chapter. No focus in this file is
+# listed in the override.
 #
 # The act folds four of the old conflict sub-trees (round 13) into one chapter of the spine (x = 15). Rows as of round 28c
-# (one lower than round 27's: Act III's close sits at (15,27), and every cell here is relative to it):
+# (one lower than round 27's: Act III's close sits at (15,27), and every cell here is relative to
+# it):
 #   row 32  the chapter   Mars in the Water (0,1) of mltd_when_shady_sands_falls - event mltd.50, the river runs salt;
 #                         California's four spoils (mltd_spoils_focus.txt) flank it at (-4,0) (-2,0) (2,0) (4,0)
 #   row 33  the fan       What the River Carries (-3,1), The Drowned Paladin (-1,1), The Lake God Answers (1,1),
@@ -19,8 +23,9 @@
 #                         into the tide - the permanent mltd_the_unchained - or fed to the spawning pools -
 #                         mltd_the_pens_emptied for 730 days, two years) and world news mltd.52
 #
-# Merged away, each into the kept focus that now carries its distinctive effects (pure duplicates dropped - a second
-# intelligence grant to the same country is folded into one add_intel at the larger values):
+# Merged away, each into the kept focus that now carries its distinctive effects (pure duplicates
+# dropped - a second intelligence grant to the same country is folded into one add_intel at the
+# larger values):
 #   The Drowned Frumentarius           -> mltd_ces_what_the_river_carries (Silanus the Drowned, CES token_army, CES -6 % stability)
 #   A Crate for Every Cross            -> mltd_ces_the_sea_against_mars (a quarter of the Legion's infantry and support
 #                                         equipment since round 28b - it was 800 and 200 - paid to us as mirelurks since
@@ -43,58 +48,73 @@
 #
 # What else changed (rules in the round-27 build spec): no head has a Kingdom, country or intelligence gate any more (the
 # intel rewards stay, inside has_dlc = "La Resistance"), and each pays a fallback when its target is gone; the round-23
-# is_ai modifiers that waited on the NCR's stage are gone, because the tree now enforces the order. The four wars keep their
-# gates (the Utah road war or 2280, Heaven's Guard's holy wars or 2280) and their AI readiness hold (mltd_ai_army_ready; since
-# the round-27 review in `available`, mltd_ai_may_start_<ces|bos|utah|hea>_war, because an AI takes any listed focus that is
-# available whatever its ai_will_do reads); their round-22 stage term, mltd_ai_ncr_beaten, is dropped for the same reason (the
-# chapter needs Act IV's close), since it could only strand an AI once a beaten NCR outlived the peace. Since the review each
-# hold also waits while MLT is losing a war, and Blood in the Water, the Rites and the Crusade - optional, since the close
-# opens through The Sea Against Mars - wait for every target they would declare on to be a safe target. Kept focuses keep their
-# ids, costs and icons; tech bonuses that were named after a deleted focus are now named after the focus that grants them.
+# is_ai modifiers that waited on the NCR's stage are gone, because the tree now enforces the order.
+# The four wars keep their gates (the Utah road war or 2280, Heaven's Guard's holy wars or 2280) and
+# their AI readiness hold (mltd_ai_army_ready; since the round-27 review in `available`,
+# mltd_ai_may_start_<ces|bos|utah|hea>_war, because an AI takes any listed focus that is available
+# whatever its ai_will_do reads); their round-22 stage term, mltd_ai_ncr_beaten, is dropped for the
+# same reason (the chapter needs Act IV's close), since it could only strand an AI once a beaten NCR
+# outlived the peace. Since the review each hold also waits while MLT is losing a war, and Blood in
+# the Water, the Rites and the Crusade - optional, since the close opens through The Sea Against
+# Mars - wait for every target they would declare on to be a safe target. Kept focuses keep their
+# ids, costs and icons; tech bonuses that were named after a deleted focus are now named after the
+# focus that grants them.
 # Every focus is cancel_if_invalid = no + continue_if_invalid = yes.
 #
 # Round 28b (the play-test fixes):
-# - The four wars' thefts are a quarter of what each victim holds in store, not a flat 600-800: a flat lot was ~5 % of a
-#   year's arms output when the plan opens this act (~60 military factories, CONQUEST_PLAN.txt's 2282-05 snapshot) and MLT's
-#   line is turning into mirelurks by then, while a quarter of the enemy's reserve on the war's first day weighs the same in
-#   any year. Each share is read into a temp variable for the preview (the tooltip prints it) and again at completion; the
+# - The four wars' thefts are a quarter of what each victim holds in store, not a flat 600-800: a
+#   flat lot was ~5 % of a year's arms output when the plan opens this act (~60 military factories,
+#   CONQUEST_PLAN.txt's 2282-05 snapshot) and MLT's line is turning into mirelurks by then, while a
+#   quarter of the enemy's reserve on the war's first day weighs the same in any year. Each share is
+#   read into a temp variable for the preview (the tooltip prints it) and again at completion; the
 #   transfers are hidden. The quarter is a literal in each focus and in its tooltip - change both.
-# - Round 28c: the thefts pay in what the tribe fields from this act on. The victim still loses its stores, with no producer
-#   on the removal, but the plan's levies become all-mirelurk Tide Walls at this act's chapter, so rifles are no use to us:
-#   the haul is melted down into harness and shell-plate for the brood - one mirelurk (the archetype
-#   amphibious_beast_equipment, our best unlocked breed) for every five weapons or crates taken, and one for every suit of
-#   power armour, about their worth in IC. A quarter of a Legion depot of ~6,000 rifles and ~1,200 crates is ~360
-#   mirelurks, ~6,500 IC: about a tenth of a year's output at the plan's ~60 military factories, taken from the enemy on
-#   the war's first day. The tooltips print the mirelurks as the stores stand.
-# - Round 28c (the review): a theft's old fallback is now its floor, paid whenever the haul comes to less than the fallback
-#   is worth, so a victim with a small store never pays less than one with none (the victim still loses what was taken).
+# - Round 28c: the thefts pay in what the tribe fields from this act on. The victim still loses its
+#   stores, with no producer on the removal, but the plan's levies become all-mirelurk Tide Walls at
+#   this act's chapter, so rifles are no use to us: the haul is melted down into harness and
+#   shell-plate for the brood - one mirelurk (the archetype amphibious_beast_equipment, our best
+#   unlocked breed) for every five weapons or crates taken, and one for every suit of power armour,
+#   about their worth in IC. A quarter of a Legion depot of ~6,000 rifles and ~1,200 crates is ~360
+#   mirelurks, ~6,500 IC: about a tenth of a year's output at the plan's ~60 military factories,
+#   taken from the enemy on the war's first day. The tooltips print the mirelurks as the stores
+#   stand.
+# - Round 28c (the review): a theft's old fallback is now its floor, paid whenever the haul comes to
+#   less than the fallback is worth, so a victim with a small store never pays less than one with
+#   none (the victim still loses what was taken).
 #   100 caps buy 125 mirelurks at the Wet Market's dearest lot (200 caps for 250), so The Sea Against Mars and Blood in the
-#   Water pay their 100 caps under 125 mirelurks; 25 political power is 20 caps at OWB's own rate (add_caps pays 1.25
-#   political power a cap with the caps rule off), about 25 mirelurks, so the Rites and the Crusade pay their +25 under 25.
+#   Water pay their 100 caps under 125 mirelurks; 25 political power is 20 caps at OWB's own rate
+#   (add_caps pays 1.25 political power a cap with the caps rule off), about 25 mirelurks, so the
+#   Rites and the Crusade pay their +25 under 25.
 # - Every effect that hangs on a condition that can still change while the focus runs (Caesar's health, the Cult of Mars,
-#   Lost Hills' quarrel with the NCR, the White Legs' gods, the road war, Heaven's holy wars) is previewed as a condition,
-#   with its native lines (effect_tooltip), and applied in hidden_effect, so the tooltip is true whichever way it falls.
-#   A condition that can no longer change - a focus the other country has completed, a country gone - still shows as it is.
+#   Lost Hills' quarrel with the NCR, the White Legs' gods, the road war, Heaven's holy wars) is
+#   previewed as a condition, with its native lines (effect_tooltip), and applied in hidden_effect,
+#   so the tooltip is true whichever way it falls.
+#   A condition that can no longer change - a focus the other country has completed, a country
+#   gone - still shows as it is.
 #
 # Round 28c (readability): these are the longest rewards in the mod - a war focus can render sixteen or seventeen lines - so
 # each is broken into blocks with the house spacer, custom_effect_tooltip = mltd_newline_tt (loc " \n"; CLAUDE.md > The
-# rituals, and the invitations in mltd_act3_focus.txt). The order of the blocks is what we gain, what the target loses, the
-# intelligence, the war, then the event - never a reordering of the effects themselves, only blank lines between them. The
-# four heads share one shape: the foothold and the cult it shelters, then what that branch's merged focus brings, then the
-# intelligence grants. The four wars: the declaration, then the theft, then each outcome of a condition as a block of its
-# own - a preview that lists three ways Caesar's health or Lost Hills' quarrel may fall needs the blank lines to be read at
-# all. A spacer sits inside the branch it separates wherever the branch can fail, so it never prints for a branch that did
-# not fire, and never last in a reward or a branch. Presentation only - no number, gate or effect changed. Left alone, at
-# two lines: the chapter, Mars in the Water.
+# rituals, and the invitations in mltd_act3_focus.txt). The order of the blocks is what we gain,
+# what the target loses, the intelligence, the war, then the event - never a reordering of the
+# effects themselves, only blank lines between them. The four heads share one shape: the foothold
+# and the cult it shelters, then what that branch's merged focus brings, then the intelligence
+# grants. The four wars: the declaration, then the theft, then each outcome of a condition as a
+# block of its own - a preview that lists three ways Caesar's health or Lost Hills' quarrel may fall
+# needs the blank lines to be read at all. A spacer sits inside the branch it separates wherever the
+# branch can fail, so it never prints for a branch that did not fire, and never last in a reward or
+# a branch. Presentation only - no number, gate or effect changed. Left alone, at two lines: the
+# chapter, Mars in the Water.
 #
-# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
-# war-support losses of little consequence; and too much text): each of the four wars declares, then - against a target that
-# is not MLT's subject - grants its 180-day idea, which now carries +10 % attack and defence against its targets, and the
-# shared 60-day mltd_the_first_wave (+10 % division recovery rate, +5 % breakthrough), and takes its theft, one line with no
-# floor. Gone: Caesar's health and the Cult of Mars (The Sea Against Mars), Lost Hills' quarrel with the NCR (Blood in the
-# Water, whose Red Tide idea now comes with every war), the White Legs' gods and the Eighties' -3 % war support (the Rites) and
-# the Utah war's gleanings (the Crusade), each previewed as a condition. The Lake God Answers lost the converts and the road
-# war's army experience, and its guns are one line; Whispers in the Steam lost the schism war's -2 % war support.
+# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff,
+# not stability and war-support losses of little consequence; and too much text): each of the four
+# wars declares, then - against a target that is not MLT's subject - grants its 180-day idea, which
+# now carries +10 % attack and defence against its targets, and the shared 60-day
+# mltd_the_first_wave (+10 % division recovery rate, +5 % breakthrough), and takes its theft, one
+# line with no floor. Gone: Caesar's health and the Cult of Mars (The Sea Against Mars), Lost Hills'
+# quarrel with the NCR (Blood in the Water, whose Red Tide idea now comes with every war), the White
+# Legs' gods and the Eighties' -3 % war support (the Rites) and the Utah war's gleanings (the
+# Crusade), each previewed as a condition. The Lake God Answers lost the converts and the road war's
+# army experience, and its guns are one line; Whispers in the Steam lost the schism war's -2 % war
+# support.
 
 ############ Act V - the chapter ############
 
@@ -136,7 +156,8 @@ shared_focus = {
 	continue_if_invalid = yes
 	completion_reward = {
 		mltd_intel_foothold = yes
-		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
+		# round 17: the cults of M'lyeh in this branch's countries wither half as fast
+		# (mltd_cult_refresh)
 		if = {
 			limit = { country_exists = CES }
 			custom_effect_tooltip = mltd_ces_cult_sheltered_tt
@@ -144,15 +165,18 @@ shared_focus = {
 				CES = { set_country_flag = mltd_cult_sheltered }
 			}
 		}
-		# round 28c: the foothold and the sheltered cult above, then what the frumentarius brings, then what the Legion loses.
+		# round 28c: the foothold and the sheltered cult above, then what the frumentarius brings,
+		# then what the Legion loses.
 		# The if/else below always renders one branch, so this spacer can stand outside it
 		custom_effect_tooltip = mltd_newline_tt
 		if = {
 			limit = { has_dlc = "La Resistance" }
-			# the drowned frumentarius (merged): an operative once the agency exists, as before. Round 28c review: the branch is
-			# chosen when the focus completes, and an agency can still be founded from the intelligence screen while it runs, so
-			# with none yet the preview writes both outcomes (mltd_ces_frumentarius_no_agency_tt, the shape of
-			# mltd_intel_foothold's no-agency branch) over a hidden +50 PP; the 50 is repeated in that key
+			# the drowned frumentarius (merged): an operative once the agency exists, as before.
+			# Round 28c review: the branch is chosen when the focus completes, and an agency can
+			# still be founded from the intelligence screen while it runs, so with none yet the
+			# preview writes both outcomes (mltd_ces_frumentarius_no_agency_tt, the shape of
+			# mltd_intel_foothold's no-agency branch) over a hidden +50 PP; the 50 is repeated in
+			# that key
 			if = {
 				limit = { has_intelligence_agency = yes }
 				create_operative_leader = {
@@ -169,8 +193,9 @@ shared_focus = {
 				custom_effect_tooltip = mltd_ces_frumentarius_no_agency_tt
 				hidden_effect = { add_political_power = 50 }
 			}
-			# one intelligence grant (the river's civ 10 / army 10 and the frumentarius' civ 15, at the larger values) and the
-			# frumentarius' army token; the Legion gone, the river's +25 stands in for both
+			# one intelligence grant (the river's civ 10 / army 10 and the frumentarius' civ 15, at
+			# the larger values) and the frumentarius' army token; the Legion gone, the river's +25
+			# stands in for both
 			if = {
 				limit = { country_exists = CES }
 				add_operation_token = {
@@ -186,13 +211,14 @@ shared_focus = {
 			else = { add_political_power = 25 }
 		}
 		else = {
-			# 25 (What the River Carries) + 50 (The Drowned Frumentarius), their two no-DLC fallbacks
+			# 25 (What the River Carries) + 50 (The Drowned Frumentarius), their two no-DLC
+			# fallbacks
 			add_political_power = 75
 		}
 		if = {
 			limit = { country_exists = CES }
-			# round 28c: what the Legion loses is its own block, and the spacer is inside the branch, so nothing is separated
-			# off when there is no Legion left
+			# round 28c: what the Legion loses is its own block, and the spacer is inside the
+			# branch, so nothing is separated off when there is no Legion left
 			custom_effect_tooltip = mltd_newline_tt
 			CES = { add_stability = -0.06 }
 		}
@@ -211,12 +237,13 @@ shared_focus = {
 	will_lead_to_war_with = CES
 	ai_will_do = { factor = 3 }
 	available = {
-		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
-		# war. Round 27: its stage term (mltd_ai_ncr_beaten) is gone - the chapter already needs Act IV's close, and the term
-		# could only hold the AI back once a beaten NCR outlived the peace (has_capitulated clears then), stranding Act V, Act VI
-		# and the finale. Since the round-27 review the hold sits here, hidden and AI-only, because an AI takes any listed focus
-		# that is available whatever its ai_will_do reads; it also waits while MLT is losing a war (mltd_ai_triggers.txt,
-		# section W)
+		# round 22: the focus is the declaration, so an AI takes it only when the army is ready -
+		# only while it would start a war. Round 27: its stage term (mltd_ai_ncr_beaten) is gone -
+		# the chapter already needs Act IV's close, and the term could only hold the AI back once a
+		# beaten NCR outlived the peace (has_capitulated clears then), stranding Act V, Act VI and
+		# the finale. Since the round-27 review the hold sits here, hidden and AI-only, because an
+		# AI takes any listed focus that is available whatever its ai_will_do reads; it also waits
+		# while MLT is losing a war (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_ces_war = yes
 	}
 	# 2026-09-23: bypassed once CES is gone - with its nation gone it paid only its fallback
@@ -237,13 +264,16 @@ shared_focus = {
 				target = CES
 			}
 		}
-		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
-		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
-		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and the theft, one line; with the
-		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
-		# (Caesar's health, his succession war and the Cult of Mars, round 28b-2026-09-23). A Crate for Every Cross (merged): a
-		# quarter of each store of at least 100, paid as one mirelurk (the archetype amphibious_beast_equipment, our best
-		# unlocked breed) for every five pieces; the quarter and the five are literals here and in mltd_ces_crates_theft_tt.
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an
+		# immediate buff, not stability and war-support losses of little consequence; and less
+		# text): the war, then - against a target that is not MLT's subject - the 180-day idea with
+		# +10 % attack and defence against it, The First Wave (60 days) and the theft, one line;
+		# with the target MLT's subject, +50 political power. The side branches keyed to the
+		# target's own story went with the losses (Caesar's health, his succession war and the Cult
+		# of Mars, round 28b-2026-09-23). A Crate for Every Cross (merged): a quarter of each store
+		# of at least 100, paid as one mirelurk (the archetype amphibious_beast_equipment, our best
+		# unlocked breed) for every five pieces; the quarter and the five are literals here and in
+		# mltd_ces_crates_theft_tt.
 		# Its caps floor went with the rest
 		if = {
 			limit = {
@@ -344,7 +374,8 @@ shared_focus = {
 	continue_if_invalid = yes
 	completion_reward = {
 		mltd_intel_foothold = yes
-		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
+		# round 17: the cults of M'lyeh in this branch's countries wither half as fast
+		# (mltd_cult_refresh)
 		if = {
 			limit = { country_exists = BOS }
 			custom_effect_tooltip = mltd_bos_cult_sheltered_tt
@@ -353,12 +384,13 @@ shared_focus = {
 			}
 		}
 		# round 28c: the foothold and the sheltered cult above, then what the Paladin carries home, then our gain and what
-		# Lost Hills loses. The if/else below always renders one branch, so this spacer can stand outside it
+		# Lost Hills loses. The if/else below always renders one branch, so this spacer can stand
+		# outside it
 		custom_effect_tooltip = mltd_newline_tt
 		# one intelligence grant (the Paladin's civ 10 / army 10 and the Paladin Returns' civ 15, at the larger values), the
 		# Paladin Returns' army token and the Codex's stolen tech bonus (same folders as OWB's operation_steal_tech_civilian,
-		# 00_operations.txt:1891-1900); without the DLC, or with Lost Hills gone, the three fallbacks: 25 + 35 political power
-		# and the Codex's electronics bonus
+		# 00_operations.txt:1891-1900); without the DLC, or with Lost Hills gone, the three
+		# fallbacks: 25 + 35 political power and the Codex's electronics bonus
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
@@ -405,7 +437,8 @@ shared_focus = {
 	}
 }
 
-# The war on Lost Hills, and whatever is left of its quarrel with the NCR (merges The Tide Takes the Armoury)
+# The war on Lost Hills, and whatever is left of its quarrel with the NCR (merges The Tide Takes the
+# Armoury)
 shared_focus = {
 	id = mltd_bos_blood_in_the_water
 	icon = GFX_goal_BOS_ncr_diplomacy
@@ -417,12 +450,14 @@ shared_focus = {
 	will_lead_to_war_with = BOS
 	ai_will_do = { factor = 3 }
 	available = {
-		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
-		# war. Round 27: its stage term (mltd_ai_ncr_beaten) is gone - the chapter already needs Act IV's close, and the term
-		# could only hold the AI back once a beaten NCR outlived the peace (has_capitulated clears then), stranding Act V, Act VI
-		# and the finale. Since the round-27 review the hold sits here, hidden and AI-only, because an AI takes any listed focus
-		# that is available whatever its ai_will_do reads; it also waits while MLT is losing a war and until every target it
-		# would declare on is a safe target, as the conquest blocks demand - the close opens through The Sea Against Mars
+		# round 22: the focus is the declaration, so an AI takes it only when the army is ready -
+		# only while it would start a war. Round 27: its stage term (mltd_ai_ncr_beaten) is gone -
+		# the chapter already needs Act IV's close, and the term could only hold the AI back once a
+		# beaten NCR outlived the peace (has_capitulated clears then), stranding Act V, Act VI and
+		# the finale. Since the round-27 review the hold sits here, hidden and AI-only, because an
+		# AI takes any listed focus that is available whatever its ai_will_do reads; it also waits
+		# while MLT is losing a war and until every target it would declare on is a safe target, as
+		# the conquest blocks demand - the close opens through The Sea Against Mars
 		# (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_bos_war = yes
 	}
@@ -444,15 +479,18 @@ shared_focus = {
 				target = BOS
 			}
 		}
-		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
-		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
-		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and the theft, one line; with the
-		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
-		# (Lost Hills' quarrel with the NCR, its tension and the Maxson accords, round 28b-2026-09-23; the Red Tide idea came only
-		# on the quarrel's war branch and now comes with the war). The Tide Takes the Armoury (merged): a quarter of the best
-		# weapon store Lost Hills keeps 100 of - energy weapons, else the lesser ones, else rifles, the tiers of OWB's
-		# operations_bos.txt:307-404 - and a quarter of its power armour, paid as one mirelurk for every five weapons and one a
-		# suit; the quarter and the five are literals here and in mltd_bos_armoury_theft_tt. Its caps floor went with the rest
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an
+		# immediate buff, not stability and war-support losses of little consequence; and less
+		# text): the war, then - against a target that is not MLT's subject - the 180-day idea with
+		# +10 % attack and defence against it, The First Wave (60 days) and the theft, one line;
+		# with the target MLT's subject, +50 political power. The side branches keyed to the
+		# target's own story went with the losses (Lost Hills' quarrel with the NCR, its tension and
+		# the Maxson accords, round 28b-2026-09-23; the Red Tide idea came only on the quarrel's war
+		# branch and now comes with the war). The Tide Takes the Armoury (merged): a quarter of the
+		# best weapon store Lost Hills keeps 100 of - energy weapons, else the lesser ones, else
+		# rifles, the tiers of OWB's operations_bos.txt:307-404 - and a quarter of its power armour,
+		# paid as one mirelurk for every five weapons and one a suit; the quarter and the five are
+		# literals here and in mltd_bos_armoury_theft_tt. Its caps floor went with the rest
 		if = {
 			limit = {
 				country_exists = BOS
@@ -579,7 +617,8 @@ shared_focus = {
 	relative_position_id = mltd_mars_in_the_water
 	cost = 30
 	ai_will_do = { factor = 3 }
-	# 2026-09-23: bypassed once WHT and EHT are all gone - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once WHT and EHT are all gone - with its nation gone it paid only its
+	# fallback
 	bypass = {
 		NOT = { country_exists = WHT }
 		NOT = { country_exists = EHT }
@@ -588,7 +627,8 @@ shared_focus = {
 	continue_if_invalid = yes
 	completion_reward = {
 		mltd_intel_foothold = yes
-		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
+		# round 17: the cults of M'lyeh in this branch's countries wither half as fast
+		# (mltd_cult_refresh)
 		if = {
 			limit = {
 				OR = {
@@ -608,21 +648,23 @@ shared_focus = {
 				}
 			}
 		}
-		# round 28c: the foothold and the sheltered cults above, then the shamans, then the intelligence, then the guns, then
-		# the road war. The line below always renders, so this spacer never opens the tooltip
+		# round 28c: the foothold and the sheltered cults above, then the shamans, then the
+		# intelligence, then the guns, then the road war. The line below always renders, so this
+		# spacer never opens the tooltip
 		custom_effect_tooltip = mltd_newline_tt
-		# The Drowned Shamans (merged): +40 political power and the White Legs' -6 % stability. 2026-09-24 (the user: less
-		# text): the converts' +4 % stability and +2 % war support, previewed as a condition while the White Legs had not
-		# taken up their lake god, are gone
+		# The Drowned Shamans (merged): +40 political power and the White Legs' -6 % stability.
+		# 2026-09-24 (the user: less text): the converts' +4 % stability and +2 % war support,
+		# previewed as a condition while the White Legs had not taken up their lake god, are gone
 		add_political_power = 40
 		if = {
 			limit = { country_exists = WHT }
 			WHT = { add_stability = -0.06 }
 		}
 		custom_effect_tooltip = mltd_newline_tt
-		# The lake god's intelligence (WHT civ 10, EHT army 10) and the shamans' WHT army token; the shamans' own civ 10 on WHT
-		# was a second grant to the same country and is dropped. The White Legs gone, the shamans' infantry-weapons bonus
-		# stands in for the token; without the DLC, the lake god's +25 as well.
+		# The lake god's intelligence (WHT civ 10, EHT army 10) and the shamans' WHT army token; the
+		# shamans' own civ 10 on WHT was a second grant to the same country and is dropped. The
+		# White Legs gone, the shamans' infantry-weapons bonus stands in for the token; without the
+		# DLC, the lake god's +25 as well.
 		if = {
 			limit = { has_dlc = "La Resistance" }
 			if = {
@@ -663,10 +705,11 @@ shared_focus = {
 		}
 		# Guns for Both Sides (merged, with round 24's per-buyer fix): the focus is cancel_if_invalid = no /
 		# continue_if_invalid = yes, so either buyer can die inside its 30 days. 200 rifles to each living buyer we are not at
-		# war with, 100 caps from each, while we hold at least 200. Who can buy is decided at completion, so one custom line
-		# over the hidden sale. 2026-09-24 (the user: less text): one line, and the 80 caps of salvage when neither side could
-		# buy, and the 30 army experience when the two were at war, are gone. The 200, the 100 and the guard are literals here
-		# and in mltd_wht_guns_sale_tt
+		# war with, 100 caps from each, while we hold at least 200. Who can buy is decided at
+		# completion, so one custom line over the hidden sale. 2026-09-24 (the user: less text): one
+		# line, and the 80 caps of salvage when neither side could buy, and the 30 army experience
+		# when the two were at war, are gone. The 200, the 100 and the guard are literals here and
+		# in mltd_wht_guns_sale_tt
 		if = {
 			limit = {
 				OR = {
@@ -753,16 +796,19 @@ shared_focus = {
 				date > 2280.1.1
 			}
 		}
-		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
-		# war. Round 27: its stage term (mltd_ai_ncr_beaten) is gone - the chapter already needs Act IV's close, and the term
-		# could only hold the AI back once a beaten NCR outlived the peace (has_capitulated clears then), stranding Act V, Act VI
-		# and the finale. Since the round-27 review the hold sits here, hidden and AI-only, because an AI takes any listed focus
-		# that is available whatever its ai_will_do reads; it also waits while MLT is losing a war and until every target it
-		# would declare on is a safe target, as the conquest blocks demand - the close opens through The Sea Against Mars
+		# round 22: the focus is the declaration, so an AI takes it only when the army is ready -
+		# only while it would start a war. Round 27: its stage term (mltd_ai_ncr_beaten) is gone -
+		# the chapter already needs Act IV's close, and the term could only hold the AI back once a
+		# beaten NCR outlived the peace (has_capitulated clears then), stranding Act V, Act VI and
+		# the finale. Since the round-27 review the hold sits here, hidden and AI-only, because an
+		# AI takes any listed focus that is available whatever its ai_will_do reads; it also waits
+		# while MLT is losing a war and until every target it would declare on is a safe target, as
+		# the conquest blocks demand - the close opens through The Sea Against Mars
 		# (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_utah_war = yes
 	}
-	# 2026-09-23: bypassed once WHT and EHT are all gone - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once WHT and EHT are all gone - with its nation gone it paid only its
+	# fallback
 	bypass = {
 		NOT = { country_exists = WHT }
 		NOT = { country_exists = EHT }
@@ -792,13 +838,16 @@ shared_focus = {
 				target = EHT
 			}
 		}
-		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
-		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
-		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and the theft, one line; with the
-		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
-		# (the White Legs' gods and the Eighties' -3 % war support, round 28b-2026-09-23). Sand in the Engines (merged): a quarter
-		# of the Eighties' rifles, a store of at least 100, paid as one mirelurk for every five; the quarter and the five are
-		# literals here and in mltd_wht_sand_theft_tt. Its political-power floor went with the rest
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an
+		# immediate buff, not stability and war-support losses of little consequence; and less
+		# text): the war, then - against a target that is not MLT's subject - the 180-day idea with
+		# +10 % attack and defence against it, The First Wave (60 days) and the theft, one line;
+		# with the target MLT's subject, +50 political power. The side branches keyed to the
+		# target's own story went with the losses (the White Legs' gods and the Eighties' -3 % war
+		# support, round 28b-2026-09-23). Sand in the Engines (merged): a quarter of the Eighties'
+		# rifles, a store of at least 100, paid as one mirelurk for every five; the quarter and the
+		# five are literals here and in mltd_wht_sand_theft_tt. Its political-power floor went with
+		# the rest
 		if = {
 			limit = {
 				OR = {
@@ -869,7 +918,8 @@ shared_focus = {
 
 ############ Act V - the fan: Heaven's Guard ############
 
-# The Order slips into Idaho's church of God and Steam and splits it a second time (merges A Second Schism)
+# The Order slips into Idaho's church of God and Steam and splits it a second time (merges A Second
+# Schism)
 shared_focus = {
 	id = mltd_hea_whispers_in_the_steam
 	icon = GFX_goal_HEA_focus_billowing_cathedral
@@ -887,7 +937,8 @@ shared_focus = {
 	continue_if_invalid = yes
 	completion_reward = {
 		mltd_intel_foothold = yes
-		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
+		# round 17: the cults of M'lyeh in this branch's countries wither half as fast
+		# (mltd_cult_refresh)
 		if = {
 			limit = { country_exists = HEA }
 			custom_effect_tooltip = mltd_hea_cult_sheltered_tt
@@ -895,8 +946,8 @@ shared_focus = {
 				HEA = { set_country_flag = mltd_cult_sheltered }
 			}
 		}
-		# round 28c: the foothold and the sheltered cult above, then the schism, then the intelligence. The line below always
-		# renders, so this spacer never opens the tooltip
+		# round 28c: the foothold and the sheltered cult above, then the schism, then the
+		# intelligence. The line below always renders, so this spacer never opens the tooltip
 		custom_effect_tooltip = mltd_newline_tt
 		# A Second Schism (merged)
 		add_political_power = 40
@@ -908,9 +959,9 @@ shared_focus = {
 			}
 		}
 		custom_effect_tooltip = mltd_newline_tt
-		# one intelligence grant (the whispers' civ 10 / army 5; the schism's own civ 10 was a second grant to the same
-		# country) and the schism's army token; without the DLC, or with Heaven's Guard gone, the whispers' +25 and the
-		# schism's electronics bonus
+		# one intelligence grant (the whispers' civ 10 / army 5; the schism's own civ 10 was a
+		# second grant to the same country) and the schism's army token; without the DLC, or with
+		# Heaven's Guard gone, the whispers' +25 and the schism's electronics bonus
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
@@ -966,12 +1017,14 @@ shared_focus = {
 				date > 2280.1.1
 			}
 		}
-		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
-		# war. Round 27: its stage term (mltd_ai_ncr_beaten) is gone - the chapter already needs Act IV's close, and the term
-		# could only hold the AI back once a beaten NCR outlived the peace (has_capitulated clears then), stranding Act V, Act VI
-		# and the finale. Since the round-27 review the hold sits here, hidden and AI-only, because an AI takes any listed focus
-		# that is available whatever its ai_will_do reads; it also waits while MLT is losing a war and until every target it
-		# would declare on is a safe target, as the conquest blocks demand - the close opens through The Sea Against Mars
+		# round 22: the focus is the declaration, so an AI takes it only when the army is ready -
+		# only while it would start a war. Round 27: its stage term (mltd_ai_ncr_beaten) is gone -
+		# the chapter already needs Act IV's close, and the term could only hold the AI back once a
+		# beaten NCR outlived the peace (has_capitulated clears then), stranding Act V, Act VI and
+		# the finale. Since the round-27 review the hold sits here, hidden and AI-only, because an
+		# AI takes any listed focus that is available whatever its ai_will_do reads; it also waits
+		# while MLT is losing a war and until every target it would declare on is a safe target, as
+		# the conquest blocks demand - the close opens through The Sea Against Mars
 		# (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_hea_war = yes
 	}
@@ -993,13 +1046,16 @@ shared_focus = {
 				target = HEA
 			}
 		}
-		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
-		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
-		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and the theft, one line; with the
-		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
-		# (the gleanings of Heaven's Guard's Utah war, round 28b-2026-09-23). Steam for the Deep (merged): a quarter of its
-		# rifles, a store of at least 100, paid as one mirelurk for every five, and a stolen industry bonus; the quarter and
-		# the five are literals here and in mltd_hea_steam_theft_tt. Its political-power floor went with the rest
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an
+		# immediate buff, not stability and war-support losses of little consequence; and less
+		# text): the war, then - against a target that is not MLT's subject - the 180-day idea with
+		# +10 % attack and defence against it, The First Wave (60 days) and the theft, one line;
+		# with the target MLT's subject, +50 political power. The side branches keyed to the
+		# target's own story went with the losses (the gleanings of Heaven's Guard's Utah war, round
+		# 28b-2026-09-23). Steam for the Deep (merged): a quarter of its rifles, a store of at least
+		# 100, paid as one mirelurk for every five, and a stolen industry bonus; the quarter and the
+		# five are literals here and in mltd_hea_steam_theft_tt. Its political-power floor went with
+		# the rest
 		if = {
 			limit = {
 				country_exists = HEA
@@ -1081,13 +1137,14 @@ shared_focus = {
 
 # The Legion is broken: the permanent idea mltd_mars_beneath_the_waves, event mltd.51 (the pens of Flagstaff: the chained
 # either freed into the tide - the permanent mltd_the_unchained - or fed to the spawning pools - mltd_the_pens_emptied for
-# 730 days, two years; option a merges The Chained Are Given to the Tide) and world news mltd.52. Any one of the four
-# wars opens it (one OR block).
+# 730 days, two years; option a merges The Chained Are Given to the Tide) and world news mltd.52.
+# Any one of the four wars opens it (one OR block).
 # mltd_ai_legion_beaten (common/scripted_triggers/mltd_ai_triggers.txt) is the Legion gone or capitulated now, and
-# has_capitulated clears once the country leaves its last war - so, as Act IV's close does for the NCR, the win is also
-# recorded: the country flag mltd_ces_capitulated, set on MLT by on_capitulation (common/on_actions/mltd_on_actions.txt)
-# when the Legion capitulates while at war with MLT, keeps a Legion that survives the peace as a rump beaten. A subject
-# Legion counts as beaten too: a human who puppets it at the peace would otherwise wait for ever.
+# has_capitulated clears once the country leaves its last war - so, as Act IV's close does for the
+# NCR, the win is also recorded: the country flag mltd_ces_capitulated, set on MLT by
+# on_capitulation (common/on_actions/mltd_on_actions.txt) when the Legion capitulates while at war
+# with MLT, keeps a Legion that survives the peace as a rump beaten. A subject Legion counts as
+# beaten too: a human who puppets it at the peace would otherwise wait for ever.
 shared_focus = {
 	id = mltd_when_the_legion_breaks
 	icon = GFX_goal_CES_Free_Slaves
@@ -1119,8 +1176,9 @@ shared_focus = {
 		custom_effect_tooltip = mltd_newline_tt
 		# the event's two options, previewed with their own native lines (effect_tooltip shows and does not execute). Round 28b:
 		# mltd.51's options are the scripted effects mltd_legion_pens_freed (the permanent mltd_the_unchained) and
-		# mltd_legion_pens_fed (mltd_the_pens_emptied for 730 days), in mltd_scripted_effects.txt, and the preview calls the same
-		# two effects, so their numbers live once, in the two ideas, and nothing here repeats them
+		# mltd_legion_pens_fed (mltd_the_pens_emptied for 730 days), in mltd_scripted_effects.txt,
+		# and the preview calls the same two effects, so their numbers live once, in the two ideas,
+		# and nothing here repeats them
 		custom_effect_tooltip = mltd_legion_breaks_choice_tt
 		custom_effect_tooltip = mltd_legion_breaks_freed_tt
 		effect_tooltip = { mltd_legion_pens_freed = yes }

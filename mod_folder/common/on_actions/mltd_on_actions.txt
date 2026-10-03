@@ -14,27 +14,33 @@ on_actions = {
 				}
 				mltd_ritual_daily_toll = yes
 			}
-			# the Cult Infiltration category's list of cults (an annexed country drops out the next day)
+			# the Cult Infiltration category's list of cults (an annexed country drops out the next
+			# day)
 			if = {
 				limit = { has_completed_focus = mltd_the_spreading_cult }
 				mltd_cult_rebuild_list = yes
 			}
 
 			# Round 25: the Broken Coast's landings on Haida Gwaii (event mltd.27). BRK's own OWB focus
-			# brk_nf_lessons_of_war sends it against the Haida Confederation, whose whole country is one island: nine
-			# land provinces, every one coastal, only two with a port (mltd_brk_on_haida_gwaii). BRK's AI lands wherever
-			# its planner picks - usually a portless beach - and the landing starves and is thrown back; it lands again,
-			# and MLT's volunteers go down with each landing. The engine chooses the landing province, so nothing in
-			# script can aim it at a port. Instead, while MLT is engaged with the Broken Coast and both sides are AIs,
-			# watch for a foothold - daily, so a landing thrown back within the week is not missed - and make peace the day
-			# BRK loses its last one. "Pushed off" means landed, then lost: BRK holds no Haida province before its first
-			# landing either, so a plain control test would end the war the day it began.
+			# brk_nf_lessons_of_war sends it against the Haida Confederation, whose whole country is
+			# one island: nine land provinces, every one coastal, only two with a port
+			# (mltd_brk_on_haida_gwaii). BRK's AI lands wherever its planner picks - usually a
+			# portless beach - and the landing starves and is thrown back; it lands again, and MLT's
+			# volunteers go down with each landing. The engine chooses the landing province, so
+			# nothing in script can aim it at a port. Instead, while MLT is engaged with the Broken
+			# Coast and both sides are AIs, watch for a foothold - daily, so a landing thrown back
+			# within the week is not missed - and make peace the day BRK loses its last one. "Pushed
+			# off" means landed, then lost: BRK holds no Haida province before its first landing
+			# either, so a plain control test would end the war the day it began.
 			# The flag is cleared whenever that war is not running, so a later war starts clean. The watch starts with
-			# Salt on the Broken Coast, which since round 27 is an Act II head (mltd_act2_focus.txt), after The Deep Ones Walk.
-			# Round 28c: not while MLT is at war with the Broken Coast itself - The Coast Goes Under (mltd_act3_focus.txt) and a
-			# refused Covenant's war goal make that war a road of the tree. MLT's volunteers come home the day it starts, so there
-			# is nothing left to spare, and a peace with the Haida would only free the raiders' army against MLT. The flag is
-			# cleared during that war as well, so the watch starts clean when it ends; mltd.27 tests the same war as a backstop.
+			# Salt on the Broken Coast, which since round 27 is an Act II head
+			# (mltd_act2_focus.txt), after The Deep Ones Walk.
+			# Round 28c: not while MLT is at war with the Broken Coast itself - The Coast Goes Under
+			# (mltd_act3_focus.txt) and a refused Covenant's war goal make that war a road of the
+			# tree. MLT's volunteers come home the day it starts, so there is nothing left to spare,
+			# and a peace with the Haida would only free the raiders' army against MLT. The flag is
+			# cleared during that war as well, so the watch starts clean when it ends; mltd.27 tests
+			# the same war as a backstop.
 			# "Not running" is NOT = { AND = { ... } }: a NOT over several triggers is a NOR (vanilla writes NOT = { has_government
 			# = X has_government = Y } over a hundred times), so until round 28c this cleared the flag only once both countries were
 			# gone, and a war that ended with the raiders still ashore left it set for the next one.
@@ -98,8 +104,8 @@ on_actions = {
 	# the shared 120-day cooldown flag mltd_flavour_cooldown when it fires. 50 = 0 is the no-event
 	# sink (vanilla 00_on_actions.txt:374; Millennium Dawn 99_SYR_on_actions.txt:4).
 	on_monthly_MLT = {
-		# The Wet Market restocks while the Mirelurk Tribe exists (the stock is global: every buyer draws on it), topping
-		# up only below 2,500 so lots sold into it past that are kept.
+		# The Wet Market restocks while the Mirelurk Tribe exists (the stock is global: every buyer
+		# draws on it), topping up only below 2,500 so lots sold into it past that are kept.
 		effect = {
 			if = {
 				limit = {
@@ -158,9 +164,11 @@ on_actions = {
 				mltd_ai_buy_line_equipment = yes
 			}
 
-			# AI only: the target of the cult operations, read by their strategies' enable (common/ai_strategy). The same
-			# weekly pick as OWB's update_operation_ai (scripted_effects/operation_strat_effects.txt:5-24): drop a target that
-			# is gone, capitulated or allied, then re-score with mltd_ai_cult_target_scorer (common/scorers/country).
+			# AI only: the target of the cult operations, read by their strategies' enable
+			# (common/ai_strategy). The same weekly pick as OWB's update_operation_ai
+			# (scripted_effects/operation_strat_effects.txt:5-24): drop a target that is gone,
+			# capitulated or allied, then re-score with mltd_ai_cult_target_scorer
+			# (common/scorers/country).
 			if = {
 				limit = {
 					is_ai = yes
@@ -181,17 +189,19 @@ on_actions = {
 					}
 					set_variable = { mltd_ai_cult_target = 0 }
 				}
-				# unverified: the vanilla documentation (effects_documentation.md:4483-4507) says this form stores a temp
-				# variable and the _temp form a variable; OWB reads its result from a strategy's enable, so it persists. Also
-				# unverified: that the variable is left as it was when no country scores above 0.
+				# unverified: the vanilla documentation (effects_documentation.md:4483-4507) says
+				# this form stores a temp variable and the _temp form a variable; OWB reads its
+				# result from a strategy's enable, so it persists. Also unverified: that the
+				# variable is left as it was when no country scores above 0.
 				get_highest_scored_country = {
 					scorer = mltd_ai_cult_target_scorer
 					var = mltd_ai_cult_target
 				}
-				# the Broken Coast while MLT courts it (round 21): the Drowned Covenant waits on a cult there at 50 %, and the
-				# scorer's arrays (neighbours, enemies, majors) seldom hold it. Not over the NCR's cult before the NCR's war. Not once
-				# the Covenant is taken (round 28c review, as the Bone Dancers' branch below and mltd_ai_network_brk): its gates
-				# are read only when it starts
+				# the Broken Coast while MLT courts it (round 21): the Drowned Covenant waits on a
+				# cult there at 50 %, and the scorer's arrays (neighbours, enemies, majors) seldom
+				# hold it. Not over the NCR's cult before the NCR's war. Not once the Covenant is
+				# taken (round 28c review, as the Bone Dancers' branch below and
+				# mltd_ai_network_brk): its gates are read only when it starts
 				if = {
 					limit = {
 						mltd_ai_courting_brk = yes
@@ -217,8 +227,9 @@ on_actions = {
 				}
 				# else the Bone Dancers, once The Bone Shore has opened their branch and they are still free of the seraph lords (round-27
 				# review): Hail the Drowned King waits on a cult there at 40 %, and the scorer seldom picks them either. Nurtured to
-				# 50 %, ten points over the gate as the Broken Coast's 60 is over its 50; the Broken Coast comes first, so the two
-				# never overwrite each other week to week. The same NCR-first guard.
+				# 50 %, ten points over the gate as the Broken Coast's 60 is over its 50; the Broken
+				# Coast comes first, so the two never overwrite each other week to week. The same
+				# NCR-first guard.
 				else_if = {
 					limit = {
 						mltd_ai_courting_bdt = yes
@@ -243,10 +254,12 @@ on_actions = {
 					}
 					set_variable = { mltd_ai_cult_target = BDT }
 				}
-				# else the Washington Brotherhood, while the AI still means to offer it Terms for the Citadel (round 28c gave that
-				# invitation the same cult, token and coverage gates as the other two). mltd_ai_terms_pending is already narrow -
-				# unhistorical focuses, WBH itself, the Broken Coast out of the running - so this seldom fires, and never before
-				# the Final Ritual. Nurtured to 50 %, as the other two are, with the same NCR-first guard
+				# else the Washington Brotherhood, while the AI still means to offer it Terms for
+				# the Citadel (round 28c gave that invitation the same cult, token and coverage
+				# gates as the other two). mltd_ai_terms_pending is already narrow - unhistorical
+				# focuses, WBH itself, the Broken Coast out of the running - so this seldom fires,
+				# and never before the Final Ritual. Nurtured to 50 %, as the other two are, with
+				# the same NCR-first guard
 				else_if = {
 					limit = {
 						mltd_ai_terms_pending = yes
@@ -273,11 +286,13 @@ on_actions = {
 
 			# AI only, once its army turns to mirelurks (mltd_ai_late_army; until then its caps go on the line's infantry weapons):
 			# The Wet Market's GUI is is_ai = no, so an AI Mirelurk Tribe buys here, exactly as the buy button does
-			# (common/scripted_guis/mltd_wet_market_gui.txt, whose prices these repeat). One lot of the best variant it has
-			# the tech for, while its stockpile holds under a lot, with over 300 caps in hand and 150 left after paying. OWB's
-			# own AI floor (organization_scripted_effects.txt:654-655) also asks for positive caps income, which a large army's
-			# upkeep turns negative (caps_scripted_effects.txt:425-537) and the offerings' caps never count towards; the 150
-			# left keeps the balance clear of OWB's bankruptcy test. The shared 40-day flag paces it.
+			# (common/scripted_guis/mltd_wet_market_gui.txt, whose prices these repeat). One lot of
+			# the best variant it has the tech for, while its stockpile holds under a lot, with over
+			# 300 caps in hand and 150 left after paying. OWB's own AI floor
+			# (organization_scripted_effects.txt:654-655) also asks for positive caps income, which
+			# a large army's upkeep turns negative (caps_scripted_effects.txt:425-537) and the
+			# offerings' caps never count towards; the 150 left keeps the balance clear of OWB's
+			# bankruptcy test. The shared 40-day flag paces it.
 			if = {
 				limit = {
 					is_ai = yes
@@ -288,7 +303,8 @@ on_actions = {
 					check_variable = { caps_number_display > 300 }
 					has_equipment = { amphibious_beast_equipment < 250 }
 				}
-				# the armour and king forms exclude each other (OWB tech_creatures.txt:840-842, :910-912)
+				# the armour and king forms exclude each other (OWB tech_creatures.txt:840-842,
+				# :910-912)
 				if = {
 					limit = { has_tech = amphibious_beast_king_form }
 					set_temp_variable = { mltd_wm_price = 200 }
@@ -352,8 +368,9 @@ on_actions = {
 		}
 	}
 
-	# A war between MLT and a country with a cult switches the cult's penalties on at once instead of at
-	# the next weekly tick. ROOT is the attacker, FROM the defender (vanilla 00_on_actions.txt:4911-4913).
+	# A war between MLT and a country with a cult switches the cult's penalties on at once instead
+	# of at the next weekly tick. ROOT is the attacker, FROM the defender (vanilla
+	# 00_on_actions.txt:4911-4913).
 	on_war_relation_added = {
 		effect = {
 			if = {

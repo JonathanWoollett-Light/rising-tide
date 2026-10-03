@@ -217,7 +217,8 @@ mltd_raise_star_spawn_here = {
 
 # Country scope. Every summoned division brings its own room under the special-forces cap: +8 (its own 8 battalions) to
 # mltd_summoned_sf_var, which the dynamic modifier mltd_summoned_host adds to special_forces_min (see its comment in
-# mltd_dynamic_modifiers.txt). The 8 is repeated in mltd_summon_sf_room_tt; both templates are 8 battalions.
+# mltd_dynamic_modifiers.txt). The 8 is repeated in mltd_summon_sf_room_tt; both templates are 8
+# battalions.
 mltd_add_summoned_room = {
 	custom_effect_tooltip = mltd_summon_sf_room_tt
 	hidden_effect = {
@@ -230,8 +231,8 @@ mltd_add_summoned_room = {
 	}
 }
 
-# Country scope, called by events mltd.7 / mltd.8 and the two summon decisions: template + one division at the capital,
-# and its room under the cap.
+# Country scope, called by events mltd.7 / mltd.8 and the two summon decisions: template + one
+# division at the capital, and its room under the cap.
 mltd_spawn_deep_ones_division = {
 	mltd_ensure_deep_ones_template = yes
 	custom_effect_tooltip = mltd_spawn_deep_ones_tt
@@ -251,12 +252,13 @@ mltd_spawn_star_spawn_division = {
 
 # The Leviathan (country scope; focus mltd_the_grand_ritual and decision mltd_summon_the_leviathan). A ship cannot be raised with
 # create_unit, so this loads an OOB, the way OWB raises Broken Coast's Personal Floating Palace
-# (_BRK_decisions.txt:44-48: set_technology, then load_oob): the tech first, since a ship's equipment must be
-# unlocked, then one bare hull at Mireport (province 7064) - history/units/mltd_leviathan_first.txt for the first,
-# which is the pride of the fleet, and history/units/mltd_leviathan.txt for every one after. load_oob places the
-# fleet at the file's naval base whoever holds it, so nothing loads unless MLT controls Mireport: the focus and the
-# decision both gate on mltd_leviathan_can_surface and the check is repeated here, because the focus's event can be
-# answered a day later.
+# (_BRK_decisions.txt:44-48: set_technology, then load_oob): the tech first, since a ship's
+# equipment must be unlocked, then one bare hull at Mireport (province 7064) -
+# history/units/mltd_leviathan_first.txt for the first, which is the pride of the fleet, and
+# history/units/mltd_leviathan.txt for every one after. load_oob places the fleet at the file's
+# naval base whoever holds it, so nothing loads unless MLT controls Mireport: the focus and the
+# decision both gate on mltd_leviathan_can_surface and the check is repeated here, because the
+# focus's event can be answered a day later.
 mltd_spawn_leviathan = {
 	hidden_effect = {
 		if = {
@@ -297,10 +299,11 @@ mltd_update_national_population = {
 	set_variable = { mltd_controlled_population_k = 0 }
 	every_owned_state = {
 		add_to_variable = { PREV.mltd_national_population_k = state_population_k }
-		# The summons gate on this one, because it is exactly the pool mltd_take_population_everywhere
-		# spends from - same is_controlled_by / > 500 filter. Gating on the owned total instead would
-		# let an occupied MLT clear the gate and then spread the whole toll over the few states it
-		# still holds, or, with nothing controlled, pay nothing at all and get the division free.
+		# The summons gate on this one, because it is exactly the pool
+		# mltd_take_population_everywhere spends from - same is_controlled_by / > 500 filter. Gating
+		# on the owned total instead would let an occupied MLT clear the gate and then spread the
+		# whole toll over the few states it still holds, or, with nothing controlled, pay nothing at
+		# all and get the division free.
 		if = {
 			limit = {
 				is_controlled_by = ROOT
@@ -333,9 +336,9 @@ mltd_update_national_population = {
 # target first would reach 28,000 x 16,000 = 448,000,000, two hundred times over the ceiling, on
 # every single state. Dividing first keeps the intermediate at population/pool_k, which can never
 # exceed 1,000, and the pool is summed with state_population_k (vanilla's own overflow-avoiding
-# variant, dynamic_variables_documentation.md:1168) so the divisor is in thousands. Peak intermediate
-# for MLT's kingdom is 372, about 360x under the ceiling, and the charges still sum to the target
-# within one person.
+# variant, dynamic_variables_documentation.md:1168) so the divisor is in thousands. Peak
+# intermediate for MLT's kingdom is 372, about 360x under the ceiling, and the charges still sum to
+# the target within one person.
 mltd_take_population_everywhere = {
 	set_variable = { mltd_toll_pool_k = 0 }
 	every_owned_state = {
@@ -391,14 +394,15 @@ mltd_ritual_daily_toll = {
 # Act VI's The Feathered Tide (common/national_focus/mltd_act2_focus.txt ... mltd_act6_focus.txt). With
 # La Resistance and an agency it adds one random OWB agency upgrade. OWB charges 15 caps in each
 # upgrade's complete_effect (intelligence_agency_upgrades.txt:16-34), so the upgrade is refunded, as
-# Unbound (UNB) Focus.txt:370-375 does - paid first, so add_caps's bankruptcy check never sees the dip.
-# Skipped at OWB's 30-upgrade ceiling, where add_random_agency_upgrade upgrades nothing. It no longer
-# founds the agency - the focus mltd_the_spreading_cult does - so without an agency, without the DLC, or at the ceiling
-# it pays political power instead.
+# Unbound (UNB) Focus.txt:370-375 does - paid first, so add_caps's bankruptcy check never sees the
+# dip.
+# Skipped at OWB's 30-upgrade ceiling, where add_random_agency_upgrade upgrades nothing. It no
+# longer founds the agency - the focus mltd_the_spreading_cult does - so without an agency, without
+# the DLC, or at the ceiling it pays political power instead.
 # Round 28c, the preview: the branch is chosen when the focus completes, and with La Resistance but no agency yet one can
 # still be founded while the focus runs (from the intelligence screen), so that branch writes both outcomes
-# (mltd_intel_foothold_no_agency_tt) over a hidden +50 PP; the upgrade's line names the ceiling's +50 PP too. The 50 and
-# the 30 upgrades are repeated in those two keys.
+# (mltd_intel_foothold_no_agency_tt) over a hidden +50 PP; the upgrade's line names the ceiling's
+# +50 PP too. The 50 and the 30 upgrades are repeated in those two keys.
 mltd_intel_foothold = {
 	if = {
 		limit = {
@@ -426,8 +430,9 @@ mltd_intel_foothold = {
 }
 
 # ---------------------------------------------------------------- Cult Infiltration
-# All four run in the scope of the country that holds (or is about to hold) the cult. MLT is named by
-# tag, never ROOT: mltd_cult_refresh also runs from on_war_relation_added, where ROOT can be either side.
+# All four run in the scope of the country that holds (or is about to hold) the cult. MLT is named
+# by tag, never ROOT: mltd_cult_refresh also runs from on_war_relation_added, where ROOT can be
+# either side.
 # Each is defined before anything that calls it - a console reload logged the forward references
 # (mltd_cult_add_strength -> mltd_cult_refresh, mltd_cult_weekly -> mltd_cult_dissolve) as unknown.
 # Variables on that country:
@@ -435,8 +440,10 @@ mltd_intel_foothold = {
 #   mltd_cult_decay             points it loses at the next weekly tick
 #   mltd_cult_threat_big/_small/_air  the war penalties in percentage points, for loc (0.25 / 0.15 / 0.5 per point)
 #   mltd_cult_*_var             the five mltd_cult_infiltration inputs, 0 unless at war with MLT
-# Country flag mltd_cult_sheltered (set on its targets by each story act's spying head, mltd_act*_focus.txt) halves the decay.
-# MLT keeps mltd_cult_total_strength, the sum of every cult's strength, which the Call decisions pay out on.
+# Country flag mltd_cult_sheltered (set on its targets by each story act's spying head,
+# mltd_act*_focus.txt) halves the decay.
+# MLT keeps mltd_cult_total_strength, the sum of every cult's strength, which the Call decisions pay
+# out on.
 
 # The last of the faithful are gone: the country is clean, and a new cult can be founded there.
 mltd_cult_dissolve = {
@@ -455,10 +462,11 @@ mltd_cult_dissolve = {
 
 # Recomputes the weekly decay and the war penalties from the current strength s.
 # decay = 0.1 + s * s / 3000 points a week: 0.13 at 10 %, 0.63 at 40 %, 0.93 at 50 %, 2.8 at 90 %, 3.43 at 100 %, so a
-# young cult barely fades and holding 90 costs ~3x what holding 50 does. Halved in a country a story act's head has
-# sheltered (mltd_cult_sheltered); tripled while at war with MLT: the faithful rise, and rising exposes them. Until
-# 2026-09-23 it was 0.5 + s * s / 2500 (0.54 at 10 %, 1.5 at 50 %), under which a cult nurtured back to back by one
-# operative barely grew: its floor alone took over a third of a nurture's +12 across the operation's 60 days.
+# young cult barely fades and holding 90 costs ~3x what holding 50 does. Halved in a country a story
+# act's head has sheltered (mltd_cult_sheltered); tripled while at war with MLT: the faithful rise,
+# and rising exposes them. Until 2026-09-23 it was 0.5 + s * s / 2500 (0.54 at 10 %, 1.5 at 50 %),
+# under which a cult nurtured back to back by one operative barely grew: its floor alone took over a
+# third of a nurture's +12 across the operation's 60 days.
 # s * s peaks at 10,000, far under the 2,147,483 variable ceiling.
 mltd_cult_refresh = {
 	set_variable = { mltd_cult_decay = mltd_cult_strength }
@@ -527,15 +535,17 @@ mltd_cult_weekly = {
 	else = { mltd_cult_refresh = yes }
 }
 
-# mltd_cult_rebuild_list: the cults abroad, strongest first, for the Cult Infiltration category's description
-# (GetMltdCultList, common/scripted_localisation). MLT scope. Rebuilt rather than kept up piecemeal: every_country skips
-# countries that no longer exist, so annexed ones drop out. Called daily by on_daily_MLT once The Spreading Cult is done,
-# weekly after the decay loop, by both cult operations and by the focus mltd_the_spreading_cult. It also sums
-# mltd_cult_total_strength, which the Call decisions pay out on.
+# mltd_cult_rebuild_list: the cults abroad, strongest first, for the Cult Infiltration category's
+# description (GetMltdCultList, common/scripted_localisation). MLT scope. Rebuilt rather than kept
+# up piecemeal: every_country skips countries that no longer exist, so annexed ones drop out. Called
+# daily by on_daily_MLT once The Spreading Cult is done, weekly after the decay loop, by both cult
+# operations and by the focus mltd_the_spreading_cult. It also sums mltd_cult_total_strength, which
+# the Call decisions pay out on.
 # The loc reads fixed slots on MLT - mltd_cult_row_<k> (the country) and mltd_cult_row_<k>_str (its strength), k = 1-8,
-# plus mltd_cult_count and mltd_cult_more - never an array element: stepping into var:array^i from a decision category's
-# description found nothing in game. Slots past mltd_cult_count keep stale values that the loc never shows. Selection sort
-# with find_highest_in_array and remove_from_array by index (OWB caps_scripted_ai.txt:161-218).
+# plus mltd_cult_count and mltd_cult_more - never an array element: stepping into var:array^i from a
+# decision category's description found nothing in game. Slots past mltd_cult_count keep stale
+# values that the loc never shows. Selection sort with find_highest_in_array and remove_from_array
+# by index (OWB caps_scripted_ai.txt:161-218).
 mltd_cult_rebuild_list = {
 	clear_array = mltd_cult_list
 	clear_array = mltd_cult_sort_country
@@ -603,7 +613,8 @@ mltd_cult_rebuild_list = {
 
 # mltd_wet_market_pay: pays for one Wet Market lot (price in the temp variable mltd_wm_price) through OWB's
 # transaction_caps (= add_caps with its tooltip, caps_scripted_effects.txt:96-103), takes 250 from the global stock and
-# starts the 40-day cooldown, as OWB's own sellers do (__trade_ledger_gui.txt:150-217). The button adds the equipment.
+# starts the 40-day cooldown, as OWB's own sellers do (__trade_ledger_gui.txt:150-217). The button
+# adds the equipment.
 mltd_wet_market_pay = {
 	set_temp_variable = { caps_to_add = mltd_wm_price }
 	multiply_temp_variable = { caps_to_add = -1 }
@@ -615,8 +626,8 @@ mltd_wet_market_pay = {
 }
 
 # mltd_wet_market_receive: pays out for one lot sold to The Wet Market (price in the temp variable mltd_wm_price) through
-# OWB's transaction_caps, puts the 250 into the global stock - which sales may push past the 2,500 the monthly restock
-# stops at - and starts the 40-day cooldown. The button removes the equipment.
+# OWB's transaction_caps, puts the 250 into the global stock - which sales may push past the 2,500
+# the monthly restock stops at - and starts the 40-day cooldown. The button removes the equipment.
 mltd_wet_market_receive = {
 	set_temp_variable = { caps_to_add = mltd_wm_price }
 	transaction_caps = yes
@@ -673,10 +684,11 @@ mltd_indoctrinate_transfer = {
 }
 
 # mltd_indoctrinate_defector: the critical success of Indoctrinate the Faithful, ROOT (MLT) scope, FROM the target. One of
-# FROM's generals - a mltd_defector_candidate (never a field marshal, a leader or would-be leader, an advisor, an exile or
-# a story character), an unassigned one when there is one - is flagged and handed to ROOT with set_nationality (every role,
-# skill and trait goes along); event mltd.20 names them. If the one who came is invisible in MLT (a role's visible trigger
-# can test the old country), they are sent back. With no valid general, nothing more happens.
+# FROM's generals - a mltd_defector_candidate (never a field marshal, a leader or would-be leader,
+# an advisor, an exile or a story character), an unassigned one when there is one - is flagged and
+# handed to ROOT with set_nationality (every role, skill and trait goes along); event mltd.20 names
+# them. If the one who came is invisible in MLT (a role's visible trigger can test the old country),
+# they are sent back. With no valid general, nothing more happens.
 mltd_indoctrinate_defector = {
 	FROM = {
 		hidden_effect = {
@@ -727,11 +739,12 @@ mltd_indoctrinate_defector = {
 }
 
 # ---- Broken Coast (round 21; the mltd_brk_* focuses, in Acts II and III since round 27) ----
-# MLT scope. +3 to the volunteer divisions MLT may send (send_volunteer_size); The Deep Ones Sail North calls it twice, for
-# +6: the dynamic modifier mltd_brk_volunteers reads mltd_brk_volunteer_size_var (OWB's Brotherhood does the
-# same with BOS_expeditionary_departments, bos_dynamic_modifiers.txt:46-47). The +3 is repeated in
-# mltd_brk_volunteer_size_tt, and the focus's +6 in mltd_brk_volunteer_size_6_tt. The engine's own limit (a share of MLT's
-# divisions and of the target's provinces) comes on top.
+# MLT scope. +3 to the volunteer divisions MLT may send (send_volunteer_size); The Deep Ones Sail
+# North calls it twice, for +6: the dynamic modifier mltd_brk_volunteers reads
+# mltd_brk_volunteer_size_var (OWB's Brotherhood does the same with BOS_expeditionary_departments,
+# bos_dynamic_modifiers.txt:46-47). The +3 is repeated in mltd_brk_volunteer_size_tt, and the
+# focus's +6 in mltd_brk_volunteer_size_6_tt. The engine's own limit (a share of MLT's divisions and
+# of the target's provinces) comes on top.
 mltd_brk_add_volunteer_size = {
 	custom_effect_tooltip = mltd_brk_volunteer_size_tt
 	hidden_effect = {
@@ -744,18 +757,21 @@ mltd_brk_add_volunteer_size = {
 	}
 }
 
-# MLT scope, from the Broken Coast's acceptance in event mltd.21: MLT founds the Drowned Covenant if it leads no faction
-# (a template needs No Compromise, No Surrender, as in OWB's faction_tracking_scripted_effects.txt:6-16), takes the
-# raiders in, and both sides gain the Covenant's goodwill. MLT in someone else's faction founds nothing and takes no one.
+# MLT scope, from the Broken Coast's acceptance in event mltd.21: MLT founds the Drowned Covenant if
+# it leads no faction (a template needs No Compromise, No Surrender, as in OWB's
+# faction_tracking_scripted_effects.txt:6-16), takes the raiders in, and both sides gain the
+# Covenant's goodwill. MLT in someone else's faction founds nothing and takes no one.
 #
 # Round 28b, the tooltip. The option's preview is drawn before create_faction runs, so a native add_to_faction under
-# is_faction_leader showed nothing at all while MLT led no faction yet - the preview promised a faction and never said
-# who joined it. Each of the three join effects below therefore writes the join itself (mltd_<tag>_joins_covenant_tt)
-# under the test the join will pass once the faction exists - MLT free now, or leading its own faction, and the invited
-# country free - and runs the join in hidden_effect under the real test. The two tests agree: create_faction makes MLT
-# the leader of the faction it founds.
+# is_faction_leader showed nothing at all while MLT led no faction yet - the preview promised a
+# faction and never said who joined it. Each of the three join effects below therefore writes the
+# join itself (mltd_<tag>_joins_covenant_tt) under the test the join will pass once the faction
+# exists - MLT free now, or leading its own faction, and the invited country free - and runs the
+# join in hidden_effect under the real test. The two tests agree: create_faction makes MLT the
+# leader of the faction it founds.
 #
-# MLT scope, from the Bone Dancers' acceptance in event mltd.24: the same Covenant the Broken Coast is invited into.
+# MLT scope, from the Bone Dancers' acceptance in event mltd.24: the same Covenant the Broken Coast
+# is invited into.
 mltd_bdt_join_the_covenant = {
 	if = {
 		limit = { is_in_faction = no }
@@ -807,10 +823,11 @@ mltd_bdt_join_the_covenant = {
 }
 
 # MLT scope, from the Broken Coast's acceptance in event mltd.21. Round 28: when the raiders actually join, it also sets
-# mltd_brk_covenant_joined on MLT, which closes Terms for the Citadel (the Brotherhood will not share the Covenant with
-# raiders). The flag is set in the add_to_faction branch and nowhere else: an acceptance that could not bring BRK in (MLT in
-# someone else's faction, BRK already in one - mltd.21's acceptance option is offered only when it can) closes nothing, and
-# a refusal sets nothing, so the other door stays open. The join's tooltip: see mltd_bdt_join_the_covenant above.
+# mltd_brk_covenant_joined on MLT, which closes Terms for the Citadel (the Brotherhood will not
+# share the Covenant with raiders). The flag is set in the add_to_faction branch and nowhere else:
+# an acceptance that could not bring BRK in (MLT in someone else's faction, BRK already in one -
+# mltd.21's acceptance option is offered only when it can) closes nothing, and a refusal sets
+# nothing, so the other door stays open. The join's tooltip: see mltd_bdt_join_the_covenant above.
 mltd_brk_join_the_covenant = {
 	if = {
 		limit = { is_in_faction = no }
@@ -863,11 +880,12 @@ mltd_brk_join_the_covenant = {
 }
 
 # Country scope: a member of the Brotherhood's old faction, flagged mltd_wbh_faction_moving by
-# mltd_wbh_join_the_covenant (ROOT the Brotherhood, MLT the Covenant's leader), leaves that faction through OWB's own
-# effect and joins the Drowned Covenant, and the move's faction_traitor opinions between it and the Brotherhood are
-# cleared (see the note on mltd_wbh_join_the_covenant, below; defined first, callee before caller, for a console reload
-# - Gotchas). A subject its overlord has already brought in is not moved again. Every member that ends up in the
-# Covenant gets its goodwill both ways, as the Brotherhood does. Call it from nowhere else.
+# mltd_wbh_join_the_covenant (ROOT the Brotherhood, MLT the Covenant's leader), leaves that faction
+# through OWB's own effect and joins the Drowned Covenant, and the move's faction_traitor opinions
+# between it and the Brotherhood are cleared (see the note on mltd_wbh_join_the_covenant, below;
+# defined first, callee before caller, for a console reload - Gotchas). A subject its overlord has
+# already brought in is not moved again. Every member that ends up in the Covenant gets its goodwill
+# both ways, as the Brotherhood does. Call it from nowhere else.
 mltd_wbh_bring_into_the_covenant = {
 	if = {
 		limit = { NOT = { is_in_faction_with = MLT } }
@@ -913,28 +931,33 @@ mltd_wbh_bring_into_the_covenant = {
 # Broken Coast and the Bone Dancers are invited into. ROOT is the answering Brotherhood - WBH, or TCA as the Northwestern
 # Brotherhood (mltd_wbh_terms_target) - since mltd.32 calls this as FROM = { mltd_wbh_join_the_covenant = yes }; call it from
 # nowhere else. When the Brotherhood actually joins (the add_to_faction branch, and only there) it sets mltd_wbh_alliance on
-# MLT, which closes the Broken Coast's Covenant (The Tide-Wall is closed by Terms itself: the two focuses are mutually
-# exclusive both ways since round 28b), and the Brotherhood gives up every claim it holds on MLT's
-# land - The Warren (235) above all, which WBH claims once TRL is gone and which only The Tide-Wall, now closed, would have
-# cleared; TCA as the Northwestern Brotherhood claims every Washington state (formable_nations.txt). An ally does not claim
-# its faction leader's land. ROOT stays the Brotherhood inside every_owned_state. The join's tooltip: see
-# mltd_bdt_join_the_covenant above; mltd_wbh_joins_covenant_tt names the claims too, which the hidden branch now gives up.
+# MLT, which closes the Broken Coast's Covenant (The Tide-Wall is closed by Terms itself: the two
+# focuses are mutually exclusive both ways since round 28b), and the Brotherhood gives up every
+# claim it holds on MLT's land - The Warren (235) above all, which WBH claims once TRL is gone and
+# which only The Tide-Wall, now closed, would have cleared; TCA as the Northwestern Brotherhood
+# claims every Washington state (formable_nations.txt). An ally does not claim its faction leader's
+# land. ROOT stays the Brotherhood inside every_owned_state. The join's tooltip: see
+# mltd_bdt_join_the_covenant above; mltd_wbh_joins_covenant_tt names the claims too, which the
+# hidden branch now gives up.
 #
 # 2026-09-25 (the user: "A yes should pull WBH out of their league, and pull any other members in their league also into
 # the drowned covenant"). WBH founds and leads OWB's Northern League from 2275 (its history,
-# create_or_join_northern_league), so a Brotherhood that leads a faction may now be asked (mltd_wbh_terms_target), and
-# its yes brings the faction over: every other member at peace with MLT and with every country in MLT's faction leaves
-# it and joins the Covenant, with the Covenant's goodwill both ways. The independent members go first, then the
-# Brotherhood - last of its old faction, so that the faction is never handed to a member that is coming over - then the
-# subjects, each only if its overlord did not bring it. Members at war with MLT or its allies stay behind, and one of
-# them is made the old faction's leader before the Brotherhood goes. The moves go through OWB's leave_current_faction,
-# which keeps its faction arrays and ally strategies in step (faction_tracking_scripted_effects.txt:28207; for the
-# league, leave_northern_league), with a plain leave_faction for a faction OWB does not track. A member that leaves a
-# faction earns vanilla's faction_traitor (-75) and faction_traitor_trade from its leader (on_leave_faction), which the
-# move clears between the Brotherhood and each member (unverified: whether the on_action has run by then). OWB never
-# clears GLOBAL.northern_league_leader, which is its test that the league exists (northern_league_exists) and the
-# country every later joiner is added through (join_northern_league), so it is re-pointed at the new leader, or cleared
-# once no one is left in the league.
+# create_or_join_northern_league), so a Brotherhood that leads a faction may now be asked
+# (mltd_wbh_terms_target), and its yes brings the faction over: every other member at peace with MLT
+# and with every country in MLT's faction leaves it and joins the Covenant, with the Covenant's
+# goodwill both ways. The independent members go first, then the Brotherhood - last of its old
+# faction, so that the faction is never handed to a member that is coming over - then the subjects,
+# each only if its overlord did not bring it. Members at war with MLT or its allies stay behind, and
+# one of them is made the old faction's leader before the Brotherhood goes. The moves go through
+# OWB's leave_current_faction, which keeps its faction arrays and ally strategies in step
+# (faction_tracking_scripted_effects.txt:28207; for the league, leave_northern_league), with a plain
+# leave_faction for a faction OWB does not track. A member that leaves a faction earns vanilla's
+# faction_traitor (-75) and faction_traitor_trade from its leader (on_leave_faction), which the move
+# clears between the Brotherhood and each member (unverified: whether the on_action has run by
+# then). OWB never clears GLOBAL.northern_league_leader, which is its test that the league exists
+# (northern_league_exists) and the country every later joiner is added through
+# (join_northern_league), so it is re-pointed at the new leader, or cleared once no one is left in
+# the league.
 mltd_wbh_join_the_covenant = {
 	if = {
 		limit = { is_in_faction = no }
@@ -1004,7 +1027,8 @@ mltd_wbh_join_the_covenant = {
 					mltd_wbh_bring_into_the_covenant = yes
 				}
 				ROOT = {
-					# the members at war with MLT keep the old faction: hand it to one of them before the Brotherhood goes
+					# the members at war with MLT keep the old faction: hand it to one of them
+					# before the Brotherhood goes
 					random_country = {
 						limit = {
 							NOT = { tag = ROOT }
@@ -1063,21 +1087,27 @@ mltd_wbh_join_the_covenant = {
 
 # ---- Round 28b: the pens of Flagstaff (event mltd.51, the trophy of Act V's close mltd_when_the_legion_breaks). Country
 # scope. The options' effects live here, once, so that the close can preview them with effect_tooltip = { <effect> = yes }
-# and the numbers stay in one place (they used to sit in the event and again in the focus's preview).
+# and the numbers stay in one place (they used to sit in the event and again in the focus's
+# preview).
 # Until round 28b both options were 5,000 people - into the capital, or as manpower - which is noise by the Legion's fall
 # (CONQUEST_PLAN.txt puts it at ~2284-03, between its 2282-05 snapshot of 1.3-1.7M people / ~60 mil and its 2285-12 one of
-# 3-4M / ~110 mil: ~2.5M people and ~85 military factories). Both are now modifiers, so they scale with the empire they land in.
-# The options are called by the event and by the close's preview (mltd_act5_focus.txt), and nowhere else.
-# The freed rise as the faithful: the permanent idea mltd_the_unchained (stability, and compliance growth in the towns the
-# faithful walk back to - OWB cores a state at 95 % compliance, coring_button_scripted_triggers.txt:52).
+# 3-4M / ~110 mil: ~2.5M people and ~85 military factories). Both are now modifiers, so they scale
+# with the empire they land in.
+# The options are called by the event and by the close's preview (mltd_act5_focus.txt), and nowhere
+# else.
+# The freed rise as the faithful: the permanent idea mltd_the_unchained (stability, and compliance
+# growth in the towns the faithful walk back to - OWB cores a state at 95 % compliance,
+# coring_button_scripted_triggers.txt:52).
 mltd_legion_pens_freed = { add_ideas = mltd_the_unchained }
-# The pens feed the spawning pools: the timed idea mltd_the_pens_emptied, a cheaper build of every creature the tribe fields
-# for 730 days (its native tooltip prints the days; the loc says "two years" in mltd_the_pens_emptied_desc and mltd.51.d).
-# Round 28c: -10 % for two years in place of 28b's -20 % for one - the same worth, inside the story acts' +-5-10 % band for
-# an act idea (the endings are the one place for large bonuses), and a lower peak where it overlaps the other creature
-# build-cost cuts: with Feed the Spawning Pools' -15 %, -25 %. Round 28c's reviews dropped the -10 % first staged for Black
-# Water, and The Legion's Steel, from the same close, arms the creatures instead; only Return to the Sea's -15 % (an
-# ending) can meet the pens' last weeks, for -40 %.
+# The pens feed the spawning pools: the timed idea mltd_the_pens_emptied, a cheaper build of every
+# creature the tribe fields for 730 days (its native tooltip prints the days; the loc says "two
+# years" in mltd_the_pens_emptied_desc and mltd.51.d).
+# Round 28c: -10 % for two years in place of 28b's -20 % for one - the same worth, inside the story
+# acts' +-5-10 % band for an act idea (the endings are the one place for large bonuses), and a lower
+# peak where it overlaps the other creature build-cost cuts: with Feed the Spawning Pools' -15 %,
+# -25 %. Round 28c's reviews dropped the -10 % first staged for Black Water, and The Legion's Steel,
+# from the same close, arms the creatures instead; only Return to the Sea's -15 % (an ending) can
+# meet the pens' last weeks, for -40 %.
 mltd_legion_pens_fed = {
 	add_timed_idea = {
 		idea = mltd_the_pens_emptied

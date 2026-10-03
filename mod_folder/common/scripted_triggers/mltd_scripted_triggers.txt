@@ -2,8 +2,8 @@
 #
 # mltd_flavour_can_fire: shared gate for the flavour events mltd.9-19, drawn each month
 # from the random_events pool in on_monthly_MLT (common/on_actions/mltd_on_actions.txt). Open once the
-# Kingdom of M'lyeh is proclaimed; shut while capitulated and while mltd_flavour_cooldown runs (120 days,
-# set in each flavour event's immediate block; event mltd.1 also sets it for 90 days).
+# Kingdom of M'lyeh is proclaimed; shut while capitulated and while mltd_flavour_cooldown runs (120
+# days, set in each flavour event's immediate block; event mltd.1 also sets it for 90 days).
 mltd_flavour_can_fire = {
 	original_tag = MLT
 	has_completed_focus = mlt_kingdom_of_mlyeh
@@ -13,7 +13,8 @@ mltd_flavour_can_fire = {
 
 # mltd_hail_candidate: where event mltd.19 (Hail M'lyeh) can find its convert. Scope: the candidate country, ROOT = MLT.
 # MLT has a network there - national coverage above 0, OWB's own gate for operation_infiltrate_civilian
-# (00_operations.txt:135-138) - and does not already hold that country's civilian infiltration token (the event's reward).
+# (00_operations.txt:135-138) - and does not already hold that country's civilian infiltration token
+# (the event's reward).
 mltd_hail_candidate = {
 	exists = yes
 	NOT = { tag = ROOT }
@@ -45,10 +46,11 @@ mltd_cult_neighbouring_major = {
 	is_major = yes
 }
 
-# mltd_defector_candidate: a general of the target of mltd_op_indoctrinate_the_faithful_* who may defect to MLT on its
-# critical success. Scope: the character, inside FROM's any_army_leader / random_army_leader (which skip leaders not yet
-# visible). set_nationality carries every role along, so anyone who leads or could lead the target, advises it or is an
-# exile it shelters stays; so do field marshals (the operation takes "one of their generals") and OWB's story generals.
+# mltd_defector_candidate: a general of the target of mltd_op_indoctrinate_the_faithful_* who may
+# defect to MLT on its critical success. Scope: the character, inside FROM's any_army_leader /
+# random_army_leader (which skip leaders not yet visible). set_nationality carries every role along,
+# so anyone who leads or could lead the target, advises it or is an exile it shelters stays; so do
+# field marshals (the operation takes "one of their generals") and OWB's story generals.
 mltd_defector_candidate = {
 	is_field_marshal = no
 	is_country_leader = no
@@ -61,7 +63,8 @@ mltd_defector_candidate = {
 # mltd_defector_story_character: OWB's army-only generals (no country-leader or advisor role) that OWB's own scripts
 # still address by token after granting the role - retire_character, promote_character, has_character, is_character,
 # has_country_leader character = ..., set_character_name, load_oob or a TOKEN = { } block - so taking one could break
-# its country's storyline. From a scan of OWB's common/, events/ and history/ in round 16: re-check after OWB updates.
+# its country's storyline. From a scan of OWB's common/, events/ and history/ in round 16: re-check
+# after OWB updates.
 mltd_defector_story_character = {
 	OR = {
 		is_character = ATE_yesenia_aztlanl
@@ -134,8 +137,9 @@ mltd_defector_story_character = {
 }
 
 # mltd_wet_market_can_buy: the buy conditions of every Wet Market item (scripted GUI mltd_wet_market_panel), each an
-# OWB-style tooltip line. Reads the temp variable mltd_wm_price (caps) set by the button's trigger. The first line is the
-# market itself: the Mirelurk Tribe completed The Wet Market (the focus sets the global flag).
+# OWB-style tooltip line. Reads the temp variable mltd_wm_price (caps) set by the button's trigger.
+# The first line is the market itself: the Mirelurk Tribe completed The Wet Market (the focus sets
+# the global flag).
 mltd_wet_market_can_buy = {
 	custom_trigger_tooltip = {
 		tooltip = mltd_wet_market_open_tt
@@ -167,10 +171,11 @@ mltd_wet_market_can_sell = {
 	}
 }
 
-# The Brotherhood in Washington, for the mltd_wbh_* focuses (Acts II and III): the Washington Brotherhood, or The Cause
-# once it has taken Seattle (84) and formed the Northwestern Brotherhood (OWB's formable, common/decisions/formable_nations.txt;
-# it also claims every Washington state, The Warren included). Both fly OWB's shared Brotherhood focus tree, so both can purge
-# the mutants and march on The Warren. While their own war runs, both answer. Country scope.
+# The Brotherhood in Washington, for the mltd_wbh_* focuses (Acts II and III): the Washington
+# Brotherhood, or The Cause once it has taken Seattle (84) and formed the Northwestern Brotherhood
+# (OWB's formable, common/decisions/formable_nations.txt; it also claims every Washington state, The
+# Warren included). Both fly OWB's shared Brotherhood focus tree, so both can purge the mutants and
+# march on The Warren. While their own war runs, both answer. Country scope.
 mltd_wbh_brotherhood = {
 	# Round 24: a living Brotherhood. Without this the trigger is a bare tag test, which an annexed country still passes -
 	# the Washington focuses' `WBH = { mltd_wbh_brotherhood = yes }` / `TCA = { ... }` guards then went on paying add_intel
@@ -187,14 +192,17 @@ mltd_wbh_brotherhood = {
 }
 
 # The Brotherhood Terms for the Citadel (round 28, Act III) is offered to: the Brotherhood in Washington (mltd_wbh_brotherhood)
-# - the Washington Brotherhood unless it is gone or someone's subject, else the Northwestern Brotherhood (TCA), so that the one
-# offer goes to one Brotherhood and the focus's odds line (GetMltdWbhOdds) names the one that will answer. OWB lets TCA form
-# the Northwestern Brotherhood while WBH is its subject (form_northwestern_brotherhood, formable_nations.txt:737-770), and then
-# both pass mltd_wbh_brotherhood; the subject is never asked. It must be at peace with MLT, no one's subject, and in no faction
-# or its faction's leader, so that it can join the Drowned Covenant (mltd_wbh_join_the_covenant). Until 2026-09-25 it had to
-# be in no faction, which shut Terms for good in most games: WBH founds and leads OWB's Northern League in 2275, and nothing
-# makes it leave. Since then a yes brings the faction it leads over with it. Read by the focus's `available` and reward and
-# by the AI's hold, where ROOT is MLT. Country scope.
+# - the Washington Brotherhood unless it is gone or someone's subject, else the Northwestern
+#   Brotherhood (TCA), so that the one
+# offer goes to one Brotherhood and the focus's odds line (GetMltdWbhOdds) names the one that will
+# answer. OWB lets TCA form the Northwestern Brotherhood while WBH is its subject
+# (form_northwestern_brotherhood, formable_nations.txt:737-770), and then both pass
+# mltd_wbh_brotherhood; the subject is never asked. It must be at peace with MLT, no one's subject,
+# and in no faction or its faction's leader, so that it can join the Drowned Covenant
+# (mltd_wbh_join_the_covenant). Until 2026-09-25 it had to be in no faction, which shut Terms for
+# good in most games: WBH founds and leads OWB's Northern League in 2275, and nothing makes it
+# leave. Since then a yes brings the faction it leads over with it. Read by the focus's `available`
+# and reward and by the AI's hold, where ROOT is MLT. Country scope.
 mltd_wbh_terms_target = {
 	mltd_wbh_brotherhood = yes
 	OR = {
@@ -257,11 +265,13 @@ mltd_wbh_terms_can_offer = {
 	NOT = { has_country_flag = mltd_brk_covenant_joined }
 }
 
-# mltd_brk_on_haida_gwaii (round 25): the Broken Coast holds a foothold on Haida Gwaii - any of the nine land provinces of
-# the Haida Confederation, whose whole country is that one island (states 9 Gramshar and 398 Mores, a landmass of their own,
-# measured from OWB's map/provinces.bmp). Every one of the nine is coastal, so each is a valid beach for a naval invasion,
-# but only 5123 (state 9) and 5130 (state 398) have a port - a landing on the other seven has no supply. Province-level, not
-# state-level: a landing takes one beach, not a state. Country scope: BRK. Read by on_daily_MLT (event mltd.27).
+# mltd_brk_on_haida_gwaii (round 25): the Broken Coast holds a foothold on Haida Gwaii - any of the
+# nine land provinces of the Haida Confederation, whose whole country is that one island (states 9
+# Gramshar and 398 Mores, a landmass of their own, measured from OWB's map/provinces.bmp). Every one
+# of the nine is coastal, so each is a valid beach for a naval invasion, but only 5123 (state 9) and
+# 5130 (state 398) have a port - a landing on the other seven has no supply. Province-level, not
+# state-level: a landing takes one beach, not a state. Country scope: BRK. Read by on_daily_MLT
+# (event mltd.27).
 mltd_brk_on_haida_gwaii = {
 	OR = {
 		controls_province = 5116
@@ -276,19 +286,21 @@ mltd_brk_on_haida_gwaii = {
 	}
 }
 
-# The Leviathan surfaces at Mireport (province 7064, in the capital state 358), MLT's one naval base at game start:
-# its OOBs name that base, and load_oob would place the fleet there even under an enemy's flag. Focus
-# mltd_the_grand_ritual (for its first Leviathan), decision mltd_summon_the_leviathan and mltd_spawn_leviathan all test it.
+# The Leviathan surfaces at Mireport (province 7064, in the capital state 358), MLT's one naval base
+# at game start: its OOBs name that base, and load_oob would place the fleet there even under an
+# enemy's flag. Focus mltd_the_grand_ritual (for its first Leviathan), decision
+# mltd_summon_the_leviathan and mltd_spawn_leviathan all test it.
 mltd_leviathan_can_surface = { controls_province = 7064 }
 
 # ---- Round 27: the story acts
-# mltd_texas_beaten: Act VI's close, mltd_the_last_king_kneels, opens once Texas is beaten - each of the two Texan tags
-# (there is no TEX tag: it is an alias for TBH or LNS in a Texan cosmetic, tag_aliases.txt:93-106) is gone, has
-# capitulated or has become MLT's subject. A capitulated country stays at war while an ally holds out, so waiting for
-# it to be gone could wait for ever (the same reasoning as mltd_ai_ncr_beaten). has_capitulated clears at the peace, so a
-# Texan rump that outlives it would never count again: on_capitulation (mltd_on_actions.txt) records a capitulation to MLT
-# on MLT as mltd_tbh_capitulated / mltd_lns_capitulated, as it does for the NCR and the Legion (Acts IV and V). MLT is named
-# by tag, so any scope works.
+# mltd_texas_beaten: Act VI's close, mltd_the_last_king_kneels, opens once Texas is beaten - each of
+# the two Texan tags (there is no TEX tag: it is an alias for TBH or LNS in a Texan cosmetic,
+# tag_aliases.txt:93-106) is gone, has capitulated or has become MLT's subject. A capitulated
+# country stays at war while an ally holds out, so waiting for it to be gone could wait for ever
+# (the same reasoning as mltd_ai_ncr_beaten). has_capitulated clears at the peace, so a Texan rump
+# that outlives it would never count again: on_capitulation (mltd_on_actions.txt) records a
+# capitulation to MLT on MLT as mltd_tbh_capitulated / mltd_lns_capitulated, as it does for the NCR
+# and the Legion (Acts IV and V). MLT is named by tag, so any scope works.
 mltd_texas_beaten = {
 	OR = {
 		NOT = { country_exists = TBH }

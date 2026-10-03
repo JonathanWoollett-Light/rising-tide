@@ -10,11 +10,13 @@
 #   > 50,000: 5,000 / 500    > 25,000: 2,500 / 250    > 10,000: 1,000 / 100    > 5,000: 250 / 25    > 1,000: 100 / 10
 # At completion mltd_indoctrinate_transfer moves the variant's amount, or less if the target has since fallen into a lower
 # band, so MLT never gains manpower the target does not lose. cost_multiplier = 0 turns off the engine's default +15 % cost
-# per repeat against the same target (DEFAULT_OPERATION_COST_MULTIPLIER, vanilla 00_defines.lua:3733-3737), so the
-# equipment is exactly the figure above every time. The critical success (outcome_extra_execute replaces the base
-# outcome, so it repeats the transfer) also turns one of the target's generals: mltd_indoctrinate_defector.
+# per repeat against the same target (DEFAULT_OPERATION_COST_MULTIPLIER, vanilla
+# 00_defines.lua:3733-3737), so the equipment is exactly the figure above every time. The critical
+# success (outcome_extra_execute replaces the base outcome, so it repeats the transfer) also turns
+# one of the target's generals: mltd_indoctrinate_defector.
 #
-# Found a Cult and Nurture the Cult (round 17, at the end of the file) replace the targeted cult decisions.
+# Found a Cult and Nurture the Cult (round 17, at the end of the file) replace the targeted cult
+# decisions.
 
 mltd_op_indoctrinate_the_faithful_5000 = {
 	icon = GFX_operations_make_resistance_contacts
@@ -378,11 +380,13 @@ mltd_op_indoctrinate_the_faithful_100 = {
 }
 
 # ---------------------------------------------------------------- Cult Infiltration (round 17)
-# Found a Cult and Nurture the Cult replace round 14's targeted decisions. Both need The Spreading Cult (which opens the
-# category) and, like every operation, a network in the target; founding reaches any country, not just neighbouring
-# majors. Founding plants a cult at 10 % (20 on a critical success); nurturing adds 12 (20 on a critical success) and is
-# paid in infantry and support equipment. The gains are in the outcome blocks and in mltd_op_*_tt; the equipment is
-# shown natively. Effects: mltd_cult_add_strength in FROM (the target), then mltd_cult_rebuild_list in ROOT.
+# Found a Cult and Nurture the Cult replace round 14's targeted decisions. Both need The Spreading
+# Cult (which opens the category) and, like every operation, a network in the target; founding
+# reaches any country, not just neighbouring majors. Founding plants a cult at 10 % (20 on a
+# critical success); nurturing adds 12 (20 on a critical success) and is paid in infantry and
+# support equipment. The gains are in the outcome blocks and in mltd_op_*_tt; the equipment is shown
+# natively. Effects: mltd_cult_add_strength in FROM (the target), then mltd_cult_rebuild_list in
+# ROOT.
 mltd_op_found_a_cult = {
 	icon = GFX_operations_infiltrate_civilian_govt
 	map_icon = GFX_operations_infiltrate_civilian_govt_map
@@ -446,7 +450,8 @@ mltd_op_found_a_cult = {
 	}
 	outcome_potential = { custom_effect_tooltip = mltd_op_found_a_cult_tt }
 
-	# over OPERATION_AI_MINIMUM_SCORE (10, vanilla 00_defines.lua:3728), below which the AI scraps an operation it prepares
+	# over OPERATION_AI_MINIMUM_SCORE (10, vanilla 00_defines.lua:3728), below which the AI scraps
+	# an operation it prepares
 	ai_will_do = { base = 20 }
 
 	phases = { #make contact with the disaffected
@@ -490,10 +495,11 @@ mltd_op_nurture_the_cult = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_cult_not_full_tt
 			FROM = {
-				# Round 24: the cult must still exist. visible tests this, but visible is not re-checked once an operation
-				# is under way, and mltd_cult_dissolve clears the variable (mltd_scripted_effects.txt:394) - a missing
-				# variable reads 0, so a cult that withered away mid-operation passed "< 100" and was re-founded at the
-				# nurture price instead of the founding one.
+				# Round 24: the cult must still exist. visible tests this, but visible is not
+				# re-checked once an operation is under way, and mltd_cult_dissolve clears the
+				# variable (mltd_scripted_effects.txt:394) - a missing variable reads 0, so a cult
+				# that withered away mid-operation passed "< 100" and was re-founded at the nurture
+				# price instead of the founding one.
 				has_variable = mltd_cult_strength
 				check_variable = { mltd_cult_strength < 100 }
 			}

@@ -109,10 +109,7 @@ set_country_flag = dont_give_tribal_generic_chiefs
 set_country_flag = dont_give_tribal_generic_high_command
 set_country_flag = dont_give_tribal_generic_theorists
 
-add_ideas = {
-	mire_the_coral_court
-	mlt_egg_counter
-}
+add_ideas = { mire_the_coral_court mlt_egg_counter }
 
 recruit_character = MLT_MLULU
 recruit_character = MLT_CORAL_PROPHET_ANASTASIA
@@ -134,9 +131,11 @@ recruit_character = MLT_TIDE_SPEAKER # Rising Tide: the Tide-Speaker (cultural a
 
 set_variable = { mlt_eggs = 500 }
 set_variable = { dont_return_stolen_territory@TRL = 1 }
-# Rising Tide: OWB's own tag-agnostic opt-out from return_stolen_territory (common/decisions/territory_disputes.txt:466-467).
-# The line above only vetoes TRL as the demander; once TRL is annexed a survivor inherits its claims and an AI MLT
-# hands the whole conquest back at peace (run 20260917-212152: 15 states/98k pop on day 1095, 5/31k on day 1126).
+# Rising Tide: OWB's own tag-agnostic opt-out from return_stolen_territory
+# (common/decisions/territory_disputes.txt:466-467).
+# The line above only vetoes TRL as the demander; once TRL is annexed a survivor inherits its claims
+# and an AI MLT hands the whole conquest back at peace (run 20260917-212152: 15 states/98k pop on
+# day 1095, 5/31k on day 1126).
 set_variable = { never_return_stolen_territory = 1 }
 
 add_opinion_modifier = { target = DIS modifier = heretics }

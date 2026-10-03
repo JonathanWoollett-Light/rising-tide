@@ -2,16 +2,19 @@
 #
 # Conquests and requests that no stage of CONQUEST_PLAN.txt schedules but the map can call for. Every block is allowed only
 # for original_tag = MLT; the scripted triggers they read are in common/scripted_triggers/mltd_ai_triggers.txt (section H),
-# fed by the weekly mltd_ai_survey (common/scripted_effects/mltd_ai_survey_effects.txt). Nothing here gives MLT anything: a
-# conquest still needs a justification, and military access is the plain diplomatic request any player can send.
+# fed by the weekly mltd_ai_survey (common/scripted_effects/mltd_ai_survey_effects.txt). Nothing
+# here gives MLT anything: a conquest still needs a justification, and military access is the plain
+# diplomatic request any player can send.
 #
-# F1. Frontier conquests (one block per country without a stage of its own), on while the country is a safe target
+# F1. Frontier conquests (one block per country without a stage of its own), on while the country is
+# a safe target
 #     (mltd_ai_safe_target) and either holds land of the north once the Kingdom stands, or stands between MLT and an enemy
-#     MLT cannot reach after 90 days of asking it for military access (mltd_ai_frontier_target). The countries are those
-#     that border the north (MLT's northern stages and TDN) or the NCR's possible side at game start, or can join that side
-#     themselves (OWB history/states and map/provinces.bmp, 2026-09-16) - run 2 lost the Oregon ring to MOD, BDT and SYN and
-#     ended in a pocket bordered by New Reno, EAS, BDT and Ouroboros. A country with a conquest stage carries the same test
-#     in its own block (common/ai_strategy/mltd_MLT.txt).
+#     MLT cannot reach after 90 days of asking it for military access (mltd_ai_frontier_target). The
+#     countries are those that border the north (MLT's northern stages and TDN) or the NCR's
+#     possible side at game start, or can join that side themselves (OWB history/states and
+#     map/provinces.bmp, 2026-09-16) - run 2 lost the Oregon ring to MOD, BDT and SYN and ended in a
+#     pocket bordered by New Reno, EAS, BDT and Ouroboros. A country with a conquest stage carries
+#     the same test in its own block (common/ai_strategy/mltd_MLT.txt).
 # F2. Military access, asked of every country that stands between MLT and an enemy MLT cannot reach
 #     (mltd_ai_cuts_off_an_enemy): OWB's own AI asks the same way (CYC.txt:23-33, LAC.txt:75-80).
 # OWB replace_paths common/ai_strategy, so this file only exists when Rising Tide loads after OWB (dependencies in

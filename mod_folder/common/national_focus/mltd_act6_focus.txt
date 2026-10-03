@@ -1,11 +1,13 @@
 # Rising Tide (MLT) - story act VI, "All Waters Are One" (round 27).
-# (2026-09-24: The Deep Ones Walk and The Final Ritual moved below Act III, and Act III's close with them to (15,28), so every
-# row this header names is one lower in the tree today; every cell here is relative and followed.)
+# (2026-09-24: The Deep Ones Walk and The Final Ritual moved below Act III, and Act III's close with
+# them to (15,28), so every row this header names is one lower in the tree today; every cell here is
+# relative and followed.)
 # Shared focuses. None is listed in "Mirelurk Tribe (MLT) Focus.txt": the chapter hangs off Act V's close,
-# mltd_when_the_legion_breaks (common/national_focus/mltd_act5_focus.txt), and every other focus hangs off the
-# chapter, so the engine pulls the whole act in through those shared prerequisites.
+# mltd_when_the_legion_breaks (common/national_focus/mltd_act5_focus.txt), and every other focus
+# hangs off the chapter, so the engine pulls the whole act in through those shared prerequisites.
 #
-# The act: the Legion is broken and the tribe turns south, to the two gulfs and the dying machine god.
+# The act: the Legion is broken and the tribe turns south, to the two gulfs and the dying machine
+# god.
 #   mltd_the_southern_deep            chapter (event mltd.60), row 36 (0,1) of mltd_when_the_legion_breaks; the interior's
 #                                     two spoils (mltd_spoils_focus.txt) flank it at (-2,0) and (2,0)
 #   |- mltd_tex_all_waters_are_one    Texas   -> mltd_tex_black_water_rising      (war on TBH and LNS)
@@ -20,8 +22,9 @@
 #                                     R'lyeh Rises sits directly below it, (0,1) of it on row 40 (mltd_finale_focus.txt), as
 #                                     round 28c's layout asks. Rows here are one lower than round 27's, because Act III's
 #                                     close sits at (15,27) and everything below is relative to it.
-# Round 28c: All Waters Are One sits directly under a spoils focus (13,36), so its icon is OWB's GFX_goal_LNS_texan_dollar
-# (94x77, the Texan dollar - the Union's ledgers the clerks keep) in place of GFX_goal_CHC_Texas (149x154).
+# Round 28c: All Waters Are One sits directly under a spoils focus (13,36), so its icon is OWB's
+# GFX_goal_LNS_texan_dollar (94x77, the Texan dollar - the Union's ledgers the clerks keep) in place
+# of GFX_goal_CHC_Texas (149x154).
 #
 # Merged away in round 27 (their distinctive effects live on in the kept focus named):
 #   The Silent Partner               -> mltd_tex_all_waters_are_one (token_army + civilian intel on each Texan
@@ -41,51 +44,61 @@
 # Rules every story focus follows (SPEC round 27): no intelligence gate in any `available`; every bead is takeable
 # once its target is gone (or our subject) and then pays a political-power fallback; cancel_if_invalid = no and
 # continue_if_invalid = yes; heads and beads ai_will_do 3, chapter and close 10; the war capstones keep their
-# readiness gate for an AI (a human is never gated) - Black Water and The Drowned God dropped their Legion term, which
-# the chapter already enforces, as Act V's wars dropped the NCR's - and The Serpent Drowns, a war no close depends on,
-# keeps its stage (mltd_ai_stage_ate) and also waits for a safe target and for the Texan war to be over. Since the
-# round-27 review each war's AI hold sits in its `available` (mltd_ai_may_start_<texas|ate|tla>_war, hidden and AI-only),
-# not in ai_will_do: an AI takes any listed focus that is available, whatever its ai_will_do reads. Each also waits while
-# MLT is losing a war, and The Drowned God Sleeps, optional like The Serpent Drowns, for every target it would declare on
-# to be a safe target.
+# readiness gate for an AI (a human is never gated) - Black Water and The Drowned God dropped their
+# Legion term, which the chapter already enforces, as Act V's wars dropped the NCR's - and The
+# Serpent Drowns, a war no close depends on, keeps its stage (mltd_ai_stage_ate) and also waits for
+# a safe target and for the Texan war to be over. Since the round-27 review each war's AI hold sits
+# in its `available` (mltd_ai_may_start_<texas|ate|tla>_war, hidden and AI-only), not in ai_will_do:
+# an AI takes any listed focus that is available, whatever its ai_will_do reads. Each also waits
+# while MLT is losing a war, and The Drowned God Sleeps, optional like The Serpent Drowns, for every
+# target it would declare on to be a safe target.
 #
 # Round 28b (the play-test fixes):
-# - The two wars' thefts are a quarter of what each victim holds in store, not a flat 300-800 rifles: the plan opens this act
-#   in 2284 with ~90-110 military factories (CONQUEST_PLAN.txt's 2285-12 snapshot) and an army of mirelurks, where 800
-#   rifles is under 3 % of a year's arms output and of little use; a quarter of the enemy's reserve on the war's first day
-#   weighs the same in any year. Each share is read into a temp variable for the preview (the tooltip prints it) and again
-#   at completion; the transfers are hidden. The quarter is a literal in each focus and in its tooltip - change both.
-# - Round 28c: the thefts pay in what the tribe fields, as in Act V. The victims still lose their stores (no producer on
-#   the removal), but rifles are no use to an army of mirelurks, so the haul is melted down into harness and shell-plate
-#   for the brood: one mirelurk (the archetype amphibious_beast_equipment, our best unlocked breed) for every five pieces
-#   taken, about their worth in IC. The five is a literal in each focus and in its tooltip - change both.
+# - The two wars' thefts are a quarter of what each victim holds in store, not a flat 300-800
+#   rifles: the plan opens this act in 2284 with ~90-110 military factories (CONQUEST_PLAN.txt's
+#   2285-12 snapshot) and an army of mirelurks, where 800 rifles is under 3 % of a year's arms
+#   output and of little use; a quarter of the enemy's reserve on the war's first day weighs the
+#   same in any year. Each share is read into a temp variable for the preview (the tooltip prints
+#   it) and again at completion; the transfers are hidden. The quarter is a literal in each focus
+#   and in its tooltip - change both.
+# - Round 28c: the thefts pay in what the tribe fields, as in Act V. The victims still lose their
+#   stores (no producer on the removal), but rifles are no use to an army of mirelurks, so the haul
+#   is melted down into harness and shell-plate for the brood: one mirelurk (the archetype
+#   amphibious_beast_equipment, our best unlocked breed) for every five pieces taken, about their
+#   worth in IC. The five is a literal in each focus and in its tooltip - change both.
 # - Black Water Rising's +3 energy in the capital (a flat resource that MLT's creature army never burns) is gone, with
 #   nothing in its place: its 180-day idea, mltd_tex_black_water (common/ideas/mltd_ideas.txt), already pays in modifiers
 #   that scale (+5 % factory output, +5 % construction speed), and its theft now pays hundreds of mirelurks where it paid
-#   800 rifles. (Round 28c's build first added a -10 % creature build cost to the idea; the review dropped it, because it
-#   stacked with Feed the Spawning Pools and mltd.51 b's Emptied Pens, both running then, into a third copy of the same cut.)
-# - Round 28c (the review): Black Water Rising's old fallback, +30 political power, is now a floor, paid whenever the haul
-#   comes to fewer than 30 mirelurks (the rate is in mltd_act5_focus.txt's header), so a small store never pays less than
-#   an empty one. The Drowned God Sleeps has no fallback: its +100 caps and 20 army experience come either way.
+#   800 rifles. (Round 28c's build first added a -10 % creature build cost to the idea; the review
+#   dropped it, because it stacked with Feed the Spawning Pools and mltd.51 b's Emptied Pens, both
+#   running then, into a third copy of the same cut.)
+# - Round 28c (the review): Black Water Rising's old fallback, +30 political power, is now a floor,
+#   paid whenever the haul comes to fewer than 30 mirelurks (the rate is in mltd_act5_focus.txt's
+#   header), so a small store never pays less than an empty one. The Drowned God Sleeps has no
+#   fallback: its +100 caps and 20 army experience come either way.
 # - Every effect that hangs on a condition that can still change while the focus runs (the Speaker's rule, the Aztlan navy,
 #   Tlaloc's draining memory) is previewed as a condition, with its native lines (effect_tooltip), and applied in
-#   hidden_effect, so the tooltip is true whichever way it falls; a condition that can no longer change shows as it is.
+#   hidden_effect, so the tooltip is true whichever way it falls; a condition that can no longer
+#   change shows as it is.
 #
 # Reading the long rewards: where a completion_reward renders more than about six lines, the house spacer
 # (custom_effect_tooltip = mltd_newline_tt, loc " \n", as in the rituals and R'lyeh Rises) breaks it into blocks in the tree's
-# usual order - what M'lyeh gains, what the target loses, the intelligence, the declaration - so the preview reads as two to
-# four short paragraphs instead of one wall. The spacers are presentation only: no number, gate, effect or order changed, and
-# each sits inside the branch it belongs to, never as a branch's last line. All Waters Are One, Black Water Rising, The
-# Feathered Tide, The Iron God Dreams and The Drowned God Sleeps carry them; the chapter, The Serpent Drowns and the close are
-# short enough to read as they stand.
+# usual order - what M'lyeh gains, what the target loses, the intelligence, the declaration - so the
+# preview reads as two to four short paragraphs instead of one wall. The spacers are presentation
+# only: no number, gate, effect or order changed, and each sits inside the branch it belongs to,
+# never as a branch's last line. All Waters Are One, Black Water Rising, The Feathered Tide, The
+# Iron God Dreams and The Drowned God Sleeps carry them; the chapter, The Serpent Drowns and the
+# close are short enough to read as they stand.
 #
 # 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
 # war-support losses of little consequence; and too much text): each of the three wars declares, then - against a target that
 # is not MLT's subject - grants its 180-day idea with +10 % attack and defence against its targets (mltd_tex_black_water,
-# mltd_ate_the_serpent_hunted, mltd_tla_dreams_of_wire) and the shared 60-day mltd_the_first_wave (+10 % division recovery
-# rate, +5 % breakthrough), and takes its theft, one line with no floor. Gone: the targets' stability and war-support losses,
-# Black Water's 30 and The Serpent Drowns' 40 army experience, the Frogs' navy experience, The Drowned God Sleeps' 20 army
-# experience and 100 caps. The drain on Tlaloc's databanks and the stolen tech stay. The Feathered Tide lost the Speaker's dream.
+# mltd_ate_the_serpent_hunted, mltd_tla_dreams_of_wire) and the shared 60-day mltd_the_first_wave
+# (+10 % division recovery rate, +5 % breakthrough), and takes its theft, one line with no floor.
+# Gone: the targets' stability and war-support losses, Black Water's 30 and The Serpent Drowns' 40
+# army experience, the Frogs' navy experience, The Drowned God Sleeps' 20 army experience and 100
+# caps. The drain on Tlaloc's databanks and the stolen tech stay. The Feathered Tide lost the
+# Speaker's dream.
 
 ############ the chapter ############
 
@@ -108,7 +121,8 @@ shared_focus = {
 
 ############ Texas ############
 
-# Texas: the Order's pilgrims and clerks work their way into the Texan counting-houses (Silent Partner merged in)
+# Texas: the Order's pilgrims and clerks work their way into the Texan counting-houses (Silent
+# Partner merged in)
 shared_focus = {
 	id = mltd_tex_all_waters_are_one
 	icon = GFX_goal_LNS_texan_dollar	# round 28c: a normal-height icon (see the header) - a spoils focus sits directly above
@@ -118,7 +132,8 @@ shared_focus = {
 	relative_position_id = mltd_the_southern_deep
 	cost = 30
 	ai_will_do = { factor = 3 }
-	# 2026-09-23: bypassed once TBH and LNS are all gone - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once TBH and LNS are all gone - with its nation gone it paid only its
+	# fallback
 	bypass = {
 		NOT = { country_exists = TBH }
 		NOT = { country_exists = LNS }
@@ -134,7 +149,8 @@ shared_focus = {
 					country_exists = LNS
 				}
 			}
-			# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh)
+			# round 17: the cults of M'lyeh in this branch's countries wither half as fast
+			# (mltd_cult_refresh)
 			custom_effect_tooltip = mltd_tex_cult_sheltered_tt
 			hidden_effect = {
 				if = {
@@ -146,8 +162,8 @@ shared_focus = {
 					LNS = { set_country_flag = mltd_cult_sheltered }
 				}
 			}
-			# All Waters' intel and The Silent Partner's, one grant per tag: civilian 15 (Silent Partner's), army 10
-			# (All Waters'), and The Silent Partner's army token
+			# All Waters' intel and The Silent Partner's, one grant per tag: civilian 15 (Silent
+			# Partner's), army 10 (All Waters'), and The Silent Partner's army token
 			if = {
 				limit = { has_dlc = "La Resistance" }
 				if = {
@@ -222,14 +238,17 @@ shared_focus = {
 				date > 2280.1.1
 			}
 		}
-		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
-		# war. Round 27: its stage term (mltd_ai_legion_beaten) is gone, as on Act V's wars - the chapter already needs Act V's
-		# close, which asks the same thing, so the term only waited on an earlier act (spec rule 7). Since the round-27 review
-		# the hold sits here, hidden and AI-only, because an AI takes any listed focus that is available whatever its
-		# ai_will_do reads; it also waits while MLT is losing a war (mltd_ai_triggers.txt, section W)
+		# round 22: the focus is the declaration, so an AI takes it only when the army is ready -
+		# only while it would start a war. Round 27: its stage term (mltd_ai_legion_beaten) is gone,
+		# as on Act V's wars - the chapter already needs Act V's close, which asks the same thing,
+		# so the term only waited on an earlier act (spec rule 7). Since the round-27 review the
+		# hold sits here, hidden and AI-only, because an AI takes any listed focus that is available
+		# whatever its ai_will_do reads; it also waits while MLT is losing a war
+		# (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_texas_war = yes
 	}
-	# 2026-09-23: bypassed once TBH and LNS are all gone - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once TBH and LNS are all gone - with its nation gone it paid only its
+	# fallback
 	bypass = {
 		NOT = { country_exists = TBH }
 		NOT = { country_exists = LNS }
@@ -259,14 +278,17 @@ shared_focus = {
 				target = LNS
 			}
 		}
-		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
-		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
-		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and the theft, one line; with the
-		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
-		# (each Texan tag's -6 % stability and -3 % war support, the robbed tag's -2 % war support and the 30 army experience,
-		# round 28b-2026-09-23). Wreckers on the Trinity (merged): a quarter of each Texan tag's rifles, each store of at
-		# least 100, summed and paid as one mirelurk for every five; the quarter and the five are literals here and in
-		# mltd_tex_wreckers_theft_tt. Its political-power floor went with the rest. The intelligence stays, native
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an
+		# immediate buff, not stability and war-support losses of little consequence; and less
+		# text): the war, then - against a target that is not MLT's subject - the 180-day idea with
+		# +10 % attack and defence against it, The First Wave (60 days) and the theft, one line;
+		# with the target MLT's subject, +50 political power. The side branches keyed to the
+		# target's own story went with the losses (each Texan tag's -6 % stability and -3 % war
+		# support, the robbed tag's -2 % war support and the 30 army experience, round
+		# 28b-2026-09-23). Wreckers on the Trinity (merged): a quarter of each Texan tag's rifles,
+		# each store of at least 100, summed and paid as one mirelurk for every five; the quarter
+		# and the five are literals here and in mltd_tex_wreckers_theft_tt. Its political-power
+		# floor went with the rest. The intelligence stays, native
 		if = {
 			limit = {
 				OR = {
@@ -372,7 +394,8 @@ shared_focus = {
 
 ############ Nueva Aztlan ############
 
-# Nueva Aztlan (ATE, new in round 27): the oracles reach into the blind Speaker's dreams; the Order walks in by the harbour
+# Nueva Aztlan (ATE, new in round 27): the oracles reach into the blind Speaker's dreams; the Order
+# walks in by the harbour
 shared_focus = {
 	id = mltd_ate_the_feathered_tide
 	icon = GFX_goal_ATE_empress
@@ -395,7 +418,8 @@ shared_focus = {
 				country_exists = ATE
 				ATE = { NOT = { is_subject_of = ROOT } }
 			}
-			# the cults of M'lyeh in Nueva Aztlan wither half as fast (mltd_cult_refresh), as in every other act's spying head
+			# the cults of M'lyeh in Nueva Aztlan wither half as fast (mltd_cult_refresh), as in
+			# every other act's spying head
 			custom_effect_tooltip = mltd_ate_cult_sheltered_tt
 			hidden_effect = {
 				ATE = { set_country_flag = mltd_cult_sheltered }
@@ -429,13 +453,15 @@ shared_focus = {
 	will_lead_to_war_with = ATE
 	ai_will_do = { factor = 3 }
 	available = {
-		# the focus is the declaration, so an AI takes it only when its stage has come and the army is ready, only against a
-		# safe target, as mltd_ai_conquer_ate demands (common/ai_strategy/mltd_MLT.txt; round 21: no war on a stronger country
-		# or one with a strong ally), because the focus's own declaration skips that check, and never while a Texan war the
-		# close waits on still runs (a capitulated Texan tag counts as beaten, as in mltd_texas_beaten). A war on ATE already
-		# running, or ATE gone or our subject, leaves only the payout: no hold. It also waits while MLT is losing a war. The
-		# hold sits here, hidden and AI-only, because an AI takes any listed focus that is available whatever its ai_will_do
-		# reads (mltd_ai_triggers.txt, section W)
+		# the focus is the declaration, so an AI takes it only when its stage has come and the army
+		# is ready, only against a safe target, as mltd_ai_conquer_ate demands
+		# (common/ai_strategy/mltd_MLT.txt; round 21: no war on a stronger country or one with a
+		# strong ally), because the focus's own declaration skips that check, and never while a
+		# Texan war the close waits on still runs (a capitulated Texan tag counts as beaten, as in
+		# mltd_texas_beaten). A war on ATE already running, or ATE gone or our subject, leaves only
+		# the payout: no hold. It also waits while MLT is losing a war. The hold sits here, hidden
+		# and AI-only, because an AI takes any listed focus that is available whatever its
+		# ai_will_do reads (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_ate_war = yes
 	}
 	# 2026-09-23: bypassed once ATE is gone - with its nation gone it paid only its fallback
@@ -456,12 +482,13 @@ shared_focus = {
 				target = ATE
 			}
 		}
-		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
-		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
-		# the 180-day idea with +10 % attack and defence against it and The First Wave (60 days); with the target MLT's subject,
-		# +50 political power. The side branches keyed to the target's own story went with the losses
-		# (Nuevo Aztlan's -6 % stability and -3 % war support, the Frogs' navy experience and the 40 army experience, round
-		# 28b-2026-09-23)
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an
+		# immediate buff, not stability and war-support losses of little consequence; and less
+		# text): the war, then - against a target that is not MLT's subject - the 180-day idea with
+		# +10 % attack and defence against it and The First Wave (60 days); with the target MLT's
+		# subject, +50 political power. The side branches keyed to the target's own story went with
+		# the losses (Nuevo Aztlan's -6 % stability and -3 % war support, the Frogs' navy experience
+		# and the 40 army experience, round 28b-2026-09-23)
 		if = {
 			limit = {
 				country_exists = ATE
@@ -482,7 +509,8 @@ shared_focus = {
 
 ############ Tlaloc and his successors ############
 
-# Tlaloc: the cult listens to Mexico's dying machine god and whispers to his three voices (Three Voices merged in)
+# Tlaloc: the cult listens to Mexico's dying machine god and whispers to his three voices (Three
+# Voices merged in)
 shared_focus = {
 	id = mltd_tla_the_iron_god_dreams
 	icon = GFX_goal_generic_tlaloc_aztec
@@ -492,7 +520,8 @@ shared_focus = {
 	relative_position_id = mltd_the_southern_deep
 	cost = 30
 	ai_will_do = { factor = 3 }
-	# 2026-09-23: bypassed once TLA, MAX, MOC, ZAP and ARM are all gone - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once TLA, MAX, MOC, ZAP and ARM are all gone - with its nation gone it
+	# paid only its fallback
 	bypass = {
 		NOT = { country_exists = TLA }
 		NOT = { country_exists = MAX }
@@ -504,8 +533,9 @@ shared_focus = {
 	continue_if_invalid = yes
 	completion_reward = {
 		mltd_intel_foothold = yes
-		# round 17: the cults of M'lyeh in this branch's countries wither half as fast (mltd_cult_refresh). Round 28c: the
-		# line shows only while one of the five still stands, as every other spying head's does
+		# round 17: the cults of M'lyeh in this branch's countries wither half as fast
+		# (mltd_cult_refresh). Round 28c: the line shows only while one of the five still stands, as
+		# every other spying head's does
 		if = {
 			limit = {
 				OR = {
@@ -592,9 +622,9 @@ shared_focus = {
 			}
 		}
 		custom_effect_tooltip = mltd_newline_tt
-		# The Iron God's intel on every living tag and The Three Voices' on the voices' own tags, one grant per tag: a
-		# voice gets civilian 15 (Three Voices') and The Three Voices' army token, every other tag The Iron God's 10 / 10
-		# (army only on ARM)
+		# The Iron God's intel on every living tag and The Three Voices' on the voices' own tags,
+		# one grant per tag: a voice gets civilian 15 (Three Voices') and The Three Voices' army
+		# token, every other tag The Iron God's 10 / 10 (army only on ARM)
 		if = {
 			limit = { has_dlc = "La Resistance" }
 			if = {
@@ -692,15 +722,18 @@ shared_focus = {
 	will_lead_to_war_with = ZAP
 	ai_will_do = { factor = 3 }
 	available = {
-		# round 22: the focus is the declaration, so an AI takes it only when the army is ready - only while it would start a
-		# war. Round 27: its stage term (mltd_ai_legion_beaten) is gone, as on Act V's wars - the chapter already needs Act V's
-		# close, which asks the same thing, so the term only waited on an earlier act (spec rule 7). Since the round-27 review
-		# the hold sits here, hidden and AI-only, because an AI takes any listed focus that is available whatever its
-		# ai_will_do reads; it also waits while MLT is losing a war and until every target it would declare on is a safe
-		# target, as the conquest blocks demand - the close opens through Black Water Rising (mltd_ai_triggers.txt, section W)
+		# round 22: the focus is the declaration, so an AI takes it only when the army is ready -
+		# only while it would start a war. Round 27: its stage term (mltd_ai_legion_beaten) is gone,
+		# as on Act V's wars - the chapter already needs Act V's close, which asks the same thing,
+		# so the term only waited on an earlier act (spec rule 7). Since the round-27 review the
+		# hold sits here, hidden and AI-only, because an AI takes any listed focus that is available
+		# whatever its ai_will_do reads; it also waits while MLT is losing a war and until every
+		# target it would declare on is a safe target, as the conquest blocks demand - the close
+		# opens through Black Water Rising (mltd_ai_triggers.txt, section W)
 		mltd_ai_may_start_tla_war = yes
 	}
-	# 2026-09-23: bypassed once TLA, MAX, MOC and ZAP are all gone - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once TLA, MAX, MOC and ZAP are all gone - with its nation gone it paid
+	# only its fallback
 	bypass = {
 		NOT = { country_exists = TLA }
 		NOT = { country_exists = MAX }
@@ -754,15 +787,19 @@ shared_focus = {
 				target = ZAP
 			}
 		}
-		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an immediate buff, not stability and
-		# war-support losses of little consequence; and less text): the war, then - against a target that is not MLT's subject -
-		# the 180-day idea with +10 % attack and defence against it, The First Wave (60 days) and the theft, one line; with the
-		# target MLT's subject, +50 political power. The side branches keyed to the target's own story went with the losses
-		# (Tlaloc's -6 % stability when his memory no longer drains, his heirs' -4 % each, the 20 army experience and the 100
-		# caps, round 28b-2026-09-23). Picking the Iron Bones (merged): a quarter of Tlaloc's rifles, or once he is gone of each
-		# heir's, and a quarter of ARM's support equipment, each store of at least 100, paid as one mirelurk for every five; the
-		# quarter and the five are literals here and in mltd_tla_iron_bones_theft_tt. The drain on his databanks stays: its
-		# own line, because it holds only while his memory still drains (OWB's on_daily_TLA guards, tlaloc_on_actions.txt:276-281)
+		# 2026-09-24 (the user: war focuses should bring bonuses against the country and an
+		# immediate buff, not stability and war-support losses of little consequence; and less
+		# text): the war, then - against a target that is not MLT's subject - the 180-day idea with
+		# +10 % attack and defence against it, The First Wave (60 days) and the theft, one line;
+		# with the target MLT's subject, +50 political power. The side branches keyed to the
+		# target's own story went with the losses (Tlaloc's -6 % stability when his memory no longer
+		# drains, his heirs' -4 % each, the 20 army experience and the 100 caps, round
+		# 28b-2026-09-23). Picking the Iron Bones (merged): a quarter of Tlaloc's rifles, or once he
+		# is gone of each heir's, and a quarter of ARM's support equipment, each store of at least
+		# 100, paid as one mirelurk for every five; the quarter and the five are literals here and
+		# in mltd_tla_iron_bones_theft_tt. The drain on his databanks stays: its own line, because
+		# it holds only while his memory still drains (OWB's on_daily_TLA guards,
+		# tlaloc_on_actions.txt:276-281)
 		if = {
 			limit = {
 				OR = {
@@ -1004,11 +1041,12 @@ shared_focus = {
 
 ############ the close ############
 
-# after any one of the three wars, once Texas - the last southern power with an army in the field - is beaten. Round 28b:
-# (0,3) of the chapter, row 39. Round 28c gave it (0,4) because its icon then (GFX_goal_MIN_fallen_kingdom, 164x146) was
-# half again as tall as a focus icon and grew upward, so row 39 had to stay empty. The icon is now OWB's own Texan one -
-# a claw closing on the map of Texas, a normal 100x88 - so the spine closes up again and R'lyeh Rises sits directly
-# under it, at (0,1) of it
+# after any one of the three wars, once Texas - the last southern power with an army in the field -
+# is beaten. Round 28b: (0,3) of the chapter, row 39. Round 28c gave it (0,4) because its icon then
+# (GFX_goal_MIN_fallen_kingdom, 164x146) was half again as tall as a focus icon and grew upward, so
+# row 39 had to stay empty. The icon is now OWB's own Texan one - a claw closing on the map of
+# Texas, a normal 100x88 - so the spine closes up again and R'lyeh Rises sits directly under it, at
+# (0,1) of it
 shared_focus = {
 	id = mltd_the_last_king_kneels
 	icon = GFX_goal_TBH_The_Last_Piece
@@ -1031,8 +1069,8 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	completion_reward = {
-		# round-28c balance review: the research slot moved to Act III's close, The Tide Turns South, so that the NCR's war
-		# is fought on four slots. This close still leaves MLT on five
+		# round-28c balance review: the research slot moved to Act III's close, The Tide Turns
+		# South, so that the NCR's war is fought on four slots. This close still leaves MLT on five
 		add_ideas = mltd_the_drowned_south
 		country_event = { id = mltd.61 days = 1 }
 		hidden_effect = {

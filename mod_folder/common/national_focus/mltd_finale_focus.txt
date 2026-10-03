@@ -1,23 +1,28 @@
 # Rising Tide (MLT) - the finale, "R'lyeh Rises" (round 27).
-# (2026-09-24: The Deep Ones Walk and The Final Ritual moved below Act III, and Act III's close with them to (15,28), so every
-# row this header names is one lower in the tree today; every cell here is relative and followed.)
+# (2026-09-24: The Deep Ones Walk and The Final Ritual moved below Act III, and Act III's close with
+# them to (15,28), so every row this header names is one lower in the tree today; every cell here is
+# relative and followed.)
 # Shared focuses, pulled into mlt_nf through shared prerequisites alone: mltd_rlyeh_rises hangs off Act VI's close,
-# mltd_the_last_king_kneels (mltd_act6_focus.txt), which chains back through Acts VI-III to the listed Act III roots;
-# the three endings hang off mltd_rlyeh_rises. Nothing here is listed in the override and nothing names a national
-# focus, so every position is relative to a shared focus.
+# mltd_the_last_king_kneels (mltd_act6_focus.txt), which chains back through Acts VI-III to the
+# listed Act III roots; the three endings hang off mltd_rlyeh_rises. Nothing here is listed in the
+# override and nothing names a national focus, so every position is relative to a shared focus.
 # Layout (absolute cells, the spine is x = 15): R'lyeh Rises (15,41) at (0,1) of The Last King Kneels (15,40); the
 # south's two spoils (mltd_spoils_focus.txt) flank it at (-2,0) and (2,0); the endings on row 42 at x 13 / 15 / 17 -
 # The Dreamer Wakes (-2,1), The Priestess Reigns (0,1), Return to the Sea (2,1).
-# Round 28c: The Last King Kneels' tall icon (164x146) grows upward, so it needs the empty row above it (row 39), not one
-# below: R'lyeh Rises is back at (0,1) of it (round 28b had moved it to (0,2)). The Dreamer Wakes now sits directly under a
-# spoils focus (13,41), so its icon is OWB's GFX_goal_MDT_gorgon_eye (100x88, a lidless eye in a crown of tentacles) in
-# place of GFX_goal_CHC_madness (152x139), whose top would reach into that focus.
-# Nothing is merged into the finale: its four focuses, events mltd.70-74 and the three ending ideas are all new (round 27).
-# The endings are mutually exclusive, each naming both others, so exactly one can be taken; they close the story.
+# Round 28c: The Last King Kneels' tall icon (164x146) grows upward, so it needs the empty row above
+# it (row 39), not one below: R'lyeh Rises is back at (0,1) of it (round 28b had moved it to (0,2)).
+# The Dreamer Wakes now sits directly under a spoils focus (13,41), so its icon is OWB's
+# GFX_goal_MDT_gorgon_eye (100x88, a lidless eye in a crown of tentacles) in place of
+# GFX_goal_CHC_madness (152x139), whose top would reach into that focus.
+# Nothing is merged into the finale: its four focuses, events mltd.70-74 and the three ending ideas
+# are all new (round 27).
+# The endings are mutually exclusive, each naming both others, so exactly one can be taken; they
+# close the story.
 
 ############ R'lyeh Rises ############
 
-# The drowned city beneath M'lyeh breaks the surface. Gated on the size of the drowned world, not on a war.
+# The drowned city beneath M'lyeh breaks the surface. Gated on the size of the drowned world, not on
+# a war.
 shared_focus = {
 	id = mltd_rlyeh_rises
 	icon = GFX_goal_mlt_mlyeh
@@ -96,13 +101,15 @@ shared_focus = {
 	}
 }
 
-# The deep: M'lulu leads the tribe down into the risen city's pools, and the spawning never stops. Two Leviathans
-# surface at Mireport through mltd_spawn_leviathan, which needs Mireport (mltd_leviathan_can_surface): the first call
-# brings the pride of the fleet if none has surfaced yet (flag mltd_leviathan_raised), the second an ordinary one.
-# Mireport is tested when the preview is drawn and again at completion; both tooltips say so, so the preview is true
-# whether Mireport is lost or retaken while the focus runs. Round 28c: the ending's idea, mltd_the_return_to_the_sea
-# (mltd_ideas.txt), trades its +10 % recruitable population - which MLT does not lack by the ending - for a -15 % build
-# cost on every creature, beside its +20 % monthly population growth.
+# The deep: M'lulu leads the tribe down into the risen city's pools, and the spawning never stops.
+# Two Leviathans surface at Mireport through mltd_spawn_leviathan, which needs Mireport
+# (mltd_leviathan_can_surface): the first call brings the pride of the fleet if none has surfaced
+# yet (flag mltd_leviathan_raised), the second an ordinary one.
+# Mireport is tested when the preview is drawn and again at completion; both tooltips say so, so the
+# preview is true whether Mireport is lost or retaken while the focus runs. Round 28c: the ending's
+# idea, mltd_the_return_to_the_sea (mltd_ideas.txt), trades its +10 % recruitable population - which
+# MLT does not lack by the ending - for a -15 % build cost on every creature, beside its +20 %
+# monthly population growth.
 shared_focus = {
 	id = mltd_ending_return_to_the_sea
 	icon = GFX_goal_TIM_patch_oceanography

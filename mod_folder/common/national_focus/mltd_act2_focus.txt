@@ -6,19 +6,22 @@
 # / Drown the Dance), so every northern nation is one column: spy, rob or court, then invite or fight. There is no close
 # focus and no event of its own. The Deep Ones Walk and then The Final Ritual (national, in the override "Mirelurk Tribe
 # (MLT) Focus.txt") follow Act III: the Walk has one OR prerequisite over its six focuses (the user, 2026-09-24: the tribe
-# stood still between the Kingdom and the ritual while its neighbours grew, the wars that need no justification sat behind
-# the ritual, and the Walk belongs just before it). From round 27 to 2026-09-23 the heads hung off the Walk, the ritual
-# reconverged on the three beads here and Act III hung off the ritual.
+# stood still between the Kingdom and the ritual while its neighbours grew, the wars that need no
+# justification sat behind the ritual, and the Walk belongs just before it). From round 27 to
+# 2026-09-23 the heads hung off the Walk, the ritual reconverged on the three beads here and Act III
+# hung off the ritual.
 #
 # Pull-in: the three heads are listed in the override (`shared_focus = <id>`) and name the national focus
 # mltd_the_grand_ritual as their prerequisite (The Deep Ones Walk until 2026-09-24); each bead reaches its head, and each Act
-# III focus its bead, through a shared prerequisite, so the engine pulls them in. Heads take absolute cells (11,21) (15,21)
-# (19,21) - four columns apart since 2026-09-24 (13 / 15 / 17 on row 22 before), so that each nation's Act III pair sits one
-# column either side of its bead; each bead sits (0,1) below its head, relative to it.
+# III focus its bead, through a shared prerequisite, so the engine pulls them in. Heads take
+# absolute cells (11,21) (15,21) (19,21) - four columns apart since 2026-09-24 (13 / 15 / 17 on row
+# 22 before), so that each nation's Act III pair sits one column either side of its bead; each bead
+# sits (0,1) below its head, relative to it.
 #
-# Never stranded: no story focus here has an intelligence gate, and every one is takeable when its target is gone (or is
-# our subject) - the reward falls back to political power. The one standing condition (The Deep Ones Sail North: no war
-# with the Broken Coast while it exists) blocks a single branch, and the other two stay open.
+# Never stranded: no story focus here has an intelligence gate, and every one is takeable when its
+# target is gone (or is our subject) - the reward falls back to political power. The one standing
+# condition (The Deep Ones Sail North: no war with the Broken Coast while it exists) blocks a single
+# branch, and the other two stay open.
 #
 # Merged into the kept focuses (their ids are gone):
 #   Heresy in the Citadel               -> mltd_wbh_the_drowned_knights (each Brotherhood -40 PP, -6 % stability;
@@ -30,28 +33,33 @@
 #                                          when it holds more than 1,200, else +25 PP; 30 army experience)
 # Costs: a merged bead keeps its own length plus about 40-50 % of the focus it absorbed, in whole weeks (Knights 42 + 14
 # = 56, Salt 35 + 14 = 49, Sail North 42 + 21 = 63, Dancers 35 + 21 = 56), so a branch pays what its old sub-tree did
-# in 70-80 % of the days (Washington 91 of 112, the Broken Coast 112 of 161, the Bone Dancers 91 of 112) rather than in
-# half of them. Eyes and Bone Shore absorbed nothing and keep 35. 2026-09-25 (the user: every focus 7, 30, 60, 120 or 180
-# days): the four merged focuses take 60, Eyes in the Sound and The Bone Shore 30.
+# in 70-80 % of the days (Washington 91 of 112, the Broken Coast 112 of 161, the Bone Dancers 91
+# of 112) rather than in half of them. Eyes and Bone Shore absorbed nothing and keep 35. 2026-09-25
+# (the user: every focus 7, 30, 60, 120 or 180 days): the four merged focuses take 60, Eyes in the
+# Sound and The Bone Shore 30.
 #
-# Round 28b (the user's play-test: every effect must show before the focus is taken). The Drowned Knights' heresy is written
-# per Brotherhood (WBH, then TCA) instead of an every_country, so the preview names the country; its two thefts and The
-# Dancers Hear the Tide's are custom tooltips that state their conditions (mltd_wbh_knights_theft_tt,
-# mltd_bdt_bone_road_theft_tt) over hidden effects, because whether the victim holds the stock is known only at completion
-# and a preview read while it did not showed nothing. The amounts are unchanged: this act is taken in 2278-80 (the plan's
-# snapshots: 22-36 military factories, 55-72 divisions still armed with infantry equipment), and 600 infantry equipment
-# taken from a neighbour's stock - a division's worth, and the victim's loss too - is still in scale there.
+# Round 28b (the user's play-test: every effect must show before the focus is taken). The Drowned
+# Knights' heresy is written per Brotherhood (WBH, then TCA) instead of an every_country, so the
+# preview names the country; its two thefts and The Dancers Hear the Tide's are custom tooltips that
+# state their conditions (mltd_wbh_knights_theft_tt, mltd_bdt_bone_road_theft_tt) over hidden
+# effects, because whether the victim holds the stock is known only at completion and a preview read
+# while it did not showed nothing. The amounts are unchanged: this act is taken in 2278-80 (the
+# plan's snapshots: 22-36 military factories, 55-72 divisions still armed with infantry equipment),
+# and 600 infantry equipment taken from a neighbour's stock - a division's worth, and the victim's
+# loss too - is still in scale there.
 #
-# Round 28c review: the two beads never rob or spy on an ally. An accepted Terms for the Citadel or Hail the Drowned King
-# (Act III) brings the Brotherhood or the Bone Dancers into MLT's faction, and a bead can still be taken after it (an AI takes
-# The Drowned Knights as a filler in the late plan, after Terms). So The Drowned Knights' heresy, intel, army token and thefts
-# and The Dancers Hear the Tide's intel, army token and theft skip a nation in MLT's faction or its subject, as The Tide-Wall
-# does, and the political power pays instead; the two theft tooltips say so.
+# Round 28c review: the two beads never rob or spy on an ally. An accepted Terms for the Citadel or
+# Hail the Drowned King (Act III) brings the Brotherhood or the Bone Dancers into MLT's faction, and
+# a bead can still be taken after it (an AI takes The Drowned Knights as a filler in the late plan,
+# after Terms). So The Drowned Knights' heresy, intel, army token and thefts and The Dancers Hear
+# the Tide's intel, army token and theft skip a nation in MLT's faction or its subject, as The
+# Tide-Wall does, and the political power pays instead; the two theft tooltips say so.
 
 ############ the Brotherhood in Washington ############
 
-# The Brotherhood that holds Washington - WBH, or TCA once it has formed the Northwestern Brotherhood (mltd_wbh_brotherhood,
-# which both answer while their own war runs). Act III ends this thread with Terms for the Citadel or The Tide-Wall.
+# The Brotherhood that holds Washington - WBH, or TCA once it has formed the Northwestern
+# Brotherhood (mltd_wbh_brotherhood, which both answer while their own war runs). Act III ends this
+# thread with Terms for the Citadel or The Tide-Wall.
 shared_focus = {
 	id = mltd_wbh_eyes_in_the_sound
 	icon = GFX_goal_generic_esp_cam
@@ -61,7 +69,8 @@ shared_focus = {
 	y = 21
 	cost = 30
 	ai_will_do = { factor = 3 }
-	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only
+	# its fallback
 	bypass = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_wbh_no_brotherhood_tt
@@ -72,7 +81,8 @@ shared_focus = {
 	continue_if_invalid = yes
 	completion_reward = {
 		mltd_intel_foothold = yes
-		# round 17: the cults of M'lyeh in the Brotherhood's lands wither half as fast (mltd_cult_refresh)
+		# round 17: the cults of M'lyeh in the Brotherhood's lands wither half as fast
+		# (mltd_cult_refresh)
 		if = {
 			limit = { any_country = { mltd_wbh_brotherhood = yes } }
 			custom_effect_tooltip = mltd_wbh_cult_sheltered_tt
@@ -83,7 +93,8 @@ shared_focus = {
 				}
 			}
 		}
-		# round 27: takeable with no Brotherhood left in Washington - the intel then becomes political power
+		# round 27: takeable with no Brotherhood left in Washington - the intel then becomes
+		# political power
 		if = {
 			limit = {
 				has_dlc = "La Resistance"
@@ -110,7 +121,8 @@ shared_focus = {
 	}
 }
 
-# The Drowned Knights, with Heresy in the Citadel merged in (round 27): the heresy among the citadel's slaves, then the theft.
+# The Drowned Knights, with Heresy in the Citadel merged in (round 27): the heresy among the
+# citadel's slaves, then the theft.
 shared_focus = {
 	id = mltd_wbh_the_drowned_knights
 	icon = GFX_goal_WBH_black_paladins_2
@@ -120,7 +132,8 @@ shared_focus = {
 	relative_position_id = mltd_wbh_eyes_in_the_sound
 	cost = 60
 	ai_will_do = { factor = 3 }
-	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only its fallback
+	# 2026-09-23: bypassed once no Brotherhood holds Washington - with its nation gone it paid only
+	# its fallback
 	bypass = {
 		custom_trigger_tooltip = {
 			tooltip = mltd_wbh_no_brotherhood_tt
@@ -131,13 +144,16 @@ shared_focus = {
 	continue_if_invalid = yes
 	completion_reward = {
 		# Round 28c: three blocks, parted by the house spacer mltd_newline_tt - the heresy the Brotherhood suffers, what the
-		# Order learns of it, and what the knights carry off. Each spacer is the first line inside the branch it introduces,
-		# so a branch that does not fire prints no blank line and none is ever left trailing (with no Brotherhood to strike,
-		# the reward is the bare +25 political power and the army experience).
-		# from Heresy in the Citadel: the Inquisitors burn their own. Round 28b: one block per tag instead of an every_country,
-		# so the preview names the Brotherhood rather than "every country". Round 28c review: never a Brotherhood in our
-		# faction (an accepted Terms for the Citadel) or our subject - no heresy, no intel or army token on it and no theft
-		# (as The Tide-Wall spares one); with only such a Brotherhood left the +25 political power pays, as with none
+		# Order learns of it, and what the knights carry off. Each spacer is the first line inside
+		# the branch it introduces, so a branch that does not fire prints no blank line and none is
+		# ever left trailing (with no Brotherhood to strike, the reward is the bare +25 political
+		# power and the army experience).
+		# from Heresy in the Citadel: the Inquisitors burn their own. Round 28b: one block per tag
+		# instead of an every_country, so the preview names the Brotherhood rather than "every
+		# country". Round 28c review: never a Brotherhood in our faction (an accepted Terms for the
+		# Citadel) or our subject - no heresy, no intel or army token on it and no theft (as The
+		# Tide-Wall spares one); with only such a Brotherhood left the +25 political power pays, as
+		# with none
 		if = {
 			limit = {
 				WBH = {
@@ -320,9 +336,10 @@ shared_focus = {
 
 ############ the Broken Coast ############
 
-# The Broken Coast (BRK) is courted first (round 21) and fought only by choice (round 28c): envoys end the world's scorn
-# between us, the cult grows among the crews, and MLT may send more volunteers into the raiders' wars. Act III ends this
-# thread with the Drowned Covenant or its war twin, The Coast Goes Under.
+# The Broken Coast (BRK) is courted first (round 21) and fought only by choice (round 28c): envoys
+# end the world's scorn between us, the cult grows among the crews, and MLT may send more volunteers
+# into the raiders' wars. Act III ends this thread with the Drowned Covenant or its war twin, The
+# Coast Goes Under.
 # Salt on the Broken Coast, with The Drowned Raiders merged in (round 27).
 shared_focus = {
 	id = mltd_brk_salt_on_the_broken_coast
@@ -340,19 +357,21 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	completion_reward = {
-		# Round 28c: three blocks, parted by the house spacer mltd_newline_tt - the Order's foothold and the cult among the
-		# crews, what the Order learns of the raiders, and the envoys. Each spacer is the first line inside the branch it
-		# introduces, and the foothold below is unconditional, so no reward can open or end on a blank line.
+		# Round 28c: three blocks, parted by the house spacer mltd_newline_tt - the Order's foothold
+		# and the cult among the crews, what the Order learns of the raiders, and the envoys. Each
+		# spacer is the first line inside the branch it introduces, and the foothold below is
+		# unconditional, so no reward can open or end on a blank line.
 		mltd_intel_foothold = yes
 		if = {
 			limit = { country_exists = BRK }
-			# the cult of M'lyeh among the raiders withers half as fast (mltd_cult_refresh) - set first, so the cult founded
-			# below starts with the halved decay
+			# the cult of M'lyeh among the raiders withers half as fast (mltd_cult_refresh) - set
+			# first, so the cult founded below starts with the halved decay
 			custom_effect_tooltip = mltd_brk_cult_sheltered_tt
 			hidden_effect = {
 				BRK = { set_country_flag = mltd_cult_sheltered }
 			}
-			# from The Drowned Raiders: +10 to the raiders' cult, founding it if they have none (mltd_cult_add_strength)
+			# from The Drowned Raiders: +10 to the raiders' cult, founding it if they have none
+			# (mltd_cult_add_strength)
 			set_temp_variable = { mltd_cult_gain = 10 }
 			custom_effect_tooltip = mltd_brk_raiders_cult_tt
 			hidden_effect = {
@@ -367,7 +386,8 @@ shared_focus = {
 				has_dlc = "La Resistance"
 				country_exists = BRK
 			}
-			# what the Order learns, a block of its own; the else's single +50 political power line joins the block above
+			# what the Order learns, a block of its own; the else's single +50 political power line
+			# joins the block above
 			custom_effect_tooltip = mltd_newline_tt
 			add_intel = {
 				target = BRK
@@ -380,8 +400,9 @@ shared_focus = {
 			}
 		}
 		else = { add_political_power = 50 }
-		# OWB's start-of-game scorn between the Broken Coast and the world (on_startup, amfo_opinion_modifiers.txt:72-73),
-		# lifted the way OWB lifts it, and replaced by our envoys' goodwill both ways
+		# OWB's start-of-game scorn between the Broken Coast and the world (on_startup,
+		# amfo_opinion_modifiers.txt:72-73), lifted the way OWB lifts it, and replaced by our
+		# envoys' goodwill both ways
 		if = {
 			limit = { country_exists = BRK }
 			# the envoys, a block of its own
@@ -408,10 +429,11 @@ shared_focus = {
 	}
 }
 
-# The Deep Ones Sail North, with Star Spawn over the Strait merged in (round 27): +6 volunteer divisions at once. The old
-# gates on the summons (mltd_deep_ones_summon_unlocked, mltd_star_spawn_summon_unlocked) are gone - The Call of the Deep Ones
-# sets the first (event mltd.7) and The Deep Ones Walk the second (event mltd.8); the volunteers are whatever divisions MLT
-# chooses to send.
+# The Deep Ones Sail North, with Star Spawn over the Strait merged in (round 27): +6 volunteer
+# divisions at once. The old gates on the summons (mltd_deep_ones_summon_unlocked,
+# mltd_star_spawn_summon_unlocked) are gone - The Call of the Deep Ones sets the first (event
+# mltd.7) and The Deep Ones Walk the second (event mltd.8); the volunteers are whatever divisions
+# MLT chooses to send.
 shared_focus = {
 	id = mltd_brk_the_deep_ones_sail_north
 	icon = GFX_goal_BRK_masters_of_the_waves
@@ -434,9 +456,10 @@ shared_focus = {
 	cancel_if_invalid = no
 	continue_if_invalid = yes
 	completion_reward = {
-		# +3 volunteer divisions MLT may send per call (send_volunteer_size, the dynamic modifier mltd_brk_volunteers): the
-		# player sends them through the diplomacy screen's Send Volunteers, whichever divisions they choose. Both calls sit
-		# behind one tooltip, so the +6 reads as one line rather than two +3s.
+		# +3 volunteer divisions MLT may send per call (send_volunteer_size, the dynamic modifier
+		# mltd_brk_volunteers): the player sends them through the diplomacy screen's Send
+		# Volunteers, whichever divisions they choose. Both calls sit behind one tooltip, so the +6
+		# reads as one line rather than two +3s.
 		if = {
 			limit = { country_exists = BRK }
 			custom_effect_tooltip = mltd_brk_volunteer_size_6_tt
@@ -451,8 +474,9 @@ shared_focus = {
 
 ############ the Bone Dancers ############
 
-# The Bone Dancers (BDT, round 22): envoys, the Order among the dancers, and the bone road robbed. Act III chooses between
-# inviting them into the Drowned Covenant (Hail the Drowned King) and drowning the dance.
+# The Bone Dancers (BDT, round 22): envoys, the Order among the dancers, and the bone road robbed.
+# Act III chooses between inviting them into the Drowned Covenant (Hail the Drowned King) and
+# drowning the dance.
 shared_focus = {
 	id = mltd_bdt_the_bone_shore
 	icon = GFX_goal_BDT_holy_skull
@@ -503,7 +527,8 @@ shared_focus = {
 	}
 }
 
-# The Dancers Hear the Tide, with Salt on the Bone Road merged in (round 27): the cult among the dancers, then the theft.
+# The Dancers Hear the Tide, with Salt on the Bone Road merged in (round 27): the cult among the
+# dancers, then the theft.
 shared_focus = {
 	id = mltd_bdt_the_dancers_hear_the_tide
 	icon = GFX_goal_BDT_skeleton_king
@@ -530,8 +555,9 @@ shared_focus = {
 				mltd_cult_rebuild_list = yes
 			}
 		}
-		# round 28c review: no intel or army token on Bone Dancers in our faction (an accepted Hail the Drowned King) or our
-		# subject, and no theft from them below; the +25 political power pays instead, as with the Bone Dancers gone
+		# round 28c review: no intel or army token on Bone Dancers in our faction (an accepted Hail
+		# the Drowned King) or our subject, and no theft from them below; the +25 political power
+		# pays instead, as with the Bone Dancers gone
 		if = {
 			limit = {
 				has_dlc = "La Resistance"

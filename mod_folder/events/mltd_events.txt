@@ -43,7 +43,8 @@ country_event = {
 	}
 }
 
-# A Kingdom Beneath the Waves (world news; delivered by the focus via every_other_country, so MLT never receives it)
+# A Kingdom Beneath the Waves (world news; delivered by the focus via every_other_country, so MLT
+# never receives it)
 news_event = {
 	id = mltd.2
 	title = mltd.2.t
@@ -57,7 +58,8 @@ news_event = {
 	}
 }
 
-# The Grand Ritual is complete; the 100-day toll has just ended (fired by focus mltd_the_grand_ritual completion_reward)
+# The Grand Ritual is complete; the 100-day toll has just ended (fired by focus
+# mltd_the_grand_ritual completion_reward)
 country_event = {
 	id = mltd.3
 	title = mltd.3.t
@@ -73,7 +75,8 @@ country_event = {
 	}
 }
 
-# The Seas Grow Darker (world news; delivered by the focus via every_other_country, so MLT never receives it)
+# The Seas Grow Darker (world news; delivered by the focus via every_other_country, so MLT never
+# receives it)
 news_event = {
 	id = mltd.4
 	title = mltd.4.t
@@ -106,7 +109,8 @@ country_event = {
 	}
 }
 
-# The Stars Are Right (world news; delivered by the focus via every_other_country, so MLT never receives it)
+# The Stars Are Right (world news; delivered by the focus via every_other_country, so MLT never
+# receives it)
 news_event = {
 	id = mltd.6
 	title = mltd.6.t
@@ -120,7 +124,8 @@ news_event = {
 	}
 }
 
-# Call of the Deep Ones: the first Deep Ones division rises at the capital and the summon decision opens (fired by focus mltd_call_of_the_deep_ones)
+# Call of the Deep Ones: the first Deep Ones division rises at the capital and the summon decision
+# opens (fired by focus mltd_call_of_the_deep_ones)
 country_event = {
 	id = mltd.7
 	title = mltd.7.t
@@ -140,7 +145,8 @@ country_event = {
 	}
 }
 
-# The Deep Ones Walk: the Deep Ones become trainable, the first Star Spawn division rises and its summon decision opens (fired by focus mltd_the_deep_ones_walk)
+# The Deep Ones Walk: the Deep Ones become trainable, the first Star Spawn division rises and its
+# summon decision opens (fired by focus mltd_the_deep_ones_walk)
 country_event = {
 	id = mltd.8
 	title = mltd.8.t
@@ -177,7 +183,8 @@ country_event = {
 # Lovecraftian flavour events mltd.9-18. Drawn each month from the random_events pool in on_monthly_MLT
 # (common/on_actions/mltd_on_actions.txt); each is fire_only_once, gated by mltd_flavour_can_fire
 # (common/scripted_triggers/mltd_scripted_triggers.txt), and sets the shared 120-day cooldown flag
-# mltd_flavour_cooldown the moment it fires. Effects stay at or below OWB's flavour.2 (events/flavour_events.txt:52-73).
+# mltd_flavour_cooldown the moment it fires. Effects stay at or below OWB's flavour.2
+# (events/flavour_events.txt:52-73).
 
 # The Investigator (The Sinking City homage): a mainland detective takes a room at Mireport
 country_event = {
@@ -253,7 +260,8 @@ country_event = {
 	}
 }
 
-# The M'lyeh Look (allusion to The Shadow over Innsmouth): the shore children change, and the caravans notice
+# The M'lyeh Look (allusion to The Shadow over Innsmouth): the shore children change, and the
+# caravans notice
 country_event = {
 	id = mltd.11
 	title = mltd.11.t
@@ -343,7 +351,8 @@ country_event = {
 	}
 }
 
-# Pages from Point Lookout (Fallout 3's Krivbeknih; OWB lore at ORO/focus_ORO_l_english.yml:1070): the lost Blackhall transcription surfaces
+# Pages from Point Lookout (Fallout 3's Krivbeknih; OWB lore at ORO/focus_ORO_l_english.yml:1070):
+# the lost Blackhall transcription surfaces
 country_event = {
 	id = mltd.14
 	title = mltd.14.t
@@ -379,7 +388,8 @@ country_event = {
 	}
 }
 
-# The Lamp of Kingsport (The Festival; nod to Fallout 4's Kingsport Lighthouse): robed pilgrims join the winter rite
+# The Lamp of Kingsport (The Festival; nod to Fallout 4's Kingsport Lighthouse): robed pilgrims join
+# the winter rite
 country_event = {
 	id = mltd.15
 	title = mltd.15.t
@@ -408,7 +418,8 @@ country_event = {
 	}
 }
 
-# The Painter of the Deep (Pickman's Model; nod to Fallout 4's Pickman Gallery): murals painted from life
+# The Painter of the Deep (Pickman's Model; nod to Fallout 4's Pickman Gallery): murals painted from
+# life
 country_event = {
 	id = mltd.16
 	title = mltd.16.t
@@ -439,7 +450,8 @@ country_event = {
 	}
 }
 
-# Voices in the Static (allusion to The Whisperer in Darkness): a buzzing voice offers the oracles a journey
+# Voices in the Static (allusion to The Whisperer in Darkness): a buzzing voice offers the oracles a
+# journey
 country_event = {
 	id = mltd.17
 	title = mltd.17.t
@@ -467,7 +479,8 @@ country_event = {
 	}
 }
 
-# The Hamlet That Would Not Hunt (Bloodborne's Fishing Hamlet homage): finned shore-folk beg to be taken in
+# The Hamlet That Would Not Hunt (Bloodborne's Fishing Hamlet homage): finned shore-folk beg to be
+# taken in
 country_event = {
 	id = mltd.18
 	title = mltd.18.t
@@ -501,11 +514,12 @@ country_event = {
 	}
 }
 
-# Hail M'lyeh (a Hail Hydra homage): a trusted figure abroad turns out to have been one of the faithful all along.
-# Unlike mltd.9-18 it can recur (no fire_only_once), at most once a year (mltd_hail_cooldown); it needs La Resistance,
-# an agency and a country passing mltd_hail_candidate (a network there, no civilian token yet). The reward sits in
-# hidden_effect behind mltd_hail_token_tt; the scope switch makes PREV the target, as in OWB's Lost Hills focus
-# (Lost Hills (BOS) Focus.txt:1789-1797).
+# Hail M'lyeh (a Hail Hydra homage): a trusted figure abroad turns out to have been one of the
+# faithful all along.
+# Unlike mltd.9-18 it can recur (no fire_only_once), at most once a year (mltd_hail_cooldown); it
+# needs La Resistance, an agency and a country passing mltd_hail_candidate (a network there, no
+# civilian token yet). The reward sits in hidden_effect behind mltd_hail_token_tt; the scope switch
+# makes PREV the target, as in OWB's Lost Hills focus (Lost Hills (BOS) Focus.txt:1789-1797).
 country_event = {
 	id = mltd.19
 	title = mltd.19.t
@@ -553,9 +567,10 @@ country_event = {
 	}
 }
 
-# The General in the Shallows: the critical success of mltd_op_indoctrinate_the_faithful_* brought one of the target's
-# generals over. The operation flags the defector mltd_defector_new and stores the old country in mltd_defector_origin;
-# this event turns both into event targets for its text (the pattern of mltd.19) and clears them.
+# The General in the Shallows: the critical success of mltd_op_indoctrinate_the_faithful_* brought
+# one of the target's generals over. The operation flags the defector mltd_defector_new and stores
+# the old country in mltd_defector_origin; this event turns both into event targets for its text
+# (the pattern of mltd.19) and clears them.
 country_event = {
 	id = mltd.20
 	title = mltd.20.t
@@ -597,9 +612,10 @@ country_event = {
 	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.21" }
 	option = {
 		name = mltd.21.a
-		# Round 28: offered only when the raiders can actually join - free, at peace with MLT, and MLT free or leading its own
-		# faction without the Brotherhood in Washington in it (mltd_wbh_alliance; the focus tested all of this when it sent
-		# the offer, but a human may take days to answer). Otherwise only the refusal is left.
+		# Round 28: offered only when the raiders can actually join - free, at peace with MLT, and
+		# MLT free or leading its own faction without the Brotherhood in Washington in it
+		# (mltd_wbh_alliance; the focus tested all of this when it sent the offer, but a human may
+		# take days to answer). Otherwise only the refusal is left.
 		trigger = {
 			is_subject = no
 			is_in_faction = no
@@ -612,8 +628,9 @@ country_event = {
 				NOT = { has_country_flag = mltd_wbh_alliance }
 			}
 		}
-		# Round 28: a historical Broken Coast always swears (the refusal's weight drops to 0 below); an unhistorical one swears
-		# half the time. The weights are relative: 50 against 50, or 50 against 0. OWB's idiom, nevada_pact_events.txt:15-22.
+		# Round 28: a historical Broken Coast always swears (the refusal's weight drops to 0 below);
+		# an unhistorical one swears half the time. The weights are relative: 50 against 50, or 50
+		# against 0. OWB's idiom, nevada_pact_events.txt:15-22.
 		# The odds are also in the focus's description (GetMltdBrkOdds); change both together.
 		ai_chance = { base = 50 }
 		FROM = { mltd_brk_join_the_covenant = yes }
@@ -637,9 +654,11 @@ country_event = {
 			}
 		}
 		# Round 28: a refusal leaves MLT only a hunting licence - an annex_everything war goal on the raiders that expires after
-		# 365 days (vanilla's expire is in days: bulgaria.txt:8961-8966, with its own expiry tooltip). ROOT is BRK here.
-		# Since round 28c the Covenant and its war twin, The Coast Goes Under, exclude each other both ways, so after a refusal
-		# this war goal is the tree's one road to war with the raiders (as mltd.24's is with the Bone Dancers).
+		# 365 days (vanilla's expire is in days: bulgaria.txt:8961-8966, with its own expiry
+		# tooltip). ROOT is BRK here.
+		# Since round 28c the Covenant and its war twin, The Coast Goes Under, exclude each other
+		# both ways, so after a refusal this war goal is the tree's one road to war with the raiders
+		# (as mltd.24's is with the Bone Dancers).
 		if = {
 			limit = { NOT = { has_war_with = FROM } }
 			FROM = {
@@ -699,9 +718,10 @@ country_event = {
 	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.24" }
 	option = {
 		name = mltd.24.a
-		# Round 28c review: offered only when the Bone Dancers can actually join - free, at peace with MLT, and MLT free or
-		# leading its own faction (Hail the Drowned King tested all of this when it sent the offer, but a human may take days to
-		# answer), as mltd.21 option a. Otherwise only the refusal is left.
+		# Round 28c review: offered only when the Bone Dancers can actually join - free, at peace
+		# with MLT, and MLT free or leading its own faction (Hail the Drowned King tested all of
+		# this when it sent the offer, but a human may take days to answer), as mltd.21 option a.
+		# Otherwise only the refusal is left.
 		trigger = {
 			is_subject = no
 			is_in_faction = no
@@ -713,7 +733,8 @@ country_event = {
 				}
 			}
 		}
-		# an AI Bone Dancer always swears: the cult and the Order have done the work by the time this arrives
+		# an AI Bone Dancer always swears: the cult and the Order have done the work by the time
+		# this arrives
 		ai_chance = { base = 100 }
 		FROM = { mltd_bdt_join_the_covenant = yes }
 		hidden_effect = {
@@ -730,9 +751,9 @@ country_event = {
 				modifier = mltd_drowned_covenant_refused
 			}
 		}
-		# Round 28: a refusal leaves MLT only an annex_everything war goal on the Bone Dancers, expiring after 365 days - here,
-		# in the refuser's own option, as in mltd.21 and mltd.32, so that the Bone Dancers see it before they choose. ROOT is
-		# BDT here, FROM is MLT.
+		# Round 28: a refusal leaves MLT only an annex_everything war goal on the Bone Dancers,
+		# expiring after 365 days - here, in the refuser's own option, as in mltd.21 and mltd.32, so
+		# that the Bone Dancers see it before they choose. ROOT is BDT here, FROM is MLT.
 		if = {
 			limit = { NOT = { has_war_with = FROM } }
 			FROM = {
@@ -779,18 +800,22 @@ country_event = {
 	}
 }
 
-# Round 25: the Broken Coast is driven off Haida Gwaii. on_daily_MLT fires this to HAI the day BRK loses its last foothold on
-# the island, while MLT is engaged with the Broken Coast and both sides are AIs. The Haida Confederation's whole country is one
-# island - every province coastal, only two with a port - so BRK's AI kept landing on a portless beach, starving, being thrown
-# back and landing again, and MLT's volunteers went down with every landing. The engine picks the landing province, so script
-# cannot aim it at a port; the two make peace instead. white_peace changes no ownership: HAI keeps its island, BRK its coast.
-# Fired to HAI so that it is both ROOT and the scope - the winner of the white peace (effects_documentation.md, white_peace),
-# which it is, having thrown the landing back. Hidden with immediate only, vanilla's own form for 108 of its hidden events,
-# because no human is on either side by the time it fires.
-# Round 28c: not while the Broken Coast is at war with MLT - The Coast Goes Under (mltd_act3_focus.txt) makes that war a road
-# of the tree. The peace was there to spare MLT's volunteers, who come home the day MLT goes to war, and ending the raiders'
-# other war would only free their army against MLT. on_daily_MLT's watch skips that war too (staged in round 28c's review);
-# this test is its backstop.
+# Round 25: the Broken Coast is driven off Haida Gwaii. on_daily_MLT fires this to HAI the day BRK
+# loses its last foothold on the island, while MLT is engaged with the Broken Coast and both sides
+# are AIs. The Haida Confederation's whole country is one island - every province coastal, only two
+# with a port - so BRK's AI kept landing on a portless beach, starving, being thrown back and
+# landing again, and MLT's volunteers went down with every landing. The engine picks the landing
+# province, so script cannot aim it at a port; the two make peace instead. white_peace changes no
+# ownership: HAI keeps its island, BRK its coast.
+# Fired to HAI so that it is both ROOT and the scope - the winner of the white peace
+# (effects_documentation.md, white_peace), which it is, having thrown the landing back. Hidden with
+# immediate only, vanilla's own form for 108 of its hidden events, because no human is on either
+# side by the time it fires.
+# Round 28c: not while the Broken Coast is at war with MLT - The Coast Goes Under
+# (mltd_act3_focus.txt) makes that war a road of the tree. The peace was there to spare MLT's
+# volunteers, who come home the day MLT goes to war, and ending the raiders' other war would only
+# free their army against MLT. on_daily_MLT's watch skips that war too (staged in round 28c's
+# review); this test is its backstop.
 country_event = {
 	id = mltd.27
 	is_triggered_only = yes
@@ -807,8 +832,9 @@ country_event = {
 }
 
 # ---- Round 27, Act III "The Stars Are Right": the close. mltd.30 goes to MLT from the focus mltd_the_tide_turns_south
-# (mltd_act3_focus.txt); mltd.31 is its world news, delivered by the same focus through every_other_country, so MLT never
-# receives it. Options carry no effects - the focus already applied them (the idea mltd_the_northern_waters).
+# (mltd_act3_focus.txt); mltd.31 is its world news, delivered by the same focus through
+# every_other_country, so MLT never receives it. Options carry no effects - the focus already
+# applied them (the idea mltd_the_northern_waters).
 
 # The Tide Turns South (fired by focus mltd_the_tide_turns_south)
 country_event = {
@@ -829,7 +855,8 @@ country_event = {
 	}
 }
 
-# Drums in the North (world news; delivered by the focus via every_other_country, so MLT never receives it)
+# Drums in the North (world news; delivered by the focus via every_other_country, so MLT never
+# receives it)
 news_event = {
 	id = mltd.31
 	title = mltd.31.t
@@ -857,10 +884,11 @@ country_event = {
 	immediate = { log = "[GetDateText]: [Root.GetName]: event mltd.32" }
 	option = {
 		name = mltd.32.a
-		# offered only when the Brotherhood can actually join - free, in no faction or leading its own (2026-09-25: a yes brings
-		# that faction over, mltd_wbh_join_the_covenant), at peace with MLT, and MLT free or leading its own faction without
-		# the Broken Coast in it (mltd_brk_covenant_joined; the focus tested all of this when it sent the offer, but a human
-		# may take days to answer). Otherwise only the refusal is left.
+		# offered only when the Brotherhood can actually join - free, in no faction or leading its
+		# own (2026-09-25: a yes brings that faction over, mltd_wbh_join_the_covenant), at peace
+		# with MLT, and MLT free or leading its own faction without the Broken Coast in it
+		# (mltd_brk_covenant_joined; the focus tested all of this when it sent the offer, but a
+		# human may take days to answer). Otherwise only the refusal is left.
 		trigger = {
 			is_subject = no
 			OR = {
@@ -876,9 +904,10 @@ country_event = {
 				NOT = { has_country_flag = mltd_brk_covenant_joined }
 			}
 		}
-		# A historical Brotherhood never accepts: 0 against 50. Unhistorical, the Washington Brotherhood accepts half the time
-		# (50 against 50) and the Northwestern Brotherhood a tenth (10 against 90). The odds are also in the focus's
-		# description (GetMltdWbhOdds); change both together.
+		# A historical Brotherhood never accepts: 0 against 50. Unhistorical, the Washington
+		# Brotherhood accepts half the time (50 against 50) and the Northwestern Brotherhood a tenth
+		# (10 against 90). The odds are also in the focus's description (GetMltdWbhOdds); change
+		# both together.
 		ai_chance = {
 			base = 0
 			modifier = {
@@ -921,9 +950,10 @@ country_event = {
 			}
 			custom_effect_tooltip = mltd_refusal_wargoal_expires_tt
 		}
-		# mltd_wbh_refused_terms records the refusal on MLT for MLT's AI (common/ai_strategy/mltd_MLT.txt); since round 28b no
-		# focus reads it - Terms and The Tide-Wall exclude each other, so the refused offer leaves MLT only the expiring war
-		# goal above
+		# mltd_wbh_refused_terms records the refusal on MLT for MLT's AI
+		# (common/ai_strategy/mltd_MLT.txt); since round 28b no focus reads it - Terms and The
+		# Tide-Wall exclude each other, so the refused offer leaves MLT only the expiring war goal
+		# above
 		hidden_effect = {
 			FROM = {
 				set_country_flag = mltd_wbh_refused_terms
@@ -964,10 +994,11 @@ country_event = {
 # ---- Round 27, Act IV "The Drowned Republic" (mltd_act4_focus.txt): mltd.40 is the close, mltd_when_shady_sands_falls,
 # and mltd.41 its world news.
 
-# When Shady Sands Falls: the Republic is broken, and the Coral Court chooses its trophy - the scholars (a research slot) or
-# the Rangers (the idea mltd_the_drowned_rangers and 100 army experience; both doubled in the round-28c balance review, where
-# the option was a trap beside a research slot). Fired by the focus; its tooltip previews both options
-# with the same effects in effect_tooltip blocks (mltd_act4_focus.txt, mltd_when_shady_sands_falls) - change both together.
+# When Shady Sands Falls: the Republic is broken, and the Coral Court chooses its trophy - the
+# scholars (a research slot) or the Rangers (the idea mltd_the_drowned_rangers and 100 army
+# experience; both doubled in the round-28c balance review, where the option was a trap beside a
+# research slot). Fired by the focus; its tooltip previews both options with the same effects in
+# effect_tooltip blocks (mltd_act4_focus.txt, mltd_when_shady_sands_falls) - change both together.
 country_event = {
 	id = mltd.40
 	title = mltd.40.t
@@ -990,7 +1021,8 @@ country_event = {
 	}
 }
 
-# The Bear Lies Down (world news; delivered by the focus via every_other_country, so MLT never receives it)
+# The Bear Lies Down (world news; delivered by the focus via every_other_country, so MLT never
+# receives it)
 news_event = {
 	id = mltd.41
 	title = mltd.41.t
@@ -1007,7 +1039,8 @@ news_event = {
 # ---- Round 27, Act V "The Sea Against Mars" (mltd_act5_focus.txt): mltd.50 opens the act, mltd.51 closes it with the
 # pens of Flagstaff, and mltd.52 tells the world.
 
-# Mars in the Water: the Legion's scouts find the Colorado running salt (fired by focus mltd_mars_in_the_water)
+# Mars in the Water: the Legion's scouts find the Colorado running salt (fired by focus
+# mltd_mars_in_the_water)
 country_event = {
 	id = mltd.50
 	title = mltd.50.t
@@ -1025,11 +1058,13 @@ country_event = {
 
 # When the Legion Breaks: the pens of Flagstaff - free the chained into the tide, or feed them to the spawning pools (fired
 # by focus mltd_when_the_legion_breaks, which also grants mltd_mars_beneath_the_waves and previews both options with
-# effect_tooltip). Option a merges the old The Chained Are Given to the Tide. Round 28b: the options' effects are the scripted
-# effects mltd_legion_pens_freed / mltd_legion_pens_fed (mltd_scripted_effects.txt), which the focus's preview calls too, so
-# the numbers live once, in the two ideas: freed, the chained rise as the faithful (the permanent mltd_the_unchained); fed to
-# the pools, two years of cheaper creatures (mltd_the_pens_emptied, 730 days since round 28c). Until then both options were
-# 5,000 people - into the capital with +5 % stability, or as manpower - which is noise at the Legion's fall (~2.5M people).
+# effect_tooltip). Option a merges the old The Chained Are Given to the Tide. Round 28b: the
+# options' effects are the scripted effects mltd_legion_pens_freed / mltd_legion_pens_fed
+# (mltd_scripted_effects.txt), which the focus's preview calls too, so the numbers live once, in the
+# two ideas: freed, the chained rise as the faithful (the permanent mltd_the_unchained); fed to the
+# pools, two years of cheaper creatures (mltd_the_pens_emptied, 730 days since round 28c). Until
+# then both options were 5,000 people - into the capital with +5 % stability, or as manpower - which
+# is noise at the Legion's fall (~2.5M people).
 country_event = {
 	id = mltd.51
 	title = mltd.51.t
@@ -1051,8 +1086,8 @@ country_event = {
 	}
 }
 
-# The Bull Goes Down to the Sea (world news; delivered by focus mltd_when_the_legion_breaks via every_other_country, so MLT
-# never receives it)
+# The Bull Goes Down to the Sea (world news; delivered by focus mltd_when_the_legion_breaks via
+# every_other_country, so MLT never receives it)
 news_event = {
 	id = mltd.52
 	title = mltd.52.t
@@ -1069,7 +1104,8 @@ news_event = {
 # ---- Round 27, Act VI "All Waters Are One" (mltd_act6_focus.txt): mltd.60 opens the act, mltd.61 closes it once Texas
 # is beaten, and mltd.62 tells the world.
 
-# Act VI - The Southern Deep: the oracles hear the south (fired by focus mltd_the_southern_deep; the focus pays the reward)
+# Act VI - The Southern Deep: the oracles hear the south (fired by focus mltd_the_southern_deep; the
+# focus pays the reward)
 country_event = {
 	id = mltd.60
 	title = mltd.60.t
@@ -1085,8 +1121,8 @@ country_event = {
 	}
 }
 
-# Act VI - The Last King Kneels: Texas is beaten and the south is the tide's (fired by focus mltd_the_last_king_kneels;
-# the focus pays the research slot and the idea)
+# Act VI - The Last King Kneels: Texas is beaten and the south is the tide's (fired by focus
+# mltd_the_last_king_kneels; the focus pays the research slot and the idea)
 country_event = {
 	id = mltd.61
 	title = mltd.61.t
@@ -1102,8 +1138,8 @@ country_event = {
 	}
 }
 
-# The South Has Drowned (world news; delivered by focus mltd_the_last_king_kneels via every_other_country, so MLT never
-# receives it)
+# The South Has Drowned (world news; delivered by focus mltd_the_last_king_kneels via
+# every_other_country, so MLT never receives it)
 news_event = {
 	id = mltd.62
 	title = mltd.62.t
@@ -1120,7 +1156,8 @@ news_event = {
 # ---- Round 27, the finale "R'lyeh Rises" (mltd_finale_focus.txt): mltd.70 and its world news mltd.71, then one event
 # per ending, mltd.72-74.
 
-# R'lyeh Rises: the drowned city beneath M'lyeh breaks the surface (fired by focus mltd_rlyeh_rises; the focus applies the effects)
+# R'lyeh Rises: the drowned city beneath M'lyeh breaks the surface (fired by focus mltd_rlyeh_rises;
+# the focus applies the effects)
 country_event = {
 	id = mltd.70
 	title = mltd.70.t
@@ -1136,7 +1173,8 @@ country_event = {
 	}
 }
 
-# A City Out of the Sea (world news; delivered by the focus via every_other_country, so MLT never receives it)
+# A City Out of the Sea (world news; delivered by the focus via every_other_country, so MLT never
+# receives it)
 news_event = {
 	id = mltd.71
 	title = mltd.71.t
@@ -1150,7 +1188,8 @@ news_event = {
 	}
 }
 
-# Ending - The Dreamer Wakes (fired by focus mltd_ending_the_dreamer_wakes, which adds the idea mltd_the_dreamer_wakes)
+# Ending - The Dreamer Wakes (fired by focus mltd_ending_the_dreamer_wakes, which adds the idea
+# mltd_the_dreamer_wakes)
 country_event = {
 	id = mltd.72
 	title = mltd.72.t
@@ -1166,7 +1205,8 @@ country_event = {
 	}
 }
 
-# Ending - The Priestess Reigns (fired by focus mltd_ending_the_priestess_reigns, which adds the idea mltd_the_priestess_reigns)
+# Ending - The Priestess Reigns (fired by focus mltd_ending_the_priestess_reigns, which adds the
+# idea mltd_the_priestess_reigns)
 country_event = {
 	id = mltd.73
 	title = mltd.73.t
@@ -1182,8 +1222,9 @@ country_event = {
 	}
 }
 
-# Ending - Return to the Sea (fired by focus mltd_ending_return_to_the_sea, which adds the idea mltd_the_return_to_the_sea
-# and raises two Leviathans if Mireport is held - the text does not depend on them)
+# Ending - Return to the Sea (fired by focus mltd_ending_return_to_the_sea, which adds the idea
+# mltd_the_return_to_the_sea and raises two Leviathans if Mireport is held - the text does not
+# depend on them)
 country_event = {
 	id = mltd.74
 	title = mltd.74.t
@@ -1310,7 +1351,8 @@ country_event = {
 		ai_chance = {
 			base = 1
 			modifier = {
-				# the AI spares an advisor it has hired (character scope: vanilla common/decisions/AST.txt:1813-1816)
+				# the AI spares an advisor it has hired (character scope: vanilla
+				# common/decisions/AST.txt:1813-1816)
 				factor = 0.1
 				MLT_TERROR = { is_hired_as_advisor = yes }
 			}

@@ -2,8 +2,9 @@
 #
 # GetMltdCultList: the cults abroad in the Cult Infiltration category's description, strongest first - one row per slot
 # that mltd_cult_rebuild_list (common/scripted_effects) filled on MLT (mltd_cult_row_<k> / _<k>_str, k = 1-8), then
-# "...and N more". Everything is read through ROOT and nothing steps into an array element: in a category description
-# the current scope is not MLT, and var:array^i there found nothing in game (the first version, OWB's recursive CAF idiom).
+# "...and N more". Everything is read through ROOT and nothing steps into an array element: in a
+# category description the current scope is not MLT, and var:array^i there found nothing in game
+# (the first version, OWB's recursive CAF idiom).
 defined_text = {
 	name = GetMltdCultList
 	text = {
@@ -105,8 +106,9 @@ defined_text = {
 	text = { localization_key = "" }
 }
 
-# GetMltdWmRequirement: the requirement line of The Wet Market's rows, where OWB's rows show "Minimum Opinion": green once
-# the Mirelurk Tribe has completed the focus The Wet Market, red before.
+# GetMltdWmRequirement: the requirement line of The Wet Market's rows, where OWB's rows show
+# "Minimum Opinion": green once the Mirelurk Tribe has completed the focus The Wet Market, red
+# before.
 defined_text = {
 	name = GetMltdWmRequirement
 	text = {
@@ -117,9 +119,9 @@ defined_text = {
 }
 
 # GetMltdWmMarketOpen / GetMltdWmAvailability: The Wet Market tab's tooltip, in the shape of OWB's seller tabs
-# (organization_ledger_opinion_tt). "Market Open" says whether the Mirelurk Tribe has completed the focus The Wet Market
-# (the global flag it sets), "Available for transaction" whether our 40-day trade cooldown has run out. The yes branches
-# reuse OWB's own org_available ("§GYes§!").
+# (organization_ledger_opinion_tt). "Market Open" says whether the Mirelurk Tribe has completed the
+# focus The Wet Market (the global flag it sets), "Available for transaction" whether our 40-day
+# trade cooldown has run out. The yes branches reuse OWB's own org_available ("§GYes§!").
 defined_text = {
 	name = GetMltdWmMarketOpen
 	text = {
@@ -140,9 +142,10 @@ defined_text = {
 }
 
 # GetMltd<creature>Name: OWB's names for the four mirelurk equipment variants (Mirelurks, Killclaws, Bloodrage Mirelurks,
-# Mirelurk Kings). OWB defines them in localisation/replace/ (fallout_equipment_l_english.yml), and a $key$ from a
-# replace/ file does not resolve inside a sentence of ours (in game it printed raw); scripted loc fetches the key when the
-# text is drawn, the way OWB's own [GetMarketInventory] names its items.
+# Mirelurk Kings). OWB defines them in localisation/replace/ (fallout_equipment_l_english.yml), and
+# a $key$ from a replace/ file does not resolve inside a sentence of ours (in game it printed raw);
+# scripted loc fetches the key when the text is drawn, the way OWB's own [GetMarketInventory] names
+# its items.
 defined_text = {
 	name = GetMltdMirelurksName
 	text = { localization_key = amphibious_beast_equipment_1_short }
@@ -169,8 +172,9 @@ defined_text = {
 }
 
 # Rising Tide round 28b (spoils): OWB's building names. OWB renames them in its localisation/replace/ folder
-# (replace_buildings_l_english.yml:5 "Arms Workshop", :11 "Civilian Workshop"), so $arms_factory$ would print raw inside a
-# sentence - the same reason as GetMltdMirelurksName above. The spoils' works tooltips (mltd_spoils_*_works_tt) read them.
+# (replace_buildings_l_english.yml:5 "Arms Workshop", :11 "Civilian Workshop"), so $arms_factory$
+# would print raw inside a sentence - the same reason as GetMltdMirelurksName above. The spoils'
+# works tooltips (mltd_spoils_*_works_tt) read them.
 defined_text = {
 	name = GetMltdArmsFactoryName
 	text = { localization_key = arms_factory }
@@ -181,15 +185,17 @@ defined_text = {
 }
 
 # GetMltd<Brk|Bdt|Wbh>Odds (round 28): how likely an invitation's answer is, at the end of the invitation's description -
-# The Drowned Covenant (mltd.21), Hail the Drowned King (mltd.24) and Terms for the Citadel (mltd.32). Each reads the game
-# rule, so it is true in the game being played: the answer is those events' ai_chance, and a historical focus rule changes it
-# (is_historical_focus_on, as OWB's nevada_pact_events.txt:15-22 weights its own). Change the odds and these lines together.
-# A human on the other side answers as they please, so each first says so; the Broken Coast's also covers raiders already
-# gone or MLT's subject (the focus then pays political power), and the Brotherhood's a Washington no free Brotherhood holds.
+# The Drowned Covenant (mltd.21), Hail the Drowned King (mltd.24) and Terms for the Citadel
+# (mltd.32). Each reads the game rule, so it is true in the game being played: the answer is those
+# events' ai_chance, and a historical focus rule changes it (is_historical_focus_on, as OWB's
+# nevada_pact_events.txt:15-22 weights its own). Change the odds and these lines together.
+# A human on the other side answers as they please, so each first says so; the Broken Coast's also
+# covers raiders already gone or MLT's subject (the focus then pays political power), and the
+# Brotherhood's a Washington no free Brotherhood holds.
 # Terms for the Citadel asks WBH unless it is gone or someone's subject, else TCA as the Northwestern Brotherhood
-# (mltd_wbh_terms_target; OWB lets TCA form it while WBH is its subject), so the Brotherhood's lines follow the same rule: a
-# subject Brotherhood is never the one that answers. Tags are written out (never ROOT): a focus description names no scope
-# of its own.
+# (mltd_wbh_terms_target; OWB lets TCA form it while WBH is its subject), so the Brotherhood's lines
+# follow the same rule: a subject Brotherhood is never the one that answers. Tags are written out
+# (never ROOT): a focus description names no scope of its own.
 defined_text = {
 	name = GetMltdBrkOdds
 	text = {

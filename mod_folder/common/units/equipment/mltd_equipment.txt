@@ -10,8 +10,8 @@
 # Star Spawn are x2.2 on the six combat stats only (defense, breakthrough, armor, soft, hard, ap) -
 # hardness is 0.40 (x1.6), speed is 10 (double the mirelurk king's 5.5, rounded - they stride), and
 # build_cost_ic is 150 because of the low need, not the scale.
-# Star Spawn are deliberately few and huge: their sub-unit needs 10 pieces per battalion (Deep Ones 20,
-# every OWB creature 15-100), so one piece is a tenth of a battalion and costs 150 IC.
+# Star Spawn are deliberately few and huge: their sub-unit needs 10 pieces per battalion (Deep Ones
+# 20, every OWB creature 15-100), so one piece is a tenth of a battalion and costs 150 IC.
 # Variants are unlocked by enable_equipments in common/technologies/mltd_technologies.txt.
 
 equipments = {
@@ -100,20 +100,24 @@ equipments = {
 	}
 }
 
-# The Leviathan: a capital ship with no module slots, so no ship part can be fitted, swapped or researched for it.
+# The Leviathan: a capital ship with no module slots, so no ship part can be fitted, swapped or
+# researched for it.
 # Non-modular exactly as vanilla's repair ship is (common/units/equipment/repair_ships.txt: an archetype with no
 # module_slots block, a variant with module_slots = inherit), so the designer offers nothing to customise and every
-# stat below is the ship's own. It is never produced - can_be_produced is always false, so no dockyard can queue it
-# even after mltd_leviathan_tech unlocks it - and is raised only by script: focus mltd_the_grand_ritual and the
-# decision mltd_summon_the_leviathan (load_oob, as OWB spawns Broken Coast's Personal Floating Palace).
+# stat below is the ship's own. It is never produced - can_be_produced is always false, so no
+# dockyard can queue it even after mltd_leviathan_tech unlocks it - and is raised only by script:
+# focus mltd_the_grand_ritual and the decision mltd_summon_the_leviathan (load_oob, as OWB spawns
+# Broken Coast's Personal Floating Palace).
 #
 # Sized against OWB's Heavy Floating Fortress (ship_hull_heavy_5, 340 HP, detection 36, visibility 18, range 2000)
 # fitted the way a late navy fits it - five ship_heavy_weapon_module_4, heavy_ship_armour_module_5, two hydrojets,
-# heavy_ship_subsurface_module_3, detection, communications and command modules at level 5 - which works out at
-# about 120 light / 280 heavy attack, 18 armour, 300-340 HP, 35 torpedo, speed ~21, visibility ~25 and range ~2,400.
-# The Leviathan lands a little under it on firepower and a little over it on HP and armour, and differs where a
-# thing of the deep should:
-#   surface_visibility 8 (a third of the Fortress's): it is very hard to spot. Hit profile is visibility x the
+# heavy_ship_subsurface_module_3, detection, communications and command modules at level 5 - which
+# works out at about 120 light / 280 heavy attack, 18 armour, 300-340 HP, 35 torpedo, speed ~21,
+# visibility ~25 and range ~2,400.
+# The Leviathan lands a little under it on firepower and a little over it on HP and armour, and
+# differs where a thing of the deep should:
+#   surface_visibility 8 (a third of the Fortress's): it is very hard to spot. Hit profile is
+#   visibility x the
 #     sub-unit's hit_profile_mult (vanilla 00_defines.lua NNavy HIT_PROFILE_SPEED_FACTOR comment), so
 #     mltd_leviathan's hit_profile_mult = 2.5 keeps it about as easy to hit as a Fortress once battle is joined -
 #     hidden, not untouchable;
