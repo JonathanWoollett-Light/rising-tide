@@ -78,10 +78,6 @@ on_actions = {
 						BRK = { mltd_brk_on_haida_gwaii = yes }
 					}
 					set_global_flag = mltd_brk_landed_on_haida
-					if = {
-						limit = { mltd_telemetry_on = yes }
-						log = "MLTD [?mltd_tm_day|0] HAIDA state=landed"
-					}
 				}
 				else_if = {
 					limit = {
@@ -89,10 +85,9 @@ on_actions = {
 						BRK = { NOT = { mltd_brk_on_haida_gwaii = yes } }
 					}
 					clr_global_flag = mltd_brk_landed_on_haida
-					if = {
-						limit = { mltd_telemetry_on = yes }
-						log = "MLTD [?mltd_tm_day|0] HAIDA state=pushed_off"
-					}
+					# the peaces made, which nothing in the mod reads: the AI telemetry, where installed
+					# (telemetry.py at the repo root), logs each one, and each landing by the flag above
+					add_to_variable = { mltd_brk_haida_peaces = 1 }
 					HAI = { country_event = { id = mltd.27 } }
 				}
 			}

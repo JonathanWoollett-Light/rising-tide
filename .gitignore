@@ -22,3 +22,10 @@ __pycache__/
 # The Star Spawn's sculpt (build_unit_model.py --src): 100 MB and of unknown licence - never commit it.
 # After the event_images un-ignore above, so that it holds there too.
 *.stl
+
+# MLT's AI telemetry: installed for development by `python telemetry.py on`, removed for a release by `python telemetry.py
+# off`. Never committed, so the mod in git is always the release build. The third is the kill switch it had until
+# 2026-10-03, ignored so that an older checkout's copy cannot come back.
+mod_folder/common/scripted_effects/mltd_telemetry_effects.txt
+mod_folder/common/on_actions/mltd_telemetry_on_actions.txt
+mod_folder/common/scripted_triggers/mltd_telemetry_triggers.txt

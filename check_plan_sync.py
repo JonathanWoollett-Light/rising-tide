@@ -16,8 +16,8 @@ CLAUDE.md requires the three to stay in step. This script prints every place the
 - a division template the plan designs (template "X" = ...) that no ai_templates target_template matches, counting
   battalions and support companies alike (the plan writes a company as a unit: "+ 1 anti_tank_company"); every design
   is checked, not only the last of each name.
-- a focus, tech or conquest target the plan or the AI uses that the telemetry (mltd_telemetry_effects.txt) does not
-  poll; python build_telemetry.py regenerates it;
+- a focus, tech or conquest target the plan or the AI uses that the telemetry `python telemetry.py on` would install
+  does not poll, and a telemetry that is installed but stale (`python telemetry.py on` rebuilds it, `off` removes it);
 - a focus of ours (mltd_) whose cost is not 7, 30, 60, 120 or 180 days (2026-09-25, the user's rule).
 
 An intended difference is a comment line in the plan, which exempts its ids:
@@ -50,8 +50,13 @@ def rd(path):
 
 def script(path):
     """A script file's text without its # comments."""
+    return uncomment(rd(path))
+
+
+def uncomment(text):
+    """Script text without its # comments."""
     lines = []
-    for line in rd(path).split("\n"):
+    for line in text.split("\n"):
         if "#" in line:
             if '"' not in line:
                 line = line.split("#", 1)[0]
@@ -288,21 +293,31 @@ for path in [os.path.join(MOD, "common", "national_focus", "Mirelurk Tribe (MLT)
         elif float(cost.group(1)) not in LENGTHS:
             problems.append("focus %s takes %s days, not one of %s" % (m.group(1), cost.group(1), ", ".join(map(str, LENGTHS))))
 
-# ---- plan and AI against the telemetry, which build_telemetry.py generates from them
-TELEMETRY = os.path.join(MOD, "common", "scripted_effects", "mltd_telemetry_effects.txt")
-if os.path.exists(TELEMETRY):
-    logged = script(TELEMETRY)
+# ---- plan and AI against the telemetry, which telemetry.py generates from them: what `on` would install, so that the
+# check holds while the telemetry is off (the release state), and, when it is on, the installed copy against that
+sys.path.insert(0, BASE)
+try:
+    import telemetry
+    expected = telemetry.build_all()
+except (AssertionError, OSError, AttributeError, IndexError, KeyError, ValueError) as e:
+    expected = None
+    problems.append("telemetry.py cannot build the telemetry: %r" % (e,))
+if expected:
+    logged = uncomment(expected[telemetry.EFFECTS])
     polled = {kind: set(re.findall(r"\b%s (?:id|tag)=([A-Za-z0-9_]+)" % kind, logged)) for kind in ("FOCUS", "TECH", "GONE")}
     for f in sorted((set(used["focus"]) | ai_focuses) - polled["FOCUS"]):
-        problems.append("telemetry: focus %s is not polled (python build_telemetry.py)" % f)
+        problems.append("telemetry: focus %s is not polled (telemetry.py)" % f)
     for t in sorted((set(used["tech"]) | research) - polled["TECH"]):
-        problems.append("telemetry: tech %s is not polled (python build_telemetry.py)" % t)
+        problems.append("telemetry: tech %s is not polled (telemetry.py)" % t)
     for t in sorted(conquer - polled["GONE"]):
-        problems.append("telemetry: country %s is not tracked (python build_telemetry.py)" % t)
-    print("telemetry: %d focuses, %d techs, %d countries polled"
-          % (len(polled["FOCUS"]), len(polled["TECH"]), len(polled["GONE"])))
-else:
-    print("telemetry: absent")
+        problems.append("telemetry: country %s is not tracked (telemetry.py)" % t)
+    files = telemetry.installed()
+    stale = [p for p in files if p not in expected or rd(p) != expected[p]] + [p for p in expected if p not in files]
+    if files and stale:
+        problems.append("telemetry: installed but stale (%s): python telemetry.py on rebuilds it, off removes it"
+                        % ", ".join(os.path.relpath(p, BASE).replace(os.sep, "/") for p in stale))
+    print("telemetry: %s; it polls %d focuses, %d techs, %d countries"
+          % ("on" if files else "off", len(polled["FOCUS"]), len(polled["TECH"]), len(polled["GONE"])))
 
 print("plan: %d focuses, %d techs, %d wars, %d template designs, %d deviations; AI: %d focuses, %d conquer targets, "
       "%d research_tech, %d operations, %d templates"

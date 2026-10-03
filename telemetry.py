@@ -1,7 +1,21 @@
-"""Generate mod_folder/common/scripted_effects/mltd_telemetry_effects.txt - Rising Tide's MLT AI telemetry.
+"""MLT's AI telemetry: put it into the mod for development, take it out for a release.
 
-The hand-written part of the file is TEMPLATE below (written with 4-space indentation, converted to tabs here). The long,
-regular blocks are generated from the mod, OWB and the plan, so every id in them is checked to exist:
+    python telemetry.py on        build the telemetry from the mod, OWB and the plan, and install it in mod_folder
+    python telemetry.py off       remove it from mod_folder - before every Workshop upload
+    python telemetry.py status    say whether it is installed, and whether it is current (the default)
+    python telemetry.py on --dry  print what the build reads, and write nothing
+
+The telemetry writes MLTD lines to game.log while MLT exists, for ai_run_report.py (CLAUDE.md > MLT's AI > Telemetry).
+It is two files, both generated here and both gitignored, so the mod in git is always the release build:
+  mod_folder/common/scripted_effects/mltd_telemetry_effects.txt  the effects, from TEMPLATE below
+  mod_folder/common/on_actions/mltd_telemetry_on_actions.txt     MLT's three pulses, which call them (ON_ACTIONS)
+Nothing in the mod calls the telemetry, so removing the two files removes it whole. Install it again after changing the
+focus tree, the plan or MLT's AI: until then `status` says it is stale, and check_plan_sync.py fails.
+
+The hand-written part of the effects file is TEMPLATE below, written with 4-space indentation (converted to tabs here)
+in the shape hearty formats script to, so that hearty_mod.py leaves the installed files as they are - after editing it,
+`on`, then `python hearty_mod.py --check`. The long, regular blocks are generated from the mod, OWB and the plan, so
+every id in them is checked to exist:
   @START@      START: one log line per (ai, lar, caps_rule, schism) case
   @LAW@        LAW: the tribal conscription laws (OWB gov_manpower.txt, # TRIBAL CONSCRIPTION)
   @FOCUS@      FOCUS: every focus MLT can take (mlt_nf's own, plus the shared focuses its roots pull in)
@@ -14,8 +28,8 @@ regular blocks are generated from the mod, OWB and the plan, so every id in them
   @MARKET@     MARKET
   @SNAP@       SNAP: the four line variants (cult target or none, caps rule on or off)
 Output: UTF-8 without BOM, LF, tab indentation.
-Usage: python build_telemetry.py [--dry]   (--dry: print the lists, write nothing)
 """
+import argparse
 import glob
 import os
 import re
@@ -25,7 +39,11 @@ REPO = os.path.dirname(os.path.abspath(__file__))
 MOD = os.path.join(REPO, 'mod_folder')
 OWB = r'C:\Program Files (x86)\Steam\steamapps\workshop\content\394360\2265420196'
 PLAN = os.path.join(REPO, 'CONQUEST_PLAN.txt')
-OUT = os.path.join(MOD, 'common', 'scripted_effects', 'mltd_telemetry_effects.txt')
+EFFECTS = os.path.join(MOD, 'common', 'scripted_effects', 'mltd_telemetry_effects.txt')
+ON_ACTIONS = os.path.join(MOD, 'common', 'on_actions', 'mltd_telemetry_on_actions.txt')
+# Until 2026-10-03 the telemetry also had a kill switch, mltd_telemetry_on, in a file of its own: on and off remove
+# that file wherever an older checkout left it.
+KILL_SWITCH = os.path.join(MOD, 'common', 'scripted_triggers', 'mltd_telemetry_triggers.txt')
 
 
 def rd(p):
@@ -100,157 +118,170 @@ def dedup(seq):
     return out
 
 
-# ------------------------------------------------------------------ focuses
-tree_path = os.path.join(MOD, 'common', 'national_focus', 'Mirelurk Tribe (MLT) Focus.txt')
-tree_body = [b for k, b in blocks(rd(tree_path), 0) if k == 'focus_tree'][0]
-assert own_id(tree_body) == 'mlt_nf'
-national = [own_id(b) for k, b in blocks(tree_body, 0) if k == 'focus']
-roots = re.findall(r'(?m)^\s*shared_focus\s*=\s*([A-Za-z0-9_]+)', flat(tree_body))
-
-nf_files = {}
-for root in (OWB, MOD):  # OWB replace_paths common/national_focus, so vanilla's are not loaded
-    for p in glob.glob(os.path.join(root, 'common', 'national_focus', '*.txt')):
-        nf_files[os.path.basename(p).lower()] = p
-shared = {}  # id -> (prerequisites, file name, position)
-for p in sorted(nf_files.values()):
-    for pos, (k, b) in enumerate(blocks(rd(p), 0, os.path.basename(p))):
-        if k == 'shared_focus':
-            pre = set()
-            for pk, pb in blocks(b, 0):
-                if pk == 'prerequisite':
-                    pre |= set(re.findall(r'\bfocus\s*=\s*([A-Za-z0-9_]+)', pb))
-            fid = own_id(b)
-            assert fid not in shared, 'duplicate shared focus ' + fid
-            shared[fid] = (pre, os.path.basename(p), pos)
-for r in roots:
-    assert r in shared, 'root not defined: ' + r
-pulled = set(roots)
-changed = True
-while changed:  # a shared focus comes in when one of its prerequisites is a pulled shared focus
-    changed = False
-    for fid, (pre, fn, pos) in shared.items():
-        if fid not in pulled and pre & pulled:
-            pulled.add(fid)
-            changed = True
-groups = {}
-for fid in pulled:
-    groups.setdefault(shared[fid][1], []).append(fid)
-for fn in groups:
-    groups[fn].sort(key=lambda f: shared[f][2])
 # the story acts (round 27): Acts II-VI and the finale, one file each, pulled in through the roots the override lists;
 # then the spoils branches (round 28) - not acts, but pulled in the same way, each off an act's close
 STORY_FILES = ['mltd_act2_focus.txt', 'mltd_act3_focus.txt', 'mltd_act4_focus.txt', 'mltd_act5_focus.txt',
                'mltd_act6_focus.txt', 'mltd_finale_focus.txt', 'mltd_spoils_focus.txt']
-assert set(groups) == {'Shared Oregon Coastals Focus.txt'} | set(STORY_FILES), groups.keys()
-oregon = groups['Shared Oregon Coastals Focus.txt']
-story = [fid for fn in STORY_FILES for fid in groups[fn]]  # act order, then file order
-all_focuses = national + oregon + story
-assert len(set(all_focuses)) == len(all_focuses)
 
-# ------------------------------------------------------------------ techs
-tech_defined = set()
-for root in (OWB, MOD):
-    for p in glob.glob(os.path.join(root, 'common', 'technologies', '*.txt')):
-        for k, b in blocks(rd(p), 0):
-            if k == 'technologies':
-                tech_defined |= {kk for kk, bb in blocks(b, 0)}
-plan_techs = re.findall(r'(?m)^research slot \d+ ([A-Za-z0-9_]+)', rd(PLAN))
-ai_techs = []
-for p in sorted(glob.glob(os.path.join(MOD, 'common', 'ai_strategy', 'mltd_*.txt'))
-                + sorted(glob.glob(os.path.join(MOD, 'common', 'ai_strategy_plans', 'mltd_*.txt')))):
-    ai_techs += [s['id'] for s in strategies(p) if s.get('type') == 'research_tech' and 'id' in s]
-creatures = [k for k, b in blocks(rd(os.path.join(OWB, 'common', 'technologies', 'tech_creatures.txt')), 1)
-             if k.startswith('amphibious_beast_')]
-techs = dedup(plan_techs + ai_techs + creatures + ['warbike_unlock_tech', 'mltd_star_spawn_tech'])
-for t in techs:
-    assert t in tech_defined, 'tech not defined: ' + t
 
-# ------------------------------------------------------------------ laws
-gm = rd(os.path.join(OWB, 'common', 'ideas', 'gov_manpower.txt'))
-seg = gm[gm.index('# TRIBAL CONSCRIPTION'):gm.index('# LEGION CONSCRIPTION')]
-laws = re.findall(r'(?m)^\t\t([a-z_0-9]+) = \{', seg)
-assert laws == ['born_warriors', 'veteran_pathfinders', 'able_bodied_tribesmen', 'first_sons_and_daughters',
-                'children_and_mothers'], laws
+# The focus tree, the plan, MLT's AI, our decisions and OWB, read once, by build() and the --dry listing.
+COLLECTED = False
 
-# ------------------------------------------------------------------ decisions, gifts, market
-decisions, gifts, missions = [], [], {}
-for cat, cb in blocks(rd(os.path.join(MOD, 'common', 'decisions', 'mltd_decisions.txt')), 0):
-    for did, db in blocks(cb, 0):
-        m = re.search(r'set_country_flag\s*=\s*\{\s*flag\s*=\s*([A-Za-z0-9_]+_cooldown)\s+value\s*=\s*1\s+days\s*=\s*(\d+)\s*\}', db)
+
+def collect():
+    """Reads everything the generated blocks are made from, into the module globals they read."""
+    global COLLECTED, national, roots, oregon, story, all_focuses, techs, laws
+    global decisions, gifts, missions, market_days, tag_caps, stages, advisors
+    if COLLECTED:
+        return
+    COLLECTED = True
+    # ------------------------------------------------------------------ focuses
+    tree_path = os.path.join(MOD, 'common', 'national_focus', 'Mirelurk Tribe (MLT) Focus.txt')
+    tree_body = [b for k, b in blocks(rd(tree_path), 0) if k == 'focus_tree'][0]
+    assert own_id(tree_body) == 'mlt_nf'
+    national = [own_id(b) for k, b in blocks(tree_body, 0) if k == 'focus']
+    roots = re.findall(r'(?m)^\s*shared_focus\s*=\s*([A-Za-z0-9_]+)', flat(tree_body))
+
+    nf_files = {}
+    for root in (OWB, MOD):  # OWB replace_paths common/national_focus, so vanilla's are not loaded
+        for p in glob.glob(os.path.join(root, 'common', 'national_focus', '*.txt')):
+            nf_files[os.path.basename(p).lower()] = p
+    shared = {}  # id -> (prerequisites, file name, position)
+    for p in sorted(nf_files.values()):
+        for pos, (k, b) in enumerate(blocks(rd(p), 0, os.path.basename(p))):
+            if k == 'shared_focus':
+                pre = set()
+                for pk, pb in blocks(b, 0):
+                    if pk == 'prerequisite':
+                        pre |= set(re.findall(r'\bfocus\s*=\s*([A-Za-z0-9_]+)', pb))
+                fid = own_id(b)
+                assert fid not in shared, 'duplicate shared focus ' + fid
+                shared[fid] = (pre, os.path.basename(p), pos)
+    for r in roots:
+        assert r in shared, 'root not defined: ' + r
+    pulled = set(roots)
+    changed = True
+    while changed:  # a shared focus comes in when one of its prerequisites is a pulled shared focus
+        changed = False
+        for fid, (pre, fn, pos) in shared.items():
+            if fid not in pulled and pre & pulled:
+                pulled.add(fid)
+                changed = True
+    groups = {}
+    for fid in pulled:
+        groups.setdefault(shared[fid][1], []).append(fid)
+    for fn in groups:
+        groups[fn].sort(key=lambda f: shared[f][2])
+    assert set(groups) == {'Shared Oregon Coastals Focus.txt'} | set(STORY_FILES), groups.keys()
+    oregon = groups['Shared Oregon Coastals Focus.txt']
+    story = [fid for fn in STORY_FILES for fid in groups[fn]]  # act order, then file order
+    all_focuses = national + oregon + story
+    assert len(set(all_focuses)) == len(all_focuses)
+
+    # ------------------------------------------------------------------ techs
+    tech_defined = set()
+    for root in (OWB, MOD):
+        for p in glob.glob(os.path.join(root, 'common', 'technologies', '*.txt')):
+            for k, b in blocks(rd(p), 0):
+                if k == 'technologies':
+                    tech_defined |= {kk for kk, bb in blocks(b, 0)}
+    plan_techs = re.findall(r'(?m)^research slot \d+ ([A-Za-z0-9_]+)', rd(PLAN))
+    ai_techs = []
+    for p in sorted(glob.glob(os.path.join(MOD, 'common', 'ai_strategy', 'mltd_*.txt'))
+                    + sorted(glob.glob(os.path.join(MOD, 'common', 'ai_strategy_plans', 'mltd_*.txt')))):
+        ai_techs += [s['id'] for s in strategies(p) if s.get('type') == 'research_tech' and 'id' in s]
+    creatures = [k for k, b in blocks(rd(os.path.join(OWB, 'common', 'technologies', 'tech_creatures.txt')), 1)
+                 if k.startswith('amphibious_beast_')]
+    techs = dedup(plan_techs + ai_techs + creatures + ['warbike_unlock_tech', 'mltd_star_spawn_tech'])
+    for t in techs:
+        assert t in tech_defined, 'tech not defined: ' + t
+
+    # ------------------------------------------------------------------ laws
+    gm = rd(os.path.join(OWB, 'common', 'ideas', 'gov_manpower.txt'))
+    seg = gm[gm.index('# TRIBAL CONSCRIPTION'):gm.index('# LEGION CONSCRIPTION')]
+    laws = re.findall(r'(?m)^\t\t([a-z_0-9]+) = \{', seg)
+    assert laws == ['born_warriors', 'veteran_pathfinders', 'able_bodied_tribesmen', 'first_sons_and_daughters',
+                    'children_and_mothers'], laws
+
+    # ------------------------------------------------------------------ decisions, gifts, market
+    decisions, gifts, missions = [], [], {}
+    for cat, cb in blocks(rd(os.path.join(MOD, 'common', 'decisions', 'mltd_decisions.txt')), 0):
+        for did, db in blocks(cb, 0):
+            m = re.search(r'set_country_flag\s*=\s*\{\s*flag\s*=\s*([A-Za-z0-9_]+_cooldown)\s+value\s*=\s*1\s+days\s*=\s*(\d+)\s*\}', db)
+            if m:
+                decisions.append((did, m.group(1), int(m.group(2))))
+            m = re.search(r'\bactivate_mission\s*=\s*([A-Za-z0-9_]+)', db)
+            if m:
+                gifts.append((did, m.group(1)))
+            m = re.search(r'\bdays_mission_timeout\s*=\s*(\d+)', db)
+            if m:
+                missions[did] = int(m.group(1))
+    for did, mission in gifts:
+        assert mission in missions, 'mission not defined: ' + mission
+    se = rd(os.path.join(MOD, 'common', 'scripted_effects', 'mltd_scripted_effects.txt'))
+    market_days = set(int(x) for x in re.findall(r'flag = mltd_wet_market_recent_trade value = 1 days = (\d+)', se))
+    assert len(market_days) == 1, market_days
+    market_days = market_days.pop()
+
+    # ------------------------------------------------------------------ tracked countries
+    tags = []
+    for p in sorted(glob.glob(os.path.join(MOD, 'common', 'ai_strategy', 'mltd_*.txt'))):
+        for s in strategies(p):
+            if s.get('type') == 'conquer' and float(s.get('value', 0)) > 0 and s['id'] not in tags:
+                tags.append(s['id'])
+    states = set()
+    for p in glob.glob(os.path.join(OWB, 'history', 'states', '*.txt')):
+        m = re.match(r'\d+', os.path.basename(p))
         if m:
-            decisions.append((did, m.group(1), int(m.group(2))))
-        m = re.search(r'\bactivate_mission\s*=\s*([A-Za-z0-9_]+)', db)
-        if m:
-            gifts.append((did, m.group(1)))
-        m = re.search(r'\bdays_mission_timeout\s*=\s*(\d+)', db)
-        if m:
-            missions[did] = int(m.group(1))
-for did, mission in gifts:
-    assert mission in missions, 'mission not defined: ' + mission
-se = rd(os.path.join(MOD, 'common', 'scripted_effects', 'mltd_scripted_effects.txt'))
-market_days = set(int(x) for x in re.findall(r'flag = mltd_wet_market_recent_trade value = 1 days = (\d+)', se))
-assert len(market_days) == 1, market_days
-market_days = market_days.pop()
+            states.add(int(m.group()))
+    tag_caps = []
+    for tag in tags:
+        paths = glob.glob(os.path.join(MOD, 'history', 'countries', tag + ' - *.txt')) or \
+            glob.glob(os.path.join(OWB, 'history', 'countries', tag + ' - *.txt'))
+        assert len(paths) == 1, (tag, paths)
+        cap = int(re.search(r'(?m)^\s*capital\s*=\s*(\d+)', nocomment(rd(paths[0]))).group(1))
+        assert cap in states, (tag, cap)
+        tag_caps.append((tag, cap))
 
-# ------------------------------------------------------------------ tracked countries
-tags = []
-for p in sorted(glob.glob(os.path.join(MOD, 'common', 'ai_strategy', 'mltd_*.txt'))):
-    for s in strategies(p):
-        if s.get('type') == 'conquer' and float(s.get('value', 0)) > 0 and s['id'] not in tags:
-            tags.append(s['id'])
-states = set()
-for p in glob.glob(os.path.join(OWB, 'history', 'states', '*.txt')):
-    m = re.match(r'\d+', os.path.basename(p))
-    if m:
-        states.add(int(m.group()))
-tag_caps = []
-for tag in tags:
-    paths = glob.glob(os.path.join(MOD, 'history', 'countries', tag + ' - *.txt')) or \
-        glob.glob(os.path.join(OWB, 'history', 'countries', tag + ' - *.txt'))
-    assert len(paths) == 1, (tag, paths)
-    cap = int(re.search(r'(?m)^\s*capital\s*=\s*(\d+)', nocomment(rd(paths[0]))).group(1))
-    assert cap in states, (tag, cap)
-    tag_caps.append((tag, cap))
+    # ------------------------------------------------------------------ stages and advisors
+    ai_triggers = rd(os.path.join(MOD, 'common', 'scripted_triggers', 'mltd_ai_triggers.txt'))
+    stages = [k[len('mltd_ai_stage_'):] for k, b in blocks(ai_triggers, 0) if k.startswith('mltd_ai_stage_')]
+    assert stages and len(stages) == len(set(stages)), stages
+    for k in ('mltd_ai_north_done', 'mltd_ai_north_state'):
+        assert re.search(r'(?m)^' + k + r' = [{]', ai_triggers), k
+    survey = rd(os.path.join(MOD, 'common', 'scripted_effects', 'mltd_ai_survey_effects.txt'))
+    for k in ('set_country_flag = mltd_ai_north_done', 'set_country_flag = mltd_ai_pocket', 'mltd_ai_border_states',
+              'mltd_ai_army_target', 'mltd_ai_north_owned'):
+        assert k in survey, k
+    chars = rd(os.path.join(MOD, 'common', 'characters', 'MLT.txt'))
+    advisors = []
+    for k, b in blocks(chars, 0):
+        if k == 'characters':
+            for ck, cb in blocks(b, 0):
+                if any(rk == 'advisor' for rk, rb in blocks(cb, 0)):
+                    advisors.append(ck)
+    assert 'MLT_OLD_CASTRO' in advisors, advisors
 
-# ------------------------------------------------------------------ stages and advisors
-ai_triggers = rd(os.path.join(MOD, 'common', 'scripted_triggers', 'mltd_ai_triggers.txt'))
-stages = [k[len('mltd_ai_stage_'):] for k, b in blocks(ai_triggers, 0) if k.startswith('mltd_ai_stage_')]
-assert stages and len(stages) == len(set(stages)), stages
-for k in ('mltd_ai_north_done', 'mltd_ai_north_state'):
-    assert re.search(r'(?m)^' + k + r' = [{]', ai_triggers), k
-survey = rd(os.path.join(MOD, 'common', 'scripted_effects', 'mltd_ai_survey_effects.txt'))
-for k in ('set_country_flag = mltd_ai_north_done', 'set_country_flag = mltd_ai_pocket', 'mltd_ai_border_states',
-          'mltd_ai_army_target', 'mltd_ai_north_owned'):
-    assert k in survey, k
-chars = rd(os.path.join(MOD, 'common', 'characters', 'MLT.txt'))
-advisors = []
-for k, b in blocks(chars, 0):
-    if k == 'characters':
-        for ck, cb in blocks(b, 0):
-            if any(rk == 'advisor' for rk, rb in blocks(cb, 0)):
-                advisors.append(ck)
-assert 'MLT_OLD_CASTRO' in advisors, advisors
-
-# ------------------------------------------------------------------ other ids the template names
-ideas = rd(os.path.join(MOD, 'common', 'ideas', 'mltd_ideas.txt'))
-for idea in ('mltd_the_grand_ritual', 'mltd_the_final_ritual'):
-    assert re.search(r'(?m)^\t\t' + idea + r' = \{', ideas), idea
-    assert idea in national, idea  # the ritual focuses share the ideas' names
-gro = rd(os.path.join(OWB, 'common', 'on_actions', '__game_rule_on_actions.txt'))
-assert 'set_global_flag = caps_enabled_global_flag' in gro and 'set_country_flag = DIS_mend_schism' in gro
-assert 'caps_number_display' in rd(os.path.join(OWB, 'common', 'scripted_effects', 'caps_scripted_effects.txt'))
-assert 'mltd_ai_cult_target' in rd(os.path.join(MOD, 'common', 'on_actions', 'mltd_on_actions.txt'))
-assert 'add_to_variable = { mltd_books_read = 1 }' in rd(os.path.join(MOD, 'events', 'mltd_events.txt'))
-assert 'mltd_cult_strength' in se
-eq_defined = set()
-for root in (OWB, MOD):
-    for p in glob.glob(os.path.join(root, 'common', 'units', 'equipment', '*.txt')):
-        for k, b in blocks(rd(p), 0):
-            if k == 'equipments':
-                eq_defined |= {kk for kk, bb in blocks(b, 0) if re.search(r'\bis_archetype\s*=\s*yes', flat(bb))}
-for eq in ('amphibious_beast_equipment', 'infantry_equipment', 'support_equipment', 'mltd_deep_ones_equipment',
-           'mltd_star_spawn_equipment'):
-    assert eq in eq_defined, 'archetype not defined: ' + eq
+    # ------------------------------------------------------------------ other ids the template names
+    ideas = rd(os.path.join(MOD, 'common', 'ideas', 'mltd_ideas.txt'))
+    for idea in ('mltd_the_grand_ritual', 'mltd_the_final_ritual'):
+        assert re.search(r'(?m)^\t\t' + idea + r' = \{', ideas), idea
+        assert idea in national, idea  # the ritual focuses share the ideas' names
+    gro = rd(os.path.join(OWB, 'common', 'on_actions', '__game_rule_on_actions.txt'))
+    assert 'set_global_flag = caps_enabled_global_flag' in gro and 'set_country_flag = DIS_mend_schism' in gro
+    assert 'caps_number_display' in rd(os.path.join(OWB, 'common', 'scripted_effects', 'caps_scripted_effects.txt'))
+    assert 'mltd_ai_cult_target' in rd(os.path.join(MOD, 'common', 'on_actions', 'mltd_on_actions.txt'))
+    assert 'add_to_variable = { mltd_books_read = 1 }' in rd(os.path.join(MOD, 'events', 'mltd_events.txt'))
+    assert 'mltd_cult_strength' in se
+    eq_defined = set()
+    for root in (OWB, MOD):
+        for p in glob.glob(os.path.join(root, 'common', 'units', 'equipment', '*.txt')):
+            for k, b in blocks(rd(p), 0):
+                if k == 'equipments':
+                    eq_defined |= {kk for kk, bb in blocks(b, 0) if re.search(r'\bis_archetype\s*=\s*yes', flat(bb))}
+    for eq in ('amphibious_beast_equipment', 'infantry_equipment', 'support_equipment', 'mltd_deep_ones_equipment',
+               'mltd_star_spawn_equipment'):
+        assert eq in eq_defined, 'archetype not defined: ' + eq
 
 
 # ------------------------------------------------------------------ generated blocks
@@ -505,12 +536,16 @@ def gen_snap():
 
 TEMPLATE = r'''# Rising Tide - MLT AI telemetry: scripted effects
 #
-# Writes machine-readable lines to game.log with the log effect while MLT exists, so that a spectator (observe mode) game
-# can be compared with CONQUEST_PLAN.txt by the report script at the repo root. Everything runs in MLT's scope from MLT's
-# own daily, weekly and monthly pulses (common/on_actions/mltd_telemetry_on_actions.txt), behind the kill switch
-# mltd_telemetry_on (common/scripted_triggers/mltd_telemetry_triggers.txt), and changes nothing but its own mltd_tm_
-# variables, flags and arrays: no tooltip, nothing on screen, nothing any AI or player reads. Deleting the three
-# mltd_telemetry_* files removes it; whatever it left in a save is then inert.
+# Generated and installed by telemetry.py at the repo root (python telemetry.py on), and removed by it
+# for a release (python telemetry.py off): gitignored, never committed, never shipped. Edit the
+# template in telemetry.py, not this file.
+# Writes machine-readable lines to game.log with the log effect while MLT exists, so that a
+# spectator (observe mode) game can be compared with CONQUEST_PLAN.txt by ai_run_report.py.
+# Everything runs in MLT's scope from MLT's own daily, weekly and monthly pulses
+# (common/on_actions/mltd_telemetry_on_actions.txt, installed with it), and changes nothing but its
+# own mltd_tm_ variables, flags and arrays: no tooltip, nothing on screen, nothing any AI or player
+# reads. Nothing in the mod calls it, so removing the two files removes it whole; whatever it left
+# in a save is then inert.
 #
 # THE LINE CONTRACT - the report parses exactly this, so the two change together:
 #   MLTD <day> <KIND> <key=value ...> [date=<GetDateText>]
@@ -518,7 +553,7 @@ TEMPLATE = r'''# Rising Tide - MLT AI telemetry: scripted effects
 #   years. START is written before the first tick adds its 1, so it reads 0, although that tick is probably 2275.1.2
 #   (the game starts at noon on 2275.1.1, after that day's pulses).
 # - <KIND>: START SNAP FOCUS TECH LAW JUSTIFY WARGOAL WAR_START WAR_END GONE RITUAL DECISION GIFT MARKET CULT ENEMY STAGE
-#   POCKET ADVISOR.
+#   POCKET ADVISOR HAIDA.
 # - key=value tokens: lower-case keys; values without spaces - tags, ids, whole numbers, yes/no, none. A game value is
 #   copied into a mltd_tm_ variable first and printed [?x|0], with no sign, suffix or colour flag.
 # - date=, last, on START and SNAP only: [GetDateText], which prints " 12:00, 1 January, 2275", leading space included.
@@ -534,7 +569,8 @@ TEMPLATE = r'''# Rising Tide - MLT AI telemetry: scripted effects
 # - on MLT: mltd_tm_day; mltd_tm_law; the SNAP values (mltd_tm_<key>); the last capitals seen, mltd_tm_cap_<TAG>; the
 #   flags mltd_tm_f_<focus>, mltd_tm_t_<tech>, mltd_tm_alive_<TAG> and mltd_tm_ritual_<grand|final>_<start|end>; the
 #   timed markers mltd_tm_d_<decision>, mltd_tm_g_<gift> and mltd_tm_market; the arrays mltd_tm_watch and mltd_tm_drop;
-#   the flags mltd_tm_s_<stage>, mltd_tm_a_<advisor> and mltd_tm_pocket; mltd_tm_enemy_states.
+#   the flags mltd_tm_s_<stage>, mltd_tm_a_<advisor> and mltd_tm_pocket; mltd_tm_enemy_states; the flag
+#   mltd_tm_haida_landed and the count mltd_tm_haida_peaces.
 # - on other countries: mltd_tm_justify, mltd_tm_wargoal and mltd_tm_war - MLT's relation to that country, as last logged.
 # The FOCUS, TECH, GONE, DECISION and GIFT lists were generated in round 20 from the focus tree, CONQUEST_PLAN.txt, MLT's
 # AI files and common/decisions/mltd_decisions.txt: a focus, tech, conquest target, cooldown decision or gift added later
@@ -931,53 +967,102 @@ mltd_tm_log_cults = {
     }
 }
 
+# ---------------------------------------------------------------- HAIDA
+
+# HAIDA: the Broken Coast's landings on Haida Gwaii, as the Haida watch in on_daily_MLT
+# (common/on_actions/mltd_on_actions.txt) sees them: state=landed when the watch sets the global
+# flag mltd_brk_landed_on_haida, state=pushed_off when it makes the peace (event mltd.27) and counts
+# it in mltd_brk_haida_peaces on MLT. The flag mltd_tm_haida_landed marks a landing logged, and
+# mltd_tm_haida_peaces counts the peaces logged; START sets it to the watch's count, so telemetry
+# installed in a running game logs no old peace. Until 2026-10-03 the watch wrote the two lines
+# itself, behind the kill switch.
+mltd_tm_poll_haida = {
+    if = {
+        limit = {
+            has_global_flag = mltd_brk_landed_on_haida
+            NOT = { has_country_flag = mltd_tm_haida_landed }
+        }
+        set_country_flag = mltd_tm_haida_landed
+        log = "MLTD [?mltd_tm_day|0] HAIDA state=landed"
+    }
+    else_if = {
+        limit = {
+            NOT = { has_global_flag = mltd_brk_landed_on_haida }
+            has_country_flag = mltd_tm_haida_landed
+        }
+        clr_country_flag = mltd_tm_haida_landed
+    }
+    if = {
+        limit = { check_variable = { mltd_brk_haida_peaces > mltd_tm_haida_peaces } }
+        set_variable = { mltd_tm_haida_peaces = mltd_brk_haida_peaces }
+        log = "MLTD [?mltd_tm_day|0] HAIDA state=pushed_off"
+    }
+}
+
 # ---------------------------------------------------------------- the three pulses
 
-# on_daily_MLT: the clock - and, on the first tick, before it counts, START and the first LAW line.
+# on_daily_MLT: the clock - and, on the first tick, before it counts, START and the first LAW line -
+# and the HAIDA lines, before it counts, as the watch wrote them.
 mltd_tm_daily = {
     if = {
-        limit = { mltd_telemetry_on = yes }
-        if = {
-            limit = {
-                OR = {
-                    NOT = { has_variable = mltd_tm_day }
-                    check_variable = { mltd_tm_day = 0 }
-                }
+        limit = {
+            OR = {
+                NOT = { has_variable = mltd_tm_day }
+                check_variable = { mltd_tm_day = 0 }
             }
-            mltd_tm_log_start = yes
-            mltd_tm_poll_law = yes
         }
-        add_to_variable = { mltd_tm_day = 1 }
+        mltd_tm_log_start = yes
+        mltd_tm_poll_law = yes
+        set_variable = { mltd_tm_haida_peaces = mltd_brk_haida_peaces }
     }
+    mltd_tm_poll_haida = yes
+    add_to_variable = { mltd_tm_day = 1 }
 }
 
 # on_weekly_MLT: every poll. The wars come before GONE, so a country annexed at the peace table ends its war before it
 # is gone.
 mltd_tm_weekly = {
-    if = {
-        limit = { mltd_telemetry_on = yes }
-        mltd_tm_poll_focuses = yes
-        mltd_tm_poll_techs = yes
-        mltd_tm_poll_law = yes
-        mltd_tm_poll_wars = yes
-        mltd_tm_poll_gone = yes
-        mltd_tm_poll_rituals = yes
-        mltd_tm_poll_decisions = yes
-        mltd_tm_poll_gifts = yes
-        mltd_tm_poll_market = yes
-        mltd_tm_poll_stages = yes
-        mltd_tm_poll_pocket = yes
-        mltd_tm_poll_advisors = yes
-    }
+    mltd_tm_poll_focuses = yes
+    mltd_tm_poll_techs = yes
+    mltd_tm_poll_law = yes
+    mltd_tm_poll_wars = yes
+    mltd_tm_poll_gone = yes
+    mltd_tm_poll_rituals = yes
+    mltd_tm_poll_decisions = yes
+    mltd_tm_poll_gifts = yes
+    mltd_tm_poll_market = yes
+    mltd_tm_poll_stages = yes
+    mltd_tm_poll_pocket = yes
+    mltd_tm_poll_advisors = yes
 }
 
 # on_monthly_MLT: SNAP, then the ENEMY and CULT lines.
 mltd_tm_monthly = {
-    if = {
-        limit = { mltd_telemetry_on = yes }
-        mltd_tm_log_snap = yes
-        mltd_tm_log_enemies = yes
-        mltd_tm_log_cults = yes
+    mltd_tm_log_snap = yes
+    mltd_tm_log_enemies = yes
+    mltd_tm_log_cults = yes
+}
+'''
+
+# The on_actions file: MLT's three pulses, which call the effects above.
+ON_ACTIONS_TEMPLATE = r'''# Rising Tide - MLT AI telemetry: the three pulses
+#
+# Generated and installed by telemetry.py at the repo root, with
+# common/scripted_effects/mltd_telemetry_effects.txt, and removed with it for a release: gitignored,
+# never committed, never shipped. Edit ON_ACTIONS_TEMPLATE in telemetry.py, not this file.
+# These blocks add to the ones in mltd_on_actions.txt rather than replacing them: every file's block
+# for an on_action runs (OWB defines on_startup in more than 60 files, and the block in
+# exodus_setup_on_actions.txt:4-38 is the one that writes its line to game.log). setup.log names
+# each on_action once, from the first file that defines it, so this file adds no line there.
+on_actions = {
+    on_daily_MLT = {
+        effect = { mltd_tm_daily = yes }
+    }
+    on_weekly_MLT = {
+        effect = { mltd_tm_weekly = yes }
+    }
+    on_monthly_MLT = {
+        effect = { mltd_tm_monthly = yes }
     }
 }
 '''
@@ -992,6 +1077,8 @@ def tabs(text):
 
 
 def build():
+    """The effects file, as `on` installs it."""
+    collect()
     text = tabs(TEMPLATE)
     for name, lines in (('START', gen_start()), ('LAW', gen_law()), ('FOCUS', gen_focus()), ('TECH', gen_tech()),
                         ('GONE', gen_gone()), ('STAGE', gen_stage()), ('ADVISOR', gen_advisor()),
@@ -1005,7 +1092,22 @@ def build():
     return text
 
 
-if __name__ == '__main__':
+def build_all():
+    """{path: text} of the two files `on` installs."""
+    return {EFFECTS: build(), ON_ACTIONS: tabs(ON_ACTIONS_TEMPLATE)}
+
+
+def installed():
+    """The telemetry's files in mod_folder now - the kill switch of an older checkout included."""
+    return [p for p in (EFFECTS, ON_ACTIONS, KILL_SWITCH) if os.path.exists(p)]
+
+
+def rel(path):
+    return os.path.relpath(path, REPO).replace(os.sep, '/')
+
+
+def print_lists():
+    collect()
     print('focuses: %d national + %d Oregon + %d story acts and spoils = %d' % (len(national), len(oregon),
                                                                                 len(story), len(all_focuses)))
     print('roots:', ' '.join(roots))
@@ -1019,8 +1121,66 @@ if __name__ == '__main__':
     print('advisors (%d): %s' % (len(advisors), ' '.join(advisors)))
     for w in WARNINGS:
         print('warning:', w)
-    text = build()
-    if '--dry' in sys.argv:
-        sys.exit(0)
-    open(OUT, 'wb').write(text.encode('utf-8'))
-    print('wrote %s: %d lines, %d log lines' % (OUT, text.count('\n'), len(re.findall(r'\blog = "', text))))
+
+
+def on(dry):
+    if dry:
+        print_lists()
+        build_all()
+        return 0
+    texts = build_all()
+    for w in WARNINGS:
+        print('warning:', w)
+    for path, text in texts.items():
+        open(path, 'wb').write(text.encode('utf-8'))
+        print('wrote %s: %d lines, %d log lines' % (rel(path), text.count('\n'), len(re.findall(r'\blog = "', text))))
+    if os.path.exists(KILL_SWITCH):
+        os.remove(KILL_SWITCH)
+        print('removed %s (the old kill switch)' % rel(KILL_SWITCH))
+    print('telemetry on: run python telemetry.py off before a Workshop upload')
+    return 0
+
+
+def off():
+    files = installed()
+    for path in files:
+        os.remove(path)
+        print('removed', rel(path))
+    print('telemetry off' + ('' if files else ' (it was not installed)'))
+    return 0
+
+
+def status():
+    files = installed()
+    if not files:
+        print('telemetry off: mod_folder is release-clean')
+        return 0
+    expected = build_all()
+    stale = [p for p in expected if not os.path.exists(p) or open(p, 'rb').read() != expected[p].encode('utf-8')]
+    if os.path.exists(KILL_SWITCH):
+        stale.append(KILL_SWITCH)
+    if stale:
+        print('telemetry on, but stale (%s): run python telemetry.py on to rebuild it, or off for a release'
+              % ', '.join(rel(p) for p in stale))
+        return 1
+    print('telemetry on, and current: run python telemetry.py off before a Workshop upload')
+    return 0
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__.split('\n', 1)[0])
+    sub = parser.add_subparsers(dest='command')
+    cmd_on = sub.add_parser('on', help='build the telemetry and install it in mod_folder')
+    cmd_on.add_argument('--dry', action='store_true', help='print what the build reads, and write nothing')
+    sub.add_parser('off', help='remove the telemetry from mod_folder (before a release)')
+    sub.add_parser('status', help='whether the telemetry is installed, and current (the default)')
+    args = parser.parse_args()
+    if args.command == 'on':
+        return on(args.dry)
+    if args.command == 'off':
+        return off()
+    return status()
+
+
+if __name__ == '__main__':
+    sys.exit(main())
